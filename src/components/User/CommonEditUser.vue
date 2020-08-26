@@ -22,24 +22,18 @@
         <el-form-item label="手机">
           <el-input v-model="editData.phone" />
         </el-form-item>
-        <!-- <el-form-item label="性别">
-          <el-select v-model="">
-            <el-option label="男" value="1" />
-            <el-option label="女" value="2" />
-          </el-select>
-        </el-form-item> -->
         <el-form-item label="状态">
-          <el-switch />
+          <el-select v-model="editData.status">
+            <el-option label="停用" value="0" />
+            <el-option label="正常" value="2" />
+          </el-select>
         </el-form-item>
-        <el-form-item label="岗位">
-          <el-input />
-        </el-form-item>
-        <!-- <el-form-item label="角色">
-          <el-checkbox-group v-model="">
-            <el-checkbox label="管理员" name="1" />
-            <el-checkbox label="普通角色" name="2" />
+        <el-form-item label="角色">
+          <el-checkbox-group v-model="editData.active">
+            <el-checkbox label="管理员" value="1" />
+            <el-checkbox label="普通角色" value="2" />
           </el-checkbox-group>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
     </div>
     <span slot="footer">

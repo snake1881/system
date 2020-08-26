@@ -53,7 +53,7 @@ export default {
   methods: {
     // 表格数据初始化
     deptInit() {
-      this.getRequest("/department/getDepartmentTree").then(resp => {
+      this.getRequest("/system/department/getDepartmentTree").then(resp => {
         if (resp) {
           this.deptData = resp.data;
         }

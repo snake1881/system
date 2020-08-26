@@ -20,7 +20,7 @@
         style="width:97%;background-color:white"
       >
         <el-form-item>
-          <el-input v-model="searchForm.name" placeholder="登录名称" />
+          <el-input v-model="searchForm.loginName" placeholder="登录名称" />
         </el-form-item>
         <el-form-item>
           <el-button
@@ -34,7 +34,7 @@
             新增
           </el-button>
           <el-button type="primary" icon="el-icon-delete" @click="dleteUser()">
-            删除
+            批量删除
           </el-button>
         </el-form-item>
       </el-form>
@@ -63,7 +63,7 @@
         />
         <el-table-column prop="email" label="邮箱" width="140" />
         <el-table-column prop="phone" label="手机" width="120" />
-        <el-table-column prop="active" label="状态" width="80" />
+        <el-table-column prop="status" label="状态" width="80" />
         <el-table-column prop="sex" label="性别" width="80" />
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作" width="120" fixed="right">
@@ -71,18 +71,23 @@
             <el-button type="text" size="small" @click="editUser(scope.row)">
               编辑
             </el-button>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)">
+              删除
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <div style="width:98%;background-color:white;">
+      <div style="width:98%;background-color:white">
         <el-pagination
           :current-page.sync="currentPage"
           :page-size="pageSize"
-          layout="total, prev, pager, next"
           :total="total"
-        >
-        </el-pagination>
+          :page-sizes="[10, 20, 30, 40, 50]"
+          layout="total, prev, pager, next, jumper, sizes"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
       </div>
     </div>
     <!-- 编辑用户信息 -->
@@ -106,6 +111,7 @@ export default {
     CommonEditUser,
     CommonAddUser
   },
+  inject: ["reload"],
   data() {
     return {
       //左侧组织机构数据
@@ -119,11 +125,13 @@ export default {
       // 表格数据
       tableData: [],
       searchForm: {
-        name: ""
+        loginName: ""
       },
       // 规则
       rules: {
-        name: [{ required: true, message: "用户名称不能为空", trigger: "blur" }]
+        loginName: [
+          { required: true, message: "登录名称不能为空", trigger: "blur" }
+        ]
       },
       // 编辑信息
       editUserVisible: false,
@@ -143,7 +151,7 @@ export default {
   methods: {
     // 部门菜单树
     treeInIt() {
-      this.getRequest("/department/getDepartmentTree").then(resp => {
+      this.getRequest("/system/department/getDepartmentTree").then(resp => {
         if (resp) {
           this.deparmentData = resp.data;
         }
@@ -160,6 +168,8 @@ export default {
         if (resp) {
           this.tableData = resp.data.records;
           this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
         }
       });
     },
@@ -174,18 +184,28 @@ export default {
           this.pageSize
       ).then(resp => {
         if (resp) {
-          this.total = resp.data.total;
           this.tableData = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
         }
       });
     },
     // 根据登录名称查询用户
     getUserByName() {
       this.getRequest(
-        "/system/sysUser/user?loginName=" + this.searchForm.name
+        "/system/sysUser/user?current=" +
+          this.currentPage +
+          "&loginName=" +
+          this.searchForm.loginName +
+          "&pageSize=" +
+          this.pageSize
       ).then(resp => {
         if (resp) {
-          // this.tableData = resp.data;
+          this.tableData = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
         }
       });
     },
@@ -193,17 +213,63 @@ export default {
     handleSelectionChange(val) {
       this.selectData = val;
     },
-    // 删除用户
+    // 批量删除用户
     dleteUser() {
-      var val = this.selectData;
-      if (val) {
-        this.putRequest("/", val.userId).then(resp => {
-          if (resp) {
-            this.treeInIt();
-          }
+      var checkArray = this.selectData;
+      var idArray = [];
+      checkArray.forEach(function(item) {
+        idArray.push(item.userId);
+      });
+      console.log(idArray);
+      this.$confirm("确定删除您勾选的数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.deleteRequest("/system/sysUser/users", idArray).then(resp => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            }
+            this.userInIt();
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
         });
-      }
-      this.$refs.multipleTable.clearSelection();
+    },
+    // 单个删除
+    sinDelete(val) {
+      this.$confirm("确定删除该条数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.deleteRequest("/system/sysUser/user/" + val.userId).then(
+            resp => {
+              if (resp) {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              }
+              this.userInIt();
+            }
+          );
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     // 编辑用户信息
     editUser(val) {
@@ -221,6 +287,16 @@ export default {
     // 关闭新增对话框
     addUserClose() {
       this.addUserVisible = false;
+    },
+    // 分页，页码大小改变
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.roleInit();
+    },
+    // 分页，当前页改变
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.roleInit();
     }
   }
 };

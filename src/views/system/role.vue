@@ -13,9 +13,9 @@
         <el-input v-model="roleForm.roleKey" placeholder="权限字符" />
       </el-form-item>
       <el-form-item label="角色状态">
-        <el-select v-model="roleForm.status" placeholder="请选择">
-          <el-option label="正常" value="1"></el-option>
-          <el-option label="停用" value="0"></el-option>
+        <el-select v-model="roleForm.status">
+          <el-option label="正常" value="1" />
+          <el-option label="停用" value="0" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -184,6 +184,7 @@ export default {
     },
     // 编辑
     editRole(val) {
+      console.log(val);
       this.editRoleVisible = true;
       this.editRoleData = val;
     },
