@@ -10,12 +10,12 @@
       <h3 style="text-align: center;color: #505458;">管理系统</h3>
       <el-form-item prop="loginName">
         <el-input v-model="sysUserLogin.loginName" placeholder="用户名">
-          <i slot="prefix" class="el-input__icon el-icon-user"></i>
+          <i slot="prefix" class="el-input__icon el-icon-user" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
         <el-input v-model="sysUserLogin.password" placeholder="密码">
-          <i slot="prefix" class="el-input__icon el-icon-goods"></i>
+          <i slot="prefix" class="el-input__icon el-icon-goods" />
         </el-input>
       </el-form-item>
       <el-link
@@ -83,18 +83,18 @@ export default {
 
 <style lang="less" scoped>
 .container {
-  width: 100%;
-  height: 100%;
-  background-image: url("../assets/images/bb.png");
+  height: 100vh;
+  background-image: url("../assets/images/login.png");
+  background-size: 100% 100%;
   background-repeat: no-repeat;
-  z-index: -10;
-  margin: 0;
+  // margin: 0;
 }
 .loginContainer {
+  position: fixed;
   border-radius: 15px;
   background-clip: padding-box;
   width: 350px;
-  margin: 160px 100px 0 500px;
+  margin: 200px 0px 0 1000px;
   padding: 15px 35px 15px 35px;
   background: #fff;
   border: 1px solid #eaeaea;

@@ -29,5 +29,9 @@ export default {
 <style lang="less">
 #app {
   height: 100vh;
+  margin: 0;
+}
+body {
+  margin: 0;
 }
 </style>

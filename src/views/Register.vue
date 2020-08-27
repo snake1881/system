@@ -81,18 +81,18 @@ export default {
 
 <style lang="less">
 .container {
-  width: 100%;
-  height: 550px;
-  margin-bottom: -10px;
-  background-image: url("../assets/images/bb.png");
+  height: 100vh;
+  background-image: url("../assets/images/login.png");
+  background-size: 100% 100%;
   background-repeat: no-repeat;
-  z-index: -10;
+  // margin: 0;
 }
 .loginContainer {
+  position: fixed;
   border-radius: 15px;
   background-clip: padding-box;
   width: 350px;
-  margin: 160px 100px 0 500px;
+  margin: 200px 0px 0 1000px;
   padding: 15px 35px 15px 35px;
   background: #fff;
   border: 1px solid #eaeaea;

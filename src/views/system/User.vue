@@ -175,6 +175,7 @@ export default {
     },
     // 点击树节点显示相应数据
     getCheckedKeys(val) {
+      console.log(val);
       this.getRequest(
         "/system/sysUser/users/" +
           val.departmentId +
