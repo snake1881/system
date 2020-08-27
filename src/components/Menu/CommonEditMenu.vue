@@ -10,6 +10,19 @@
         <el-form-item label="菜单名称">
           <el-input v-model="editData.moduleName" />
         </el-form-item>
+        <el-form-item label="访问地址">
+          <el-input v-model="editData.moduleUrl" />
+        </el-form-item>
+        <el-form-item label="权限标识">
+          <el-input v-model="editData.permissionMark" />
+        </el-form-item>
+        <el-form-item label="类型">
+          <el-select v-model="editData.moduleType">
+            <el-option label="目录" value="0" />
+            <el-option label="菜单" value="1" />
+            <el-option label="按钮" value="2" />
+          </el-select>
+        </el-form-item>
       </el-form>
     </div>
     <span slot="footer">
@@ -39,7 +52,7 @@ export default {
     },
     // 保存修改后的信息
     saveEditMenu() {
-      this.putRequest("/", this.editData).then(resp => {
+      this.postRequest("/system/sysModule/update", this.editData).then(resp => {
         if (resp) {
           this.$message({
             message: "信息更改成功!",

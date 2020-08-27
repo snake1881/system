@@ -60,10 +60,12 @@
     />
     <!-- 分页 -->
     <div style="width:98%;background-color:white;">
-      <common-page
+      <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
         :total="total"
+        :page-sizes="[10, 20, 30, 40, 50]"
+        layout="total, prev, pager, next, jumper, sizes"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -73,12 +75,12 @@
 <script>
 import CommonAddDic from "../../components/Dic/CommonAddDic";
 import CommonEditDic from "../../components/Dic/CommonEditDic";
-import CommonPage from "../../components/CommonPage";
+// import CommonPage from "../../components/CommonPage";
 export default {
   components: {
     CommonAddDic,
-    CommonEditDic,
-    CommonPage
+    CommonEditDic
+    // CommonPage
   },
   data() {
     return {
@@ -106,13 +108,15 @@ export default {
   methods: {
     // 根据输入信息查询
     searchDictionary() {
-      this.postRequest(
-        "/codeType/selectByTerm/" +
+      this.getRequest(
+        "/system/codeType/codeTypes1/" +
           this.currentPage +
           "/" +
           this.pageSize +
-          "?" +
-          this.dicFrom
+          "?codeType=" +
+          this.dicFrom.codeType +
+          "?codeTypeName=" +
+          this.dicFrom.codeTypeName
       ).then(resp => {
         if (resp) {
           this.dicData = resp.data.records;
@@ -125,7 +129,7 @@ export default {
     //表格数据初始化
     dicInit() {
       this.getRequest(
-        "/codeType/selectAll/" + this.currentPage + "/" + this.pageSize
+        "/system/codeType/codeTypes/" + this.currentPage + "/" + this.pageSize
       ).then(resp => {
         if (resp) {
           this.dicData = resp.data.records;
@@ -159,10 +163,12 @@ export default {
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
+      this.dicInit();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
+      this.dicInit();
     }
   }
 };

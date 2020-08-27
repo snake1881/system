@@ -33,7 +33,7 @@
       <el-table-column prop="permissionMark" label="权限标识" width="200" />
       <el-table-column label="操作" width="210">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addMenu()">
+          <el-button type="text" size="small" @click="addMenu(scope.row)">
             新增
           </el-button>
           <el-button type="text" size="small" @click="editMenu(scope.row)">
@@ -53,6 +53,7 @@
     <!-- 新增菜单 -->
     <common-add-menu
       :addMenuVisible="addMenuVisible"
+      :addData="addMenuData"
       @menuRowClose="addMenuClose"
     />
     <!-- 编辑菜单 -->
@@ -81,6 +82,7 @@ export default {
       addAllMenuVisible: false,
       // 新增菜单
       addMenuVisible: false,
+      addMenuData: {},
       // 编辑
       editMenuVisible: false,
       editMenuData: {}
@@ -107,8 +109,9 @@ export default {
       this.addAllMenuVisible = false;
     },
     // 新增菜单
-    addMenu() {
+    addMenu(val) {
       this.addMenuVisible = true;
+      this.addMenuData = val;
     },
     // 关闭新增对话框
     addMenuClose() {
@@ -116,7 +119,6 @@ export default {
     },
     // 编辑
     editMenu(val) {
-      console.log(val);
       this.editMenuVisible = true;
       this.editMenuData = val;
     },
@@ -125,8 +127,31 @@ export default {
       this.editMenuVisible = false;
     },
     // 删除
-    dleteMenu() {
-      console.log(1);
+    dleteMenu(val) {
+      this.$confirm("确定删除该条数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.deleteRequest("/system/sysModule/delete/" + val.moduleId).then(
+            resp => {
+              if (resp) {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              }
+              this.menuInit();
+            }
+          );
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };

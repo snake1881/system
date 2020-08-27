@@ -27,6 +27,7 @@
                   <el-dropdown-item command="usercenter">
                     个人中心
                   </el-dropdown-item>
+                  <el-dropdown-item command="notice">发布通知</el-dropdown-item>
                   <el-dropdown-item command="setting">设置</el-dropdown-item>
                   <el-dropdown-item command="logout">注销</el-dropdown-item>
                 </el-dropdown-menu>
@@ -35,7 +36,7 @@
               <span
                 style="text-align: center;line-height: 80px;font-size: 16px"
               >
-                倪凡
+                niewei
               </span>
             </div>
           </div>

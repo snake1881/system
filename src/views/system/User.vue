@@ -47,12 +47,6 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column
-          prop="userId"
-          label="用户ID"
-          width="120"
-          :show-overflow-tooltip="true"
-        />
         <el-table-column prop="loginName" label="登录名称" width="120" />
         <el-table-column prop="userName" label="用户名称" width="120" />
         <el-table-column

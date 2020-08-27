@@ -7,9 +7,6 @@
   >
     <div class="dialogDiv">
       <el-form :model="addData" label-width="80px">
-        <el-form-item label="用户id">
-          <el-input v-model="addData.userId" />
-        </el-form-item>
         <el-form-item label="登录名称">
           <el-input v-model="addData.loginName" />
         </el-form-item>
@@ -34,12 +31,6 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="addData.password" />
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="addData.email" />
-        </el-form-item>
         <el-form-item label="手机">
           <el-input v-model="addData.phone" />
         </el-form-item>
@@ -61,12 +52,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="创建时间">
-          <el-date-picker
-            v-model="addData.createTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-          />
-        </el-form-item>
         <!-- <el-form-item label="角色">
           <el-checkbox-group v-model="addData.character">
             <el-checkbox label="管理员" value="1" />
@@ -94,14 +79,10 @@ export default {
     return {
       // 表单数据
       addData: {
-        userId: "",
         loginName: "",
-        createTime: "",
         userNum: "",
         departmentName: "",
         userName: "",
-        password: "",
-        email: "",
         phone: "",
         sex: "",
         status: ""

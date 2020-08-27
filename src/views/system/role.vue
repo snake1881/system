@@ -25,14 +25,24 @@
         <el-button type="primary" icon="el-icon-plus" @click="addRole()">
           新增
         </el-button>
+        <el-button type="primary" icon="el-icon-delete" @click="deleteRole()">
+          批量删除
+        </el-button>
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
-    <el-table :data="roleData" height="500px" border style="width:100%">
-      <el-table-column prop="roleName" label="角色名称" width="220" />
-      <el-table-column prop="roleKey" label="权限字符" width="200" />
-      <el-table-column prop="sequence" label="显示顺序" width="200" />
-      <el-table-column prop="status" label="状态" width="200">
+    <el-table
+      :data="roleData"
+      height="500px"
+      border
+      style="width:100%"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column type="selection" width="55" />
+      <el-table-column prop="roleName" label="角色名称" width="240" />
+      <el-table-column prop="roleKey" label="权限字符" width="210" />
+      <el-table-column prop="sequence" label="显示顺序" width="160" />
+      <el-table-column prop="status" label="状态" width="160">
         <template slot-scope="scope">
           <p v-if="scope.row.status == '0'">停用</p>
           <p v-if="scope.row.status == '1'">正常</p>
@@ -91,6 +101,8 @@ export default {
         roleKey: "",
         status: ""
       },
+      // 选中要删除的数据
+      selectData: [],
       // 表格数据
       roleData: [],
       // 新增
@@ -155,7 +167,7 @@ export default {
     addRoleClose() {
       this.addRoleVisible = false;
     },
-    // 删除
+    // 单个删除
     dlete(val) {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
@@ -174,6 +186,43 @@ export default {
             }
             this.roleInit();
           });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    // 表格多选
+    handleSelectionChange(val) {
+      console.log(val);
+      this.selectData = val;
+    },
+    // 批量删除角色
+    deleteRole() {
+      var checkArray = this.selectData;
+      var idArray = [];
+      checkArray.forEach(function(item) {
+        idArray.push(item.roleId);
+      });
+      this.$confirm("确定删除您勾选的数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.deleteRequest("/system/sysRole/deleteBatch", idArray).then(
+            resp => {
+              if (resp) {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              }
+              this.roleInit();
+            }
+          );
         })
         .catch(() => {
           this.$message({
@@ -208,7 +257,7 @@ export default {
 <style lang="less" scoped>
 .container {
   width: 98%;
-  margin: 10px;
+  margin: 5px;
   background-color: white;
 }
 </style>
