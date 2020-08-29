@@ -14,6 +14,17 @@
             </div>
             <!-- 用户信息 -->
             <div class="r-content">
+              <!-- 消息通知 -->
+              <el-badge
+                :value="noticeNum"
+                style="margin-top:25px;margin-right:20px"
+              >
+                <el-button
+                  icon="el-icon-message"
+                  circle
+                  @click="noticeSummary()"
+                />
+              </el-badge>
               <!-- 图片+详细 -->
               <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
@@ -27,7 +38,12 @@
                   <el-dropdown-item command="usercenter">
                     个人中心
                   </el-dropdown-item>
-                  <el-dropdown-item command="notice">发布通知</el-dropdown-item>
+                  <el-dropdown-item
+                    command="notice"
+                    @click.native="gotoNoticeLink"
+                  >
+                    发布通知
+                  </el-dropdown-item>
                   <el-dropdown-item command="setting">设置</el-dropdown-item>
                   <el-dropdown-item command="logout">注销</el-dropdown-item>
                 </el-dropdown-menu>
@@ -65,9 +81,32 @@ export default {
     CommonTags
   },
   data() {
-    return {};
+    return {
+      // 消息通知
+      noticeNum: 10
+    };
   },
-  methods: {}
+  created() {
+    this.noticeInit();
+  },
+  methods: {
+    // 消息通知
+    noticeInit() {
+      this.getRequest("/").then(resp => {
+        if (resp) {
+          // this.noticeNum = resp.data;
+        }
+      });
+    },
+    // 查看消息
+    noticeSummary() {
+      console.log(1);
+    },
+    //跳转到发布通知页面
+    gotoNoticeLink() {
+      this.$router.replace("/home");
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

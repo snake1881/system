@@ -286,12 +286,12 @@ export default {
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.roleInit();
+      this.userInIt();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.roleInit();
+      this.userInIt();
     }
   }
 };

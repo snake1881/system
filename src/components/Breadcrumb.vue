@@ -37,7 +37,7 @@ export default {
       if (!this.isHome(matched[0])) {
         matched = [{ path: "/Home", name: "首页" }].concat(matched);
       } else {
-        matched = [{ path: "/Home", name: "首页" }];
+        matched = [{ path: "/Home", name: "首页/发布通知" }];
       }
       this.breadList = matched;
     }

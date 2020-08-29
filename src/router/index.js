@@ -21,7 +21,15 @@ const routes = [
     path: "/Home",
     name: "Home",
     component: () => import("@/views/Home.vue"),
-    hidden: true
+    hidden: true,
+    children: [
+      {
+        path: "/home",
+        name: "发布通知",
+        component: () => import("@/views/Notice"),
+        hidden: true
+      }
+    ]
   }
 ];
 
