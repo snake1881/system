@@ -21,12 +21,17 @@
         <!-- 表格数据 -->
         <el-table
           :data="tableData"
-          height="350px"
+          height="332px"
           border
           style="width:98%;"
+          :row-key="getRowKey"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="55" />
+          <el-table-column
+            type="selection"
+            width="55"
+            :reserve-selection="true"
+          />
           <el-table-column prop="userName" label="用户名称" width="140" />
           <el-table-column prop="departmentName" label="部门名称" width="160" />
           <el-table-column prop="email" label="邮箱" width="160" />
@@ -46,6 +51,13 @@
         </div>
       </div>
     </div>
+    <el-button
+      type="primary"
+      @click="onSubmit(), selectReceiverClose()"
+      style="margin-left:780px"
+    >
+      提交
+    </el-button>
   </el-dialog>
 </template>
 <script>
@@ -53,6 +65,9 @@ export default {
   props: {
     noticeVisible: {
       type: Boolean
+    },
+    noticeData: {
+      type: Array
     }
   },
   data() {
@@ -124,10 +139,18 @@ export default {
         }
       });
     },
+    // 行数据key,优化表格渲染
+    getRowKey(val) {
+      return val.userId;
+    },
     // 表格多选
     handleSelectionChange(val) {
       this.selectedData = val;
-      console.log(this.selectedData);
+      // console.log(this.selectedData);
+    },
+    // 选中用户传给父组件
+    onSubmit() {
+      this.$emit("selectReceiver", this.selectedData);
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

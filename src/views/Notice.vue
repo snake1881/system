@@ -3,7 +3,9 @@
     <el-form :v-model="noticeData" label-width="72px">
       <el-form-item label="接收人" style="margin: 20px 10px">
         <el-input
-          v-model="noticeData.receiver"
+          v-for="(item, index) in noticeData.receiver"
+          :key="index"
+          v-model="noticeData.receiver[index].userName"
           @click.native="selectReceiver()"
         />
       </el-form-item>
@@ -22,6 +24,7 @@
     <notice-receiver
       :noticeVisible="noticeVisible"
       @noticeClose="selectReceiverClose"
+      @selectReceiver="selectReceiverData"
     />
   </div>
 </template>
@@ -36,10 +39,20 @@ export default {
       noticeData: {
         title: "",
         content: "",
-        receiver: ""
+        receiver: [
+          {
+            userName: ""
+          }
+        ]
       },
       //选择对话框
-      noticeVisible: false
+      noticeVisible: false,
+      // 选中的用户数据
+      selectData: [
+        {
+          userName: ""
+        }
+      ]
     };
   },
   methods: {
@@ -55,6 +68,13 @@ export default {
           this.$message.error("通知发送失败，请重新发送!");
         }
       });
+    },
+    // 接收子组件传过来的值
+    selectReceiverData(val) {
+      this.noticeData.receiver = val;
+      this.noticeData.receiver.map(e => e.userName).join(",");
+
+      console.log(val);
     },
     // 打开对话框
     selectReceiver() {
