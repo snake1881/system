@@ -24,9 +24,21 @@ const routes = [
     hidden: true,
     children: [
       {
-        path: "/home",
-        name: "发布通知",
-        component: () => import("@/views/Notice"),
+        path: "/sendNotice",
+        name: "sendNotice",
+        component: () => import("@/views/Notice/sendNotice"),
+        hidden: true
+      },
+      {
+        path: "/receiveNotice",
+        name: "receiveNotice",
+        component: () => import("@/views/Notice/receiveNotice"),
+        hidden: true
+      },
+      {
+        path: "/detailsNotice",
+        name: "detailsNotice",
+        component: () => import("@/views/Notice/detailsNotice"),
         hidden: true
       }
     ]
@@ -38,5 +50,4 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 });
-
 export default router;

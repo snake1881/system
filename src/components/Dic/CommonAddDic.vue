@@ -23,21 +23,39 @@
         >
           添加字典值
         </el-button>
-        <el-form-item v-for="(item, index) in addData.dic" :key="index">
-          <el-form-item :prop="'dic.' + index + '.name'" label="名称">
-            <el-input v-model="item.name" />
+        <div style="margin-left:0px">
+          <el-form-item v-for="(item, index) in addData.dic" :key="index">
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="名称">
+                  <el-input v-model="item.name" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="值">
+                  <el-input v-model="item.value" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="值类型">
+                  <el-input v-model="item.valueType" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="描述">
+                  <el-input v-model="item.description" />
+                </el-form-item>
+              </el-col>
+              <el-button
+                type="text"
+                style="margin-left:20px"
+                @click="dlete(item)"
+              >
+                删除
+              </el-button>
+            </el-row>
           </el-form-item>
-          <el-form-item :prop="'dic.' + index + '.value'" label="值">
-            <el-input v-model="item.value" />
-          </el-form-item>
-          <el-form-item :prop="'dic.' + index + '.valueType'" label="值类型">
-            <el-input v-model="item.valueType" />
-          </el-form-item>
-          <el-form-item :prop="'dic.' + index + '.description'" label="描述">
-            <el-input v-model="item.description" />
-          </el-form-item>
-          <el-button type="text" @click="dlete(addData.dic)">删除</el-button>
-        </el-form-item>
+        </div>
       </el-form>
     </div>
     <span slot="footer">
@@ -100,5 +118,10 @@ export default {
 .dialogDiv {
   height: 400px;
   overflow: auto;
+}
+</style>
+<style lang="less">
+element.style {
+  margin: 0;
 }
 </style>

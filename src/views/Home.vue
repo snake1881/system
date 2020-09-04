@@ -20,9 +20,9 @@
                 style="margin-top:25px;margin-right:20px"
               >
                 <el-button
-                  icon="el-icon-message"
+                  icon="el-icon-bell"
                   circle
-                  @click="noticeSummary()"
+                  @click="gotoReceiveNotice()"
                 />
               </el-badge>
               <!-- 图片+详细 -->
@@ -40,7 +40,7 @@
                   </el-dropdown-item>
                   <el-dropdown-item
                     command="notice"
-                    @click.native="gotoNoticeLink"
+                    @click.native="gotoSendNotice()"
                   >
                     发布通知
                   </el-dropdown-item>
@@ -98,13 +98,13 @@ export default {
         }
       });
     },
-    // 查看消息
-    noticeSummary() {
-      console.log(1);
+    // 跳转到接收通知页面
+    gotoReceiveNotice() {
+      this.$router.replace("/receiveNotice");
     },
     //跳转到发布通知页面
-    gotoNoticeLink() {
-      this.$router.replace("/home");
+    gotoSendNotice() {
+      this.$router.replace("/sendNotice");
     }
   }
 };

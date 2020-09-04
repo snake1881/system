@@ -14,10 +14,12 @@ import { postRequest } from "./utils/request";
 import { putRequest } from "./utils/request";
 import { deleteRequest } from "./utils/request";
 import { getRequest } from "./utils/request";
+import { postKeyValueRequest } from "./utils/request";
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.putRequest = putRequest;
 Vue.prototype.postRequest = postRequest;
+Vue.prototype.postKeyValueRequest = postKeyValueRequest;
 import { initMenu } from "./utils/menu";
 
 // 导航守卫

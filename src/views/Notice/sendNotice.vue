@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import noticeReceiver from "../components/noticeReceiver";
+import noticeReceiver from "../../components/noticeReceiver";
 export default {
   components: {
     noticeReceiver

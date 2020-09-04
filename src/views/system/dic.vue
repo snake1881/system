@@ -29,15 +29,7 @@
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
-    <el-table
-      :data="
-        dicData.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-      "
-      :current-page.sync="currentPage"
-      height="500px"
-      border
-      style="width:100%"
-    >
+    <el-table :data="dicData" height="500px" border style="width:100%">
       <el-table-column type="selection" width="100" />
       <el-table-column prop="codeTypeName" label="编码名称" width="300" />
       <el-table-column prop="codeType" label="编码类型" width="300" />
@@ -59,7 +51,7 @@
       :editData="editData"
     />
     <!-- 分页 -->
-    <div style="width:98%;background-color:white;">
+    <div style="width:98%;background-color:white">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"

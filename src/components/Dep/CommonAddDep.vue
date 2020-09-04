@@ -63,7 +63,8 @@ export default {
         parentDepartmentId: "",
         departmentType: "",
         phone: "",
-        sequence: ""
+        sequence: "",
+        departmentId: ""
       }
     };
   },
