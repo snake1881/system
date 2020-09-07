@@ -5,7 +5,7 @@ proxyObj["/ws"] = {
 };
 proxyObj["/"] = {
   ws: false,
-  target: "http://192.168.0.174:8692/demo",
+  target: "http://192.168.0.189:8692/demo",
   changeOrigin: true,
   pathRewrite: {
     "^/": ""

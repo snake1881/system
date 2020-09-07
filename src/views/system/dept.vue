@@ -54,23 +54,23 @@
       :addData="addDepData"
       @depRowClose="addDepClose"
     />
-    <!-- 编辑菜单 -->
-    <!-- <common-edit-dep
-      :editMenuVisible="editMenuVisible"
-      :editData="editMenuData"
-      @menuRowClose="editMenuClose"
-    /> -->
+    <!-- 编辑部门 -->
+    <common-edit-dep
+      :editDepVisible="editDepVisible"
+      :editData="editDepData"
+      @depRowClose="editdepClose"
+    />
   </div>
 </template>
 <script>
 import CommonAddDep from "../../components/Dep/CommonAddDep";
 import CommonAddAllDep from "../../components/Dep/CommonAddAllDep";
-// import CommonEditDep from "../../components/Dep/CommonEditDep";
+import CommonEditDep from "../../components/Dep/CommonEditDep";
 export default {
   components: {
     CommonAddDep,
-    CommonAddAllDep
-    // CommonEditDep
+    CommonAddAllDep,
+    CommonEditDep
   },
   data() {
     return {
@@ -79,7 +79,10 @@ export default {
       addAllDepVisible: false,
       // 新增部门
       addDepVisible: false,
-      addDepData: {}
+      addDepData: {},
+      // 编辑部门
+      editDepVisible: false,
+      editDepData: {}
     };
   },
   created() {
@@ -112,12 +115,40 @@ export default {
       this.addDepVisible = false;
     },
     // 编辑
-    editDept() {
-      console.log(1);
+    editDept(val) {
+      this.editDepVisible = true;
+      this.editDepData = val;
+    },
+    // 关闭编辑对话框
+    editdepClose() {
+      this.editDepVisible = false;
     },
     // 删除
-    dleteDept() {
-      console.log(1);
+    dleteDept(val) {
+      this.$confirm("确定删除该条数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.deleteRequest(
+            "/system/department/deleteByPrimary" + val.departmentId
+          ).then(resp => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            }
+            this.menuInit();
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };
