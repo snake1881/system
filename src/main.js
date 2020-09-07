@@ -27,12 +27,11 @@ router.beforeEach((to, from, next) => {
   if (to.path === "/") {
     next();
   } else {
-    let token = localStorage.getItem("user");
-    if (token === "null" || token === " ") {
-      next("/?redirect=" + to.path);
-    } else {
+    if (window.sessionStorage.getItem("user")) {
       initMenu(router, store);
       next();
+    } else {
+      next("/?redirect=" + to.path);
     }
   }
 });

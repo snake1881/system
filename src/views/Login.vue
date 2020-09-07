@@ -8,8 +8,8 @@
       class="loginContainer"
     >
       <h3 style="text-align: center;color: #505458;">管理系统</h3>
-      <el-form-item prop="loginName">
-        <el-input v-model="sysUserLogin.userName" placeholder="用户名">
+      <el-form-item prop="username">
+        <el-input v-model="sysUserLogin.username" placeholder="用户名">
           <i slot="prefix" class="el-input__icon el-icon-user" />
         </el-input>
       </el-form-item>
@@ -41,11 +41,11 @@ export default {
   data() {
     return {
       sysUserLogin: {
-        userName: "",
+        username: "",
         password: ""
       },
       rules: {
-        userName: [
+        username: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
         ],
@@ -69,7 +69,8 @@ export default {
           this.postRequest("/login", this.sysUserLogin).then(resp => {
             if (resp) {
               console.log(resp);
-              this.$store.commit("INIT_CURRENTHR", resp.token);
+              this.$store.commit("INIT_CURRENTHR", resp.data);
+              window.sessionStorage.setItem("user", JSON.stringify(resp.data));
               this.$router.replace("/Home");
             }
           });

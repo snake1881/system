@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Message } from "element-ui";
-axios.defaults.withCredentials = true;
+import router from "../router";
 
 //对请求进行封装
 axios.interceptors.response.use(
@@ -25,6 +25,7 @@ axios.interceptors.response.use(
       Message.error({ message: "权限不足,请联系管理员!" });
     } else if (error.response.status === 401) {
       Message.error({ message: "尚未登陆，请登录" });
+      router.replace("/");
     } else {
       if (error.response.data.msg) {
         Message.error({ message: error.response.data.msg });
@@ -36,7 +37,6 @@ axios.interceptors.response.use(
 );
 //对方法进行封装
 let base = " ";
-
 export const postKeyValueRequest = (url, params) => {
   return axios({
     method: "post",
@@ -64,7 +64,6 @@ export const postRequest = (url, params) => {
     data: params,
     headers: {
       "Content-Type": "application/json",
-      token: window.sessionStorage.getItem("user")
     }
   });
 };
@@ -94,16 +93,3 @@ export const getRequest = (url) => {
     url: `${base}${url}`
   });
 };
-
-// 添加请求拦截器，在请求头中加token
-axios.interceptors.request.use(
-  config => {
-    if (localStorage.getItem("user")) {
-      config.headers.Authorization = localStorage.getItem("user");
-    }
-    return config;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
