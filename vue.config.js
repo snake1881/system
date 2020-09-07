@@ -5,7 +5,7 @@ proxyObj["/ws"] = {
 };
 proxyObj["/"] = {
   ws: false,
-  target: "http://192.168.0.106:8692/demo",
+  target: "http://192.168.0.106:8692",
   changeOrigin: true,
   pathRewrite: {
     "^/": ""
@@ -13,7 +13,6 @@ proxyObj["/"] = {
 };
 module.exports = {
   devServer: {
-    host: "localhost",
     port: 8088,
     open: true,
     proxy: proxyObj

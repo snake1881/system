@@ -33,10 +33,11 @@ axios.interceptors.response.use(
         Message.error({ message: "未知错误!" });
       }
     }
+    return;
   }
 );
 //对方法进行封装
-let base = " ";
+let base = "/demo";
 export const postKeyValueRequest = (url, params) => {
   return axios({
     method: "post",
@@ -61,30 +62,21 @@ export const postRequest = (url, params) => {
   return axios({
     method: "post",
     url: `${base}${url}`,
-    data: params,
-    headers: {
-      "Content-Type": "application/json",
-    }
+    data: params
   });
 };
 export const putRequest = (url, params) => {
   return axios({
     method: "put",
     url: `${base}${url}`,
-    data: params,
-    headers: {
-      "Content-Type": "application/json"
-    }
+    data: params
   });
 };
 export const deleteRequest = (url, params) => {
   return axios({
     method: "delete",
     url: `${base}${url}`,
-    data: params,
-    headers: {
-      "Content-Type": "application/json"
-    }
+    data: params
   });
 };
 export const getRequest = (url) => {
