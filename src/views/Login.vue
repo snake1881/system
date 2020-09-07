@@ -9,12 +9,12 @@
     >
       <h3 style="text-align: center;color: #505458;">管理系统</h3>
       <el-form-item prop="username">
-        <el-input v-model="sysUserLogin.username" placeholder="用户名">
+        <el-input v-model="sysUserLogin.username" type="text" placeholder="用户名">
           <i slot="prefix" class="el-input__icon el-icon-user" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="sysUserLogin.password" placeholder="密码">
+        <el-input v-model="sysUserLogin.password" type="password" placeholder="密码">
           <i slot="prefix" class="el-input__icon el-icon-goods" />
         </el-input>
       </el-form-item>
@@ -56,7 +56,6 @@ export default {
       }
     };
   },
-  mounted() {},
   methods: {
     // 跳转到注册页
     goRegister() {
@@ -66,9 +65,8 @@ export default {
     submitLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.postRequest("/login", this.sysUserLogin).then(resp => {
+          this.postKeyValueRequest("/login", this.sysUserLogin).then(resp => {
             if (resp) {
-              console.log(resp);
               this.$store.commit("INIT_CURRENTHR", resp.data);
               window.sessionStorage.setItem("user", JSON.stringify(resp.data));
               this.$router.replace("/Home");
