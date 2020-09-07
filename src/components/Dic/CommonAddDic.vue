@@ -105,11 +105,34 @@ export default {
       });
     },
     // 删除
-    dlete(item) {
-      var index = this.addData.dic.indexOf(item);
-      if (index !== -1) {
-        this.addData.dic.splice(index, 1);
-      }
+    dlete(val) {
+      // var index = this.addData.dic.indexOf(item);
+      // if (index !== -1) {
+      //   this.addData.dic.splice(index, 1);
+      // }
+      this.$confirm("确定删除该条数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.deleteRequest("/system/codeType/codeType/" + val.codeId).then(
+            resp => {
+              if (resp) {
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
+              }
+            }
+          );
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     }
   }
 };

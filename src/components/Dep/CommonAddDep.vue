@@ -6,18 +6,18 @@
     :before-close="addDepClose"
   >
     <div class="dialogDiv">
-      <el-form :model="addDepData" label-width="80px">
-        <!-- <el-form-item label="上级部门">
-          <el-input v-model="addDepData.departmentName" />
-        </el-form-item> -->
+      <el-form :model="addData" label-width="80px">
+        <el-form-item label="上级部门">
+          <el-input v-model="addData.departmentName" />
+        </el-form-item>
         <el-form-item label="id">
-          <el-input v-model="addDepData.departmentId" />
+          <el-input v-model="addData.departmentId" />
         </el-form-item>
       </el-form>
       <el-form :model="depData" label-width="80px">
-        <!-- <el-form-item label="部门名称">
+        <el-form-item label="部门名称">
           <el-input v-model="depData.departmentName" />
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="父级id">
           <el-input v-model="depData.parentDepartmentId" />
         </el-form-item>
@@ -26,9 +26,6 @@
         </el-form-item>
         <el-form-item label="联系电话">
           <el-input v-model="depData.phone" />
-        </el-form-item>
-        <el-form-item label="父级id">
-          <el-input v-model="depData.parentDepartmentId" />
         </el-form-item>
         <el-form-item label="部门类型">
           <el-select v-model="depData.departmentType">
@@ -51,7 +48,7 @@ export default {
     addDepVisible: {
       type: Boolean
     },
-    addDepData: {
+    addData: {
       type: Object
     }
   },
