@@ -7,7 +7,7 @@
       style="width:97%;background-color:white"
     >
       <el-form-item>
-        <el-input v-model="dicFrom.codeTypeName" placeholder="编码名称" />
+        <el-input v-model="dicFrom.codeTName" placeholder="编码名称" />
       </el-form-item>
       <el-form-item>
         <el-input v-model="dicFrom.codeType" placeholder="编码类型" />
@@ -37,7 +37,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="100" />
-      <el-table-column prop="codeTypeName" label="编码名称" width="300" />
+      <el-table-column prop="codeTName" label="编码名称" width="300" />
       <el-table-column prop="codeType" label="编码类型" width="300" />
       <el-table-column prop="createTime" label="创建时间" width="320" />
       <el-table-column label="操作" width="260">
@@ -96,7 +96,7 @@ export default {
     return {
       //搜索框
       dicFrom: {
-        codeTypeName: "",
+        codeTName: "",
         codeType: ""
       },
       // 表格数据

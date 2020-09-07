@@ -132,7 +132,8 @@ export default {
       })
         .then(() => {
           this.deleteRequest(
-            "/system/department/deleteByPrimary" + val.departmentId
+            "/system/department/deleteByPrimary?departmentId=" +
+              val.departmentId
           ).then(resp => {
             if (resp) {
               this.$message({
@@ -140,7 +141,7 @@ export default {
                 message: "删除成功!"
               });
             }
-            this.menuInit();
+            this.deptInit();
           });
         })
         .catch(() => {

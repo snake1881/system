@@ -16,9 +16,9 @@
         <el-form-item label="联系电话">
           <el-input v-model="allDepData.phone" />
         </el-form-item>
-        <el-form-item label="父级ID">
+        <!-- <el-form-item label="父级ID">
           <el-input v-model="allDepData.parentDepartmentId" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="部门类型">
           <el-select v-model="allDepData.departmentType">
             <el-option label="内部单位" value="0" />

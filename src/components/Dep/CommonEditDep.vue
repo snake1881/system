@@ -43,15 +43,7 @@ export default {
   },
   inject: ["reload"],
   data() {
-    return {
-      depData: {
-        departmentName: "",
-        departmentType: "",
-        phone: "",
-        sequence: "",
-        departmentId: ""
-      }
-    };
+    return {};
   },
   methods: {
     // 对话框父子组件传值
@@ -60,7 +52,7 @@ export default {
     },
     // 部门
     saveEditDep() {
-      this.putRequest("/system/department/updateSelective", this.depData).then(
+      this.putRequest("/system/department/updateSelective", this.editData).then(
         resp => {
           if (resp) {
             this.$message({

@@ -35,13 +35,7 @@
     </el-form>
     <!-- 表格数据 -->
     <el-table
-      :data="
-        logingLogData.slice(
-          (currentPage - 1) * pageSize,
-          currentPage * pageSize
-        )
-      "
-      :current-page.sync="currentPage"
+      :data="logingLogData"
       @selection-change="handleSelectionChange"
       height="500px"
       border
@@ -67,10 +61,12 @@
     </el-table>
     <!-- 分页 -->
     <div style="width:98%;background-color:white">
-      <common-page
+      <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
         :total="total"
+        :page-sizes="[10, 20, 30, 40, 50]"
+        layout="total, prev, pager, next, jumper, sizes"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
@@ -78,11 +74,7 @@
   </div>
 </template>
 <script>
-import CommonPage from "../../components/CommonPage";
 export default {
-  components: {
-    CommonPage
-  },
   data() {
     return {
       //搜索框
@@ -155,10 +147,12 @@ export default {
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
+      this.loginLogInit();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
+      this.loginLogInit();
     },
     // 删除选中数据
     dleteLoginLog(val) {
