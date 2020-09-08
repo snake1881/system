@@ -62,7 +62,8 @@
           size="small"
           type="primary"
           style="width: 50%;margin: 12px 25%;"
-          @click="submitLogin"
+          @click.native.prevent="submitLogin()" 
+          @keyup.enter.native="submitLogin()"
         >
           登录
         </el-button>
@@ -72,6 +73,20 @@
 </template>
 <script>
 export default {
+  created() {
+    var _self = this;
+    document.onkeydown = function(e){
+      var key;
+      if(window.event == undefined){
+          key = e.keyCode;
+      }else{
+          key = window.event.keyCode;
+      }
+      if(key == 13 || key == 100){
+          _self.submitLogin();
+      }
+    }
+  },
   data() {
     return {
       sysUserLogin: {
@@ -104,6 +119,8 @@ export default {
               this.$store.commit("INIT_CURRENTHR", resp.data);
               window.sessionStorage.setItem("user", JSON.stringify(resp.data));
               this.$router.replace("/Home");
+              // 在请求成功后把document.onkeydown置为undefined
+              document.onkeydown = undefined;
             }
           });
         } else {
@@ -128,8 +145,8 @@ export default {
   background: #9addff;
 }
 </style>
-<style lang="less">
-.el-input__inner {
+<style>
+.loginContainer .el-input__inner {
   border-left-width: 0px;
   border-top-width: 0px;
   border-right-width: 0px;
@@ -138,13 +155,13 @@ export default {
   width: 60%;
   margin: 10px 20%;
 }
-.el-input__prefix {
+.el-input--prefix .el-input__prefix {
   margin-left: 20%;
 }
-.el-form-item__error {
+.el-form-item__content .el-form-item__error {
   margin-left: 20%;
 }
-.el-button {
+.loginContainer .el-button {
   border-radius: 20px;
 }
 </style>
