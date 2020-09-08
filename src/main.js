@@ -22,6 +22,8 @@ Vue.prototype.postRequest = postRequest;
 Vue.prototype.postKeyValueRequest = postKeyValueRequest;
 import { initMenu } from "./utils/menu";
 
+import './assets/icon/iconfont.css';
+
 // 导航守卫
 router.beforeEach((to, from, next) => {
   if (to.path === "/") {
