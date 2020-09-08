@@ -8,35 +8,32 @@
     <div class="dialogDiv">
       <el-form :model="detailsData" label-width="80px">
         <el-form-item label="编码名称">
-          <el-input v-model="detailsData.codeTypeName" />
+          <el-input v-model="detailsData.codeTName" :disabled="true" />
         </el-form-item>
         <el-form-item label="编码类型">
-          <el-input v-model="detailsData.codeType" />
-        </el-form-item>
-        <el-form-item label="创建时间">
-          <el-input v-model="detailsData.createTime" />
+          <el-input v-model="detailsData.codeType" :disabled="true" />
         </el-form-item>
         <div style="margin-left:0px">
           <el-form-item v-for="(item, index) in detailsData.dic" :key="index">
             <el-row>
               <el-col :span="6">
                 <el-form-item label="名称">
-                  <el-input v-model="item.name" />
+                  <el-input v-model="item.name" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="值">
-                  <el-input v-model="item.value" />
+                  <el-input v-model="item.value" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="值类型">
-                  <el-input v-model="item.valueType" />
+                  <el-input v-model="item.valueType" :disabled="true" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
                 <el-form-item label="描述">
-                  <el-input v-model="item.description" />
+                  <el-input v-model="item.description" :disabled="true" />
                 </el-form-item>
               </el-col>
             </el-row>

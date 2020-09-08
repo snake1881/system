@@ -1,24 +1,27 @@
 <template>
   <el-dialog
-    title="应用字典编辑"
-    :visible.sync="editDicVisible"
+    title="考核指标编辑"
+    :visible.sync="editIndexVisible"
     width="60%"
-    :before-close="editDicClose"
+    :before-close="editIndexClose"
   >
     <div class="dialogDiv">
       <el-form :model="editData" label-width="80px">
-        <el-form-item label="编码名称">
-          <el-input v-model="editData.codeTName" />
+        <el-form-item label="指标名称">
+          <el-input v-model="editData.indexName" />
         </el-form-item>
-        <el-form-item label="编码类型">
-          <el-input v-model="editData.codeType" />
+        <el-form-item label="分值">
+          <el-input v-model="editData.scoreWeight" />
+        </el-form-item>
+        <el-form-item label="排列顺序">
+          <el-input v-model="editData.sequence" />
         </el-form-item>
         <el-button
           type="text"
           class="el-icon-circle-plus-outline"
-          @click="addDic()"
+          @click="addIndex()"
         >
-          添加字典值
+          添加指标详情
         </el-button>
         <div style="margin-left:0px">
           <el-form-item
@@ -27,23 +30,18 @@
           >
             <el-row>
               <el-col :span="6">
-                <el-form-item label="名称">
-                  <el-input v-model="item.codeName" />
+                <el-form-item label="要求">
+                  <el-input v-model="item.requirement" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="值">
-                  <el-input v-model="item.codeValue" />
+                <el-form-item label="标准">
+                  <el-input v-model="item.examineStandard" />
                 </el-form-item>
               </el-col>
               <el-col :span="6">
-                <el-form-item label="值类型">
-                  <el-input v-model="item.valueType" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="描述">
-                  <el-input v-model="item.description" />
+                <el-form-item label="分值">
+                  <el-input v-model="item.score" />
                 </el-form-item>
               </el-col>
               <el-button
@@ -59,7 +57,7 @@
       </el-form>
     </div>
     <span slot="footer">
-      <el-button type="primary" @click="saveEditDic(), editDicClose()">
+      <el-button type="primary" @click="saveEditIndex(), editIndexClose()">
         提交
       </el-button>
     </span>
@@ -68,7 +66,7 @@
 <script>
 export default {
   props: {
-    editDicVisible: {
+    editIndexVisible: {
       type: Boolean
     },
     editData: {
@@ -80,11 +78,11 @@ export default {
   },
   methods: {
     // 对话框父子组件传值
-    editDicClose() {
+    editIndexClose() {
       this.$emit("editClose");
     },
     // 保存修改后的信息
-    saveEditDic() {
+    saveEditIndex() {
       this.postRequest("/", this.editData).then(resp => {
         if (resp) {
           this.$message({
@@ -97,12 +95,11 @@ export default {
       });
     },
     // 添加
-    addDic() {
-      this.editData.dic.push({
-        name: " ",
-        value: " ",
-        valueType: " ",
-        description: " "
+    addIndex() {
+      this.editData.sysTCodeInforList.push({
+        requirement: " ",
+        examineStandard: " ",
+        score: " "
       });
     },
     // 删除
@@ -117,7 +114,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteRequest("/system/code/code/" + val.codeId).then(resp => {
+          this.deleteRequest("/system/code/code/" + val.indexDId).then(resp => {
             if (resp) {
               this.$message({
                 type: "success",

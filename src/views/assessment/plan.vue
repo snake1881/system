@@ -2,25 +2,18 @@
   <div class="container">
     <!-- 条件查询 -->
     <el-form
-      :model="dicFrom"
+      :model="indexFrom"
       :inline="true"
       style="width:97%;background-color:white"
     >
       <el-form-item>
-        <el-input v-model="dicFrom.codeTName" placeholder="编码名称" />
+        <el-input v-model="indexFrom.indexName" placeholder="指标名称" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="dicFrom.codeType" placeholder="编码类型" />
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          @click="searchDictionary()"
-        >
+        <el-button type="primary" icon="el-icon-search" @click="searchIndex()">
           查询
         </el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addDic()">
+        <el-button type="primary" icon="el-icon-plus" @click="addIndex()">
           新增
         </el-button>
         <el-button type="primary" icon="el-icon-delete" @click="selectdelete()">
@@ -30,44 +23,34 @@
     </el-form>
     <!-- 表格数据 -->
     <el-table
-      :data="dicData"
+      :data="planData"
       height="500px"
       border
       style="width:100%"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="100" />
-      <el-table-column prop="codeTName" label="编码名称" width="300" />
-      <el-table-column prop="codeType" label="编码类型" width="300" />
-      <el-table-column prop="createTime" label="创建时间" width="320" />
-      <el-table-column label="操作" width="260">
+      <el-table-column prop="planName" label="计划名称" width="210" />
+      <el-table-column prop="startDate" label="开始时间" width="160" />
+      <el-table-column prop="endDate" label="结束时间" width="160" />
+      <el-table-column prop="active" label="是否有效" width="210">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editDic(scope.row)">
+          <p v-if="scope.row.active == '0'">无效</p>
+          <p v-if="scope.row.active == '1'">有效</p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="remark" label="备注" width="260" />
+      <el-table-column label="操作" width="200">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editIndex(scope.row)">
             编辑
           </el-button>
           <el-button type="text" size="small" @click="sinDelete(scope.row)">
             删除
           </el-button>
-          <el-button type="text" size="small" @click="detailsDic(scope.row)">
-            查看详情
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 新增 -->
-    <common-add-dic :addDicVisible="addDicVisible" @addClose="addDicClose" />
-    <!-- 编辑 -->
-    <common-edit-dic
-      :editDicVisible="editDicVisible"
-      @editClose="editDicClose"
-      :editData="editData"
-    />
-    <!-- 查看详情 -->
-    <common-details-dic
-      :detailsDicVisible="detailsDicVisible"
-      @detailsClose="detailsDicClose"
-      :detailsData="detailsData"
-    />
     <!-- 分页 -->
     <div style="width:98%;background-color:white">
       <el-pagination
@@ -80,61 +63,64 @@
         @current-change="handleCurrentChange"
       />
     </div>
+    <!-- 新增 -->
+    <common-add-index
+      :addIndexVisible="addIndexVisible"
+      @addClose="addIndexClose"
+    />
+    <!-- 编辑 -->
+    <common-edit-index
+      :editIndexVisible="editIndexVisible"
+      @editClose="editIndexClose"
+      :editData="editData"
+    />
   </div>
 </template>
 <script>
-import CommonAddDic from "../../components/Dic/CommonAddDic";
-import CommonEditDic from "../../components/Dic/CommonEditDic";
-import CommonDetailsDic from "../../components/Dic/CommonDetailsDic";
+import CommonAddIndex from "../../components/Index/CommonAddIndex";
+import CommonEditIndex from "../../components/Index/CommonEditIndex";
 export default {
   components: {
-    CommonAddDic,
-    CommonEditDic,
-    CommonDetailsDic
+    CommonAddIndex,
+    CommonEditIndex
   },
   data() {
     return {
       //搜索框
-      dicFrom: {
-        codeTName: "",
-        codeType: ""
+      indexFrom: {
+        indexName: ""
       },
       // 表格数据
-      dicData: [],
+      planData: [],
       // 选中要删除的数据
       selectData: [],
-      // 新增
-      addDicVisible: false,
-      // 编辑
-      editDicVisible: false,
-      editData: {},
-      // 查看详情
-      detailsDicVisible: false,
-      detailsData: {},
       // 分页数据
       currentPage: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      // 新增
+      addIndexVisible: false,
+      // 编辑
+      editIndexVisible: false,
+      editData: {}
     };
   },
   created() {
-    this.dicInit();
+    this.planInit();
   },
   methods: {
     // 根据输入信息查询
-    searchDictionary() {
-      this.getRequest(
-        "/system/codeType/codeTypes1?codeTName=" +
-          this.dicFrom.codeTName +
-          "&codeType=" +
-          this.dicFrom.codeType +
-          "&current=" +
+    searchIndex() {
+      this.postRequest(
+        "/examine/IndexInfo/findListsByPage?page=" +
           this.currentPage +
-          "&pageSize=" +
-          this.pageSize
+          "&size=" +
+          this.pageSize +
+          "&indexName=" +
+          this.indexFrom.indexName
       ).then(resp => {
         if (resp) {
-          this.dicData = resp.data.records;
+          this.indexData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
@@ -142,34 +128,43 @@ export default {
       });
     },
     //表格数据初始化
-    dicInit() {
+    planInit() {
       this.getRequest(
-        "/system/codeType/codeTypeByPage?current=" +
+        "/examine/planInfor/queryByPageAll?current=" +
           this.currentPage +
           "&pageSize=" +
           this.pageSize
       ).then(resp => {
         if (resp) {
-          this.dicData = resp.data.records;
+          this.planData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
         }
       });
     },
-    // 新增字典
-    addDic() {
-      this.addDicVisible = true;
+    // 新增
+    addIndex() {
+      this.addIndexVisible = true;
     },
     // 关闭新增对话框
-    addDicClose() {
-      this.addDicVisible = false;
+    addIndexClose() {
+      this.addIndexVisible = false;
+    },
+    // 编辑
+    editIndex(val) {
+      this.editIndexVisible = true;
+      this.editData = val;
+    },
+    // 关闭编辑对话框
+    editIndexClose() {
+      this.editIndexVisible = false;
     },
     // 表格多选
     handleSelectionChange(val) {
       this.selectData = val;
     },
-    // 批量删除
+    // 批量删除,根据？删除
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
@@ -210,7 +205,7 @@ export default {
       })
         .then(() => {
           this.deleteRequest(
-            "/system/codeType/codeType/" + val.codeTypeId
+            "/examine/IndexInfo/deleteById?ids=" + val.indexId
           ).then(resp => {
             if (resp) {
               this.$message({
@@ -218,7 +213,7 @@ export default {
                 message: "删除成功!"
               });
             }
-            this.dicInit();
+            this.indexInit();
           });
         })
         .catch(() => {
@@ -228,34 +223,15 @@ export default {
           });
         });
     },
-    // 编辑字典
-    editDic(val) {
-      console.log(val);
-      this.editData = val;
-      this.editDicVisible = true;
-    },
-    // 关闭编辑对话框
-    editDicClose() {
-      this.editDicVisible = false;
-    },
-    // 查看字典详情
-    detailsDic(val) {
-      this.detailsData = val;
-      this.detailsDicVisible = true;
-    },
-    // 关闭查看详情对话框
-    detailsDicClose() {
-      this.detailsDicVisible = false;
-    },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.dicInit();
+      this.planInit();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.dicInit();
+      this.planInit();
     }
   }
 };

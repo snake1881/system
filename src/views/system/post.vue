@@ -3,7 +3,6 @@
     <!-- 条件查询 -->
     <el-form
       :model="postForm"
-      :rules="rules"
       :inline="true"
       style="width:97%;background-color:white"
     >
@@ -29,7 +28,6 @@
       <el-table-column prop="positionCode" label="岗位编码" width="220" />
       <el-table-column prop="positionName" label="岗位名称" width="220" />
       <el-table-column prop="sequence" label="显示顺序" width="170" />
-      <!-- <el-table-column prop="positionId" label="状态" width="180" /> -->
       <el-table-column prop="createTime" label="创建时间" width="280" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
@@ -91,12 +89,7 @@ export default {
       editPostVisible: false,
       editPostData: {},
       // 新增
-      addPostVisible: false,
-      rules: {
-        positionName: [
-          { required: true, message: "岗位名称不能为空", trigger: "blur" }
-        ]
-      }
+      addPostVisible: false
     };
   },
   created() {
@@ -197,7 +190,7 @@ export default {
 <style lang="less" scoped>
 .container {
   width: 98%;
-  margin: 10px;
+  margin: 5px;
   background-color: white;
 }
 </style>

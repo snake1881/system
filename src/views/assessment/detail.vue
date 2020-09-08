@@ -2,25 +2,18 @@
   <div class="container">
     <!-- 条件查询 -->
     <el-form
-      :model="dicFrom"
+      :model="detailFrom"
       :inline="true"
       style="width:97%;background-color:white"
     >
       <el-form-item>
-        <el-input v-model="dicFrom.codeTName" placeholder="编码名称" />
+        <el-input v-model="detailFrom.examineContent" placeholder="考核内容" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="dicFrom.codeType" placeholder="编码类型" />
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          @click="searchDictionary()"
-        >
+        <el-button type="primary" icon="el-icon-search" @click="searchIndex()">
           查询
         </el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addDic()">
+        <el-button type="primary" icon="el-icon-plus" @click="addDetail()">
           新增
         </el-button>
         <el-button type="primary" icon="el-icon-delete" @click="selectdelete()">
@@ -30,44 +23,35 @@
     </el-form>
     <!-- 表格数据 -->
     <el-table
-      :data="dicData"
+      :data="detailData"
       height="500px"
       border
       style="width:100%"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="100" />
-      <el-table-column prop="codeTName" label="编码名称" width="300" />
-      <el-table-column prop="codeType" label="编码类型" width="300" />
-      <el-table-column prop="createTime" label="创建时间" width="320" />
-      <el-table-column label="操作" width="260">
+      <el-table-column type="selection" width="55" />
+      <el-table-column prop="examineContent" label="考核内容" width="220" />
+      <el-table-column prop="requirement" label="工作要求" width="220" />
+      <el-table-column prop="examineStandard" label="考核标准" width="220" />
+      <el-table-column prop="score" label="分值" width="120" />
+      <el-table-column prop="sequence" label="排列顺序" width="120" />
+      <el-table-column prop="active" label="是否有效" width="120">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editDic(scope.row)">
+          <p v-if="scope.row.active == '0'">无效</p>
+          <p v-if="scope.row.active == '1'">有效</p>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" width="210">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="editDetail(scope.row)">
             编辑
           </el-button>
           <el-button type="text" size="small" @click="sinDelete(scope.row)">
             删除
           </el-button>
-          <el-button type="text" size="small" @click="detailsDic(scope.row)">
-            查看详情
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <!-- 新增 -->
-    <common-add-dic :addDicVisible="addDicVisible" @addClose="addDicClose" />
-    <!-- 编辑 -->
-    <common-edit-dic
-      :editDicVisible="editDicVisible"
-      @editClose="editDicClose"
-      :editData="editData"
-    />
-    <!-- 查看详情 -->
-    <common-details-dic
-      :detailsDicVisible="detailsDicVisible"
-      @detailsClose="detailsDicClose"
-      :detailsData="detailsData"
-    />
     <!-- 分页 -->
     <div style="width:98%;background-color:white">
       <el-pagination
@@ -80,61 +64,64 @@
         @current-change="handleCurrentChange"
       />
     </div>
+    <!-- 新增 -->
+    <common-add-detail
+      :addDetailVisible="addDetailVisible"
+      @addClose="addDetailClose"
+    />
+    <!-- 编辑 -->
+    <common-edit-detail
+      :editDetailVisible="editDetailVisible"
+      @editClose="editDetailClose"
+      :editData="editData"
+    />
   </div>
 </template>
 <script>
-import CommonAddDic from "../../components/Dic/CommonAddDic";
-import CommonEditDic from "../../components/Dic/CommonEditDic";
-import CommonDetailsDic from "../../components/Dic/CommonDetailsDic";
+import CommonAddDetail from "../../components/Detail/CommonAddDetail";
+import CommonEditDetail from "../../components/Detail/CommonEditDetail";
 export default {
   components: {
-    CommonAddDic,
-    CommonEditDic,
-    CommonDetailsDic
+    CommonAddDetail,
+    CommonEditDetail
   },
   data() {
     return {
       //搜索框
-      dicFrom: {
-        codeTName: "",
-        codeType: ""
+      detailFrom: {
+        examineContent: ""
       },
       // 表格数据
-      dicData: [],
+      detailData: [],
       // 选中要删除的数据
       selectData: [],
-      // 新增
-      addDicVisible: false,
-      // 编辑
-      editDicVisible: false,
-      editData: {},
-      // 查看详情
-      detailsDicVisible: false,
-      detailsData: {},
       // 分页数据
       currentPage: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      // 新增
+      addDetailVisible: false,
+      // 编辑
+      editDetailVisible: false,
+      editData: {}
     };
   },
   created() {
-    this.dicInit();
+    this.detailInit();
   },
   methods: {
     // 根据输入信息查询
-    searchDictionary() {
-      this.getRequest(
-        "/system/codeType/codeTypes1?codeTName=" +
-          this.dicFrom.codeTName +
-          "&codeType=" +
-          this.dicFrom.codeType +
-          "&current=" +
+    searchIndex() {
+      this.postRequest(
+        "/examine/IndexInfo/findListsByPage?page=" +
           this.currentPage +
-          "&pageSize=" +
-          this.pageSize
+          "&size=" +
+          this.pageSize +
+          "&indexName=" +
+          this.detailFrom.examineContent
       ).then(resp => {
         if (resp) {
-          this.dicData = resp.data.records;
+          this.detailData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
@@ -142,39 +129,48 @@ export default {
       });
     },
     //表格数据初始化
-    dicInit() {
+    detailInit() {
       this.getRequest(
-        "/system/codeType/codeTypeByPage?current=" +
+        "/examine/IndexDetail/bizExamineIndexDetails?current=" +
           this.currentPage +
           "&pageSize=" +
           this.pageSize
       ).then(resp => {
         if (resp) {
-          this.dicData = resp.data.records;
+          this.detailData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
         }
       });
     },
-    // 新增字典
-    addDic() {
-      this.addDicVisible = true;
+    // 新增
+    addDetail() {
+      this.addDetailVisible = true;
     },
     // 关闭新增对话框
-    addDicClose() {
-      this.addDicVisible = false;
+    addDetailClose() {
+      this.addDetailVisible = false;
+    },
+    // 编辑
+    editDetail(val) {
+      this.editDetailVisible = true;
+      this.editData = val;
+    },
+    // 关闭编辑对话框
+    editDetailClose() {
+      this.editDetailVisible = false;
     },
     // 表格多选
     handleSelectionChange(val) {
       this.selectData = val;
     },
-    // 批量删除
+    // 批量删除,
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
       checkArray.forEach(function(item) {
-        idArray.push(item.codeTypeId);
+        idArray.push(item.indexDId);
       });
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
@@ -182,17 +178,18 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteRequest("/system/codeType/codeTypes", idArray).then(
-            resp => {
-              if (resp) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!"
-                });
-              }
-              this.dicInit();
+          this.deleteRequest(
+            "/examine/IndexDetail/bizExamineIndexDetails",
+            idArray
+          ).then(resp => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
             }
-          );
+            this.detailInit();
+          });
         })
         .catch(() => {
           this.$message({
@@ -210,7 +207,7 @@ export default {
       })
         .then(() => {
           this.deleteRequest(
-            "/system/codeType/codeType/" + val.codeTypeId
+            "/examine/IndexDetail/bizExamineIndexDetail/" + val.indexDId
           ).then(resp => {
             if (resp) {
               this.$message({
@@ -218,7 +215,7 @@ export default {
                 message: "删除成功!"
               });
             }
-            this.dicInit();
+            this.detailInit();
           });
         })
         .catch(() => {
@@ -228,34 +225,15 @@ export default {
           });
         });
     },
-    // 编辑字典
-    editDic(val) {
-      console.log(val);
-      this.editData = val;
-      this.editDicVisible = true;
-    },
-    // 关闭编辑对话框
-    editDicClose() {
-      this.editDicVisible = false;
-    },
-    // 查看字典详情
-    detailsDic(val) {
-      this.detailsData = val;
-      this.detailsDicVisible = true;
-    },
-    // 关闭查看详情对话框
-    detailsDicClose() {
-      this.detailsDicVisible = false;
-    },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.dicInit();
+      this.detailInit();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.dicInit();
+      this.detailInit();
     }
   }
 };
