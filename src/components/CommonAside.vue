@@ -13,7 +13,7 @@
         v-if="!item.hidden && item.children.length > 0"
       >
         <template slot="title">
-          <i :class="item.icon"></i>
+          <i :class="item.icon" />
           <span slot="title">{{ item.name }}</span>
         </template>
 

@@ -1,13 +1,31 @@
 <template>
   <div class="container">
     <div class="container-left">
-      <img src="../assets/images/logo1.png" alt="加载中..." style="width: 30%; height: 25%;margin: 6% 35% 0 35%" />
-      <h3 style="text-align: center;color: #303133;font-size:32px;">定边采油厂 - 延长油田股份有限公司</h3>
-      <img src="../assets/images/chouyouji.png" alt="加载中..." style="width: 40%; height: 32%;margin: 9% 30% 0 30%" />
+      <img
+        src="../assets/images/logo1.png"
+        alt="加载中..."
+        style="width: 30%; height: 25%;margin: 6% 35% 0 35%"
+      />
+      <h3 style="text-align: center;color: #303133;font-size:32px;">
+        定边采油厂 - 延长油田股份有限公司
+      </h3>
+      <img
+        src="../assets/images/chouyouji.png"
+        alt="加载中..."
+        style="width: 40%; height: 32%;margin: 9% 30% 0 30%"
+      />
     </div>
     <div style="width: 28%; height: 100%;">
-      <img src="../assets/images/logo.png" alt="加载中..." style="width: 46%; height: 15%;margin: 10% 27% 2% 27%" />
-      <h3 style="text-align: center;color: #606266;font-size:20px;margin-bottom:70px">定边采油厂智能油田平台</h3>
+      <img
+        src="../assets/images/logo.png"
+        alt="加载中..."
+        style="width: 46%; height: 15%;margin: 10% 27% 2% 27%"
+      />
+      <h3
+        style="text-align: center;color: #606266;font-size:20px;margin-bottom:70px"
+      >
+        定边采油厂智能油田平台
+      </h3>
       <el-form
         :model="sysUserLogin"
         :rules="rules"
@@ -16,12 +34,20 @@
         class="loginContainer"
       >
         <el-form-item prop="username">
-          <el-input v-model="sysUserLogin.username" type="text" placeholder="用户名">
+          <el-input
+            v-model="sysUserLogin.username"
+            type="text"
+            placeholder="用户名"
+          >
             <i slot="prefix" class="el-input__icon el-icon-user" />
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="sysUserLogin.password" type="password" placeholder="密码">
+          <el-input
+            v-model="sysUserLogin.password"
+            type="password"
+            placeholder="密码"
+          >
             <i slot="prefix" class="el-input__icon el-icon-goods" />
           </el-input>
         </el-form-item>
@@ -97,17 +123,17 @@ export default {
   flex-direction: row;
 }
 .container-left {
- width: 72%; 
- height: 100%;
- background: #9ADDFF;
+  width: 72%;
+  height: 100%;
+  background: #9addff;
 }
 </style>
-<style>
+<style scoped>
 .el-input__inner {
-  border-left-width:0px;
-  border-top-width:0px;
-  border-right-width:0px;
-  border-bottom-color:#909399;
+  border-left-width: 0px;
+  border-top-width: 0px;
+  border-right-width: 0px;
+  border-bottom-color: #909399;
   border-radius: 0;
   width: 60%;
   margin: 10px 20%;
