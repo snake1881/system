@@ -18,6 +18,12 @@ const routes = [
     hidden: true
   },
   {
+    path: "/Index",
+    name: "Index",
+    component: () => import("@/views/Index.vue"),
+    hidden: true
+  },
+  {
     path: "/Home",
     name: "Home",
     component: () => import("@/views/Home.vue"),
