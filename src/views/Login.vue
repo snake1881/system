@@ -103,7 +103,7 @@ export default {
             if (resp) {
               this.$store.commit("INIT_CURRENTHR", resp.data);
               window.sessionStorage.setItem("user", JSON.stringify(resp.data));
-              this.$router.replace("/Index");
+              this.$router.replace("/Home");
             }
           });
         } else {
@@ -128,7 +128,7 @@ export default {
   background: #9addff;
 }
 </style>
-<style scoped>
+<style lang="less">
 .el-input__inner {
   border-left-width: 0px;
   border-top-width: 0px;
