@@ -4,14 +4,19 @@
       <div class="header_container">
         <img class="header_img" src="../assets/images/logo1.png" />
         <span class="header_text">用户管理系统</span>
-        <div>
-          <el-menu mode="horizontal">
-            <el-menu-item index="1">处理中心</el-menu-item>
-            <el-menu-item index="2">工作台</el-menu-item>
-            <el-menu-item index="3">消息中心</el-menu-item>
-            <el-menu-item index="4">订单管理</el-menu-item>
-          </el-menu>
-        </div>
+        <!-- 导航栏 -->
+        <el-menu mode="horizontal" router style="margin-left:100px">
+          <div v-for="(item, index) in menus" :key="index">
+            <el-menu-item
+              :index="index + ''"
+              v-if="!item.hidden && item.children.length > 0"
+            >
+              <template slot="title">
+                <span slot="title">{{ item.name }}</span>
+              </template>
+            </el-menu-item>
+          </div>
+        </el-menu>
       </div>
     </el-header>
     <el-main>Main</el-main>
@@ -19,7 +24,14 @@
 </template>
 <script>
 export default {
-  data() {},
+  data() {
+    return {};
+  },
+  computed: {
+    menus() {
+      return this.$store.state.routes;
+    }
+  },
   methods: {}
 };
 </script>
@@ -38,6 +50,10 @@ export default {
     margin-top: 5px;
     margin-right: 6px;
   }
+  // .header_menu {
+  //   margin-left: 60px;
+  //   background-color: brown;
+  // }
 }
 </style>
 <style scoped>

@@ -118,7 +118,7 @@ export default {
             if (resp) {
               this.$store.commit("INIT_CURRENTHR", resp.data);
               window.sessionStorage.setItem("user", JSON.stringify(resp.data));
-              this.$router.replace("/Home");
+              this.$router.replace("/Index");
             }
           });
         } else {
