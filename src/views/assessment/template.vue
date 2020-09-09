@@ -33,11 +33,11 @@
       style="width:100%"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="100" />
+      <el-table-column type="selection" width="90" />
       <el-table-column prop="templateName" label="模板名称" width="280" />
       <el-table-column prop="formulationUnit" label="制定单位" width="260" />
       <el-table-column prop="formulationDate" label="制定时间" width="260" />
-      <el-table-column prop="active" label="是否有效" width="205">
+      <el-table-column prop="active" label="是否有效" width="200">
         <template slot-scope="scope">
           <p v-if="scope.row.active == '0'">无效</p>
           <p v-if="scope.row.active == '1'">有效</p>

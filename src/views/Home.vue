@@ -2,7 +2,7 @@
   <div style="height:100%">
     <el-container style="height:100%">
       <!-- 侧边栏 -->
-      <el-aside width="200px"><common-aside /></el-aside>
+      <el-aside width="210px"><common-aside /></el-aside>
       <el-container>
         <!-- 顶部栏 -->
         <el-header style="text-align: right; font-size: 12px">

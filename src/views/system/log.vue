@@ -188,7 +188,7 @@ export default {
 <style lang="less" scoped>
 .container {
   width: 98%;
-  margin: 10px;
+  margin: 5px;
   background-color: white;
 }
 </style>

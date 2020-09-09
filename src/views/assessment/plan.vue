@@ -29,7 +29,7 @@
       style="width:100%"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="100" />
+      <el-table-column type="selection" width="90" />
       <el-table-column prop="planName" label="计划名称" width="210" />
       <el-table-column prop="startDate" label="开始时间" width="160" />
       <el-table-column prop="endDate" label="结束时间" width="160" />

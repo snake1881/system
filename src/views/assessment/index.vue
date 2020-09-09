@@ -29,7 +29,7 @@
       style="width:100%"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="100" />
+      <el-table-column type="selection" width="90" />
       <el-table-column prop="indexName" label="指标名称" width="210" />
       <el-table-column prop="scoreWeight" label="分值" width="160" />
       <el-table-column prop="sequence" label="排列顺序" width="160" />

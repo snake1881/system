@@ -62,7 +62,8 @@
           size="small"
           type="primary"
           style="width: 50%;margin: 12px 25%;"
-          @click="submitLogin"
+          @click.native.prevent="submitLogin()"
+          @keyup.enter.native="submitLogin()"
         >
           登录
         </el-button>
@@ -87,6 +88,20 @@ export default {
           { required: true, message: "请输入密码", trigger: "blur" },
           { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
         ]
+      }
+    };
+  },
+  created() {
+    var _self = this;
+    document.onkeydown = function(e) {
+      var key;
+      if (window.event == undefined) {
+        key = e.keyCode;
+      } else {
+        key = window.event.keyCode;
+      }
+      if (key == 13 || key == 100) {
+        _self.submitLogin();
       }
     };
   },
@@ -129,7 +144,7 @@ export default {
 }
 </style>
 <style lang="less">
-.el-input__inner {
+.loginContainer .el-input__inner {
   border-left-width: 0px;
   border-top-width: 0px;
   border-right-width: 0px;
@@ -138,14 +153,13 @@ export default {
   width: 60%;
   margin: 10px 20%;
 }
-.el-input__prefix {
+.el-input--prefix .el-input__prefix {
   margin-left: 20%;
 }
-.el-form-item__error {
+.el-form-item__content .el-form-item__error {
   margin-left: 20%;
 }
-.el-button {
+.loginContainer .el-button {
   border-radius: 20px;
 }
-
 </style>
