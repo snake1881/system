@@ -68,19 +68,20 @@ export default {
     },
     // 保存
     saveAddDetail() {
-      this.postRequest("/examine/templateInfor/insert", this.addData).then(
-        resp => {
-          if (resp) {
-            this.$message({
-              message: "考核指标明细新增成功!",
-              type: "success"
-            });
-            this.reload();
-          } else {
-            this.$message.error("考核指标明细新增失败，请重新提交!");
-          }
+      this.postRequest(
+        "/examine/IndexDetail/bizExamineIndexDetail",
+        this.addData
+      ).then(resp => {
+        if (resp) {
+          this.$message({
+            message: "考核指标明细新增成功!",
+            type: "success"
+          });
+          this.reload();
+        } else {
+          this.$message.error("考核指标明细新增失败，请重新提交!");
         }
-      );
+      });
     }
   }
 };

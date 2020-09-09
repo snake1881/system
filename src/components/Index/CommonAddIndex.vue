@@ -16,44 +16,16 @@
         <el-form-item label="排列顺序">
           <el-input v-model="addData.sequence" />
         </el-form-item>
-        <el-button
-          type="text"
-          class="el-icon-circle-plus-outline"
-          @click="addIndex()"
-        >
-          添加指标详情
-        </el-button>
-        <div style="margin-left:0px">
-          <el-form-item
-            v-for="(item, index) in addData.sysTCodeInforList"
-            :key="index"
-          >
-            <el-row>
-              <el-col :span="6">
-                <el-form-item label="要求">
-                  <el-input v-model="item.requirement" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="标准">
-                  <el-input v-model="item.examineStandard" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="分值">
-                  <el-input v-model="item.score" />
-                </el-form-item>
-              </el-col>
-              <el-button
-                type="text"
-                style="margin-left:20px"
-                @click="dlete(item)"
-              >
-                删除
-              </el-button>
-            </el-row>
-          </el-form-item>
-        </div>
+        <el-tree
+          :data="addData.index"
+          show-checkbox
+          empty-text="暂无数据"
+          ref="tree"
+          highlight-current
+          :props="defaultProps"
+          node-key="indexDId"
+          @check="getCheckedKeys()"
+        />
       </el-form>
     </div>
     <span slot="footer">
@@ -78,35 +50,36 @@ export default {
         indexName: "",
         scoreWeight: "",
         sequence: "",
-        sysTCodeInforList: [
-          {
-            requirement: " ",
-            examineStandard: " ",
-            score: " "
-          }
-        ]
+        index: [],
+        indexDIds: []
+      },
+      defaultProps: {
+        children: "children",
+        label: "examineContent"
       }
     };
+  },
+  created() {
+    this.treeInIt();
   },
   methods: {
     // 对话框父子组件传值
     addIndexClose() {
       this.$emit("addClose");
     },
-    // 添加
-    addIndex() {
-      this.addData.sysTCodeInforList.push({
-        requirement: " ",
-        examineStandard: " ",
-        score: " "
+    // 菜单树
+    treeInIt() {
+      this.getRequest("/").then(resp => {
+        if (resp) {
+          this.addData.index = resp.data;
+        }
       });
     },
-    // 删除
-    dlete(val) {
-      var index = this.addData.sysTCodeInforList.indexOf(val);
-      if (index !== -1) {
-        this.addData.sysTCodeInforList.splice(index, 1);
-      }
+    // 点击树节点选择对应菜单权限
+    getCheckedKeys() {
+      this.addData.indexDIds = this.$refs.tree
+        .getCheckedKeys()
+        .concat(this.$refs.tree.getHalfCheckedKeys());
     },
     // 保存
     saveAddIndex() {

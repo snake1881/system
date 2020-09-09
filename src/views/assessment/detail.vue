@@ -112,13 +112,13 @@ export default {
   methods: {
     // 根据输入信息查询
     searchIndex() {
-      this.postRequest(
-        "/examine/IndexInfo/findListsByPage?page=" +
+      this.getRequest(
+        "/examine/IndexDetail/selectByContent?current=" +
           this.currentPage +
-          "&size=" +
-          this.pageSize +
-          "&indexName=" +
-          this.detailFrom.examineContent
+          "&examineContent=" +
+          this.detailFrom.examineContent +
+          "&pageSize=" +
+          this.pageSize
       ).then(resp => {
         if (resp) {
           this.detailData = resp.data.records;
@@ -165,7 +165,7 @@ export default {
     handleSelectionChange(val) {
       this.selectData = val;
     },
-    // 批量删除,
+    // 批量删除,根据？删除
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
