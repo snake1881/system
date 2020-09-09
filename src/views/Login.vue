@@ -147,4 +147,5 @@ export default {
 .el-button {
   border-radius: 20px;
 }
+
 </style>
