@@ -13,7 +13,7 @@
         v-if="!item.hidden && item.children.length > 0"
       >
         <template slot="title">
-          <i :class="item.icon" />
+          <i :class="item.icon" style="margin-right:5px" />
           <span slot="title">{{ item.name }}</span>
         </template>
 
@@ -22,6 +22,7 @@
           :index="subItem.path"
           :key="indexj"
         >
+          <i :class="subItem.icon" style="margin-right:5px" />
           <span slot="title">{{ subItem.name }}</span>
         </el-menu-item>
       </el-submenu>
