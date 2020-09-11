@@ -18,33 +18,15 @@ const routes = [
     hidden: true
   },
   {
-    path: "/Index",
-    name: "Index",
-    component: () => import("@/views/Index.vue"),
-    hidden: true
-  },
-  {
     path: "/Home",
     name: "Home",
-    component: () => import("@/views/Home.vue"),
+    component: () => import("@/views/Home"),
     hidden: true,
     children: [
       {
-        path: "/sendNotice",
-        name: "sendNotice",
-        component: () => import("@/views/Notice/sendNotice"),
-        hidden: true
-      },
-      {
-        path: "/receiveNotice",
-        name: "receiveNotice",
-        component: () => import("@/views/Notice/receiveNotice"),
-        hidden: true
-      },
-      {
-        path: "/detailsNotice",
-        name: "detailsNotice",
-        component: () => import("@/views/Notice/detailsNotice"),
+        path: "/Home",
+        name: "首页",
+        component: () => import("@/views/Index.vue"),
         hidden: true
       }
     ]

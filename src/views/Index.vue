@@ -1,66 +1,84 @@
 <template>
-  <el-container>
-    <el-header>
-      <div class="header_container">
-        <img class="header_img" src="../assets/images/logo1.png" />
-        <span class="header_text">用户管理系统</span>
-        <!-- 导航栏 -->
-        <el-menu mode="horizontal" router style="margin-left:100px">
-          <div v-for="(item, index) in menus" :key="index">
-            <el-menu-item
-              :index="index + ''"
-              v-if="!item.hidden && item.children.length > 0"
-            >
-              <template slot="title">
-                <span slot="title">{{ item.name }}</span>
-              </template>
-            </el-menu-item>
-          </div>
-        </el-menu>
-      </div>
-    </el-header>
-    <el-main>Main</el-main>
-  </el-container>
+  <div class="main">
+    <div class="main_between">
+      <el-card class="main_between_1" shadow="hover">
+        <div class="main_between_1_item">
+          <p style="text-align: center;font-size: 18px"> 基本信息 </p>
+        </div>
+      </el-card>
+      <el-card class="main_between_2" shadow="hover">
+        <div class="main_between_2_item">
+          <i class="el-icon-pie-chart" />
+          <span> 数据统计 </span>
+        </div>
+      </el-card>
+    </div>
+    <div class="main_middle">
+      <el-card class="main_middle_1" shadow="hover">
+        <div class="main_middle_1_item">
+          <i class="el-icon-map-location" />
+          <span> GIS地图 </span>
+        </div>
+      </el-card>
+      <el-card class="main_middle_2" shadow="hover">
+        <div class="main_middle_2_item">
+          <i class="el-icon-truck" />
+          <span> 车辆投入 </span>
+        </div>
+      </el-card>
+    </div>
+    <div class="main_between">
+      <el-card class="main_between_1" shadow="hover">
+        <div class="main_between_1_item">
+          <i class="el-icon-chat-line-square" />
+          <span> 通知公告 </span>
+        </div>
+      </el-card>
+      <el-card class="main_between_2" shadow="hover">
+        <div class="main_between_2_item">
+          <i class="el-icon-document" />
+          <span> 生产进度 </span>
+        </div>
+      </el-card>
+    </div>
+  </div>
 </template>
 <script>
 export default {
   data() {
     return {};
   },
-  computed: {
-    menus() {
-      return this.$store.state.routes;
-    }
-  },
   methods: {}
 };
 </script>
 <style lang="less" scoped>
-.header_container {
+.main {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: row;
-  .header_text {
-    margin-top: 15px;
-    color: #f2f6fc;
-    font-size: 24px;
-  }
-  .header_img {
-    width: 100px;
-    height: 50px;
-    margin-top: 5px;
-    margin-right: 6px;
-  }
-  // .header_menu {
-  //   margin-left: 60px;
-  //   background-color: brown;
-  // }
 }
-</style>
-<style scoped>
-.el-header {
-  background-color: #164474;
+.main_between {
+  width: 25%;
+  height: 100%;
 }
-.el-main {
-  background-color: #f2f6fc;
+.main_middle {
+  width: 50%;
+  height: 100%;
+}
+.main_between_1,.main_between_2 {
+  width: 96%;
+  height: 46%;
+  margin: 2% 2%;
+}
+.main_middle_1,.main_middle_2 {
+  width: 96%;
+  margin: 1% 2%;
+}
+.main_middle_1 {
+  height: 56%;
+}
+.main_middle_2 {
+  height: 36%;
 }
 </style>
