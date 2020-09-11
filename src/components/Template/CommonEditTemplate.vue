@@ -39,14 +39,7 @@ export default {
     }
   },
   data() {
-    return {
-      // 表单数据
-      addData: {
-        templateName: "",
-        formulationUnit: "",
-        active: ""
-      }
-    };
+    return {};
   },
   methods: {
     // 对话框父子组件传值

@@ -19,9 +19,6 @@
         <el-form-item label="分值">
           <el-input v-model="addData.score" />
         </el-form-item>
-        <el-form-item label="排列顺序">
-          <el-input v-model="addData.sequence" />
-        </el-form-item>
         <el-form-item label="是否有效">
           <el-select v-model="addData.active">
             <el-option label="无效" value="0" />
@@ -68,19 +65,20 @@ export default {
     },
     // 保存
     saveAddDetail() {
-      this.postRequest("/examine/templateInfor/insert", this.addData).then(
-        resp => {
-          if (resp) {
-            this.$message({
-              message: "考核指标明细新增成功!",
-              type: "success"
-            });
-            this.reload();
-          } else {
-            this.$message.error("考核指标明细新增失败，请重新提交!");
-          }
+      this.postRequest(
+        "/examine/IndexDetail/bizExamineIndexDetail",
+        this.addData
+      ).then(resp => {
+        if (resp) {
+          this.$message({
+            message: "考核指标明细新增成功!",
+            type: "success"
+          });
+          this.reload();
+        } else {
+          this.$message.error("考核指标明细新增失败，请重新提交!");
         }
-      );
+      });
     }
   }
 };

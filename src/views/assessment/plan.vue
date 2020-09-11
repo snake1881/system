@@ -2,15 +2,15 @@
   <div class="container">
     <!-- 条件查询 -->
     <el-form
-      :model="indexFrom"
+      :model="planFrom"
       :inline="true"
       style="width:97%;background-color:white"
     >
       <el-form-item>
-        <el-input v-model="indexFrom.indexName" placeholder="指标名称" />
+        <el-input v-model="indexFrom.planName" placeholder="计划名称" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="searchIndex()">
+        <el-button type="primary" icon="el-icon-search" @click="searchPlan()">
           查询
         </el-button>
         <el-button type="primary" icon="el-icon-plus" @click="addIndex()">
@@ -88,7 +88,7 @@ export default {
     return {
       //搜索框
       indexFrom: {
-        indexName: ""
+        planName: ""
       },
       // 表格数据
       planData: [],
@@ -110,14 +110,14 @@ export default {
   },
   methods: {
     // 根据输入信息查询
-    searchIndex() {
+    searchPlan() {
       this.postRequest(
         "/examine/IndexInfo/findListsByPage?page=" +
           this.currentPage +
           "&size=" +
           this.pageSize +
           "&indexName=" +
-          this.indexFrom.indexName
+          this.indexFrom.planName
       ).then(resp => {
         if (resp) {
           this.indexData = resp.data.records;

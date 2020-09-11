@@ -130,9 +130,6 @@ export default {
     getCheckedKeys(val) {
       console.log(val);
       this.addData.departmentName = val.departmentName;
-      // this.$refs.tree
-      //   .getCheckedKeys()
-      //   .concat(this.$refs.tree.getHalfCheckedKeys());
     }
   }
 };
