@@ -135,10 +135,21 @@
           </span>
         </el-divider>
         <br />
-        <el-table :data="this.data" border style="width: 100%" height="320px">
-          <el-table-column prop="indexName" label="指标名称" width="432" />
-          <el-table-column prop="scoreWeight" label="分值" width="430" />
-          <el-table-column prop="remark" label="备注" width="430" />
+        <el-table
+          :data="this.detailData.bizExamineIndexInfors"
+          border
+          style="width: 100%"
+          height="320px"
+        >
+          <el-table-column prop="indexName" label="指标名称" width="340" />
+          <el-table-column prop="scoreWeight" label="分值" width="310" />
+          <el-table-column prop="active" label="是否有效" width="320">
+            <template slot-scope="scope">
+              <p v-if="scope.row.active == '0'">无效</p>
+              <p v-if="scope.row.active == '1'">有效</p>
+            </template>
+          </el-table-column>
+          <el-table-column prop="remark" label="备注" width="320" />
         </el-table>
       </div>
     </div>
@@ -173,19 +184,7 @@ export default {
       editData: {},
       // 显示标志
       pageFlag: true,
-      detailData: {},
-      data: [
-        {
-          indexName: "123",
-          scoreWeight: "123",
-          remark: "123456"
-        },
-        {
-          indexName: "123",
-          scoreWeight: "123",
-          remark: "123456"
-        }
-      ]
+      detailData: {}
     };
   },
   created() {
@@ -252,7 +251,7 @@ export default {
       var checkArray = this.selectData;
       var idArray = [];
       checkArray.forEach(function(item) {
-        idArray.push(item.codeTypeId);
+        idArray.push(item.examineTId);
       });
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
@@ -268,7 +267,7 @@ export default {
                   message: "删除成功!"
                 });
               }
-              this.dicInit();
+              this.templateInit();
             }
           );
         })
@@ -279,7 +278,7 @@ export default {
           });
         });
     },
-    // 单个删除，根据？删除
+    // 单个删除
     sinDelete(val) {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
@@ -288,7 +287,8 @@ export default {
       })
         .then(() => {
           this.deleteRequest(
-            "/system/codeType/codeType/" + val.codeTypeId
+            "/examine/templateInfor/deleteByPrimaryKey?templateId=" +
+              val.examineTId
           ).then(resp => {
             if (resp) {
               this.$message({
@@ -296,7 +296,7 @@ export default {
                 message: "删除成功!"
               });
             }
-            this.dicInit();
+            this.templateInit();
           });
         })
         .catch(() => {

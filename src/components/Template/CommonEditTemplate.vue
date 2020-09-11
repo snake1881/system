@@ -19,17 +19,6 @@
             <el-option label="无效" value="0" />
           </el-select>
         </el-form-item>
-        <!-- 树形结构 -->
-        <el-tree
-          :data="treeData"
-          show-checkbox
-          empty-text="暂无数据"
-          ref="tree"
-          highlight-current
-          :props="defaultProps"
-          node-key="indexId"
-          @check="getCheckedKeys()"
-        />
       </el-form>
     </div>
     <span slot="footer">
@@ -50,35 +39,12 @@ export default {
     }
   },
   data() {
-    return {
-      treeData: [],
-      defaultProps: {
-        children: "children",
-        label: "indexName"
-      }
-    };
-  },
-  created() {
-    this.treeInIt();
+    return {};
   },
   methods: {
     // 对话框父子组件传值
     editTemClose() {
       this.$emit("editClose");
-    },
-    // 菜单树
-    treeInIt() {
-      this.getRequest("/").then(resp => {
-        if (resp) {
-          this.treeData = resp.data;
-        }
-      });
-    },
-    // 点击树节点选择对应菜单权限
-    getCheckedKeys() {
-      this.editData.indexIds = this.$refs.tree
-        .getCheckedKeys()
-        .concat(this.$refs.tree.getHalfCheckedKeys());
     },
     // 保存
     saveEditTem() {

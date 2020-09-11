@@ -16,17 +16,59 @@
         <el-form-item label="排列顺序">
           <el-input v-model="editData.sequence" />
         </el-form-item>
-        <!-- 树形结构 -->
-        <el-tree
-          :data="treeData"
-          show-checkbox
-          empty-text="暂无数据"
-          ref="tree"
-          highlight-current
-          :props="defaultProps"
-          node-key="indexDId"
-          @check="getCheckedKeys()"
-        />
+        <el-form-item label="考核模板">
+          <el-select v-model="editData.template">
+            <el-option
+              v-for="(item, index) in this.template"
+              :key="index"
+              :label="item.templateName"
+              :value="item.examineTId"
+            />
+          </el-select>
+        </el-form-item>
+        <el-button
+          type="text"
+          class="el-icon-circle-plus-outline"
+          @click="addIndexDetail()"
+        >
+          添加考核指标明细
+        </el-button>
+        <div style="margin-left:0px">
+          <el-form-item
+            v-for="(item, index) in editData.sysTCodeInforList"
+            :key="index"
+          >
+            <el-row>
+              <el-col :span="6">
+                <el-form-item label="考核内容">
+                  <el-input v-model="item.examineContent" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="工作要求">
+                  <el-input v-model="item.requirement" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="考核标准">
+                  <el-input v-model="item.examineStandard" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="6">
+                <el-form-item label="分值">
+                  <el-input v-model="item.score" />
+                </el-form-item>
+              </el-col>
+              <el-button
+                type="text"
+                style="margin-left:20px"
+                @click="dlete(item)"
+              >
+                删除
+              </el-button>
+            </el-row>
+          </el-form-item>
+        </div>
       </el-form>
     </div>
     <span slot="footer">
@@ -48,34 +90,40 @@ export default {
   },
   data() {
     return {
-      treeData: [],
-      defaultProps: {
-        children: "children",
-        label: "examineContent"
-      }
+      template: []
     };
   },
   created() {
-    this.treeInIt();
+    this.templateInit();
   },
   methods: {
     // 对话框父子组件传值
     editIndexClose() {
       this.$emit("editClose");
     },
-    // 菜单树
-    treeInIt() {
-      this.getRequest("/").then(resp => {
-        if (resp) {
-          this.treeData = resp.data;
-        }
+    // 添加
+    addIndexDetail() {
+      this.editData.sysTCodeInforList.push({
+        codeName: " ",
+        codeValue: " ",
+        valueType: " ",
+        description: " "
       });
     },
-    // 点击树节点选择对应菜单权限
-    getCheckedKeys() {
-      this.editData.indexDIds = this.$refs.tree
-        .getCheckedKeys()
-        .concat(this.$refs.tree.getHalfCheckedKeys());
+    // 删除
+    dlete(val) {
+      var index = this.editData.sysTCodeInforList.indexOf(val);
+      if (index !== -1) {
+        this.addData.sysTCodeInforList.splice(index, 1);
+      }
+    },
+    //表格数据初始化
+    templateInit() {
+      this.getRequest("/examine/templateInfor/queryAll").then(resp => {
+        if (resp) {
+          this.template = resp.data;
+        }
+      });
     },
     // 保存修改后的信息
     saveEditIndex() {

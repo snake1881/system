@@ -19,9 +19,6 @@
         <el-form-item label="分值">
           <el-input v-model="addData.score" />
         </el-form-item>
-        <el-form-item label="排列顺序">
-          <el-input v-model="addData.sequence" />
-        </el-form-item>
         <el-form-item label="是否有效">
           <el-select v-model="addData.active">
             <el-option label="无效" value="0" />

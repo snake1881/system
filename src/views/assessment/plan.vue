@@ -10,7 +10,7 @@
         <el-input v-model="indexFrom.planName" placeholder="计划名称" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="searchIndex()">
+        <el-button type="primary" icon="el-icon-search" @click="searchPlan()">
           查询
         </el-button>
         <el-button type="primary" icon="el-icon-plus" @click="addIndex()">
@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     // 根据输入信息查询
-    searchIndex() {
+    searchPlan() {
       this.postRequest(
         "/examine/IndexInfo/findListsByPage?page=" +
           this.currentPage +

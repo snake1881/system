@@ -102,18 +102,22 @@
         <br />
         <div class="detail-content-template">
           <div class="detail-content-template-name">
-            <div style="width: 33%">指标名称</div>
-            <div style="width: 33%">分值</div>
-            <div style="width: 33%">备注</div>
+            <div style="width: 25%">指标名称</div>
+            <div style="width: 25%">考核模板</div>
+            <div style="width: 25%">分值</div>
+            <div style="width: 25%">备注</div>
           </div>
           <div class="detail-content-template-content">
-            <div style="width: 33%">
+            <div style="width: 25%">
               {{ this.detailData.indexName }}
             </div>
-            <div style="width: 33%">
+            <div style="width: 25%">
+              {{ this.detailData.indexName }}
+            </div>
+            <div style="width: 25%">
               {{ this.detailData.scoreWeight }}
             </div>
-            <div style="width: 33%">
+            <div style="width: 25%">
               {{ this.detailData.remark }}
             </div>
           </div>
