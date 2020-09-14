@@ -153,13 +153,4 @@ export default {
   background-color: #f2f6fc;
 }
 </style>
-<style lang="less">
-body {
-  margin: 0;
-  height: 100%;
-}
-.el-main {
-  padding: 0;
-  border-top: 2px solid;
-}
-</style>
+<style lang="less"></style>

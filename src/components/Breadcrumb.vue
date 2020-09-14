@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="breadcrumb">
+    <i class="el-icon-s-unfold" style="font-size: 34px;line-height: 50px"></i>
     <el-breadcrumb separator="/">
       <el-breadcrumb-item
         v-for="(item, index) in breadList"
         :key="index"
         :to="{ path: item.path }"
-        >{{ item.name }}
-      </el-breadcrumb-item>
+      >{{ item.name }}</el-breadcrumb-item>
     </el-breadcrumb>
   </div>
 </template>
@@ -44,3 +44,23 @@ export default {
   }
 };
 </script>
+
+<style lang="less" scoped>
+.breadcrumb {
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  background-color: #e4e7ed;
+}
+</style>
+
+<style>
+.breadcrumb .el-breadcrumb {
+  font-size: 17px;
+}
+.breadcrumb .el-breadcrumb .el-breadcrumb__item {
+  line-height: 50px;
+  margin-left: 15px;
+}
+</style>

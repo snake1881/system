@@ -1,0 +1,17 @@
+.system {
+    height: 100%;
+}
+
+.sys_aside {
+    width: 14% !important;
+}
+
+.sys_main {
+    width: 86%;
+    background-color: #f2f6fc;
+}
+
+.sys_breadcrumb {
+    height: 8%;
+    width: 100%;
+}
