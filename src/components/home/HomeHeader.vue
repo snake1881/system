@@ -14,7 +14,13 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <el-menu-item :index="item.path" v-for="(item, index) in this.$store.state.routes[0].children" :key="index">{{ item.name }}</el-menu-item>
+        <el-menu-item
+          :index="item.path"
+          v-for="(item, index) in this.$store.state.routes[0].children"
+          :key="index"
+        >
+          {{ item.name }}
+        </el-menu-item>
       </el-menu>
     </div>
     <!-- 用户信息 -->
@@ -28,17 +34,23 @@
       <!-- 图片+详细 -->
       <el-dropdown trigger="click">
         <span>
-          <img class="container_right_user" alt="用户" src="../../assets/images/header.jpg" />
+          <img
+            class="container_right_user"
+            alt="用户"
+            src="../../assets/images/header.jpg"
+          />
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="usercenter">个人中心</el-dropdown-item>
-          <el-dropdown-item command="notice" @click.native="gotoSendNotice()">发布通知</el-dropdown-item>
+          <el-dropdown-item command="notice" @click.native="gotoSendNotice()">
+            发布通知
+          </el-dropdown-item>
           <el-dropdown-item command="setting">设置</el-dropdown-item>
           <el-dropdown-item command="logout">注销</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 用户名 -->
-      <span class="container_right_username">{{username}}</span>
+      <span class="container_right_username">{{ username }}</span>
     </div>
   </div>
 </template>
@@ -61,7 +73,7 @@ export default {
   methods: {}
 };
 </script>
-<style lang='less' scoped>
+<style lang="less" scoped>
 .header_container {
   width: 100%;
   display: flex;
@@ -110,7 +122,8 @@ export default {
 }
 </style>
 <style>
-body,.el-container {
+body,
+.el-container {
   margin: 0;
   width: 100%;
   height: 100%;

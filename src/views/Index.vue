@@ -3,7 +3,7 @@
     <div class="main_between">
       <el-card class="main_between_1" shadow="hover">
         <div class="main_between_1_item">
-          <p style="text-align: center;font-size: 18px"> 基本信息 </p>
+          <p style="text-align: center;font-size: 18px">基本信息</p>
         </div>
       </el-card>
       <el-card class="main_between_2" shadow="hover">

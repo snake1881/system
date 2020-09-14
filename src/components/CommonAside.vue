@@ -7,7 +7,11 @@
     :unique-opened="true"
     router
   >
-    <el-menu-item :index="item.path" v-for="(item, index) in menus.children" :key="index">
+    <el-menu-item
+      :index="item.path"
+      v-for="(item, index) in menus.children"
+      :key="index"
+    >
       <i :class="item.icon" style="margin-right:5px" />
       <span slot="title">{{ item.name }}</span>
     </el-menu-item>
@@ -15,11 +19,17 @@
 </template>
 <script>
 export default {
+  props: {
+    routerNumber: {
+      type: Number
+    }
+  },
   data() {
     return {
-      menus: this.$store.state.routes[0].children[1]
+      menus: this.$store.state.routes[0].children[this.routerNumber]
     };
-  }
+  },
+  methods: {}
 };
 </script>
 
