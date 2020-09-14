@@ -8,10 +8,6 @@
 
 .sys_main {
     width: 86%;
+    height: 100%;
     background-color: #f2f6fc;
-}
-
-.sys_breadcrumb {
-    height: 8%;
-    width: 100%;
 }

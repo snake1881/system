@@ -12,7 +12,7 @@
       v-for="(item, index) in menus.children"
       :key="index"
     >
-      <i :class="item.icon" style="margin-right:8px" />
+      <i :class="item.icon" style="margin-right:8px;font-size: 22px" />
       <span slot="title">{{ item.name }}</span>
     </el-menu-item>
   </el-menu>

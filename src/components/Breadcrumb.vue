@@ -1,6 +1,6 @@
 <template>
   <div class="breadcrumb">
-    <i class="el-icon-s-unfold" style="font-size: 34px;line-height: 50px"></i>
+    <i class="el-icon-s-unfold" style="font-size: 30px;line-height: 50px"></i>
     <el-breadcrumb separator="/">
       <el-breadcrumb-item
         v-for="(item, index) in breadList"
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     isHome(route) {
-      return route.name === "Home";
+      return route.name === "Home"; 
     },
     getBreadcrumb() {
       let matched = this.$route.matched;
