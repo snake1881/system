@@ -52,62 +52,11 @@ export default {
       username: this.$store.state.currentUser.username
     };
   },
-  // computed: {
-  //   menus() {
-  //     console.log(this.$store.state.routes[0].children);
-  //     return this.$store.state.routes[0].children;
-  //   }
-  // },
   methods: {}
 };
 </script>
 <style lang='less' scoped>
-.header_container {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.container_left {
-  width: 40%;
-  display: flex;
-  flex-direction: row;
-  .container_left_text {
-    margin-top: 3%;
-    color: #f2f6fc;
-    font-size: 24px;
-  }
-  .container_left_img {
-    width: 90px;
-    height: 50px;
-    margin-top: 1%;
-  }
-}
-.container_middle {
-  width: 45%;
-}
-.container_right {
-  width: 15%;
-  display: flex;
-  flex-direction: row;
-  .container_right_badge {
-    margin-top: 8%;
-  }
-  .container_right_user {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    margin-left: 80%;
-    margin-top: 18%;
-  }
-  .container_right_username {
-    line-height: 60px;
-    font-size: 16px;
-    margin-top: 2%;
-    margin-left: 20%;
-    color: #fff;
-  }
-}
+  @import '../../assets/css/home/HomeHeader.css';
 </style>
 <style>
 body,.el-container {
@@ -118,6 +67,7 @@ body,.el-container {
 .el-header {
   height: 18%;
   width: 100%;
+  padding: 0 0;
   background-color: #164474;
 }
 .el-main {
@@ -130,5 +80,8 @@ body,.el-container {
   background-color: #164474;
   padding: 0 0;
   font-size: 26px;
+}
+.container_middle .el-menu {
+  border: 0;
 }
 </style>
