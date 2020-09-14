@@ -13,6 +13,7 @@
         background-color="#0D56A6"
         text-color="#fff"
         active-text-color="#ffd04b"
+        v-if="this.$store.state.routes[0]"
       >
         <el-menu-item
           :index="item.path"
@@ -58,7 +59,6 @@
 export default {
   data() {
     return {
-      menus: this.$store.state.routes[0].children,
       // 消息通知
       noticeNum: 10,
       username: this.$store.state.currentUser.username
