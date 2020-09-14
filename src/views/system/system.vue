@@ -2,7 +2,9 @@
   <div style="height:100%">
     <el-container style="height:100%">
       <!-- 侧边栏 -->
-      <el-aside width="210px"><common-aside /></el-aside>
+      <el-aside width="210px">
+        <common-aside :routerNumber="router1" />
+      </el-aside>
       <el-container>
         <!-- 顶部栏 -->
         <el-header style="text-align: right; font-size: 12px">
@@ -14,7 +16,7 @@
             </div>
             <!-- 用户信息 -->
             <div class="r-content">
-              <!-- 消息通知 -->   
+              <!-- 消息通知 -->
               <el-badge
                 :value="noticeNum"
                 style="margin-top:25px;margin-right:20px"
@@ -83,7 +85,9 @@ export default {
   data() {
     return {
       // 消息通知
-      noticeNum: 10
+      noticeNum: 10,
+      // 侧边栏显示
+      router1: 1
     };
   },
   created() {
