@@ -1,9 +1,9 @@
 <template>
   <el-menu
-    background-color="#303133"
-    text-color="#C0C4CC"
-    active-text-color="white"
-    default-active="1-1"
+    background-color="#3d464d"
+    text-color="#fff"
+    active-text-color="#ffd04b"
+    :default-active="menus.children[0].path"
     :unique-opened="true"
     router
   >
@@ -12,7 +12,7 @@
       v-for="(item, index) in menus.children"
       :key="index"
     >
-      <i :class="item.icon" style="margin-right:5px" />
+      <i :class="item.icon" style="margin-right:8px;font-size: 22px" />
       <span slot="title">{{ item.name }}</span>
     </el-menu-item>
   </el-menu>
@@ -36,5 +36,6 @@ export default {
 <style lang="less" scoped>
 .el-menu {
   height: 100%;
+  text-indent: 25px;
 }
 </style>

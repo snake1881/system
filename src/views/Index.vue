@@ -51,34 +51,7 @@ export default {
   methods: {}
 };
 </script>
+
 <style lang="less" scoped>
-.main {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-.main_between {
-  width: 25%;
-  height: 100%;
-}
-.main_middle {
-  width: 50%;
-  height: 100%;
-}
-.main_between_1,.main_between_2 {
-  width: 96%;
-  height: 46%;
-  margin: 2% 2%;
-}
-.main_middle_1,.main_middle_2 {
-  width: 96%;
-  margin: 1% 2%;
-}
-.main_middle_1 {
-  height: 56%;
-}
-.main_middle_2 {
-  height: 36%;
-}
+  @import '../assets/css/home/index.css';
 </style>

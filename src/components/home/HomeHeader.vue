@@ -10,9 +10,10 @@
         router
         mode="horizontal"
         default-active="home"
-        background-color="#164474"
+        background-color="#0D56A6"
         text-color="#fff"
         active-text-color="#ffd04b"
+        v-if="this.$store.state.routes[0]"
       >
         <el-menu-item
           :index="item.path"
@@ -58,7 +59,6 @@
 export default {
   data() {
     return {
-      menus: this.$store.state.routes[0].children,
       // 消息通知
       noticeNum: 10,
       username: this.$store.state.currentUser.username
@@ -73,30 +73,23 @@ export default {
 </style>
 
 <style>
-body,
 .el-container {
   margin: 0;
   width: 100%;
   height: 100%;
 }
-.el-header {
-  height: 18%;
-  width: 100%;
-  padding: 0 0;
-  background-color: #164474;
-}
-.el-main {
-  height: 82%;
-  width: 100%;
-  background-color: #f2f6fc;
-}
 .container_right .el-button {
-  border-color: #164474;
-  background-color: #164474;
+  border-color: #0D56A6;
+  background-color: #0D56A6;
   padding: 0 0;
   font-size: 26px;
 }
 .container_middle .el-menu {
   border: 0;
+  height: 100%;
+}
+.container_middle .el-menu .el-menu-item {
+  height: 100%;
+  line-height: 76px;
 }
 </style>

@@ -26,4 +26,16 @@ body {
   width: 100%;
   height: 100%;
 }
+.el-header {
+  height: 10% !important;
+  width: 100%;
+  padding: 0 0;
+  background-color: #0D56A6;
+}
+.el-main {
+  height: 90%;
+  width: 100%;
+  background-color: #f2f6fc;
+  padding: 0;
+}
 </style>

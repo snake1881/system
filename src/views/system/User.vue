@@ -13,37 +13,25 @@
     </div>
     <div class="right">
       <!--顶部搜索框-->
-      <el-form
-        :inline="true"
-        :model="searchForm"
-        :rules="rules"
-        style="width:97%;background-color:white"
-      >
+      <el-form :inline="true" :model="searchForm" :rules="rules" class="right_form">
         <el-form-item>
-          <el-input v-model="searchForm.loginName" placeholder="登录名称" />
+          <el-input v-model="searchForm.loginName" placeholder="登录名称" size="medium" />
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-search"
-            @click="getUserByName()"
-          >
-            查询
-          </el-button>
-          <el-button type="primary" icon="el-icon-plus" @click="addUser()">
-            新增
-          </el-button>
-          <el-button type="primary" icon="el-icon-delete" @click="dleteUser()">
-            批量删除
-          </el-button>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="getUserByName()">查询</el-button>
+          <el-button type="primary" icon="el-icon-plus" size="small" @click="addUser()">新增</el-button>
+          <el-button type="primary" icon="el-icon-delete" size="small" @click="dleteUser()">批量删除</el-button>
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
+        class="right_table"
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
         :data="tableData"
-        height="500px"
+        height="84%"
         border
-        style="width:98%;"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
@@ -62,17 +50,13 @@
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作" width="120" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editUser(scope.row)">
-              编辑
-            </el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">
-              删除
-            </el-button>
+            <el-button type="text" size="small" @click="editUser(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <div style="width:98%;background-color:white">
+      <div class="right_page">
         <el-pagination
           :current-page.sync="currentPage"
           :page-size="pageSize"
@@ -91,10 +75,7 @@
       @orderRowClose="editUserClose"
     />
     <!-- 新增用户信息 -->
-    <common-add-user
-      :addUserVisible="addUserVisible"
-      @addClose="addUserClose"
-    />
+    <common-add-user :addUserVisible="addUserVisible" @addClose="addUserClose" />
   </div>
 </template>
 <script>
@@ -135,7 +116,9 @@ export default {
       // 分页
       currentPage: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -159,6 +142,7 @@ export default {
           "&pageSize=" +
           this.pageSize
       ).then(resp => {
+        this.loading = false;
         if (resp) {
           this.tableData = resp.data.records;
           this.total = resp.data.total;
@@ -297,27 +281,10 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  width: 100%;
-}
-.left {
-  width: 15%;
-  height: 100%;
-  margin-right: 10px;
-  background-color: white;
-}
-.right {
-  width: 85%;
-  height: 600px;
-  margin-top: 10px;
-}
+@import "../../assets/css/system/user.css";
 </style>
-<style lang="less">
-form {
-  padding-top: 5px;
-  padding-left: 10px;
+<style>
+.el-table td,.el-table th {
+  text-align: center;
 }
 </style>
