@@ -39,7 +39,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="examineDate" label="考核时间" width="160" />
-      <el-table-column prop="remark" label="备注" width="260" />
+      <el-table-column prop="remark" label="备注" width="240" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editResult(scope.row)">
@@ -116,7 +116,7 @@ export default {
       editData: {},
       // 考核打分
       scoreResultVisible: false,
-      scoreData: {}
+      scoreData: []
     };
   },
   created() {
@@ -240,8 +240,14 @@ export default {
     // 考核打分
     score(val) {
       this.scoreResultVisible = true;
-      this.scoreData = val;
-      console.log(val);
+      this.getRequest(
+        "/examine/resultDetail/selectByRId?examineResultId=" + val.examineRId
+      ).then(resp => {
+        if (resp) {
+          this.scoreData = resp.data;
+          console.log(this.scoreData);
+        }
+      });
     },
     // 关闭打分对话框
     scoreResultClose() {

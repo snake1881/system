@@ -12,13 +12,21 @@
           <el-input v-model="indexFrom.indexName" placeholder="指标名称" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="searchIndex()">
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            @click="searchIndex()"
+          >
             查询
           </el-button>
           <el-button type="primary" icon="el-icon-plus" @click="addIndex()">
             新增
           </el-button>
-          <el-button type="primary" icon="el-icon-delete" @click="selectdelete()">
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            @click="selectdelete()"
+          >
             批量删除
           </el-button>
         </el-form-item>
@@ -34,13 +42,8 @@
         <el-table-column type="selection" width="90" />
         <el-table-column prop="indexName" label="指标名称" width="210" />
         <el-table-column prop="scoreWeight" label="分值" width="160" />
-        <el-table-column prop="sequence" label="排列顺序" width="160" />
-        <el-table-column prop="active" label="是否有效" width="210">
-          <template slot-scope="scope">
-            <p v-if="scope.row.active == '0'">无效</p>
-            <p v-if="scope.row.active == '1'">有效</p>
-          </template>
-        </el-table-column>
+        <el-table-column prop="sequence" label="排列顺序" width="140" />
+        <el-table-column prop="examineTName" label="考核模板" width="220" />
         <el-table-column prop="remark" label="备注" width="260" />
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
@@ -105,7 +108,7 @@
             <div style="width: 25%">指标名称</div>
             <div style="width: 25%">考核模板</div>
             <div style="width: 25%">分值</div>
-            <div style="width: 25%">备注</div>
+            <div style="width: 25%">考核模板</div>
           </div>
           <div class="detail-content-template-content">
             <div style="width: 25%">
@@ -118,7 +121,7 @@
               {{ this.detailData.scoreWeight }}
             </div>
             <div style="width: 25%">
-              {{ this.detailData.remark }}
+              {{ this.detailData.examineTName }}
             </div>
           </div>
         </div>
@@ -129,10 +132,15 @@
           </span>
         </el-divider>
         <br />
-        <el-table :data="this.data" border style="width: 100%" height="320px">
-          <el-table-column prop="indexName" label="考核内容" width="432" />
-          <el-table-column prop="scoreWeight" label="考核标准" width="430" />
-          <el-table-column prop="remark" label="分值" width="430" />
+        <el-table
+          :data="this.detailData.indexDetails"
+          border
+          style="width: 100%"
+          height="320px"
+        >
+          <el-table-column prop="examineContent" label="考核内容" width="432" />
+          <el-table-column prop="requirement" label="考核标准" width="430" />
+          <el-table-column prop="score" label="分值" width="420" />
         </el-table>
       </div>
     </div>
@@ -166,21 +174,9 @@ export default {
       editIndexVisible: false,
       editData: {},
       // 页面标志
-      pageFlag: false,
+      pageFlag: true,
       // 查看详情
-      detailData: {},
-      data: [
-        {
-          indexName: "123",
-          scoreWeight: "123",
-          remark: "123456"
-        },
-        {
-          indexName: "123",
-          scoreWeight: "123",
-          remark: "123456"
-        }
-      ]
+      detailData: {}
     };
   },
   created() {
@@ -190,12 +186,12 @@ export default {
     // 根据输入信息查询
     searchIndex() {
       this.postRequest(
-        "/examine/IndexInfo/findListsByPage?page=" +
+        "/examine/IndexInfo/findListsByPageAndCon?current=" +
           this.currentPage +
-          "&size=" +
-          this.pageSize +
           "&indexName=" +
-          this.indexFrom.indexName
+          this.indexFrom.indexName +
+          "&pageSize=" +
+          this.pageSize
       ).then(resp => {
         if (resp) {
           this.indexData = resp.data.records;
@@ -242,12 +238,12 @@ export default {
     handleSelectionChange(val) {
       this.selectData = val;
     },
-    // 批量删除,根据？删除
+    // 批量删除
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
       checkArray.forEach(function(item) {
-        idArray.push(item.codeTypeId);
+        idArray.push(item.indexId);
       });
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
@@ -255,7 +251,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteRequest("/system/codeType/codeTypes", idArray).then(
+          this.deleteRequest("/examine/IndexInfo/deleteBatch", idArray).then(
             resp => {
               if (resp) {
                 this.$message({
@@ -263,7 +259,7 @@ export default {
                   message: "删除成功!"
                 });
               }
-              this.dicInit();
+              this.indexInit();
             }
           );
         })
@@ -283,7 +279,7 @@ export default {
       })
         .then(() => {
           this.deleteRequest(
-            "/examine/IndexInfo/deleteById?ids=" + val.indexId
+            "/examine/IndexInfo/deleteByPrimaryKey?indexId=" + val.indexId
           ).then(resp => {
             if (resp) {
               this.$message({

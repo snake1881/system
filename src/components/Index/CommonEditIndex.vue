@@ -17,7 +17,7 @@
           <el-input v-model="editData.sequence" />
         </el-form-item>
         <el-form-item label="考核模板">
-          <el-select v-model="editData.template">
+          <el-select v-model="editData.examineTName">
             <el-option
               v-for="(item, index) in this.template"
               :key="index"
@@ -39,22 +39,12 @@
             :key="index"
           >
             <el-row>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="考核内容">
                   <el-input v-model="item.examineContent" />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
-                <el-form-item label="工作要求">
-                  <el-input v-model="item.requirement" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="考核标准">
-                  <el-input v-model="item.examineStandard" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="分值">
                   <el-input v-model="item.score" />
                 </el-form-item>
@@ -104,10 +94,8 @@ export default {
     // 添加
     addIndexDetail() {
       this.editData.sysTCodeInforList.push({
-        codeName: " ",
-        codeValue: " ",
-        valueType: " ",
-        description: " "
+        examineContent: " ",
+        score: " "
       });
     },
     // 删除
@@ -117,7 +105,7 @@ export default {
         this.addData.sysTCodeInforList.splice(index, 1);
       }
     },
-    //表格数据初始化
+    //初始化
     templateInit() {
       this.getRequest("/examine/templateInfor/queryAll").then(resp => {
         if (resp) {

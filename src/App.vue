@@ -1,14 +1,29 @@
 <template>
   <div id="app">
-    <router-view />
+    <router-view v-if="isRouterAlive" />
   </div>
 </template>
 <script>
 export default {
-  data() {
-    return {};
+  provide() {
+    return {
+      reload: this.reload
+    };
   },
-  methods: {}
+  data() {
+    return {
+      isRouterAlive: true
+    };
+  },
+  methods: {
+    //刷新页面
+    reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(function() {
+        this.isRouterAlive = true;
+      });
+    }
+  }
 };
 </script>
 

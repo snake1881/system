@@ -6,12 +6,15 @@
     :before-close="scoreResultClose"
   >
     <div class="dialogDiv">
-      <el-form :model="score" label-width="280px">
-        <div v-for="(item, index) in this.detailData" :key="index">
-          <el-form-item :label="item.examineContent">
-            <el-input v-model="item.score" />
-          </el-form-item>
-        </div>
+      <el-form label-width="300px">
+        <el-form-item
+          v-for="(item, index) in this.scoreData"
+          :key="index"
+          :label="item.examineContent"
+        >
+          <i style="margin:100px 100px">{{ item.score }}</i>
+          <el-input v-model="item.scoreWeight" />
+        </el-form-item>
       </el-form>
     </div>
     <span slot="footer">
@@ -28,41 +31,23 @@ export default {
       type: Boolean
     },
     scoreData: {
-      type: Object
+      type: Array
     }
   },
   inject: ["reload"],
   data() {
-    return {
-      ScoreData: {},
-      detailData: [],
-      score: {}
-    };
-  },
-  created() {
-    this.detailInit();
+    return {};
   },
   methods: {
     // 对话框父子组件传值
     scoreResultClose() {
       this.$emit("scoreClose");
     },
-    //初始化
-    detailInit() {
-      this.getRequest(
-        "/examine/resultDetail/selectByRId?examineResultId=" +
-          this.scoreData.examineRId
-      ).then(resp => {
-        if (resp) {
-          this.detailData = resp.data;
-        }
-      });
-    },
     // 保存
     saveEditResult() {
       this.postRequest(
         "/examine/resultDetail/insertResultDetail",
-        this.score
+        this.scoreData
       ).then(resp => {
         if (resp) {
           this.$message({
@@ -87,6 +72,6 @@ export default {
 </style>
 <style lang="less" scoped>
 .el-input {
-  width: 400px;
+  width: 100px;
 }
 </style>
