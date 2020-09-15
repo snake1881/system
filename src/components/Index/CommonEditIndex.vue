@@ -26,6 +26,16 @@
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="父级指标">
+          <el-select v-model="editData.indexPId">
+            <el-option
+              v-for="(item, index) in this.pIndex"
+              :key="index"
+              :label="item.indexName"
+              :value="item.indexPId"
+            />
+          </el-select>
+        </el-form-item>
         <el-button
           type="text"
           class="el-icon-circle-plus-outline"
@@ -80,11 +90,15 @@ export default {
   },
   data() {
     return {
-      template: []
+      // 模板
+      template: [],
+      // 父级指标
+      pIndex: []
     };
   },
   created() {
     this.templateInit();
+    this.pIndexInit();
   },
   methods: {
     // 对话框父子组件传值
@@ -105,11 +119,19 @@ export default {
         this.addData.indexDetails.splice(index, 1);
       }
     },
-    //初始化
+    //模板初始化
     templateInit() {
       this.getRequest("/examine/templateInfor/queryAll").then(resp => {
         if (resp) {
           this.template = resp.data;
+        }
+      });
+    },
+    // 父级指标初始化
+    pIndexInit() {
+      this.getRequest("/examine/IndexInfo/queryAll").then(resp => {
+        if (resp) {
+          this.pIndex = resp.data;
         }
       });
     },
