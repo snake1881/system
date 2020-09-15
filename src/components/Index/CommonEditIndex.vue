@@ -17,7 +17,7 @@
           <el-input v-model="editData.sequence" />
         </el-form-item>
         <el-form-item label="考核模板">
-          <el-select v-model="editData.examineTName">
+          <el-select v-model="editData.examineTId">
             <el-option
               v-for="(item, index) in this.template"
               :key="index"
@@ -35,7 +35,7 @@
         </el-button>
         <div style="margin-left:0px">
           <el-form-item
-            v-for="(item, index) in editData.sysTCodeInforList"
+            v-for="(item, index) in editData.indexDetails"
             :key="index"
           >
             <el-row>
@@ -93,16 +93,16 @@ export default {
     },
     // 添加
     addIndexDetail() {
-      this.editData.sysTCodeInforList.push({
+      this.editData.indexDetails.push({
         examineContent: " ",
         score: " "
       });
     },
     // 删除
     dlete(val) {
-      var index = this.editData.sysTCodeInforList.indexOf(val);
+      var index = this.editData.indexDetails.indexOf(val);
       if (index !== -1) {
-        this.addData.sysTCodeInforList.splice(index, 1);
+        this.addData.indexDetails.splice(index, 1);
       }
     },
     //初始化
@@ -115,16 +115,18 @@ export default {
     },
     // 保存修改后的信息
     saveEditIndex() {
-      this.postRequest("/", this.editData).then(resp => {
-        if (resp) {
-          this.$message({
-            message: "信息更改成功!",
-            type: "success"
-          });
-        } else {
-          this.$message.error("信息更改失败，请重新提交!");
+      this.putRequest("/examine/IndexInfo/updateById", this.editData).then(
+        resp => {
+          if (resp) {
+            this.$message({
+              message: "信息更改成功!",
+              type: "success"
+            });
+          } else {
+            this.$message.error("信息更改失败，请重新提交!");
+          }
         }
-      });
+      );
     }
   }
 };

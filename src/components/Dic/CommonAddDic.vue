@@ -29,24 +29,14 @@
             :key="index"
           >
             <el-row>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="名称">
                   <el-input v-model="item.codeName" />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="值">
                   <el-input v-model="item.codeValue" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="值类型">
-                  <el-input v-model="item.valueType" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="描述">
-                  <el-input v-model="item.description" />
                 </el-form-item>
               </el-col>
               <el-button
@@ -86,9 +76,7 @@ export default {
         sysTCodeInforList: [
           {
             codeName: " ",
-            codeValue: " ",
-            valueType: " ",
-            description: " "
+            codeValue: " "
           }
         ]
       }
@@ -103,9 +91,7 @@ export default {
     addDic() {
       this.addData.sysTCodeInforList.push({
         codeName: " ",
-        codeValue: " ",
-        valueType: " ",
-        description: " "
+        codeValue: " "
       });
     },
     // 删除

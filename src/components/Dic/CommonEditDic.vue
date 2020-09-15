@@ -26,24 +26,14 @@
             :key="index"
           >
             <el-row>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="名称">
                   <el-input v-model="item.codeName" />
                 </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="8">
                 <el-form-item label="值">
                   <el-input v-model="item.codeValue" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="值类型">
-                  <el-input v-model="item.valueType" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="描述">
-                  <el-input v-model="item.description" />
                 </el-form-item>
               </el-col>
               <el-button
@@ -85,7 +75,7 @@ export default {
     },
     // 保存修改后的信息
     saveEditDic() {
-      this.postRequest("/", this.editData).then(resp => {
+      this.putRequest("/system/codeType/codeType", this.editData).then(resp => {
         if (resp) {
           this.$message({
             message: "信息更改成功!",
@@ -98,40 +88,17 @@ export default {
     },
     // 添加
     addDic() {
-      this.editData.dic.push({
-        name: " ",
-        value: " ",
-        valueType: " ",
-        description: " "
+      this.editData.sysTCodeInforList.push({
+        codeName: " ",
+        codeValue: " "
       });
     },
     // 删除
-    dlete(val) {
-      // var index = this.editData.dic.indexOf(item);
-      // if (index !== -1) {
-      //   this.addData.dic.splice(index, 1);
-      // }
-      this.$confirm("确定删除该条数据", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.deleteRequest("/system/code/code/" + val.codeId).then(resp => {
-            if (resp) {
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              });
-            }
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+    dlete(item) {
+      var index = this.editData.sysTCodeInforList.indexOf(item);
+      if (index !== -1) {
+        this.editData.sysTCodeInforList.splice(index, 1);
+      }
     }
   }
 };
@@ -141,10 +108,5 @@ export default {
 .dialogDiv {
   height: 400px;
   overflow: auto;
-}
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
 }
 </style>

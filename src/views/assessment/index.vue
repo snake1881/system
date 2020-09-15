@@ -138,9 +138,9 @@
           style="width: 100%"
           height="320px"
         >
-          <el-table-column prop="examineContent" label="考核内容" width="432" />
-          <el-table-column prop="requirement" label="考核标准" width="430" />
-          <el-table-column prop="score" label="分值" width="420" />
+          <el-table-column prop="examineContent" label="考核内容" width="510" />
+          <el-table-column prop="requirement" label="考核标准" width="500" />
+          <el-table-column prop="score" label="分值" width="300" />
         </el-table>
       </div>
     </div>

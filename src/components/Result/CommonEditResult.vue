@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    title="新增考核结果"
+    title="编辑考核结果"
     :visible.sync="editResultVisible"
     width="60%"
     :before-close="editResultClose"

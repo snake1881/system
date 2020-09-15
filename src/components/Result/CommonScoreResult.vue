@@ -13,7 +13,7 @@
           :label="item.examineContent"
         >
           <i style="margin:100px 100px">{{ item.score }}</i>
-          <el-input v-model="item.scoreWeight" />
+          <el-input v-model="item.singleScore" />
         </el-form-item>
       </el-form>
     </div>

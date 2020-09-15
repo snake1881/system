@@ -13,16 +13,23 @@
         <el-form-item label="分值">
           <el-input v-model="addData.scoreWeight" />
         </el-form-item>
-        <el-form-item label="排列顺序">
-          <el-input v-model="addData.sequence" />
-        </el-form-item>
         <el-form-item label="考核模板">
-          <el-select v-model="addData.template">
+          <el-select v-model="addData.examineTId">
             <el-option
               v-for="(item, index) in this.template"
               :key="index"
               :label="item.templateName"
               :value="item.examineTId"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="父级指标">
+          <el-select v-model="addData.indexPId">
+            <el-option
+              v-for="(item, index) in this.pIndex"
+              :key="index"
+              :label="item.indexName"
+              :value="item.indexPId"
             />
           </el-select>
         </el-form-item>
@@ -35,7 +42,7 @@
         </el-button>
         <div style="margin-left:0px">
           <el-form-item
-            v-for="(item, index) in addData.sysTCodeInforList"
+            v-for="(item, index) in addData.indexDetails"
             :key="index"
           >
             <el-row>
@@ -82,9 +89,9 @@ export default {
       addData: {
         indexName: "",
         scoreWeight: "",
-        sequence: "",
-        template: "",
-        sysTCodeInforList: [
+        examineTId: "",
+        indexPId: "",
+        indexDetails: [
           {
             examineContent: " ",
             score: " "
@@ -92,11 +99,14 @@ export default {
         ]
       },
       // 考核模板
-      template: []
+      template: [],
+      // 父级指标
+      pIndex: []
     };
   },
   created() {
     this.templateInit();
+    this.pIndexInit();
   },
   methods: {
     // 对话框父子组件传值
@@ -105,16 +115,16 @@ export default {
     },
     // 添加
     addIndexDetail() {
-      this.addData.sysTCodeInforList.push({
+      this.addData.indexDetails.push({
         examineContent: " ",
         score: " "
       });
     },
     // 删除
     dlete(val) {
-      var index = this.addData.sysTCodeInforList.indexOf(val);
+      var index = this.addData.indexDetails.indexOf(val);
       if (index !== -1) {
-        this.addData.sysTCodeInforList.splice(index, 1);
+        this.addData.indexDetails.splice(index, 1);
       }
     },
     //模板初始化
@@ -125,21 +135,28 @@ export default {
         }
       });
     },
+    // 父级指标初始化
+    pIndexInit() {
+      this.getRequest("/examine/IndexInfo/queryAll").then(resp => {
+        if (resp) {
+          this.pIndex = resp.data;
+          console.log(resp);
+        }
+      });
+    },
     // 保存
     saveAddIndex() {
-      this.postRequest("/examine/templateInfor/insert", this.addData).then(
-        resp => {
-          if (resp) {
-            this.$message({
-              message: "考核指标新增成功!",
-              type: "success"
-            });
-            this.reload();
-          } else {
-            this.$message.error("考核指标新增失败，请重新提交!");
-          }
+      this.postRequest("/examine/IndexInfo/save", this.addData).then(resp => {
+        if (resp) {
+          this.$message({
+            message: "考核指标新增成功!",
+            type: "success"
+          });
+          this.reload();
+        } else {
+          this.$message.error("考核指标新增失败，请重新提交!");
         }
-      );
+      });
     }
   }
 };
