@@ -1,14 +1,12 @@
 <template>
-  <div class="container">
-    <el-button
-      type="text"
-      class="el-icon-plus"
-      style="margin-left:10px"
-      @click="addAllDept()"
-    >
-      新增
-    </el-button>
+  <div class="dept">
+    <div class="dept_top">
+      <el-button id="dept_top_btn" type="text" class="el-icon-plus" @click="addAllDept()">新增</el-button>
+    </div>
     <el-table
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
       :data="deptData"
       row-key="departmentId"
       border
@@ -17,7 +15,7 @@
         children: 'children',
         hasChildren: 'hasChildren'
       }"
-      height="550px"
+      height="92%"
       style="width:100%"
     >
       <el-table-column prop="departmentName" label="部门名称" width="260" />
@@ -31,23 +29,14 @@
       <el-table-column prop="createTime" label="创建时间" width="280" />
       <el-table-column label="操作" width="260">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addDept(scope.row)">
-            新增
-          </el-button>
-          <el-button type="text" size="small" @click="editDept(scope.row)">
-            编辑
-          </el-button>
-          <el-button type="text" size="small" @click="dleteDept(scope.row)">
-            删除
-          </el-button>
+          <el-button type="text" size="small" @click="addDept(scope.row)">新增</el-button>
+          <el-button type="text" size="small" @click="editDept(scope.row)">编辑</el-button>
+          <el-button type="text" size="small" @click="dleteDept(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 新增所有部门 -->
-    <common-add-all-dep
-      :addAllDepVisible="addAllDepVisible"
-      @depRowClose="addAllDepClose"
-    />
+    <common-add-all-dep :addAllDepVisible="addAllDepVisible" @depRowClose="addAllDepClose" />
     <!-- 新增部门 -->
     <common-add-dep
       :addDepVisible="addDepVisible"
@@ -82,7 +71,9 @@ export default {
       addDepData: {},
       // 编辑部门
       editDepVisible: false,
-      editDepData: {}
+      editDepData: {},
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -92,6 +83,7 @@ export default {
     // 表格数据初始化
     deptInit() {
       this.getRequest("/system/department/getDepartmentTree").then(resp => {
+        this.loading = false;
         if (resp) {
           this.deptData = resp.data;
         }
@@ -155,9 +147,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 10px;
-  background-color: white;
-}
+@import "../../assets/css/system/dept.css";
 </style>

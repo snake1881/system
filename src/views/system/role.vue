@@ -1,39 +1,32 @@
 <template>
-  <div class="container">
+  <div class="role">
     <!-- 条件查询 -->
-    <el-form
-      :model="roleForm"
-      :inline="true"
-      style="width:97%;background-color:white"
-    >
+    <el-form class="role_form" :model="roleForm" :inline="true">
       <el-form-item>
-        <el-input v-model="roleForm.roleName" placeholder="角色名称" />
+        <el-input v-model="roleForm.roleName" placeholder="角色名称" size="medium" />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="roleForm.roleKey" placeholder="权限字符" />
+        <el-input v-model="roleForm.roleKey" placeholder="权限字符" size="medium" />
       </el-form-item>
       <el-form-item label="角色状态">
-        <el-select v-model="roleForm.status">
+        <el-select v-model="roleForm.status" size="medium">
           <el-option label="正常" value="1" />
           <el-option label="停用" value="0" />
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="searchRole()">
-          查询
-        </el-button>
-        <el-button type="primary" icon="el-icon-plus" @click="addRole()">
-          新增
-        </el-button>
-        <el-button type="primary" icon="el-icon-delete" @click="deleteRole()">
-          批量删除
-        </el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="searchRole()">查询</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="small" @click="addRole()">新增</el-button>
+        <el-button type="primary" icon="el-icon-delete" size="small" @click="deleteRole()">批量删除</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
     <el-table
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
       :data="roleData"
-      height="500px"
+      height="84%"
       border
       style="width:100%"
       @selection-change="handleSelectionChange"
@@ -51,17 +44,13 @@
       <el-table-column prop="createTime" label="创建时间" width="240" />
       <el-table-column label="操作" width="230">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editRole(scope.row)">
-            编辑
-          </el-button>
-          <el-button type="text" size="small" @click="dlete(scope.row)">
-            删除
-          </el-button>
+          <el-button type="text" size="small" @click="editRole(scope.row)">编辑</el-button>
+          <el-button type="text" size="small" @click="dlete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div style="width:98%;background-color:white">
+    <div class="role_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -73,10 +62,7 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-role
-      :addRoleVisible="addRoleVisible"
-      @roleRowClose="addRoleClose"
-    />
+    <common-add-role :addRoleVisible="addRoleVisible" @roleRowClose="addRoleClose" />
     <!-- 编辑 -->
     <common-edit-role
       :editRoleVisible="editRoleVisible"
@@ -113,7 +99,9 @@ export default {
       // 分页
       currentPage: 1,
       pageSize: 10,
-      total: 0
+      total: 0,
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -150,6 +138,7 @@ export default {
           "&pageSize=" +
           this.pageSize
       ).then(resp => {
+        this.loading = false;
         if (resp) {
           this.roleData = resp.data.records;
           this.total = resp.data.total;
@@ -255,9 +244,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 5px;
-  background-color: white;
-}
+@import "../../assets/css/system/role.css";
 </style>

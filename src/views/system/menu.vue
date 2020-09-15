@@ -1,14 +1,12 @@
 <template>
-  <div class="container">
-    <el-button
-      type="text"
-      class="el-icon-plus"
-      style="margin-left:10px"
-      @click="addAllMenu()"
-    >
-      新增
-    </el-button>
+  <div class="menu">
+    <div class="menu_top">
+      <el-button id="menu_top_btn" type="text" class="el-icon-plus" @click="addAllMenu()">新增</el-button>
+    </div>
     <el-table
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
       :data="menuData"
       row-key="moduleId"
       border
@@ -17,7 +15,7 @@
         children: 'children',
         hasChildren: 'hasChildren'
       }"
-      height="550px"
+      height="92%"
       style="width:100%"
     >
       <el-table-column prop="moduleName" label="菜单名称" width="210" />
@@ -33,23 +31,14 @@
       <el-table-column prop="permissionMark" label="权限标识" width="200" />
       <el-table-column label="操作" width="210">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addMenu(scope.row)">
-            新增
-          </el-button>
-          <el-button type="text" size="small" @click="editMenu(scope.row)">
-            编辑
-          </el-button>
-          <el-button type="text" size="small" @click="dleteMenu(scope.row)">
-            删除
-          </el-button>
+          <el-button type="text" size="small" @click="addMenu(scope.row)">新增</el-button>
+          <el-button type="text" size="small" @click="editMenu(scope.row)">编辑</el-button>
+          <el-button type="text" size="small" @click="dleteMenu(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 新增所有菜单 -->
-    <common-add-all-menu
-      :addAllMenuVisible="addAllMenuVisible"
-      @menuRowClose="addAllMenuClose"
-    />
+    <common-add-all-menu :addAllMenuVisible="addAllMenuVisible" @menuRowClose="addAllMenuClose" />
     <!-- 新增菜单 -->
     <common-add-menu
       :addMenuVisible="addMenuVisible"
@@ -85,7 +74,9 @@ export default {
       addMenuData: {},
       // 编辑
       editMenuVisible: false,
-      editMenuData: {}
+      editMenuData: {},
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -95,6 +86,7 @@ export default {
     // 表格数据初始化
     menuInit() {
       this.getRequest("/system/sysModule/getSysModuleTree").then(resp => {
+        this.loading = false;
         if (resp) {
           this.menuData = resp.data;
         }
@@ -158,9 +150,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 10px;
-  background-color: white;
-}
+@import "../../assets/css/system/menu.css";
 </style>

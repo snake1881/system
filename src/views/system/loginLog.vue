@@ -1,43 +1,32 @@
 <template>
-  <div class="container">
+  <div class="role">
     <!-- 条件查询 -->
-    <el-form
-      :model="logingLogForm"
-      :rules="rules"
-      :inline="true"
-      style="width:97%;background-color:white"
-    >
+    <el-form class="role_form" :model="logingLogForm" :rules="rules" :inline="true">
       <el-form-item>
-        <el-input v-model="logingLogForm.moduleName" placeholder="模块名称" />
+        <el-input v-model="logingLogForm.moduleName" placeholder="模块名称" size="medium" />
       </el-form-item>
       <el-form-item>
-        <el-date-picker
-          placeholder="开始时间"
-          v-model="logingLogForm.startTime"
-        />
+        <el-date-picker placeholder="开始时间" v-model="logingLogForm.startTime" size="medium" />
       </el-form-item>
       <el-form-item>
-        <el-date-picker
-          placeholder="结束时间"
-          v-model="logingLogForm.endTime"
-        />
+        <el-date-picker placeholder="结束时间" v-model="logingLogForm.endTime" size="medium" />
       </el-form-item>
-      <el-button type="primary" icon="el-icon-search" @click="searchLog()">
-        查询
-      </el-button>
+      <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
       <el-button
         type="primary"
         icon="el-icon-folder-checked"
+        size="small"
         @click="exportLogingLog()"
-      >
-        导出
-      </el-button>
+      >导出</el-button>
     </el-form>
     <!-- 表格数据 -->
     <el-table
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
       :data="logingLogData"
       @selection-change="handleSelectionChange"
-      height="500px"
+      height="84%"
       border
       style="width:100%"
     >
@@ -53,14 +42,12 @@
       <el-table-column prop="operationTime" label="登陆时间" width="240" />
       <el-table-column label="操作" width="80">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="dleteLoginLog(scope.row)">
-            删除
-          </el-button>
+          <el-button type="text" size="small" @click="dleteLoginLog(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div style="width:98%;background-color:white">
+    <div class="role_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -95,7 +82,9 @@ export default {
         moduleName: [
           { required: true, message: "模块名称不能为空", trigger: "blur" }
         ]
-      }
+      },
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -136,6 +125,7 @@ export default {
           "&size=" +
           this.pageSize
       ).then(resp => {
+        this.loading = false;
         if (resp) {
           this.logingLogData = resp.data.records;
           this.total = resp.data.total;
@@ -193,9 +183,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 5px;
-  background-color: white;
-}
+@import "../../assets/css/system/role.css";
 </style>
