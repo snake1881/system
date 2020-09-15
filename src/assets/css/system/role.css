@@ -1,0 +1,21 @@
+.role {
+    width: 98%;
+    height: 90%;
+    margin-top: 10px;
+    margin-left: 1%;
+    background-color: white;
+}
+
+.role_form {
+    width: 98%;
+    height: 9%;
+    padding-left: 1%;
+    padding-top: 5px;
+    background-color: white;
+}
+
+.role_page {
+    width: 98%;
+    height: 6%;
+    background-color: white;
+}

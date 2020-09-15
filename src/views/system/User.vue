@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="user">
     <div class="left">
       <el-tree
         ref="tree"
@@ -286,5 +286,6 @@ export default {
 <style>
 .el-table td,.el-table th {
   text-align: center;
+  padding: 8px 0;
 }
 </style>

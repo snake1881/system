@@ -1,29 +1,25 @@
 <template>
-  <div class="container">
+  <div class="role">
     <!-- 条件查询 -->
-    <el-form
-      :model="postForm"
-      :inline="true"
-      style="width:97%;background-color:white"
-    >
+    <el-form class="role_form" :model="postForm" :inline="true">
       <el-form-item>
-        <el-input v-model="postForm.positionName" placeholder="岗位名称" />
+        <el-input v-model="postForm.positionName" placeholder="岗位名称" size="medium" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="searchPost()">
-          查询
-        </el-button>
-        <el-button
-          type="primary"
-          icon="el-icon-circle-plus-outline"
-          @click="addPost()"
-        >
-          新增
-        </el-button>
+        <el-button type="primary" icon="el-icon-search" size="small" @click="searchPost()">查询</el-button>
+        <el-button type="primary" icon="el-icon-plus" size="small" @click="addPost()">新增</el-button>
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
-    <el-table :data="postData" height="500px" border style="width:100%;">
+    <el-table
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      :data="postData"
+      height="84%"
+      border
+      style="width:100%;"
+    >
       <el-table-column prop="positionId" label="岗位编号" width="200" />
       <el-table-column prop="positionCode" label="岗位编码" width="220" />
       <el-table-column prop="positionName" label="岗位名称" width="220" />
@@ -31,17 +27,13 @@
       <el-table-column prop="createTime" label="创建时间" width="280" />
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editPost(scope.row)">
-            编辑
-          </el-button>
-          <el-button type="text" size="small" @click="dletePost(scope.row)">
-            删除
-          </el-button>
+          <el-button type="text" size="small" @click="editPost(scope.row)">编辑</el-button>
+          <el-button type="text" size="small" @click="dletePost(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div style="width:98%;background-color:white">
+    <div class="role_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -53,10 +45,7 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-post
-      :addPostVisible="addPostVisible"
-      @postRowClose="addPostClose"
-    />
+    <common-add-post :addPostVisible="addPostVisible" @postRowClose="addPostClose" />
     <!-- 编辑 -->
     <common-edit-post
       :editPostVisible="editPostVisible"
@@ -89,7 +78,9 @@ export default {
       editPostVisible: false,
       editPostData: {},
       // 新增
-      addPostVisible: false
+      addPostVisible: false,
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -148,6 +139,7 @@ export default {
           "&size=" +
           this.pageSize
       ).then(resp => {
+        this.loading = false;
         if (resp) {
           this.postData = resp.data.records;
           this.total = resp.data.total;
@@ -188,9 +180,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 5px;
-  background-color: white;
-}
+@import "../../assets/css/system/role.css";
 </style>
