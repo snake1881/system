@@ -140,7 +140,6 @@ export default {
       this.getRequest("/examine/IndexInfo/queryAll").then(resp => {
         if (resp) {
           this.pIndex = resp.data;
-          console.log(resp);
         }
       });
     },
