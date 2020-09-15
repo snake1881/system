@@ -6,8 +6,8 @@
         <common-aside :routerNumber="router2" />
       </el-aside>
       <el-main class="sys_main">
-        <!-- 面包屑 -->
-        <breadcrumb />
+        <!-- 页头 -->
+        <page-header />
         <router-view />
       </el-main>
     </el-container>
@@ -15,12 +15,12 @@
 </template>
 <script>
 import CommonAside from "../../components/CommonAside";
-import Breadcrumb from "../../components/Breadcrumb";
+import PageHeader from "../../components/PageHeader";
 
 export default {
   components: {
     CommonAside,
-    Breadcrumb
+    PageHeader
   },
   data() {
     return {
