@@ -17,17 +17,17 @@
           <el-input v-model="editData.sequence" />
         </el-form-item>
         <el-form-item label="考核模板">
-          <el-select v-model="editData.examineTId">
+          <el-select v-model="editData.examineTName">
             <el-option
               v-for="(item, index) in this.template"
               :key="index"
               :label="item.templateName"
-              :value="item.examineTId"
+              :value="item.templateName"
             />
           </el-select>
         </el-form-item>
         <el-form-item label="父级指标">
-          <el-select v-model="editData.indexPId">
+          <el-select v-model="editData.indexPName">
             <el-option
               v-for="(item, index) in this.pIndex"
               :key="index"
@@ -160,8 +160,8 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+<style lang="less">
+element.style {
+  margin: 0;
 }
 </style>

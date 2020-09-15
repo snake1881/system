@@ -191,6 +191,7 @@ export default {
     editIndex(val) {
       this.editIndexVisible = true;
       this.editData = val;
+      console.log(val);
     },
     // 关闭编辑对话框
     editIndexClose() {
