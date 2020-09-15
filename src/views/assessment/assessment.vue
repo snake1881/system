@@ -7,7 +7,7 @@
       </el-aside>
       <el-main class="sys_main">
         <!-- 页头 -->
-        <page-header />
+        <page-header pageHeaderName="绩效考核" />
         <router-view />
       </el-main>
     </el-container>

@@ -1,7 +1,7 @@
 <template>
   <div class="page_header">
     <i class="el-icon-s-unfold" style="font-size: 30px;line-height: 50px" />
-    <span class="left">系统管理</span>
+    <span class="left">{{ this.pageHeaderName }}</span>
     <i class="el-icon-arrow-right" style="font-size: 16px;line-height: 50px" />
     <span class="right" v-if="this.$route.name == null">首页</span>
     <span class="right" v-else>{{this.$route.name}}</span>
@@ -10,6 +10,11 @@
 
 <script>
 export default {
+  props: {
+    pageHeaderName: {
+      type: String
+    }
+  },
   data() {
     return {};
   },
