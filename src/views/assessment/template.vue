@@ -1,43 +1,25 @@
 <template>
   <!-- 考核模板页面 -->
-  <div class="container">
-    <div v-if="pageFlag">
+  <div class="role">
+    <div class="role_1" v-if="pageFlag">
       <!-- 条件查询 -->
-      <el-form
-        :model="templateFrom"
-        :inline="true"
-        style="width:97%;background-color:white"
-      >
+      <el-form class="role_form" :model="templateFrom" :inline="true">
         <el-form-item>
-          <el-input
-            v-model="templateFrom.templateName"
-            placeholder="模板名称"
-          />
+          <el-input v-model="templateFrom.templateName" placeholder="模板名称" size="medium" />
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-search"
-            @click="searchTemplate()"
-          >
-            查询
-          </el-button>
-          <el-button type="primary" icon="el-icon-plus" @click="addTem()">
-            新增
-          </el-button>
-          <el-button
-            type="primary"
-            icon="el-icon-delete"
-            @click="selectdelete()"
-          >
-            批量删除
-          </el-button>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="searchTemplate()">查询</el-button>
+          <el-button type="primary" icon="el-icon-plus" size="small" @click="addTem()">新增</el-button>
+          <el-button type="primary" icon="el-icon-delete" size="small" @click="selectdelete()">批量删除</el-button>
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
         :data="templateData"
-        height="500px"
+        height="84%"
         border
         style="width:100%"
         @selection-change="handleSelectionChange"
@@ -54,20 +36,14 @@
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editTem(scope.row)">
-              编辑
-            </el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">
-              删除
-            </el-button>
-            <el-button type="text" size="small" @click="detailTem(scope.row)">
-              查看详情
-            </el-button>
+            <el-button type="text" size="small" @click="editTem(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="small" @click="detailTem(scope.row)">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <div style="width:98%;background-color:white">
+      <div class="role_page">
         <el-pagination
           :current-page.sync="currentPage"
           :page-size="pageSize"
@@ -79,10 +55,7 @@
         />
       </div>
       <!-- 新增 -->
-      <common-add-template
-        :addTemVisible="addTemVisible"
-        @addClose="addTemClose"
-      />
+      <common-add-template :addTemVisible="addTemVisible" @addClose="addTemClose" />
       <!-- 编辑 -->
       <common-edit-template
         :editTemVisible="editTemVisible"
@@ -99,15 +72,11 @@
         :underline="false"
         type="primary"
         icon="el-icon-arrow-left"
-      >
-        返回
-      </el-link>
+      >返回</el-link>
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            考核模板信息
-          </span>
+          <span style="color: #50a6fe;">考核模板信息</span>
         </el-divider>
         <br />
         <div class="detail-content-template">
@@ -117,22 +86,16 @@
             <div style="width: 33%">制定时间</div>
           </div>
           <div class="detail-content-template-content">
-            <div style="width: 33%">
-              {{ this.detailData.templateName }}
-            </div>
-            <div style="width: 33%">
-              {{ this.detailData.formulationUnit }}
-            </div>
-            <div style="width: 33%">
-              {{ this.detailData.createTime }}
-            </div>
+            <div style="width: 33%">{{ this.detailData.templateName }}</div>
+            <div style="width: 33%">{{ this.detailData.formulationUnit }}</div>
+            <div style="width: 33%">{{ this.detailData.createTime }}</div>
           </div>
         </div>
 
-        <br /><br /><el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            考核指标
-          </span>
+        <br />
+        <br />
+        <el-divider content-position="center">
+          <span style="color: #50a6fe;">考核指标</span>
         </el-divider>
         <br />
         <el-table
@@ -184,7 +147,9 @@ export default {
       editData: {},
       // 显示标志
       pageFlag: true,
-      detailData: {}
+      detailData: {},
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -217,6 +182,7 @@ export default {
           "&pageSize=" +
           this.pageSize
       ).then(resp => {
+        this.loading = false;
         if (resp) {
           this.templateData = resp.data.records;
           this.total = resp.data.total;
@@ -331,39 +297,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 5px;
-  background-color: white;
-}
-.detail {
-  height: 100%;
-  overflow: hidden;
-  padding-bottom: 5px;
-  .detail-content {
-    height: 90%;
-    .detail-content-template {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      .detail-content-template-name {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        text-align: center;
-        color: darkgray;
-      }
-      .detail-content-template-content {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        text-align: center;
-        margin-top: 25px;
-      }
-    }
-  }
-  background: white;
-  margin-top: 10px;
-}
+@import "../../assets/css/system/role.css";
 </style>

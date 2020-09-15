@@ -1,40 +1,25 @@
 <template>
-  <div class="container">
+  <div class="role">
     <!-- 考核指标页面 -->
-    <div v-if="pageFlag">
+    <div class="role_1" v-if="pageFlag">
       <!-- 条件查询 -->
-      <el-form
-        :model="indexFrom"
-        :inline="true"
-        style="width:97%;background-color:white"
-      >
+      <el-form class="role_form" :model="indexFrom" :inline="true">
         <el-form-item>
-          <el-input v-model="indexFrom.indexName" placeholder="指标名称" />
+          <el-input v-model="indexFrom.indexName" placeholder="指标名称" size="medium" />
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-search"
-            @click="searchIndex()"
-          >
-            查询
-          </el-button>
-          <el-button type="primary" icon="el-icon-plus" @click="addIndex()">
-            新增
-          </el-button>
-          <el-button
-            type="primary"
-            icon="el-icon-delete"
-            @click="selectdelete()"
-          >
-            批量删除
-          </el-button>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="searchIndex()">查询</el-button>
+          <el-button type="primary" icon="el-icon-plus" size="small" @click="addIndex()">新增</el-button>
+          <el-button type="primary" icon="el-icon-delete" size="small" @click="selectdelete()">批量删除</el-button>
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
         :data="indexData"
-        height="500px"
+        height="84%"
         border
         style="width:100%"
         @selection-change="handleSelectionChange"
@@ -47,20 +32,14 @@
         <el-table-column prop="remark" label="备注" width="260" />
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editIndex(scope.row)">
-              编辑
-            </el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">
-              删除
-            </el-button>
-            <el-button type="text" size="small" @click="detailIndex(scope.row)">
-              查看详情
-            </el-button>
+            <el-button type="text" size="small" @click="editIndex(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="small" @click="detailIndex(scope.row)">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <div style="width:98%;background-color:white">
+      <div class="role_page">
         <el-pagination
           :current-page.sync="currentPage"
           :page-size="pageSize"
@@ -72,10 +51,7 @@
         />
       </div>
       <!-- 新增 -->
-      <common-add-index
-        :addIndexVisible="addIndexVisible"
-        @addClose="addIndexClose"
-      />
+      <common-add-index :addIndexVisible="addIndexVisible" @addClose="addIndexClose" />
       <!-- 编辑 -->
       <common-edit-index
         :editIndexVisible="editIndexVisible"
@@ -92,15 +68,11 @@
         :underline="false"
         type="primary"
         icon="el-icon-arrow-left"
-      >
-        返回
-      </el-link>
+      >返回</el-link>
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            考核指标信息
-          </span>
+          <span style="color: #50a6fe;">考核指标信息</span>
         </el-divider>
         <br />
         <div class="detail-content-template">
@@ -111,36 +83,23 @@
             <div style="width: 25%">考核模板</div>
           </div>
           <div class="detail-content-template-content">
-            <div style="width: 25%">
-              {{ this.detailData.indexName }}
-            </div>
-            <div style="width: 25%">
-              {{ this.detailData.indexName }}
-            </div>
-            <div style="width: 25%">
-              {{ this.detailData.scoreWeight }}
-            </div>
-            <div style="width: 25%">
-              {{ this.detailData.examineTName }}
-            </div>
+            <div style="width: 25%">{{ this.detailData.indexName }}</div>
+            <div style="width: 25%">{{ this.detailData.indexName }}</div>
+            <div style="width: 25%">{{ this.detailData.scoreWeight }}</div>
+            <div style="width: 25%">{{ this.detailData.examineTName }}</div>
           </div>
         </div>
 
-        <br /><br /><el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            考核指标详情
-          </span>
+        <br />
+        <br />
+        <el-divider content-position="center">
+          <span style="color: #50a6fe;">考核指标详情</span>
         </el-divider>
         <br />
-        <el-table
-          :data="this.detailData.indexDetails"
-          border
-          style="width: 100%"
-          height="320px"
-        >
-          <el-table-column prop="examineContent" label="考核内容" width="510" />
+        <el-table :data="this.detailData.indexDetails" border style="width: 100%" height="320px">
+          <el-table-column prop="examineContent" label="考核内容" width="500" />
           <el-table-column prop="requirement" label="考核标准" width="500" />
-          <el-table-column prop="score" label="分值" width="300" />
+          <el-table-column prop="score" label="分值" width="294" />
         </el-table>
       </div>
     </div>
@@ -176,7 +135,9 @@ export default {
       // 页面标志
       pageFlag: true,
       // 查看详情
-      detailData: {}
+      detailData: {},
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -209,6 +170,7 @@ export default {
           "&size=" +
           this.pageSize
       ).then(resp => {
+        this.loading = false;
         if (resp) {
           this.indexData = resp.data.records;
           this.total = resp.data.total;
@@ -321,39 +283,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 5px;
-  background-color: white;
-}
-.detail {
-  height: 100%;
-  overflow: hidden;
-  padding-bottom: 5px;
-  .detail-content {
-    height: 90%;
-    .detail-content-template {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      .detail-content-template-name {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        text-align: center;
-        color: darkgray;
-      }
-      .detail-content-template-content {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        text-align: center;
-        margin-top: 25px;
-      }
-    }
-  }
-  background: white;
-  margin-top: 10px;
-}
+@import "../../assets/css/system/role.css";
 </style>
