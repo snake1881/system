@@ -45,12 +45,6 @@
       @editClose="editDicClose"
       :editData="editData"
     />
-    <!-- 查看详情 -->
-    <common-details-dic
-      :detailsDicVisible="detailsDicVisible"
-      @detailsClose="detailsDicClose"
-      :detailsData="detailsData"
-    />
     <!-- 分页 -->
     <div class="role_page">
       <el-pagination
@@ -68,12 +62,10 @@
 <script>
 import CommonAddDic from "../../components/Dic/CommonAddDic";
 import CommonEditDic from "../../components/Dic/CommonEditDic";
-import CommonDetailsDic from "../../components/Dic/CommonDetailsDic";
 export default {
   components: {
     CommonAddDic,
     CommonEditDic,
-    CommonDetailsDic
   },
   data() {
     return {
@@ -91,9 +83,6 @@ export default {
       // 编辑
       editDicVisible: false,
       editData: {},
-      // 查看详情
-      detailsDicVisible: false,
-      detailsData: {},
       // 分页数据
       currentPage: 1,
       pageSize: 10,
@@ -222,15 +211,6 @@ export default {
     // 关闭编辑对话框
     editDicClose() {
       this.editDicVisible = false;
-    },
-    // 查看字典详情
-    detailsDic(val) {
-      this.detailsData = val;
-      this.detailsDicVisible = true;
-    },
-    // 关闭查看详情对话框
-    detailsDicClose() {
-      this.detailsDicVisible = false;
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

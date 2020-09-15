@@ -19,3 +19,38 @@
     height: 6%;
     background-color: white;
 }
+
+.detail {
+    height: 100%;
+    overflow: hidden;
+    padding-bottom: 5px;
+    background: white;
+    margin-top: 10px;
+}
+
+.detail-content {
+    height: 90%;
+}
+
+.detail-content-template {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.detail-content-template-name {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    text-align: center;
+    color: darkgray;
+}
+
+.detail-content-template-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    text-align: center;
+    margin-top: 25px;
+}
