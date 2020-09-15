@@ -22,7 +22,20 @@ export const initMenu = (router, store) => {
                 }]
             }];
             fmtRoutes.forEach(route => {
-                menu[0].children.push(route)
+                // 判断当前路由是否为系统管理
+                if (route.path === "/system/system") {
+                    // 添加默认展示子路由页面
+                    let child = {
+                        path: "/system/system",
+                        // 不添加name属性，避免在侧边导航栏显示
+                        // name: "系统管理首页",
+                        component: () =>
+                            import ("@/views/system/index.vue"),
+                        hidden: true
+                    };
+                    route.children.push(child);
+                }
+                menu[0].children.push(route);
             });
             router.addRoutes(menu);
             store.commit("initRoutes", menu);

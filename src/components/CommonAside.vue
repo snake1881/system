@@ -3,7 +3,7 @@
     background-color="#3d464d"
     text-color="#fff"
     active-text-color="#ffd04b"
-    :default-active="menus.children[0].path"
+    default-active="#"
     :unique-opened="true"
     router
   >

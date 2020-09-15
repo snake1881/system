@@ -9,7 +9,7 @@
       <el-menu
         router
         mode="horizontal"
-        default-active="home"
+        default-active="/Index"
         background-color="#0D56A6"
         text-color="#fff"
         active-text-color="#ffd04b"
