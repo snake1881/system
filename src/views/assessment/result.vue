@@ -1,29 +1,24 @@
 <template>
-  <div class="container">
+  <div class="role">
     <!-- 考核结果 -->
-    <div v-if="pageFlag">
+    <div class="role_1" v-if="pageFlag">
       <!-- 条件查询 -->
-      <el-form
-        :model="resultFrom"
-        :inline="true"
-        style="width:97%;background-color:white"
-      >
+      <el-form class="role_form" :model="resultFrom" :inline="true">
         <el-form-item>
-          <el-input v-model="resultFrom.takeObject" placeholder="参考单位/人员" />
+          <el-input v-model="resultFrom.takeObject" placeholder="参考单位/人员" size="medium" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="searchResult()">
-            查询
-          </el-button>
-          <el-button type="primary" icon="el-icon-delete" @click="selectdelete()">
-            批量删除
-          </el-button>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="searchResult()">查询</el-button>
+          <el-button type="primary" icon="el-icon-delete" size="small" @click="selectdelete()">批量删除</el-button>
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
         :data="resultData"
-        height="500px"
+        height="84%"
         border
         style="width:100%"
         @selection-change="handleSelectionChange"
@@ -41,27 +36,15 @@
         <el-table-column prop="remark" label="备注" width="240" />
         <el-table-column label="操作" width="240">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editResult(scope.row)">
-              编辑
-            </el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">
-              删除
-            </el-button>
-            <el-button type="text" size="small" @click="score(scope.row)">
-              考核打分
-            </el-button>
-            <el-button
-              type="text"
-              size="small"
-              @click="detailResult(scope.row)"
-            >
-              查看详情
-            </el-button>
+            <el-button type="text" size="small" @click="editResult(scope.row)">编辑</el-button>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="small" @click="score(scope.row)">考核打分</el-button>
+            <el-button type="text" size="small" @click="detailResult(scope.row)">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <div style="width:98%;background-color:white">
+      <div class="role_page">
         <el-pagination
           :current-page.sync="currentPage"
           :page-size="pageSize"
@@ -94,15 +77,11 @@
         :underline="false"
         type="primary"
         icon="el-icon-arrow-left"
-      >
-        返回
-      </el-link>
+      >返回</el-link>
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            考核结果信息
-          </span>
+          <span style="color: #50a6fe;">考核结果信息</span>
         </el-divider>
         <br />
         <div class="detail-content-template">
@@ -112,22 +91,16 @@
             <div style="width: 33%">考核时间</div>
           </div>
           <div class="detail-content-template-content">
-            <div style="width: 33%">
-              {{ this.detailData.takeObject }}
-            </div>
-            <div style="width: 33%">
-              {{ this.detailData.totalScore }}
-            </div>
-            <div style="width: 33%">
-              {{ this.detailData.examineDate }}
-            </div>
+            <div style="width: 33%">{{ this.detailData.takeObject }}</div>
+            <div style="width: 33%">{{ this.detailData.totalScore }}</div>
+            <div style="width: 33%">{{ this.detailData.examineDate }}</div>
           </div>
         </div>
 
-        <br /><br /><el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            考核指标明细及得分
-          </span>
+        <br />
+        <br />
+        <el-divider content-position="center">
+          <span style="color: #50a6fe;">考核指标明细及得分</span>
         </el-divider>
         <br />
         <el-table
@@ -176,7 +149,9 @@ export default {
       scoreData: [],
       // 显示标志
       pageFlag: true,
-      detailData: {}
+      detailData: {},
+      // 表格加载动画
+      loading: true
     };
   },
   created() {
@@ -209,6 +184,7 @@ export default {
           "&pageSize=" +
           this.pageSize
       ).then(resp => {
+        this.loading = false;
         if (resp) {
           this.resultData = resp.data.records;
           this.total = resp.data.total;
@@ -329,39 +305,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.container {
-  width: 98%;
-  margin: 5px;
-  background-color: white;
-}
-.detail {
-  height: 100%;
-  overflow: hidden;
-  padding-bottom: 5px;
-  .detail-content {
-    height: 90%;
-    .detail-content-template {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      .detail-content-template-name {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        text-align: center;
-        color: darkgray;
-      }
-      .detail-content-template-content {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        text-align: center;
-        margin-top: 25px;
-      }
-    }
-  }
-  background: white;
-  margin-top: 10px;
-}
+@import "../../assets/css/system/role.css";
 </style>
