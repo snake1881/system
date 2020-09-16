@@ -1,7 +1,7 @@
 <template>
   <div class="role">
     <!-- 表格数据 -->
-    <div class="role" v-if="pageFlag">
+    <div class="role_1" v-if="pageFlag">
       <!-- 条件查询 -->
       <el-form class="role_form" :model="dicFrom" :inline="true">
         <el-form-item>

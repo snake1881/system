@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="system">
     <el-container>
       <!-- 侧边栏 -->
@@ -26,10 +27,27 @@ export default {
       // 侧边栏显示
       router6: 3
     };
+=======
+  <div>
+      油水井诊断
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {};
+>>>>>>> 0c9ff95c384db45f6f75ee524b75f452fbb007b5
   },
   methods: {}
 };
 </script>
+<<<<<<< HEAD
 <style lang="less" scoped>
 @import "../../assets/css/system/system.css";
 </style>
+=======
+<style lang='less' scoped>
+</style>
+<style>
+</style>
+>>>>>>> 0c9ff95c384db45f6f75ee524b75f452fbb007b5
