@@ -92,7 +92,9 @@
         :underline="false"
         type="primary"
         icon="el-icon-arrow-left"
-      >返回</el-link>
+      >
+        返回
+      </el-link>
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
@@ -101,32 +103,37 @@
         <br />
         <div class="detail-content-template">
           <div class="detail-content-template-name">
-            <div style="width: 33%">参考单位/人员</div>
-            <div style="width: 33%">总得分</div>
-            <div style="width: 33%">考核时间</div>
+            <div style="width: 20%">参考单位/人员</div>
+            <div style="width: 20%">总得分</div>
+            <div style="width: 20%">考核计划</div>
+            <div style="width: 20%">考核模板</div>
+            <div style="width: 20%">考核时间</div>
           </div>
           <div class="detail-content-template-content">
-            <div style="width: 33%">{{ this.detailData.takeObject }}</div>
-            <div style="width: 33%">{{ this.detailData.totalScore }}</div>
-            <div style="width: 33%">{{ this.detailData.examineDate }}</div>
+            <div style="width: 20%">{{ this.detailData.takeObject }}</div>
+            <div style="width: 20%">{{ this.detailData.totalScore }}</div>
+            <div style="width: 20%">{{ this.detailData.planName }}</div>
+            <div style="width: 20%">{{ this.detailData.templateName }}</div>
+            <div style="width: 20%">{{ this.detailData.examineDate }}</div>
           </div>
         </div>
 
         <br />
         <br />
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">考核指标明细及得分</span>
+          <span style="color: #50a6fe;">考核指标及明细</span>
         </el-divider>
         <br />
         <el-table
-          :data="this.detailData.bizExamineResultDetailList"
+          :data="this.detailData.bizResultInforIndexVoList"
           border
           style="width: 100%"
           height="320px"
         >
-          <el-table-column prop="examineContent" label="考核内容" width="450" />
-          <el-table-column prop="requirement" label="工作要求" width="450" />
-          <el-table-column prop="requirement" label="得分" width="420" />
+          <el-table-column prop="indexName" label="指标名称" width="360" />
+          <el-table-column prop="examineContent" label="考核内容" width="360" />
+          <el-table-column prop="requirement" label="工作要求" width="360" />
+          <el-table-column prop="score" label="分值" width="210" />
         </el-table>
       </div>
     </div>
@@ -175,12 +182,12 @@ export default {
   methods: {
     // 根据输入信息查询
     searchResult() {
-      this.postRequest(
-        "/examine/IndexInfo/findListsByPage?page=" +
+      this.getRequest(
+        "/examine/resultInfor/bizExamineResultInforTakeObject?current=" +
           this.currentPage +
-          "&size=" +
+          "&pageSize=" +
           this.pageSize +
-          "&indexName=" +
+          "&takeObject=" +
           this.resultFrom.takeObject
       ).then(resp => {
         if (resp) {
@@ -221,7 +228,7 @@ export default {
     handleSelectionChange(val) {
       this.selectData = val;
     },
-    // 批量删除,根据？删除
+    // 批量删除
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
@@ -234,17 +241,18 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteRequest("/system/codeType/codeTypes", idArray).then(
-            resp => {
-              if (resp) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!"
-                });
-              }
-              this.resultInit();
+          this.deleteRequest(
+            "/examine/resultInfor/bizExamineResultInfors",
+            idArray
+          ).then(resp => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
             }
-          );
+            this.resultInit();
+          });
         })
         .catch(() => {
           this.$message({
@@ -306,6 +314,22 @@ export default {
       this.pageFlag = true;
       this.resultInit();
     },
+    // 查看详情表格合并列
+    // objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+    //     if (columnIndex === 0) {
+    //       if (rowIndex % 2 === 0) {
+    //         return {
+    //           rowspan: 2,
+    //           colspan: 1
+    //         };
+    //       } else {
+    //         return {
+    //           rowspan: 0,
+    //           colspan: 0
+    //         };
+    //       }
+    //     }
+    // },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;

@@ -64,7 +64,14 @@ export default {
       username: this.$store.state.currentUser.username
     };
   },
-  methods: {}
+  created() {
+    this.ad();
+  },
+  methods: {
+    ad() {
+      console.log(this.$store.state.routes[0].children);
+    }
+  }
 };
 </script>
 

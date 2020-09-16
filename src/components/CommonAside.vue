@@ -7,14 +7,35 @@
     :unique-opened="true"
     router
   >
-    <el-menu-item
-      :index="item.path"
-      v-for="(item, index) in menus.children"
-      :key="index"
-    >
-      <i :class="item.icon" style="margin-right:8px;font-size: 22px" />
-      <span slot="title">{{ item.name }}</span>
-    </el-menu-item>
+    <div v-for="(item, index) in this.menus.children" :key="index">
+      <div v-if="item.children">
+        <el-menu-item
+          :index="item.path"
+          v-if="item.children.length === 0 && !item.hidden"
+        >
+          <i :class="item.icon" style="margin-right:8px;font-size: 22px" />
+          <span slot="title">{{ item.name }}</span>
+        </el-menu-item>
+        <el-submenu
+          :index="index + ''"
+          v-if="item.children.length > 0 && !item.hidden"
+        >
+          <template slot="title">
+            <i :class="item.icon" style="margin-right:8px;font-size: 22px" />
+            <span slot="title">{{ item.name }}</span>
+          </template>
+          <el-menu-item
+            :index="subItem.path"
+            v-for="(subItem, indexj) in item.children"
+            :key="indexj"
+          >
+            <i :class="subItem.icon" style="margin-right:8px;font-size: 22px" />
+            <span slot="title">{{ subItem.name }}</span>
+          </el-menu-item>
+        </el-submenu>
+      </div>
+    </div>
+
   </el-menu>
 </template>
 <script>
@@ -29,7 +50,14 @@ export default {
       menus: this.$store.state.routes[0].children[this.routerNumber]
     };
   },
-  methods: {}
+  created() {
+    this.ad();
+  },
+  methods: {
+    ad() {
+      console.log(this.menus.children);
+    }
+  }
 };
 </script>
 

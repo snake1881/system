@@ -34,6 +34,30 @@ export const initMenu = (router, store) => {
                         hidden: true
                     };
                     route.children.push(child);
+                } else if (route.path === "/assessment/assessment") {
+                    //  判断当前路由是否为绩效考核  
+                    // 添加默认展示子路由页面
+                    let child1 = {
+                        path: "/assessment/assessment",
+                        // 不添加name属性，避免在侧边导航栏显示
+                        // name: "绩效考核首页",
+                        component: () =>
+                            import ("@/views/assessment/assIndex.vue"),
+                        hidden: true
+                    };
+                    route.children.push(child1);
+                } else if (route.path === "/diagnosis/diagnosis") {
+                    //  判断当前路由是否为油水井诊断  
+                    // 添加默认展示子路由页面
+                    let child2 = {
+                        path: "/diagnosis/diagnosis",
+                        // 不添加name属性，避免在侧边导航栏显示
+                        // name: "油水井诊断首页",
+                        component: () =>
+                            import ("@/views/diagnosis/index.vue"),
+                        hidden: true
+                    };
+                    route.children.push(child2);
                 }
                 menu[0].children.push(route);
             });
