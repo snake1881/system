@@ -119,8 +119,8 @@
   </div>
 </template>
 <script>
-import CommonAddTemplate from "../../components/Template/CommonAddTemplate";
-import CommonEditTemplate from "../../components/Template/CommonEditTemplate";
+import CommonAddTemplate from "../../components/assessment/template/CommonAddTemplate";
+import CommonEditTemplate from "../../components/assessment/template/CommonEditTemplate";
 export default {
   components: {
     CommonAddTemplate,

@@ -72,8 +72,8 @@
   </div>
 </template>
 <script>
-import CommonAddRole from "../../components/Role/CommonAddRole";
-import CommonEditRole from "../../components/Role/CommonEditRole";
+import CommonAddRole from "../../components/system/role/CommonAddRole";
+import CommonEditRole from "../../components/system/role/CommonEditRole";
 export default {
   components: {
     CommonAddRole,

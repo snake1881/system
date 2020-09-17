@@ -115,8 +115,8 @@
   </div>
 </template>
 <script>
-import CommonAddPlan from "../../components/Plan/CommonAddPlan";
-import CommonEditPlan from "../../components/Plan/CommonEditPlan";
+import CommonAddPlan from "../../components/assessment/plan/CommonAddPlan";
+import CommonEditPlan from "../../components/assessment/plan/CommonEditPlan";
 export default {
   components: {
     CommonAddPlan,

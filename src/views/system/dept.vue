@@ -52,9 +52,9 @@
   </div>
 </template>
 <script>
-import CommonAddDep from "../../components/Dep/CommonAddDep";
-import CommonAddAllDep from "../../components/Dep/CommonAddAllDep";
-import CommonEditDep from "../../components/Dep/CommonEditDep";
+import CommonAddDep from "../../components/system/dep/CommonAddDep";
+import CommonAddAllDep from "../../components/system/dep/CommonAddAllDep";
+import CommonEditDep from "../../components/system/dep/CommonEditDep";
 export default {
   components: {
     CommonAddDep,

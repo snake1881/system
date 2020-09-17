@@ -106,8 +106,8 @@
   </div>
 </template>
 <script>
-import CommonAddIndex from "../../components/Index/CommonAddIndex";
-import CommonEditIndex from "../../components/Index/CommonEditIndex";
+import CommonAddIndex from "../../components/assessment/index/CommonAddIndex";
+import CommonEditIndex from "../../components/assessment/index/CommonEditIndex";
 export default {
   components: {
     CommonAddIndex,

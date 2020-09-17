@@ -79,8 +79,8 @@
   </div>
 </template>
 <script>
-import CommonEditUser from "../../components/User/CommonEditUser";
-import CommonAddUser from "../../components/User/CommonAddUser";
+import CommonEditUser from "../../components/system/user/CommonEditUser";
+import CommonAddUser from "../../components/system/user/CommonAddUser";
 export default {
   components: {
     CommonEditUser,

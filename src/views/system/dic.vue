@@ -120,8 +120,8 @@
   </div>
 </template>
 <script>
-import CommonAddDic from "../../components/Dic/CommonAddDic";
-import CommonEditDic from "../../components/Dic/CommonEditDic";
+import CommonAddDic from "../../components/system/dic/CommonAddDic";
+import CommonEditDic from "../../components/system/dic/CommonEditDic";
 export default {
   components: {
     CommonAddDic,

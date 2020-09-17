@@ -140,8 +140,8 @@
   </div>
 </template>
 <script>
-import CommonEditResult from "../../components/Result/CommonEditResult";
-import CommonScoreResult from "../../components/Result/CommonScoreResult";
+import CommonEditResult from "../../components/assessment/result/CommonEditResult";
+import CommonScoreResult from "../../components/assessment/result/CommonScoreResult";
 export default {
   components: {
     CommonEditResult,

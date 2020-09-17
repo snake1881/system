@@ -55,8 +55,8 @@
   </div>
 </template>
 <script>
-import CommonAddPost from "../../components/Post/CommonAddPost";
-import CommonEditPost from "../../components/Post/CommonEditPost";
+import CommonAddPost from "../../components/system/post/CommonAddPost";
+import CommonEditPost from "../../components/system/post/CommonEditPost";
 export default {
   components: {
     CommonAddPost,

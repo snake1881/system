@@ -54,9 +54,9 @@
   </div>
 </template>
 <script>
-import CommonAddMenu from "../../components/Menu/CommonAddMenu";
-import CommonAddAllMenu from "../../components/Menu/CommonAddAllMenu";
-import CommonEditMenu from "../../components/Menu/CommonEditMenu";
+import CommonAddMenu from "../../components/system/menu/CommonAddMenu";
+import CommonAddAllMenu from "../../components/system/menu/CommonAddAllMenu";
+import CommonEditMenu from "../../components/system/menu/CommonEditMenu";
 export default {
   components: {
     CommonAddMenu,

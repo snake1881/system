@@ -64,8 +64,8 @@
   </div>
 </template>
 <script>
-import CommonAddDetail from "../../components/Detail/CommonAddDetail";
-import CommonEditDetail from "../../components/Detail/CommonEditDetail";
+import CommonAddDetail from "../../components/assessment/detail/CommonAddDetail";
+import CommonEditDetail from "../../components/assessment/detail/CommonEditDetail";
 export default {
   components: {
     CommonAddDetail,
