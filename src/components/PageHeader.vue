@@ -1,10 +1,10 @@
 <template>
   <div class="page_header">
     <i class="el-icon-s-unfold" style="font-size: 30px;line-height: 50px;margin-right: 1.5%" />
-    <span class="left">{{ this.pageHeaderName }}</span>
+    <span class="page_header_left">{{ this.pageHeaderName }}</span>
     <i class="el-icon-arrow-right" style="font-size: 16px;line-height: 50px;margin-left: 0.5%;margin-right: 1%" />
-    <span class="right" v-if="this.$route.name == null">首页</span>
-    <span class="right" v-else>{{ this.$route.name }}</span>
+    <span class="page_header_right" v-if="this.$route.name == null">首页</span>
+    <span class="page_header_right" v-else>{{ this.$route.name }}</span>
   </div>
 </template>
 
@@ -30,15 +30,15 @@ export default {
   padding-left: 10px;
   background-color: #e4e7ed;
 }
-.left {
+.page_header_left {
   font-size: 16px;
   font-weight: bolder;
 }
-.right {
+.page_header_right {
   color: #303133;
   font-size: 14px;
 }
-.left,.right {
+.page_header_left,.page_header_right {
   line-height: 50px;
   background-color: #e4e7ed;
 }

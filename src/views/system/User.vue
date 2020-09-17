@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-    <div class="left">
+    <div class="user_left">
       <el-tree
         ref="tree"
         empty-text="暂无数据"
@@ -11,9 +11,9 @@
         @node-click="getCheckedKeys"
       />
     </div>
-    <div class="right">
+    <div class="user_right">
       <!--顶部搜索框-->
-      <el-form :inline="true" :model="searchForm" :rules="rules" class="right_form">
+      <el-form :inline="true" :model="searchForm" :rules="rules" class="user_right_form">
         <el-form-item>
           <el-input v-model="searchForm.loginName" placeholder="登录名称" size="medium" />
         </el-form-item>
@@ -25,7 +25,7 @@
       </el-form>
       <!-- 表格数据 -->
       <el-table
-        class="right_table"
+        class="user_right_table"
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
@@ -56,7 +56,7 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
-      <div class="right_page">
+      <div class="user_right_page">
         <el-pagination
           :current-page.sync="currentPage"
           :page-size="pageSize"

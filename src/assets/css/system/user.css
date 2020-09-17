@@ -6,19 +6,19 @@
     margin-top: 10px;
 }
 
-.left {
+.user_left {
     width: 15%;
     height: 100%;
     margin-right: 10px;
     background-color: white;
 }
 
-.right {
+.user_right {
     width: 85%;
     height: 100%;
 }
 
-.right_form {
+.user_right_form {
     width: 98%;
     height: 9%;
     padding-left: 1%;
@@ -26,12 +26,12 @@
     background-color: white;
 }
 
-.right_table {
+.user_right_table {
     width: 99%;
     height: 84%;
 }
 
-.right_page {
+.user_right_page {
     width: 99%;
     height: 6%;
     background-color: white;
