@@ -1,5 +1,5 @@
 <template>
-  <div class="system">
+  <div class="liquid_volume_abnormal">
     液量异常汇总
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="oilAbnormal">
+  <div class="oil_abnormal">
     油井异常
   </div>
 </template>
