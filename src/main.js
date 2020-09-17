@@ -26,19 +26,19 @@ import './assets/icon/iconfont.css';
 
 // 导航守卫
 router.beforeEach((to, from, next) => {
-  if (to.path === "/") {
-    next();
-  } else {
-    if (window.sessionStorage.getItem("user")) {
-      initMenu(router, store);
-      next();
+    if (to.path === "/") {
+        next();
     } else {
-      next("/?redirect=" + to.path);
+        if (window.sessionStorage.getItem("user")) {
+            initMenu(router, store);
+            next();
+        } else {
+            next("/?redirect=" + to.path);
+        }
     }
-  }
 });
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");

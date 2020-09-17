@@ -12,6 +12,7 @@ proxyObj["/"] = {
     }
 };
 module.exports = {
+    lintOnSave: "warning",
     devServer: {
         port: 8088,
         open: true,
