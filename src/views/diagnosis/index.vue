@@ -1,6 +1,6 @@
 <template>
   <div>
-      油水井诊断首页
+    油水井诊断首页
   </div>
 </template>
 <script>
@@ -11,7 +11,4 @@ export default {
   methods: {}
 };
 </script>
-<style lang='less' scoped>
-</style>
-<style>
-</style>
+<style lang="less" scoped></style>

@@ -4,7 +4,7 @@
     <span class="left">{{ this.pageHeaderName }}</span>
     <i class="el-icon-arrow-right" style="font-size: 16px;line-height: 50px" />
     <span class="right" v-if="this.$route.name == null">首页</span>
-    <span class="right" v-else>{{this.$route.name}}</span>
+    <span class="right" v-else>{{ this.$route.name }}</span>
   </div>
 </template>
 

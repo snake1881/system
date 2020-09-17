@@ -1,5 +1,5 @@
 <template>
-  <div class="exception">
+  <div class="konwledge">
     <router-view />
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.exception {
+.konwledge {
   width: 100%;
   height: 100%;
 }
