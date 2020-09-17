@@ -50,41 +50,14 @@
   </div>
 </template>
 <script>
-import {AMapManager, lazyAMapApiLoaderInstance} from "vue-amap";
-let amapManager = new VueAMap.AMapManager();  //新建生成地图画布
+// import {AMapManager, lazyAMapApiLoaderInstance} from "vue-amap";
+// let amapManager = new VueAMap.AMapManager();  //新建生成地图画布
 export default {
   data() {
     return {
-      amapManager,
-      zoom: 12,
-      center: [121.59996, 31.197646],
-      events: {
-        init: (o) => {
-          console.log(o.getCenter())
-          console.log(this.$refs.map.$$getInstance())
-          o.getCity(result => {
-            console.log(result)
-          })
-        },
-        'moveend': () => {
-        },
-        'zoomchange': () => {
-        },
-        'click': () => {
-        }
-      },
-      plugin: ['ToolBar', {
-            pName: 'MapType',
-            defaultType: 0,
-            events: {
-              init(o) {
-                console.log(o);
-              }
-            }
-          }]
-    };
-  }
-
+      
+    }
+  },
 };
 </script>
 

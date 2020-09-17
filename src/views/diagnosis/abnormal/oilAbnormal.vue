@@ -1,5 +1,5 @@
 <template>
-  <div class="oilException">
+  <div class="oilAbnormal">
     油井异常
   </div>
 </template>
@@ -13,5 +13,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../../assets/css/diagnosis/exception/oilException.css";
+@import "../../../assets/css/diagnosis/abnormal/oilAbnormal.css";
 </style>
