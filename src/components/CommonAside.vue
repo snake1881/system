@@ -17,7 +17,7 @@
           <span slot="title">{{ item.name }}</span>
         </el-menu-item>
         <el-submenu
-          :index="index + ''"
+          :index="item.path"
           v-if="item.children.length > 0 && !item.hidden"
         >
           <template slot="title">
@@ -50,14 +50,7 @@ export default {
       menus: this.$store.state.routes[0].children[this.routerNumber]
     };
   },
-  created() {
-    this.ad();
-  },
-  methods: {
-    ad() {
-      console.log(this.menus.children);
-    }
-  }
+  methods: {}
 };
 </script>
 
