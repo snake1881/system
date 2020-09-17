@@ -16,8 +16,14 @@
     <div class="main_middle">
       <el-card class="main_middle_1" shadow="hover">
         <div class="main_middle_1_item">
-          <i class="el-icon-map-location" />
-          <span> GIS地图 </span>
+          <!-- <i class="el-icon-map-location" />
+          <span> GIS地图 </span> -->
+          <el-amap 
+            ref="map" vid="amapDemo" 
+            :amap-manager="amapManager" :center="center" 
+            :zoom="zoom" :plugin="plugin" :events="events" 
+            class="amap-demo" 
+          />
         </div>
       </el-card>
       <el-card class="main_middle_2" shadow="hover">
@@ -44,11 +50,41 @@
   </div>
 </template>
 <script>
+import {AMapManager, lazyAMapApiLoaderInstance} from "vue-amap";
+let amapManager = new VueAMap.AMapManager();  //新建生成地图画布
 export default {
   data() {
-    return {};
-  },
-  methods: {}
+    return {
+      amapManager,
+      zoom: 12,
+      center: [121.59996, 31.197646],
+      events: {
+        init: (o) => {
+          console.log(o.getCenter())
+          console.log(this.$refs.map.$$getInstance())
+          o.getCity(result => {
+            console.log(result)
+          })
+        },
+        'moveend': () => {
+        },
+        'zoomchange': () => {
+        },
+        'click': () => {
+        }
+      },
+      plugin: ['ToolBar', {
+            pName: 'MapType',
+            defaultType: 0,
+            events: {
+              init(o) {
+                console.log(o);
+              }
+            }
+          }]
+    };
+  }
+
 };
 </script>
 
