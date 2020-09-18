@@ -79,6 +79,7 @@
   </div>
 </template>
 <script>
+let echarts = require('echarts/lib/echarts');
 export default {
   data() {
     return {
@@ -152,8 +153,54 @@ export default {
       });
     },
     // 查看曲线
-    details() {
+    details(val) {
+      console.log(val);
       this.dialogTableVisible = true;
+    },
+    open(){
+      const t = this;
+      setTimeout(() => {
+        //  执行echarts画图方法
+        t.drawLine();
+      }, 0);
+    },
+    // 画图
+    drawLine(){
+       let dom = document.getElementById('line');
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        legend: {
+            data: ['日产液量', '日产油量', '日含水量']
+        },
+        grid: {
+            bottom: '10%',
+        },
+        xAxis: {
+            type: 'time',
+            axisLabel:{
+              show:true,
+            }
+        },
+        yAxis: [{
+            type: 'value',
+            position:'left'
+          },{
+            type: 'value',
+            position:'right'
+          }
+        ],
+        series: [{
+          data: [['2017/2/18', 2], ['2017/5/10',0],['2018/1/10',20],['2020/3/10', 13]],
+          type: 'line',
+          yAxisIndex: 0,  // 通过这个判断左右
+          smooth: true
+        }, {
+          data: [['2016/12/18', 20], ['2017/12/18', 90]],
+          type: 'line',
+          yAxisIndex: 1, //右
+          smooth: true
+        }]
+    });
     },
     // 根据primaryId删除异常数据
     dleteByPrimaryId(val) {
