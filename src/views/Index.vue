@@ -28,8 +28,7 @@
            -->
         <el-amap 
           ref="map" vid="amapDemo" 
-          :amap-manager="amapManager" :center="center" 
-          :zoom="zoom" :plugin="plugin" :events="events" 
+          :amap-manager="amapManager"  
         />
         </div>
       </el-card>
@@ -57,25 +56,12 @@
   </div>
 </template>
 <script>
-import {AMapManager} from 'vue-amap'
+import { AMapManager } from "vue-amap";
 let amapManager = new AMapManager()
 export default {
   data() {
     return {
       amapManager,
-      zoom: 12,
-      center: [121.59996, 31.197646],
-      events: {
-        init: () => {},
-        'moveend': () => { },
-        'zoomchange': () => {},
-        'click': () => {}
-      },
-      plugin: ['ToolBar', {
-        pName: 'MapType',
-        defaultType: 0,
-        events: {}
-      }]  
     }
   },
   created(){
