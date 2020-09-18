@@ -1,5 +1,5 @@
 <template>
-  <div class="system">
+  <div class="liquid_volume_abnormal">
     液量异常汇总
   </div>
 </template>
@@ -11,4 +11,6 @@ export default {
   methods: {}
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import "../../../assets/css/diagnosis/oilWell/liquidVolumeAbnormal.css";
+</style>
