@@ -11,4 +11,6 @@ export default {
   methods: {}
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import "../../../assets/css/diagnosis/oilWell/liquidVolumeAbnormal.css";
+</style>
