@@ -3,15 +3,19 @@
     <!-- 条件查询 -->
     <el-form class="liquid_volume_abnormal_form" :model="abnormalForm" :inline="true">
       <el-form-item label="采油站">
-        <el-select v-model="abnormalForm.orgName" placeholder="全区" size="medium">
-          <el-option label="徐梁采油站" value="徐梁采油站"></el-option>
-          <el-option label="郑寨子采油站" value="郑寨子采油站"></el-option>
+        <el-select
+          v-model="abnormalForm.orgName"
+          placeholder="全区"
+          size="medium"
+          @focus="selectOrgName()"
+        >
+          <el-option v-for="item in orgNames" :key="item" :value="item" :label="item" />
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-date-picker
-          :v-model="abnormalForm.formDate"
-          type="datetime"
+          v-model="abnormalForm.formDate"
+          type="date"
           placeholder="选择日期"
           size="medium"
         />
@@ -41,10 +45,11 @@
       border
       style="width:100%;"
     >
+      <el-table-column label="序号" type="index" width="50" align="center"></el-table-column>
       <el-table-column prop="wellName" label="井号" width="100" />
       <el-table-column prop="prodDate" label="日期" width="160" />
       <el-table-column prop="prodTime" label="生产时间" width="80" />
-      <el-table-column prop="abnormalProblem" label="诊断结果" width="180" />
+      <el-table-column prop="abnormalProblem" label="诊断结果" width="200" />
       <el-table-column prop="orgName" label="采油站" width="140" />
       <el-table-column prop="liqProdDaily" label="产液量" width="100" />
       <el-table-column prop="waterCut" label="含水率" width="100" />
@@ -70,9 +75,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog title="详细信息" :visible.sync="dialogTableVisible">
-      
-    </el-dialog>
+    <el-dialog title="详细信息" :visible.sync="dialogTableVisible"></el-dialog>
   </div>
 </template>
 <script>
@@ -97,7 +100,8 @@ export default {
       // 表格加载动画
       loading: true,
       // 查看曲线对话框标记
-      dialogTableVisible: false
+      dialogTableVisible: false,
+      orgNames: []
     };
   },
   created() {
@@ -162,15 +166,23 @@ export default {
         }
       });
     },
+    // 查询所有采油站信息
+    selectOrgName() {
+      this.getRequest("/oilWell/liquidVolumeAbnormal/orgNames").then(resp => {
+        if (resp) {
+          this.orgNames = resp.data;
+        }
+      });
+    },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.logInit();
+      this.liquidVolumeInit();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.logInit();
+      this.liquidVolumeInit();
     }
   }
 };
