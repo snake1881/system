@@ -12,10 +12,11 @@ Vue.use(Element);
 Vue.prototype.$echarts = echarts;
 Vue.use(VueAMap);
 VueAMap.initAMapApiLoader({
-  key: 'add9a4acb6a222e7695d72da7e4d9ae7',
+  key: "add9a4acb6a222e7695d72da7e4d9ae7",
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
   // 默认高德 sdk 版本为 1.4.4
-  v: '1.4.4'
+  v: "1.4.4",
+  uiVersion:"1.0"
 });
 // axios引用
 import { postRequest } from "./utils/request";

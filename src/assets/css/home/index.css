@@ -36,7 +36,11 @@
 .main_middle_2 {
     height: 36%;
 }
+.main_middle_1_item {
+    width: 96%;
+    height: 100%;
 
-.amap-demo {
-    height: 97%;
 }
+/* .amap-demo {
+    height: 90%;
+} */

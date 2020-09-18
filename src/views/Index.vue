@@ -18,12 +18,19 @@
         <div class="main_middle_1_item">
           <!-- <i class="el-icon-map-location" />
           <span> GIS地图 </span> -->
-          <el-amap 
-            ref="map" vid="amapDemo" 
-            :amap-manager="amapManager" :center="center" 
-            :zoom="zoom" :plugin="plugin" :events="events" 
-            class="amap-demo" 
-          />
+          <!-- 
+          amap-manager： 地图管理对象
+          vid：地图容器节点的ID
+          zooms： 地图显示的缩放级别范围，在PC上，默认范围[3,18]，取值范围[3-18]；在移动设备上，默认范围[3-19]，取值范围[3-19]
+          center： 地图中心点坐标值
+          plugin：地图使用的插件
+          events： 事件
+           -->
+        <el-amap 
+          ref="map" vid="amapDemo" 
+          :amap-manager="amapManager" :center="center" 
+          :zoom="zoom" :plugin="plugin" :events="events" 
+        />
         </div>
       </el-card>
       <el-card class="main_middle_2" shadow="hover">
@@ -50,14 +57,30 @@
   </div>
 </template>
 <script>
-// import {AMapManager, lazyAMapApiLoaderInstance} from "vue-amap";
-// let amapManager = new VueAMap.AMapManager();  //新建生成地图画布
+import {AMapManager} from 'vue-amap'
+let amapManager = new AMapManager()
 export default {
   data() {
     return {
-      
+      amapManager,
+      zoom: 12,
+      center: [121.59996, 31.197646],
+      events: {
+        init: () => {},
+        'moveend': () => { },
+        'zoomchange': () => {},
+        'click': () => {}
+      },
+      plugin: ['ToolBar', {
+        pName: 'MapType',
+        defaultType: 0,
+        events: {}
+      }]  
     }
   },
+  created(){
+    console.log(this.amapManager);
+  }
 };
 </script>
 
