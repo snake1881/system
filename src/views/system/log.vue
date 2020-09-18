@@ -100,16 +100,7 @@ export default {
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
         }
-      });
-      // this.getRequest("/operationLog/findById?id=" + this.logForm.id).then(
-      //   resp => {
-      //     if (resp) {
-      //       let searchLogData = new Array();
-      //       searchLogData.push(resp.data);
-      //       this.logData = searchLogData;
-      //     }
-      //   }
-      // );
+      })
     },
     // 表格数据初始化
     logInit() {
