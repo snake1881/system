@@ -1,5 +1,17 @@
 .liquid_volume_abnormal {
-    height: 90%;
-    width: 100%;
-    margin-top: 10px;
+    height: 100%;
+    width: 98%;
+    padding-left: 1%;
+}
+
+.liquid_volume_abnormal_form {
+    width: 98%;
+    height: 9%;
+    padding-left: 1%;
+    padding-top: 5px;
+}
+
+.liquid_volume_abnormal_page {
+    width: 98%;
+    height: 6%;
 }

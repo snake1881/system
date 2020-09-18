@@ -13,7 +13,9 @@ export default {
 </script>
 <style lang="less" scoped>
 .oilWell {
+  height: 90%;
   width: 100%;
-  height: 100%;
+  margin-top: 10px;
+  background-color: white;
 }
 </style>
