@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    title="新增用户信息"
-    :visible.sync="addUserVisible"
-    width="60%"
-    :before-close="addUserClose"
-  >
+  <el-dialog title="新增用户信息" :visible.sync="addUserVisible" width="60%" :before-close="addUserClose">
     <div class="dialogDiv">
       <el-form :model="addData" label-width="80px">
         <el-form-item label="登录名称">
@@ -17,19 +12,13 @@
           <el-input v-model="addData.userNum" />
         </el-form-item>
         <el-form-item label="部门名称">
-          <el-select v-model="addData.departmentName">
-            <el-option :value="addData.departmentName" style="height: auto">
-              <!-- 部门名称 -->
-              <el-tree
-                ref="tree"
-                empty-text="暂无数据"
-                :data="deparmentData"
-                :props="defaultProps"
-                node-key="deparmentData.departmentId"
-                @node-click="getCheckedKeys"
-              />
-            </el-option>
-          </el-select>
+          <el-cascader
+            v-model="deptmentIds"
+            :options="deptments"
+            :show-all-levels="false"
+            :props="{ checkStrictly: true }"
+            @change="handleChange"
+          />
         </el-form-item>
         <el-form-item label="手机">
           <el-input v-model="addData.phone" />
@@ -57,13 +46,11 @@
             <el-checkbox label="管理员" value="1" />
             <el-checkbox label="普通角色" value="2" />
           </el-checkbox-group>
-        </el-form-item> -->
+        </el-form-item>-->
       </el-form>
     </div>
     <span slot="footer">
-      <el-button type="primary" @click="saveAddUser(addData), addUserClose()">
-        提交
-      </el-button>
+      <el-button type="primary" @click="saveAddUser(addData), addUserClose()">提交</el-button>
     </span>
   </el-dialog>
 </template>
@@ -81,7 +68,7 @@ export default {
       addData: {
         loginName: "",
         userNum: "",
-        departmentName: "",
+        departmentId: "",
         userName: "",
         phone: "",
         sex: "",
@@ -94,7 +81,11 @@ export default {
       defaultProps: {
         children: "children",
         label: "departmentName"
-      }
+      },
+      // 部门名称选择框数据初始化
+      deptments: [],
+      // 部门名称选择框，值为当前选中部门ID及其对应的所有父级部门ID
+      deptmentIds: []
     };
   },
   created() {
@@ -124,14 +115,43 @@ export default {
       this.getRequest("/system/department/getDepartmentTree").then(resp => {
         if (resp) {
           this.deparmentData = resp.data;
+          this.deptments = deptInit(resp.data);
         }
       });
     },
     getCheckedKeys(val) {
-      console.log(val);
-      this.addData.departmentName = val.departmentName;
+      this.addData.departmentId = val.departmentId;
+    },
+    // 部门名称选择框，给表单添加选中部门ID
+    handleChange(value) {
+      this.addData.departmentId = value[value.length - 1];
     }
   }
+};
+// 部门名称选择框数据初始化
+export const deptInit = val => {
+  let deptment = [];
+  val.forEach(dept => {
+    let { departmentId, departmentName, children } = dept;
+    if (children && children instanceof Array) {
+      children = deptInit(children);
+    }
+    let depts;
+    if (children.length === 0) {
+      depts = {
+        value: departmentId,
+        label: departmentName
+      };
+    } else {
+      depts = {
+        value: departmentId,
+        label: departmentName,
+        children: children
+      };
+    }
+    deptment.push(depts);
+  });
+  return deptment;
 };
 </script>
 
@@ -145,4 +165,20 @@ export default {
 .el-input {
   width: 700px;
 }
+</style>
+<style>
+.el-cascader-panel .el-radio{ 
+  width: 100%;
+  height: 100%;
+  z-index: 10; 
+  position: absolute; 
+  top: 10px;
+  right: 10px; 
+} 
+.el-cascader-panel .el-radio__input{ 
+  visibility: hidden; 
+} 
+.el-cascader-panel .el-cascader-node__postfix{ 
+  top: 10px;
+} 
 </style>
