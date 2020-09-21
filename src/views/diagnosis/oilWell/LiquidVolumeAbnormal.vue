@@ -76,28 +76,32 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog title="详细信息" :visible.sync="dialogTableVisible" @open="open()">
+    <el-dialog title="详细信息" :visible.sync="dialogTableVisible" @open="open()" class="liquid_volume_abnormal_dialog">
       <!-- 搜索框 -->
-      <el-form :model="dialogForm"  :inline="true">  
-        <el-form-item label="开始日期">
+      <el-form :model="dialogForm"  :inline="true" class="liquid_volume_abnormal_dialog_form"> 
+        <el-form-item>
+          <el-input v-model="dialogForm.orgName" disabled="true"/>
+        </el-form-item> 
+        <el-form-item>
+          <el-input v-model="dialogForm.wellName" disabled="true"/>
+        </el-form-item> 
+        <el-form-item label="开始">
           <el-date-picker
             v-model="dialogForm.startDate"
             type="date"
             value-format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
             size="medium"
           />
       </el-form-item>
-      <el-form-item label="结束日期">
+      <el-form-item label="结束">
           <el-date-picker
             v-model="dialogForm.endDate"
             type="date"
             value-format="yyyy-MM-dd HH:mm:ss"
-            placeholder="选择日期"
             size="medium"
           />
       </el-form-item>
-     <el-button  type="primary" round @click="lineChart(dialogForm)">查询</el-button>
+     <el-button  type="primary" round @click="lineChart()">查询</el-button>
       </el-form>
       <!-- 折线图 -->
       <div style="height: 300px" id="line" />
@@ -130,6 +134,12 @@ export default {
       dialogTableVisible: false,
       // 对话框搜索框
       dialogForm:{
+        // 采油站
+        orgName:"",
+        // 井号
+        wellName:"",
+        // id
+        primaryId:"",
         // 开始日期
         startDate: "",
         // 结束日期
@@ -187,10 +197,13 @@ export default {
     },
     // 查看曲线
     details(val) {
-      console.log(val);
       this.dialogTableVisible = true;
-      this.drawLine(val.prodDate);
+      this.dialogForm.orgName = val.orgName; 
+      this.dialogForm.wellName = val.wellName; 
+      this.dialogForm.primaryId = val.primaryId;
+      this.drawLine(val.primaryId, val.prodDate, 0);
     },
+    // 对话框
     open() {
       const t = this;
       setTimeout(() => {
@@ -198,84 +211,84 @@ export default {
         t.drawLine();
       }, 0);
     },
-    // 点击按钮显示折线图
+    // 点击按钮根据时间查询，显示折线图
     lineChart(val){
-      this.drawLine(val);
+      this.drawLine(this.dialogForm.primaryId, this.dialogForm.startDate,this.dialogForm.endDate);
     },
     // 画图
-    drawLine(date) {
-      this.postRequst("/",date).then(resp => {
+    drawLine(id,startDate,endDate) {
+      this.postRequest("/", id, startDate, endDate).then(resp => {
         if(resp){
           let dom = document.getElementById("line");
           let myChart = echarts.init(dom);
            myChart.setOption({
-        legend: {
-          data: ["日产液量", "日产油量", "日含水量"]
-        },
-        tooltip : {
-          trigger: 'axis',
-        },
-        grid: {
-          bottom: "10%"
-        },
-        xAxis: {
-          type: "time",
-          axisLabel: {
-            show: true
-          }
-        },
-        yAxis: [
-          {
-            type: "value",
-            position: "left",
-            name:"产量(方)"
+          legend: {
+            data: ["日产液量", "日产油量", "日含水量"]
           },
-          {
-            type: "value",
-            position: "right",
-            name:"含水率(%)",
-            axisLabel: {  
+          tooltip : {
+            trigger: 'axis',
+          },
+          grid: {
+            bottom: "10%"
+          },
+          xAxis: {
+            type: "time",
+            axisLabel: {
               show: true
             }
-          }
-        ],
-        series: [{
-          name:"日产液量",
-          data: [
-            ["2020/8/1", 18],
-            ["2020/8/2", 2],
-            ["2020/8/3", 16],
-            ["2020/8/4", 20],
-            ["2020/8/5", 10]
+          },
+          yAxis: [
+            {
+              type: "value",
+              position: "left",
+              name:"产量(方)"
+            },
+            {
+              type: "value",
+              position: "right",
+              name:"含水率(%)",
+              axisLabel: {  
+                show: true
+              }
+            }
           ],
-          type: "line",
-          yAxisIndex: 0, // 通过这个判断左右
-          smooth: true
-          }, {
-            name:"日产油量",
+          series: [{
+            name:"日产液量",
             data: [
-              ["2020/8/1", 1],
-              ["2020/8/2", 30],
-              ["2020/8/3", 25],
-              ["2020/8/4", 30],
-              ["2020/8/5", 15]
+              ["2020/8/1", 18],
+              ["2020/8/2", 2],
+              ["2020/8/3", 16],
+              ["2020/8/4", 20],
+              ["2020/8/5", 10]
             ],
             type: "line",
-            yAxisIndex: 1, //右
+            yAxisIndex: 0, // 通过这个判断左右
             smooth: true
-          },{
-            name:"日含水量",
-            data: [
-              ["2020/8/1", 14],
-              ["2020/8/2", 9],
-              ["2020/8/2", 25],
-              ["2020/8/4", 40],
-              ["2020/8/5", 80]
-            ],
-            type: "line",
-            yAxisIndex: 1, //右
-            smooth: true
-          }
+            }, {
+              name:"日产油量",
+              data: [
+                ["2020/8/1", 1],
+                ["2020/8/2", 30],
+                ["2020/8/3", 25],
+                ["2020/8/4", 30],
+                ["2020/8/5", 15]
+              ],
+              type: "line",
+              yAxisIndex: 1, //右
+              smooth: true
+            },{
+              name:"日含水量",
+              data: [
+                ["2020/8/1", 14],
+                ["2020/8/2", 9],
+                ["2020/8/2", 25],
+                ["2020/8/4", 40],
+                ["2020/8/5", 80]
+              ],
+              type: "line",
+              yAxisIndex: 1, //右
+              smooth: true
+            }
         ]
       });
         }
@@ -317,4 +330,9 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../../assets/css/diagnosis/oilWell/liquidVolumeAbnormal.css";
+</style>
+<style scoped>
+.el-input {
+  width: 120px;
+}
 </style>
