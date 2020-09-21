@@ -77,6 +77,29 @@
       />
     </div>
     <el-dialog title="详细信息" :visible.sync="dialogTableVisible" @open="open()">
+      <!-- 搜索框 -->
+      <el-form :model="dialogForm"  :inline="true">  
+        <el-form-item label="开始日期">
+          <el-date-picker
+            v-model="dialogForm.startDate"
+            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期"
+            size="medium"
+          />
+      </el-form-item>
+      <el-form-item label="结束日期">
+          <el-date-picker
+            v-model="dialogForm.endDate"
+            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期"
+            size="medium"
+          />
+      </el-form-item>
+     <el-button  type="primary" round @click="lineChart(dialogForm)">查询</el-button>
+      </el-form>
+      <!-- 折线图 -->
       <div style="height: 300px" id="line" />
     </el-dialog>
   </div>
@@ -105,6 +128,13 @@ export default {
       loading: true,
       // 查看曲线对话框标记
       dialogTableVisible: false,
+      // 对话框搜索框
+      dialogForm:{
+        // 开始日期
+        startDate: "",
+        // 结束日期
+        endDate: ""
+      },
       orgNames: []
     };
   },
@@ -159,6 +189,7 @@ export default {
     details(val) {
       console.log(val);
       this.dialogTableVisible = true;
+      this.drawLine(val.prodDate);
     },
     open() {
       const t = this;
@@ -167,13 +198,22 @@ export default {
         t.drawLine();
       }, 0);
     },
+    // 点击按钮显示折线图
+    lineChart(val){
+      this.drawLine(val);
+    },
     // 画图
-    drawLine() {
-      let dom = document.getElementById("line");
-      let myChart = echarts.init(dom);
-      myChart.setOption({
+    drawLine(date) {
+      this.postRequst("/",date).then(resp => {
+        if(resp){
+          let dom = document.getElementById("line");
+          let myChart = echarts.init(dom);
+           myChart.setOption({
         legend: {
           data: ["日产液量", "日产油量", "日含水量"]
+        },
+        tooltip : {
+          trigger: 'axis',
         },
         grid: {
           bottom: "10%"
@@ -187,29 +227,50 @@ export default {
         yAxis: [
           {
             type: "value",
-            position: "left"
+            position: "left",
+            name:"产量(方)"
           },
           {
             type: "value",
-            position: "right"
+            position: "right",
+            name:"含水率(%)",
+            axisLabel: {  
+              show: true
+            }
           }
         ],
-        series: [
-          {
+        series: [{
+          name:"日产液量",
+          data: [
+            ["2020/8/1", 18],
+            ["2020/8/2", 2],
+            ["2020/8/3", 16],
+            ["2020/8/4", 20],
+            ["2020/8/5", 10]
+          ],
+          type: "line",
+          yAxisIndex: 0, // 通过这个判断左右
+          smooth: true
+          }, {
+            name:"日产油量",
             data: [
-              ["2017/2/18", 2],
-              ["2017/5/10", 0],
-              ["2018/1/10", 20],
-              ["2020/3/10", 13]
+              ["2020/8/1", 1],
+              ["2020/8/2", 30],
+              ["2020/8/3", 25],
+              ["2020/8/4", 30],
+              ["2020/8/5", 15]
             ],
             type: "line",
-            yAxisIndex: 0, // 通过这个判断左右
+            yAxisIndex: 1, //右
             smooth: true
-          },
-          {
+          },{
+            name:"日含水量",
             data: [
-              ["2016/12/18", 20],
-              ["2017/12/18", 90]
+              ["2020/8/1", 14],
+              ["2020/8/2", 9],
+              ["2020/8/2", 25],
+              ["2020/8/4", 40],
+              ["2020/8/5", 80]
             ],
             type: "line",
             yAxisIndex: 1, //右
@@ -217,6 +278,10 @@ export default {
           }
         ]
       });
+        }
+      });
+     
+     
     },
     // 根据primaryId删除异常数据
     dleteByPrimaryId(val) {

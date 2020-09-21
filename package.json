@@ -50,7 +50,10 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {},
+    "rules": {
+      "no-console":"off",  
+      "no-irregular-whitespace":"off"
+    },
     "overrides": [
       {
         "files": [

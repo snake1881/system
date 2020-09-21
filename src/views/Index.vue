@@ -16,8 +16,8 @@
     <div class="main_middle">
       <el-card class="main_middle_1" shadow="hover">
         <div class="main_middle_1_item">
-          <!-- <i class="el-icon-map-location" />
-          <span> GIS地图 </span> -->
+          <i class="el-icon-map-location" />
+          <span> GIS地图 </span>
           <!-- 
           amap-manager： 地图管理对象
           vid：地图容器节点的ID
@@ -27,8 +27,14 @@
           events： 事件
            -->
         <el-amap 
-          ref="map" vid="amapDemo" 
-          :amap-manager="amapManager"  
+          ref="map" 
+          vid="amapDemo" 
+          :amap-manager="amapManager" 
+          :zoom="zoom" 
+          :center="center" 
+          :plugin="plugin" 
+          :events="events" 
+          class="amap-demo"
         />
         </div>
       </el-card>
@@ -62,6 +68,31 @@ export default {
   data() {
     return {
       amapManager,
+      zoom: 12,
+      center: [107.596401, 37.574277],
+      events: {
+        init: (o) => {
+          console.log(o.getCenter())
+          console.log(this.$refs.map.$$getInstance())
+          o.getCity(result => {
+            console.log(result)
+          })
+        },
+        'moveend': () => {
+        },
+        'zoomchange': () => {
+        },
+        'click': () => {}
+      },
+      plugin: ['ToolBar', {
+        pName: 'MapType',
+        defaultType: 0,
+        events: {
+          init(o) {
+            console.log(o);
+          }
+        }
+      }]
     }
   },
   created(){
@@ -72,4 +103,9 @@ export default {
 
 <style lang="less" scoped>
   @import '../assets/css/home/index.css';
+</style>
+<style scoped>
+.el-vue-amap-container{
+  height: 300px;
+}
 </style>

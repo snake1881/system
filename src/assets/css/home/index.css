@@ -37,10 +37,12 @@
     height: 36%;
 }
 .main_middle_1_item {
-    width: 96%;
+    width: 98%;
     height: 100%;
 
 }
-/* .amap-demo {
+
+.amap-demo {
     height: 90%;
-} */
+    margin-top: 5px;
+}
