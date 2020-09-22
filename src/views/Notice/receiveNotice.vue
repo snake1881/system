@@ -1,27 +1,15 @@
 <template>
-  <div class="container">
+  <div class="receiveNotice">
     <el-card>
       <div slot="header">
-        <span>通知中心</span>
-        <el-button
-          style="float: right; padding: 3px 0"
-          type="text"
-          icon="el-icon-setting"
-        >
-          设置
-        </el-button>
+        <span class="receiveNotice_span">通知中心</span>
       </div>
-      <div v-for="o in 14" :key="o" class="noticeContainer">
-        <el-button
-          type="warning"
-          icon="el-icon-place"
-          circle
-          style="margin:0 10px 15px 0"
-        />
-        <div style="margin-bottom:15px">
-          <el-button @click="gotoDetailsNotice()" type="text">
-            <span> {{ "列表内容 " + o }} </span>
-          </el-button>
+      <div v-for="(item, index) in this.noticeData " :key="index" class="receiveNotice_container">
+        <el-button type="warning" icon="el-icon-place" circle class="receiveNotice_container_button"/>
+        <div class="receiveNotice_container_detail">
+          <el-button @click="gotoDetailsNotice()" type="text" style="margin-right:30px"> {{ item.notContainer}} </el-button>
+          <el-button @click="gotoDetailsNotice()" type="text"> {{ item.notTime}} </el-button>
+          <el-button @click="gotoDetailsNotice()" type="text"> {{ item.notSend}} </el-button>
         </div>
       </div>
     </el-card>
@@ -31,21 +19,62 @@
 export default {
   data() {
     return {
-      noticeData: []
+      noticeData: [
+        {
+          notContainer: "下午14点开发科会议室开会。",
+          notTime:"2020/9/22",
+          notSend:"李科长"
+        },
+        {
+          notContainer: "本周学习延长石油发展历程相关资料，并写出个人感悟。",
+          notTime:"2020/9/23",
+          notSend:"宣传部"
+        },
+        {
+          notContainer: "有关东仁沟采油队智能油田改造汇报会议将在早上8点举行，请大家按时参加。",
+          notTime:"2020/9/25",
+          notSend:"开发科"
+        },
+        {
+          notContainer: "本周学习延长石油发展历程相关资料，并写出个人感悟。",
+          notTime:"2020/9/23",
+          notSend:"宣传部"
+        },
+        {
+          notContainer: "下午14点开发科会议室开会。",
+          notTime:"2020/9/22",
+          notSend:"李科长"
+        },
+        {
+          notContainer: "本周学习延长石油发展历程相关资料，并写出个人感悟。",
+          notTime:"2020/9/23",
+          notSend:"宣传部"
+        },
+        {
+          notContainer: "下午14点开发科会议室开会。",
+          notTime:"2020/9/22",
+          notSend:"李科长"
+        },
+        {
+          notContainer: "本周学习延长石油发展历程相关资料，并写出个人感悟。",
+          notTime:"2020/9/23",
+          notSend:"宣传部"
+        }
+      ]
     };
   },
   created() {
-    this.noticeInit();
+    // this.noticeInit();
   },
   methods: {
     // 初始化所有通知
-    noticeInit() {
-      this.getRequest("/").then(resp => {
-        if (resp) {
-          this.noticeData = resp;
-        }
-      });
-    },
+    // noticeInit() {
+    //   this.getRequest("/").then(resp => {
+    //     if (resp) {
+    //       this.noticeData = resp;
+    //     }
+    //   });
+    // },
     // 跳转到接收通知页面
     gotoDetailsNotice() {
       this.$router.replace("/detailsNotice");
@@ -53,20 +82,9 @@ export default {
   }
 };
 </script>
+
 <style lang="less" scoped>
-.container {
-  width: 100%;
-  height: 100px;
-  background-color: white;
-}
-.noticeContainer {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 35px;
-  border-bottom: 1px solid rgb(209, 208, 208);
-}
+@import "../../assets/css/notice/receiveNotice.css";
 </style>
 <style scoped>
 .el-button--text {
