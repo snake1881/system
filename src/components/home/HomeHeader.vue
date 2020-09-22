@@ -27,11 +27,40 @@
     <!-- 用户信息 -->
     <div class="container_right">
       <!-- 消息通知 -->
-      <el-badge :value="noticeNum" class="container_right_badge">
-        <el-button size="small" @click="gotoReceiveNotice()">
-          <i class="el-icon-message-solid" />
-        </el-button>
-      </el-badge>
+      <el-popover placement="bottom" class="container_right_notice" trigger="click">
+        <el-tabs type="border-card">
+          <el-tab-pane label="未读" >
+            <el-scrollbar class="container_right_notice_scrollbar">
+              <!-- 未阅读信息展示 end -->
+              <template v-for="(item, index) in lists">
+                <div
+                  v-if="item.msgState == '未通知'"
+                  class="container_right_notice_content"
+                  :key="index"
+                  @click="read(item.msgId)"
+                >
+                  <div>{{item.msgContent}}</div>
+                  <div>{{item.msgTime}}</div>
+                </div>
+              </template>
+            </el-scrollbar>
+          </el-tab-pane>
+          <el-tab-pane label="已读">
+            <el-scrollbar class="container_right_notice_scrollbar">
+              <template v-for="(item, index) in lists">
+                <div v-if="item.msgState == '已阅读'" class="container_right_notice_content" :key="index">
+                  <div>{{item.msgContent}}</div>
+                  <div>{{item.msgTime}}</div>
+                </div>
+              </template>
+            </el-scrollbar>
+          </el-tab-pane>
+          <el-button @click="gotoReceiveNotice()" class="container_right_notice_button" type="text">查看全部通知</el-button>
+        </el-tabs>
+        <el-badge slot="reference" :value="noticeNum" :max="99" class="container_right_badge">
+          <el-button class="iconfont icon-tongzhi1" @click="cancelNoticeNum()"/>
+        </el-badge>
+      </el-popover>
       <!-- 图片+详细 -->
       <el-dropdown trigger="click">
         <span>
@@ -59,12 +88,59 @@
 export default {
   data() {
     return {
-      // 消息通知
+      // 通知总数
       noticeNum: 10,
+      // 通知详细
+      lists:[
+        {
+          msgState:"未通知",
+          msgContent:"开发科李科长已通过你的合同审批",
+          msgTime:"2020/5/21"
+        },
+        {
+          msgState:"未通知",
+          msgContent:"开发科李科长已通过你的合同审批",
+          msgTime:"2020/6/11"
+        },
+        {
+          msgState:"未通知",
+          msgContent:"开发科李科长已通过你的合同审批",
+          msgTime:"2020/6/1"
+        },
+        {
+          msgState:"未通知",
+          msgContent:"开发科李科长已通过你的合同审批",
+          msgTime:"2020/7/12"
+        },
+        {
+          msgState:"未通知",
+          msgContent:"开发科李科长已通过你的合同审批",
+          msgTime:"2020/6/1"
+        },
+        {
+          msgState:"未通知",
+          msgContent:"开发科李科长已通过你的合同审批",
+          msgTime:"2020/7/12"
+        }
+      ],
+      // 用户名
       username: this.$store.state.currentUser.username
     };
   },
-  methods: {}
+  methods: {
+    // 跳转到所有通知页面
+    gotoReceiveNotice(){
+      this.$router.push({ path:'/receiveNotice'  })
+    },
+    // 跳转到发布通知页面
+    gotoSendNotice(){
+       this.$router.push({ path:'/sendNotice'  })
+    },
+    // 通知数量修改
+    cancelNoticeNum(){
+      this.noticeNum = null;
+    }
+  }
 };
 </script>
 
@@ -91,5 +167,8 @@ export default {
 .container_middle .el-menu .el-menu-item {
   height: 100%;
   line-height: 76px;
+}
+.el-scrollbar__wrap{
+  overflow: hidden;
 }
 </style>

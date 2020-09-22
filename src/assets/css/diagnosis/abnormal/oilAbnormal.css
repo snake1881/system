@@ -3,3 +3,17 @@
     width: 100%;
     margin-top: 10px;
 }
+.oil_abnormal_form {
+    width: 98%;
+    height: 9%;
+    padding-left: 1%;
+    padding-top: 5px;
+    background-color: white;
+}
+.el-input--prefix .el-input__prefix {
+    margin-left: 0%;
+}
+.el-input--prefix .el-input__inner {
+    padding-left: 30px;
+    height: 34px;
+}

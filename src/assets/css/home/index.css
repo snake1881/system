@@ -23,6 +23,47 @@
     margin: 2% 2%;
 }
 
+.main_between_1_item_basicInformation{
+    height: 300px;
+    width: 100%;
+    /* margin-top: -10px; */
+}
+
+.main_between_1_item__announce{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between
+}
+.main_between_1_item__announce_button {
+    font-size: 10px;
+}
+.main_between_1_item_notice{
+    height: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.main_between_1_item_notice_span{
+    font-size: 13px;
+    margin: 2% 0;
+    color: #003399;
+}
+.main_between_2_item_statistics{
+    height: 300px;
+    width: 100%;
+}
+
+.main_between_2_progress {
+   height: 300px;
+   width: 100%;
+   margin-top: 2%;
+}
+.main_between_2_progress_span{
+    font-size: 13px;
+    color: #003399;
+}
+
+
 .main_middle_1,
 .main_middle_2 {
     width: 96%;
@@ -36,13 +77,19 @@
 .main_middle_2 {
     height: 36%;
 }
-.main_middle_1_item {
-    width: 98%;
+.main_middle_1_item,
+.main_middle_2_item {
+    width: 99%;
     height: 100%;
 
 }
 
+.main_middle_2_item_car{
+    height: 240px;
+    width: 100%;
+}
 .amap-demo {
     height: 90%;
-    margin-top: 5px;
+    margin-top: 8px;
 }
+

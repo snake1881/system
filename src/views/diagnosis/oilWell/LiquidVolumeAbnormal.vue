@@ -104,7 +104,13 @@
      <el-button  type="primary" round @click="lineChart()">查询</el-button>
       </el-form>
       <!-- 折线图 -->
-      <div style="height: 300px" id="line" />
+      <div 
+        style="height: 300px" 
+        id="line"  
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+      />
     </el-dialog>
   </div>
 </template>
@@ -206,7 +212,7 @@ export default {
       this.drawLine(val.primaryId, val.prodDate, null);
     },
     // 点击按钮根据时间查询，显示折线图
-    lineChart(val){
+    lineChart(){
       this.drawLine(this.dialogForm.primaryId, this.dialogForm.startDate,this.dialogForm.endDate);
     },
     // 画图
@@ -216,6 +222,7 @@ export default {
         url += "&endDate=" + endDate;
       }
       this.getRequest( url ).then(resp => {
+         this.loading = false;
         if(resp){
           let dom = document.getElementById("line");
           let myChart = echarts.init(dom);
