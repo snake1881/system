@@ -212,7 +212,7 @@ export default {
       }, 0);
     },
     // 点击按钮根据时间查询，显示折线图
-    lineChart(val){
+    lineChart(){
       this.drawLine(this.dialogForm.primaryId, this.dialogForm.startDate,this.dialogForm.endDate);
     },
     // 画图
