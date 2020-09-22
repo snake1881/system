@@ -9,9 +9,7 @@
           <el-input v-model="noticeData.title" />
         </el-form-item>
         <el-form-item label="内容" style="margin: 20px 10px">
-          <!-- 填写通知内容 -->
-          <tinymce-text id="notice" @release="release"/>
-          <!-- <el-input type="textarea" v-model="noticeData.content" /> -->
+          <el-input type="textarea" v-model="noticeData.content" />
         </el-form-item>
         <el-form-item style="margin-top: -10px">
           <el-button @click="sendNotice()">发送</el-button>
@@ -26,11 +24,7 @@
   </div>
 </template>
 <script>
-import tinymceText from "../../components/tinymceText.vue"
 export default {
-  components:{
-    tinymceText
-  },
   data() {
     return {
       noticeData: {
