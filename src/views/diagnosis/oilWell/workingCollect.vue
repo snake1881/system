@@ -86,17 +86,28 @@
     </div>
     <!-- 详情 -->
     <div class="work_collect_item" v-if="!isShow">
-      <div>
-        <span>当前数据</span>
-        <span>冲程:{{ this.detailsCollect.stroke }}</span>
-        <span>冲刺:{{ this.detailsCollect.frequency }}</span>
-        <span>最大载荷:{{ this.detailsCollect.suspMaxLoad }}</span>
-        <span>最小载荷:{{ this.detailsCollect.suspMinLoad }}</span>
-        <span>泵径:0</span>
-        <span>泵深:0</span>
-        <span>动液面:0</span>
+      <div class="work_collect_item_top">
+        <div class="work_collect_item_top_name">
+          <span class="work_collect_item_top_name_span">冲程</span>
+          <span class="work_collect_item_top_name_span">冲刺</span>
+          <span class="work_collect_item_top_name_span">最大载荷</span>
+          <span class="work_collect_item_top_name_span">最小载荷</span>
+          <span class="work_collect_item_top_name_span">泵径</span>
+          <span class="work_collect_item_top_name_span">泵深</span>
+          <span class="work_collect_item_top_name_span">动液面</span>
+        </div>
+        <div class="work_collect_item_top_name">
+          <span class="work_collect_item_top_name_span">{{ this.detailsCollect.stroke }}</span>
+          <span class="work_collect_item_top_name_span">{{ this.detailsCollect.frequency }}</span>
+          <span class="work_collect_item_top_name_span">{{ this.detailsCollect.suspMaxLoad }}</span>
+          <span class="work_collect_item_top_name_span">{{ this.detailsCollect.suspMinLoad }}</span>
+          <span class="work_collect_item_top_name_span">0</span>
+          <span class="work_collect_item_top_name_span">0</span>
+          <span class="work_collect_item_top_name_span">0</span>
+        </div>
       </div>
-      <div id="gt"></div>
+      
+      <div id="gt" ref="dom" style="height:300px"/>
       <div>
         <span>诊断结论(系统)</span>
         <span>{{ this.detailsCollect.thirdResult }}</span>
@@ -229,10 +240,16 @@ export default {
     details(row) {
       this.isShow = false;
       this.detailsCollect = row;
-      this.showGT();
+      setTimeout(() => {
+        this.showGT()
+       },10)
     },
+    // 画图
     showGT() {
-      let myChart = echarts.init(document.getElementById("gt"));
+      console.log(this.$refs.dom.id);
+      let dom = document.getElementById(this.$refs.dom.id);
+      console.log(dom);
+      let myChart = echarts.init(dom);
       var data = [
         [4.0, 52.53],
         [4.0, 52.28],
@@ -372,19 +389,22 @@ export default {
       ];
       myChart.setOption({
         title: {
-          text: "Try Dragging these Points"
+          text: "功图",
+          x: "center"
         },
         xAxis: {
           min: 0,
           max: 4,
           type: "value",
-          axisLine: { onZero: false }
+          axisLine: { onZero: false },
+          name: "位移(m)"
         },
         yAxis: {
           min: 0,
           max: 60,
           type: "value",
-          axisLine: { onZero: false }
+          axisLine: { onZero: false },
+          name: "载荷(kN)"
         },
         series: [
           {

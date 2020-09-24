@@ -20,3 +20,18 @@
     width: 98%;
     height: 6%;
 }
+
+.work_collect_item_top {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.work_collect_item_top_name{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    border-bottom: solid 1px rgb(211, 208, 208);
+}
+.work_collect_item_top_name_span{
+    margin-right: 70px;
+}
