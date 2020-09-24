@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^3.2.3",
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "echarts": "^4.9.0",
@@ -51,8 +52,8 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "no-console":"off",  
-      "no-irregular-whitespace":"off"
+      "no-console": "off",
+      "no-irregular-whitespace": "off"
     },
     "overrides": [
       {

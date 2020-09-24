@@ -46,18 +46,18 @@
       border
       style="width:100%;"
     >
-      <el-table-column label="序号" type="index" width="50" align="center"></el-table-column>
-      <el-table-column prop="wellName" label="井号" width="100" />
-      <el-table-column prop="prodDate" label="日期" width="160" />
-      <el-table-column prop="prodTime" label="生产时间" width="80" />
-      <el-table-column prop="abnormalProblem" label="诊断结果" width="200" />
-      <el-table-column prop="orgName" label="采油站" width="140" />
-      <el-table-column prop="liqProdDaily" label="产液量" width="100" />
-      <el-table-column prop="waterCut" label="含水率" width="100" />
-      <el-table-column prop="normalLiqProdDaily" label="正常产液量" width="100" />
-      <el-table-column prop="normalWaterCut" label="正常含水率" width="100" />
-      <el-table-column prop="remarks" label="备注" width="140" />
-      <el-table-column label="操作" width="120">
+      <el-table-column label="序号" type="index" width="80" align="center"></el-table-column>
+      <el-table-column prop="wellName" label="井号" width="100"  align="center" />
+      <el-table-column prop="prodDate" label="日期" width="160"  align="center" />
+      <el-table-column prop="prodTime" label="生产时间" width="80"  align="center" />
+      <el-table-column prop="abnormalProblem" label="诊断结果" width="200"  align="center" />
+      <el-table-column prop="orgName" label="采油站" width="140"  align="center" />
+      <el-table-column prop="liqProdDaily" label="产液量" width="100"  align="center" />
+      <el-table-column prop="waterCut" label="含水率" width="100"  align="center" />
+      <el-table-column prop="normalLiqProdDaily" label="正常产液量" width="100"  align="center" />
+      <el-table-column prop="normalWaterCut" label="正常含水率" width="100"  align="center" />
+      <el-table-column prop="remarks" label="备注" width="140"  align="center" />
+      <el-table-column label="操作" width="120"  align="center">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="details(scope.row)">查看曲线</el-button>
           <el-button type="text" size="small" @click="dleteByPrimaryId(scope.row)">删除</el-button>
@@ -104,7 +104,13 @@
      <el-button  type="primary" round @click="lineChart()">查询</el-button>
       </el-form>
       <!-- 折线图 -->
-      <div style="height: 300px" id="line" />
+      <div 
+        style="height: 300px" 
+        id="line"  
+        v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+      />
     </el-dialog>
   </div>
 </template>
@@ -154,6 +160,7 @@ export default {
   methods: {
     // 数据初始化
     liquidVolumeInit() {
+      this.loading = true;
       this.getRequest(
         "/oilWell/liquidVolumeAbnormal/page?current=" +
           this.currentPage +
@@ -171,6 +178,7 @@ export default {
     },
     // 按条件查询
     searchLiquidVolume() {
+      this.loading = true;
       let url =
         "/oilWell/liquidVolumeAbnormal/liquidVolumeAbnormal?current=" +
         this.currentPage +
@@ -203,14 +211,6 @@ export default {
       this.dialogForm.primaryId = val.primaryId;
       this.drawLine(val.primaryId, val.prodDate, null);
     },
-    // 对话框
-    // open() {
-    //   const t = this;
-    //   setTimeout(() => {
-    //     //  执行echarts画图方法
-    //     t.drawLine();
-    //   }, 0);
-    // },
     // 点击按钮根据时间查询，显示折线图
     lineChart(){
       this.drawLine(this.dialogForm.primaryId, this.dialogForm.startDate,this.dialogForm.endDate);
@@ -222,6 +222,7 @@ export default {
         url += "&endDate=" + endDate;
       }
       this.getRequest( url ).then(resp => {
+         this.loading = false;
         if(resp){
           let dom = document.getElementById("line");
           let myChart = echarts.init(dom);
@@ -279,8 +280,6 @@ export default {
       });
         }
       });
-     
-     
     },
     // 根据primaryId删除异常数据
     dleteByPrimaryId(val) {

@@ -60,7 +60,7 @@
         <div class="main_between_1_item">
           <div class="main_between_1_item__announce">
             <!-- <i class="el-icon-chat-line-square" /> -->
-            <span> 通知公告 </span>
+            <span> 企业要闻 </span>
             <el-button type="text" class="el-icon-plus main_between_1_item__announce_button">更多</el-button>
           </div>
          <!-- 消息详情 -->

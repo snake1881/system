@@ -1,0 +1,37 @@
+.work_collect {
+    height: 100%;
+    width: 98%;
+    padding-left: 1%;
+}
+
+.work_collect_item {
+    height: 100%;
+    width: 100%;
+}
+
+.work_collect_form {
+    width: 98%;
+    height: 9%;
+    padding-left: 1%;
+    padding-top: 5px;
+}
+
+.work_collect_page {
+    width: 98%;
+    height: 6%;
+}
+
+.work_collect_item_top {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+.work_collect_item_top_name{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    border-bottom: solid 1px rgb(211, 208, 208);
+}
+.work_collect_item_top_name_span{
+    margin-right: 70px;
+}
