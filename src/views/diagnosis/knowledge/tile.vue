@@ -48,6 +48,18 @@
         :style="{width: '24%', height: '250px'}"
       ></div>
     </div>
+    <!-- 分页 -->
+    <div class="tile_page">
+      <el-pagination
+        :current-page.sync="logForm.currentPage"
+        :page-size="logForm.pageSize"
+        :total="total"
+        :page-sizes="[10, 20, 30, 40, 50]"
+        layout="total, prev, pager, next, jumper, sizes"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 <script>
@@ -58,12 +70,13 @@ export default {
       //搜索框
       logForm: {
         currentPage: 1,
-        pageSize: 10,
+        pageSize: 8,
         oilStation: "",
         wellId: "",
         startTime: "",
         endTime: ""
       },
+      total:0,
       options: [
         {
           value: "定1172-1",
@@ -221,6 +234,16 @@ export default {
         this.coordinates[i][1] = parseFloat(disploadArray[i]);
       }
       return this.coordinates;
+    },
+    // 分页，页码大小改变
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.searchTile();
+    },
+    // 分页，当前页改变
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.searchTile();
     }
   }
 };
