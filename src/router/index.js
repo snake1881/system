@@ -24,13 +24,36 @@ const routes = [{
         component: () =>
             import ("@/views/Home.vue"),
         hidden: true,
-        children: [{
+        children: [
+        {
             path: "/Home",
             name: "首页",
             component: () =>
                 import ("@/views/Index.vue"),
             hidden: true
-        }]
+        },
+        {
+            path: "/receiveNotice",
+            name: "通知",
+            component: () =>
+                import ("@/views/notice/receiveNotice.vue"),
+            hidden: true
+        },
+        {
+            path: "/sendNotice",
+            name: "发布通知",
+            component: () =>
+                import ("@/views/notice/sendNotice.vue"),
+            hidden: true
+        },
+        {
+            path: "/detailsNotice",
+            name: "消息详情",
+            component: () =>
+                import ("@/views/notice/detailsNotice.vue"),
+            hidden: true
+        }
+    ]
     }
 ];
 

@@ -39,7 +39,7 @@
             type="text"
             placeholder="用户名"
           >
-            <i slot="prefix" class="el-input__icon el-icon-user" />
+            <i slot="prefix" class="el-input__icon el-icon-user" style="font-size:20px;margin-left:75px" />
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
@@ -48,7 +48,7 @@
             type="password"
             placeholder="密码"
           >
-            <i slot="prefix" class="el-input__icon el-icon-goods" />
+            <i slot="prefix" class="el-input__icon el-icon-key" style="font-size:20px;margin-left:75px" />
           </el-input>
         </el-form-item>
         <el-link
@@ -152,9 +152,6 @@ export default {
   border-radius: 0;
   width: 60%;
   margin: 10px 20%;
-}
-.el-input--prefix .el-input__prefix {
-  margin-left: 20%;
 }
 .el-form-item__content .el-form-item__error {
   margin-left: 20%;
