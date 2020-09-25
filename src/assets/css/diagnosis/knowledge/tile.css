@@ -1,0 +1,36 @@
+.tile {
+    height: 90%;
+    width: 100%;
+    margin-top: 10px;
+}
+.tile_form {
+    width: 98%;
+    height: 10%;
+    padding-left: 1%;
+    padding-top: 5px;
+    background-color: white;
+}
+.el-input--prefix .el-input__prefix {
+    margin-left: 0%;
+}
+.el-input--prefix .el-input__inner {
+    padding-left: 30px;
+    height: 34px;
+}
+.el-input--suffix .el-input__inner {
+    padding-right: 30px;
+    height: 34px;
+}
+.el-button--small, .el-button--small.is-round {
+    padding: 9px 15px;
+    margin: 4px 0px;
+}
+.tile_echarts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0px 15px;
+}
+.tile_echarts_child{
+    padding: 0px 5px;
+}
