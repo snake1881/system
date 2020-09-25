@@ -16,22 +16,71 @@
     padding-top: 5px;
 }
 
+.work_collect_item_detail {
+    width: 60%;
+    height: 200px;
+    margin-left: 16%;
+    overflow: auto;
+    text-align: center;
+}
+
 .work_collect_page {
     width: 98%;
     height: 6%;
 }
 
-.work_collect_item_top {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-}
-.work_collect_item_top_name{
+.work_collect_item_detail_btn {
+    width: 100%;
+    height: 5%;
+    margin-bottom: 0.5%;
     display: flex;
     flex-direction: row;
-    justify-content: start;
-    border-bottom: solid 1px rgb(211, 208, 208);
 }
-.work_collect_item_top_name_span{
-    margin-right: 70px;
+
+.work_collect_item_detail_table {
+    width: 100%;
+    height: 10%;
+    text-align: center;
+}
+
+.work_collect_item_detail_table,
+.work_collect_item_detail_table tr th,
+.work_collect_item_detail_table tr td {
+    border: 1px solid #DCDFE6;
+}
+
+.work_collect_item_detail_table th {
+    background-color: #E4E7ED;
+}
+
+.work_collect_item_gt {
+    width: 100%;
+    height: 40%;
+    margin-top: 0.5%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.work_collect_item_gt_g {
+    height: 100%;
+    width: 30%;
+}
+
+.work_collect_item_measure {
+    width: 100%;
+    height: 30%;
+    margin-top: 1%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #DCDFE6;
+}
+
+.work_collect_item_measure_left {
+    width: 15%;
+    height: 100%;
+    text-align: center;
+    line-height: 175px;
+    font-size: 20px;
+    border-right: 1px solid #DCDFE6;
 }
