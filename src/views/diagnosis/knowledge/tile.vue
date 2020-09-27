@@ -41,7 +41,8 @@
       <el-button type="primary" icon="el-icon-search" size="small" @click="searchTile()">查询</el-button>
     </el-form>
     <div class="tile_echarts">
-      <div class="tile_echarts_child"
+      <div
+        class="tile_echarts_child"
         v-for="item in tableData"
         :key="item.dynaId"
         :id="item.dynaId"
@@ -53,8 +54,8 @@
       <el-pagination
         :current-page.sync="logForm.currentPage"
         :page-size="logForm.pageSize"
-        :total="total"
-        :page-sizes="[10, 20, 30, 40, 50]"
+        :total="logForm.total"
+        :page-sizes="[8, 16, 32, 48, 60]"
         layout="total, prev, pager, next, jumper, sizes"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -71,12 +72,13 @@ export default {
       logForm: {
         currentPage: 1,
         pageSize: 8,
+        total: 0,
         oilStation: "",
-        wellId: "",
-        startTime: "",
-        endTime: ""
+        wellId: "定1155",
+        startTime: "2020-01-31",
+        endTime: "2020-01-31"
       },
-      total:0,
+
       options: [
         {
           value: "定1172-1",
@@ -99,25 +101,30 @@ export default {
           label: "定1174"
         }
       ],
-      value: "定1155",
       tableData: [],
       coordinates: [[]]
     };
   },
   mounted() {},
   created() {
+    this.searchTile();
     //输入框初始化默认时间
-    this.getNowTime();
+    this.getNowTime();  
   },
   methods: {
     //根据输入信息查询
     searchTile() {
+      console.log(this.logForm);
       this.postRequest(
         "/diagnosis/knowledge/tile/queryByterm",
         this.logForm
       ).then(resp => {
         if (resp) {
-          this.tableData = resp.data;
+          console.log(resp.data.records);
+          this.tableData = resp.data.records;
+          this.logForm.total = resp.data.total;
+          this.logForm.currentPage = resp.data.current;
+          this.logForm.pageSize = resp.data.size;
           this.tableData.forEach(element => {
             //处理数据为坐标
             this.coordinate(element);
@@ -142,8 +149,8 @@ export default {
       month = month.toString().padStart(2, "0");
       date = date.toString().padStart(2, "0");
       var defaultDate = `${year}-${month}-${date}`;
-      this.$set(this.logForm, "startTime", defaultDate);
-      this.$set(this.logForm, "endTime", defaultDate);
+      // this.$set(this.logForm, "startTime", defaultDate);
+      // this.$set(this.logForm, "endTime", defaultDate);
     },
     //实例化图表
     drawLine(val) {
@@ -237,12 +244,12 @@ export default {
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
-      this.pageSize = val;
+      this.logForm.pageSize = val;
       this.searchTile();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
-      this.currentPage = val;
+      this.logForm.currentPage = val;
       this.searchTile();
     }
   }
