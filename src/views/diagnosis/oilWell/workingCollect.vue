@@ -123,7 +123,7 @@
         <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
         <div class="work_collect_item_gt_g" id="gt3" ref="dom3" />
       </div>
-      <table cellspacing="0" class="work_collect_item_detail_table">
+      <table cellspacing="0" class="work_collect_item_detail_table" style="margin-top:-2%">
         <tr>
           <th>诊断结论(系统)</th>
           <th>{{ this.detailsCollect.thirdResult }}</th>
@@ -153,7 +153,7 @@
       </div>
     </div>
     <el-dialog
-      title="详细信息"
+      title="功图叠加"
       :visible.sync="dialogTableVisible"
       class="work_collect_item_appent_gt_dialog"
     >
@@ -368,7 +368,8 @@ export default {
             myChart.setOption({
               title: {
                 subtext: name,
-                x: "center"
+                x: "center",
+                top: "4%",
               },
               xAxis: {
                 min: 0,

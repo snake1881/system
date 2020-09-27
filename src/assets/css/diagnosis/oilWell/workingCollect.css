@@ -31,7 +31,7 @@
 
 .work_collect_item_detail_btn {
     width: 100%;
-    height: 5%;
+    height: 7%;
     margin-bottom: 0.5%;
     display: flex;
     flex-direction: row;
@@ -56,7 +56,6 @@
 .work_collect_item_gt {
     width: 100%;
     height: 40%;
-    margin-top: 0.5%;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
