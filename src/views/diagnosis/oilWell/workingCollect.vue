@@ -155,36 +155,37 @@
     <el-dialog
       title="功图叠加"
       :visible.sync="dialogTableVisible"
+      width="70%"
       class="work_collect_item_appent_gt_dialog"
     >
       <!-- 搜索框 -->
       <el-form :model="dialogForm" :inline="true" class="work_collect_item_appent_gt_dialog_form">
         <el-form-item>
-          <el-input v-model="dialogForm.orgName" :disabled="true" />
+          <el-input v-model="dialogForm.orgName" :disabled="true"/>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="dialogForm.wellCommonName" :disabled="true" />
+          <el-input v-model="dialogForm.wellCommonName" :disabled="true"/>
         </el-form-item>
-        <el-form-item label="开始">
+        <el-form-item>
           <el-date-picker
             v-model="dialogForm.startDate"
             type="date"
             value-format="yyyy-MM-dd"
-            size="medium"
+            placeholder="开始时间"
           />
         </el-form-item>
-        <el-form-item label="结束">
+        <el-form-item>
           <el-date-picker
             v-model="dialogForm.endDate"
             type="date"
             value-format="yyyy-MM-dd"
-            size="medium"
+            placeholder="结束时间"
           />
         </el-form-item>
         <el-button type="primary" round @click="appendGt()">查询</el-button>
       </el-form>
       <!-- 功图叠加 -->
-      <div style="height: 300px" id="gt4" ref="dom4" />
+      <div style="height: 300px;width:700px" id="gt4" ref="dom4" class=""/>
     </el-dialog>
   </div>
 </template>
@@ -431,7 +432,7 @@ export default {
             },
             legend: {
               data: legendData,
-              right: "3%",
+              right: "1%",
               orient: "textVerticalAlign"
             },
             xAxis: {
