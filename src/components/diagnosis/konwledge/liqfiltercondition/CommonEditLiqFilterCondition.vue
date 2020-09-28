@@ -8,10 +8,10 @@
     <div class="dialogDiv">
       <el-form :model="editData" label-width="300px" label-position="right">
         <el-form-item label="井号:" >
-          <el-input v-model="editData.wellName" style="width: 300px" />
+          <el-input :disabled="true" v-model="editData.wellName" style="width: 300px" />
         </el-form-item>
         <el-form-item label="检查日期(格式：yyyy-mm-dd):" >
-          <el-input v-model="editData.prodDate" style="width: 300px"/>
+          <el-input :disabled="true" v-model="editData.prodDate" style="width: 300px"/>
         </el-form-item>
         <el-form-item label="条件（填写选定日期后可选择任意天）:" >
           <template>
@@ -22,7 +22,6 @@
               <el-radio label="任意天" border></el-radio>
             </el-radio-group>
           </template>
-          <!-- <el-input v-model="editData.filter" style="width: 300px"/> -->
         </el-form-item>
         <el-form-item v-if="editData.filter==='任意天'"
         label="指定日期(格式：yyyy-mm-dd):" >

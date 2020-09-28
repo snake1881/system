@@ -1,20 +1,24 @@
 <template>
   <!--  液量异常参数筛选界面  -->
   <div class="liqFilterCondition">
-    <el-form :model="termForm" :inline="true" :label-position="right">
-      <el-fomr-item>
+    <el-form :model="termForm" :inline="true">
+      <el-form-item>
         <el-button
           type="primary"
           icon="el-icon-plus"
-          size="small"
           @click="addLiqFilterCondition()"
-        >新增</el-button>
-      </el-fomr-item>
+          >新增</el-button
+        >
+      </el-form-item>
       <el-form-item label="采油站">
-        <el-select v-model="termForm.orgName" clearable placeholder="全区" size="small">
+        <el-select
+          v-model="termForm.orgName"
+          filterable
+          clearable
+          placeholder="全区"
+        >
           <el-option
             v-for="item in orgNameData"
-            :size="small"
             :key="item.orgName"
             :label="item.orgName"
             :value="item.orgName"
@@ -22,15 +26,29 @@
         </el-select>
       </el-form-item>
       <el-form-item label="日期">
-        <el-input v-model="termForm.prodDate" placeholder="日期：yyyy-mm-dd" size="small"></el-input>
+        <el-date-picker
+          v-model="termForm.prodDate"
+          type="date"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+        >
+        </el-date-picker>
       </el-form-item>
       <el-button
         type="primary"
         icon="el-icon-search"
-        size="small"
         @click="liqFilterConditionSearch()"
-      >查询</el-button>
-      <el-button type="primary" size="small" @click="editYlYccs(ylYccsDate)">异常参数设置</el-button>
+        >查询</el-button
+      >
+      <el-button
+            type="text"
+            size="small"
+            @click.prevent=""
+            >测试</el-button
+          >
+      <el-button type="primary" @click="editYlYccs(ylYccsDate)"
+        >异常参数设置</el-button
+      >
     </el-form>
     <el-table
       v-loading="loading"
@@ -38,17 +56,27 @@
       element-loading-spinner="el-icon-loading"
       :data="liqFilterConditionDate"
       border
-      row-key="diadiagnosticStep"
+      row-key="index"
       style="width:100%"
       @current-change="handleCurrentChange"
+      @size-change="handleSizeChange"
     >
-      <el-table-column label="序号" type="index" width="50" align="center">
-        <template scope="scope">
-          <span>{{(currentPage - 1) * pageSize + scope.$index + 1}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="wellName" label="井号" width="140"></el-table-column>
-      <el-table-column prop="filter" label="条件（填写选定日期后可选择任意天）" width="420px">
+      <el-table-column
+        prop="index"
+        label="序号"
+        width="50"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="wellName"
+        label="井号"
+        width="140"
+      ></el-table-column>
+      <el-table-column
+        prop="filter"
+        label="条件（填写选定日期后可选择任意天）"
+        width="420px"
+      >
         <template scope="scope">
           <el-radio-group v-model="scope.row.filter">
             <el-radio label="昨日"></el-radio>
@@ -58,16 +86,36 @@
           </el-radio-group>
         </template>
       </el-table-column>
-      <el-table-column prop="appointDate" label="指定日期" width="320"></el-table-column>
-      <el-table-column label="操作" width="140">
+      <el-table-column
+        prop="appointDate"
+        label="指定日期"
+        width="320"
+      ></el-table-column>
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editLiqFilterCondition(scope.row),liqFilterConditionInit">编辑</el-button>
-          <el-button type="text" size="small" @click="deleteLiqFilterCondition(scope.row)">删除</el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click.prevent="editLiqFilterCondition(scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            type="text"
+            size="small"
+            @click.prevent=""
+            >测试</el-button
+          >
+          <el-button
+            type="text"
+            size="small"
+            @click.prevent="deleteLiqFilterCondition(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
     <div class="liqFilterCondition_page">
-      <!-- 分页 -->
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -117,7 +165,7 @@ export default {
       //采油站名称
       orgNameData: [],
       //表格数据
-      liqFilterConditionDate:[],
+      liqFilterConditionDate: [],
       //液量异常筛选参数
       ylYccsDate: {},
       orgName: "",
@@ -183,25 +231,35 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
     //条件查询
     liqFilterConditionSearch() {
-      this.getRequest(
-        "/knowledge/LiqFilterCondition/LiqFilterConditionListTerm?orgName=" +
-          this.termForm.orgName +
-          "&prodDate=" +
-          this.termForm.prodDate
-      ).then(resp => {
-        this.loading = false;
-        if (resp) {
-          this.liqFilterConditionDate = resp.data;
-          this.total = resp.data.total;
-          this.currentPage = resp.data.current;
-          this.pageSize = resp.data.size;
-        }
-      });
+      if (this.termForm.prodDate === null) {
+        this.liqFilterConditionInit();
+      } else {
+        this.getRequest(
+          "/knowledge/LiqFilterCondition/LiqFilterConditionListTerm?current=" +
+            parseInt(this.currentPage) +
+            "&orgName=" +
+            this.termForm.orgName +
+            "&pageSize=" +
+            this.pageSize +
+            "&prodDate=" +
+            this.getTime(this.termForm.prodDate)
+        ).then(resp => {
+          this.loading = false;
+          if (resp) {
+            this.liqFilterConditionDate = resp.data.records;
+            this.total = resp.data.total;
+            this.currentPage = resp.data.current;
+            this.pageSize = resp.data.size;
+            this.getIndex();
+          }
+        });
+      }
     },
     //液量异常筛选参数初始化
     ylYccsInit() {
@@ -217,7 +275,7 @@ export default {
     //加油站下拉框初始化
     orgNameInit() {
       this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
-        resp => { 
+        resp => {
           this.loading = false;
           if (resp) {
             this.orgNameData = resp.data;
@@ -227,13 +285,21 @@ export default {
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
-      this.pageSize = val;
-      this.liqFilterConditionInit();
+      this.pageSize = parseInt(val);
+      if (this.termForm.prodDate === "") {
+        this.liqFilterConditionInit();
+      } else {
+        this.liqFilterConditionSearch();
+      }
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
-      this.currentPage = val;
-      this.liqFilterConditionInit();
+      this.currentPage = parseInt(val);
+      if (this.termForm.prodDate === "") {
+        this.liqFilterConditionInit();
+      } else {
+        this.liqFilterConditionSearch();
+      }
     },
     // 异常参数筛选设置编辑
     editYlYccs(val) {
@@ -246,6 +312,7 @@ export default {
     },
     // 编辑
     editLiqFilterCondition(val) {
+      // console.log(this.currentPage);
       this.editLiqFilterConditionData = val;
       this.editLiqFilterConditionVisible = true;
     },
@@ -261,6 +328,23 @@ export default {
     //关闭新增框
     addLiqFilterConditionClose() {
       this.addLiqFilterConditionVisible = false;
+    },
+    //时间格式化
+    getTime(val) {
+      var year = val.getFullYear(); //年
+      var month = val.getMonth() + 1; //月
+      var date = val.getDate(); //日
+      month = month < 10 ? "0" + month : month;
+      date = date < 10 ? "0" + date : date;
+      var str = year + "-" + month + "-" + date;
+      return str;
+    },
+    //设置序号
+    getIndex() {
+      this.liqFilterConditionDate.forEach((item, index) => {
+        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
+        return item;
+      });
     }
   }
 };
