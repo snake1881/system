@@ -92,7 +92,7 @@
         <el-button icon="el-icon-arrow-left" type="text" @click="back()">返回</el-button>
         <el-button type="primary" size="small" style="margin-left:25%">液量曲线</el-button>
         <el-button type="primary" size="small">载荷曲线</el-button>
-        <el-button type="primary" size="small">功图叠加</el-button>
+        <el-button type="primary" size="small" @click="dialogTableVisible = true">功图叠加</el-button>
         <el-button type="primary" size="small">功图平铺</el-button>
         <el-button type="primary" size="small">重新诊断</el-button>
       </div>
@@ -123,7 +123,7 @@
         <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
         <div class="work_collect_item_gt_g" id="gt3" ref="dom3" />
       </div>
-      <table cellspacing="0" class="work_collect_item_detail_table">
+      <table cellspacing="0" class="work_collect_item_detail_table" style="margin-top:-2%">
         <tr>
           <th>诊断结论(系统)</th>
           <th>{{ this.detailsCollect.thirdResult }}</th>
@@ -152,6 +152,41 @@
         </el-table>
       </div>
     </div>
+    <el-dialog
+      title="功图叠加"
+      :visible.sync="dialogTableVisible"
+      width="70%"
+      class="work_collect_item_appent_gt_dialog"
+    >
+      <!-- 搜索框 -->
+      <el-form :model="dialogForm" :inline="true" class="work_collect_item_appent_gt_dialog_form">
+        <el-form-item>
+          <el-input v-model="dialogForm.orgName" :disabled="true"/>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="dialogForm.wellCommonName" :disabled="true"/>
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="dialogForm.startDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="开始时间"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="dialogForm.endDate"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="结束时间"
+          />
+        </el-form-item>
+        <el-button type="primary" round @click="appendGt()">查询</el-button>
+      </el-form>
+      <!-- 功图叠加 -->
+      <div style="height: 300px;width:700px" id="gt4" ref="dom4" class=""/>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -161,10 +196,10 @@ export default {
     return {
       // 工况汇总数据
       workingCollect: [],
-      // 当前行数据
+      // 当前展开行数据
       loadCollect: [],
       // 历史措施
-      measure:[],
+      measure: [],
       // 表单数据
       abnormalForm: {
         // 采油站
@@ -187,7 +222,20 @@ export default {
       // 工况详情数据
       detailsCollect: null,
       // 设置row-key只展示一行
-      expands: []
+      expands: [],
+      // 功图叠加对话框标记
+      dialogTableVisible: false,
+      // 功图叠加对话框搜索框
+      dialogForm: {
+        // 采油站
+        orgName: "",
+        // 井号
+        wellCommonName: "",
+        // 开始日期
+        startDate: "",
+        // 结束日期
+        endDate: ""
+      }
     };
   },
   created() {
@@ -282,11 +330,13 @@ export default {
     },
     // 查询该井的历史措施
     measureInit(wellCommonName) {
-      this.getRequest("/oilWell/workCollect/measure/" + wellCommonName).then(resp => {
-        if(resp) {
-          this.measure = resp.data;
+      this.getRequest("/oilWell/workCollect/measure/" + wellCommonName).then(
+        resp => {
+          if (resp) {
+            this.measure = resp.data;
+          }
         }
-      })
+      );
     },
     // 画图
     showGT() {
@@ -318,8 +368,9 @@ export default {
             let myChart = echarts.init(dom);
             myChart.setOption({
               title: {
-                text: name,
-                x: "center"
+                subtext: name,
+                x: "center",
+                top: "4%",
               },
               xAxis: {
                 min: 0,
@@ -345,6 +396,61 @@ export default {
               ]
             });
           }
+        }
+      });
+    },
+    // 功图叠加
+    appendGt() {
+      this.getRequest(
+        "/oilWell/workCollect/gt/定1987-3" +
+          // wellCommonName +
+          "?startDate=" +
+          this.dialogForm.startDate +
+          "&endDate=" +
+          this.dialogForm.endDate
+      ).then(resp => {
+        if (resp) {
+          let legendData = [];
+          let seriesData = [];
+          for (var i = 0; i < resp.data.length; i++) {
+            legendData.push(resp.data[i].date);
+            seriesData.push({
+              type: "line",
+              name: resp.data[i].date,
+              smooth: true,
+              symbol: "none",
+              data: resp.data[i].gt
+            });
+          }
+          let myChart = echarts.init(
+            document.getElementById(this.$refs.dom4.id)
+          );
+          myChart.setOption({
+            title: {
+              subtext: "功图叠加",
+              x: "center"
+            },
+            legend: {
+              data: legendData,
+              right: "1%",
+              orient: "textVerticalAlign"
+            },
+            xAxis: {
+              min: 0,
+              max: 4,
+              type: "value",
+              axisLine: { onZero: false },
+              name: "位移(m)"
+            },
+            yAxis: {
+              min: 0,
+              max: 70,
+              type: "value",
+              axisLine: { onZero: false },
+              name: "载荷(kN)"
+            },
+            series: seriesData
+          });
         }
       });
     },
