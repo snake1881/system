@@ -40,12 +40,6 @@
         @click="liqFilterConditionSearch()"
         >查询</el-button
       >
-      <el-button
-            type="text"
-            size="small"
-            @click.prevent=""
-            >测试</el-button
-          >
       <el-button type="primary" @click="editYlYccs(ylYccsDate)"
         >异常参数设置</el-button
       >
@@ -98,12 +92,6 @@
             size="small"
             @click.prevent="editLiqFilterCondition(scope.row)"
             >编辑</el-button
-          >
-          <el-button
-            type="text"
-            size="small"
-            @click.prevent=""
-            >测试</el-button
           >
           <el-button
             type="text"

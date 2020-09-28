@@ -52,7 +52,8 @@
       <el-table-column prop="rn" label="序号" width="100" />
       <el-table-column prop="wellId" label="井号" width="150" />
       <el-table-column prop="checkDate" label="日期" width="200" />
-      <el-table-column prop="abnormalProblem" label="诊断结果" width="320" />
+      <el-table-column prop="abnormalProblem" label="诊断结果" width="320">
+      </el-table-column>
       <el-table-column prop="orgName" label="采油站" width="320" />
       <el-table-column label="操作" width="140">
         <template slot-scope="scope">
@@ -172,7 +173,7 @@ export default {
       if (this.GtForm.checkDate === null) {
         this.abnormalGtInit();
       } else {
-      this.abnormalGtSearch();
+        this.abnormalGtSearch();
       }
     },
     // 分页，当前页改变
@@ -181,7 +182,7 @@ export default {
       if (this.GtForm.orgName === null) {
         this.abnormalGtInit();
       } else {
-      this.abnormalGtSearch();
+        this.abnormalGtSearch();
       }
     },
     // 编辑
