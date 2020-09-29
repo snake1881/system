@@ -3,7 +3,7 @@
     <!-- 条件查询 -->
     <el-form class="tile_form" :model="logForm" :inline="true">
       <el-form-item label="采油站:">
-        <el-select v-model="logForm.oilStation" placeholder="全区">
+        <el-select @change="queryWellNameByOrgName" v-model="logForm.oilStation" placeholder="全区">
           <el-option
             v-for="item in oilStationOptions"
             :key="item.orgName"
@@ -15,10 +15,10 @@
       <el-form-item label="井号:">
         <el-select v-model="logForm.wellId" placeholder>
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="item in wellNameoptions"
+            :key="item.wellName"
+            :label="item.wellName"
+            :value="item.wellName"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -104,28 +104,7 @@ export default {
         endTime: "2020-01-31"
       },
       addTileVisible: false,
-      options: [
-        {
-          value: "定1172-1",
-          label: "定1172-1"
-        },
-        {
-          value: "定1179",
-          label: "定1179"
-        },
-        {
-          value: "定1155",
-          label: "定1155"
-        },
-        {
-          value: "定1160-3",
-          label: "定1160-3"
-        },
-        {
-          value: "定1174",
-          label: "定1174"
-        }
-      ],
+      wellNameoptions: [],
       oilStationOptions: [],
       addTileData: {
         wellName: "",
@@ -152,17 +131,18 @@ export default {
         this.logForm
       ).then(resp => {
         if (resp) {
+          console.log(resp);
           this.tableData = resp.data.records;
           this.logForm.total = resp.data.total;
           this.logForm.currentPage = resp.data.current;
           this.logForm.pageSize = resp.data.size;
           this.tableData.forEach(element => {
-            //处理数据为坐标
-            this.coordinate(element);
-            //将处理后的坐标添加到对象中
-            this.$set(element, "coordinates", this.coordinates);
             //延迟到DOM更新之后再执行绘制图形
             this.$nextTick(function() {
+              //处理数据为坐标
+              this.coordinate(element);
+              //将处理后的坐标添加到对象中
+              this.$set(element, "coordinates", this.coordinates);
               //实例化echarts
               this.drawLine(element);
             });
@@ -175,6 +155,17 @@ export default {
       this.getRequest("/diagnosis/knowledge/tile/queryorgName").then(resp => {
         if (resp) {
           this.oilStationOptions = resp.data;
+        }
+      });
+    },
+    //获取采油站井名称
+    queryWellNameByOrgName(val) {
+      console.log(val);
+      this.getRequest(
+        "/diagnosis/knowledge/tile/queryWellNameByOrgName?orgName=" + val
+      ).then(resp => {
+        if (resp) {
+          this.wellNameoptions = resp.data;
         }
       });
     },
@@ -272,6 +263,8 @@ export default {
     },
     //将坐标数据串处理为坐标点
     coordinate(val) {
+      //每次处理之前保证坐标数组集合为空
+      this.coordinates = [[]];
       var displacementArray = val.displacement.split(";");
       var disploadArray = val.dispLoad.split(";");
       for (var i = 0; i < displacementArray.length; i++) {
