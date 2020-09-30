@@ -109,7 +109,7 @@
 <script>
 //import CommonAddPost from "../../../components/system/post/CommonAddPost";
 //import CommonEditPost from "../../../components/system/post/CommonEditPost";
-import CommonEditPost from "../../../components/diagnosis/oilwell/dymyc/DymycScanLine";
+import CommonEditPost from "../../../components/diagnosis/oilwell/gtmjyc/GtmjycScanLine";
 export default {
   components: {
     //CommonAddPost,
