@@ -56,8 +56,7 @@
       <el-table-column prop="normalDym" align="center" label="前七日均值" width="120"/>
       <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" align="center" size="small" @click="scanLine(scope.row)">查看曲线</el-button>
-          <!--<el-button type="text" size="small" @click="dletePost(scope.row)">删除</el-button>-->
+          <el-button type="text" align="center" size="small" @click="editPost(scope.row)">查看曲线</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -87,10 +86,10 @@
   </div>
 </template>
 <script>
-  import DymycScanLine from "../../../components/diagnosis/oilwell/dymyc/DymycScanLine";
+  import CommonEditPost from "../../../components/diagnosis/oilwell/dymyc/DymycScanLine";
   export default {
     components: {
-      DymycScanLine
+      CommonEditPost
     },
     data() {
       return {
@@ -100,7 +99,7 @@
         },
         // 表格数据
         dymData: [],
-        // 下拉框数据
+        // 采油站下拉框数据
         selectdymDataByOrgname: [],
         // 分页数据
         currentPage: 1,
@@ -109,10 +108,6 @@
         // 编辑
         editPostVisible: false,
         editPostData: {},
-        // 查看曲线
-        scanLineVisible: false,
-        scanLineData: {},
-
         // 新增
         addPostVisible: false,
         // 表格加载动画
@@ -140,6 +135,33 @@
             this.pageSize = resp.data.size;
           }
         });
+      },
+      // 根据id删除
+      dletePost(val) {
+        this.$confirm("确定删除该条数据", "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.getRequest("/position/deleteById?ids=" + val.positionId).then(
+              resp => {
+                if (resp) {
+                  this.$message({
+                    type: "success",
+                    message: "删除成功!"
+                  });
+                }
+                this.postInit();
+              }
+            );
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
+            });
+          });
       },
       //表格数据初始化
       postInit() {
@@ -202,16 +224,6 @@
       editPost(val) {
         this.editPostData = val;
         this.editPostVisible = true;
-      },
-
-      // 查看曲线
-      scanLine(val) {
-        this.scanLineData = val;
-        this.scanLineVisible = true;
-      },
-      // 关闭查看曲线框
-      scanLineClose() {
-        this.scanLineVisible = false;
       },
       // 关闭编辑框
       editPostClose() {
