@@ -6,23 +6,31 @@
     :before-close="editDiagnosisDataClose"
   >
     <div class="dialogDiv">
-      <el-form :model="editData" label-position="left" label-width="100px">
+      <el-form :model="editData" label-position="left" label-width="200px">
         <el-form-item label="诊断步骤:">
-          <el-input v-model="editData.diagnosticStep" />
+          <el-input :disabled="true" v-model="editData.diagnosticStep" style="width: 550px" />
         </el-form-item>
         <el-form-item label="序号(数字):">
-          <el-input v-model="editData.orderNumber" />
+          <el-input :disabled="true" v-model="editData.orderNumber" style="width: 550px" />
         </el-form-item>
         <el-form-item label="诊断结果:">
-          <el-input v-model="editData.abnormalProblem" />
+          <el-input v-model="editData.abnormalProblem" style="width: 550px" />
         </el-form-item>
-        <el-form-item label="诊断依据:">
-          <el-input v-model="editData.diagnosticBasis" />
+        <el-form-item label="诊断依据:(符号;换行)">
+          <el-input
+            type="textarea"
+            autosize
+            v-model="editData.diagnosticBasis"
+            style="width: 550px"
+          />
         </el-form-item>
       </el-form>
     </div>
     <span slot="footer">
-      <el-button type="primary" @click="saveEditDiagnosisData(), editDiagnosisDataClose()">
+      <el-button
+        type="primary"
+        @click="saveEditDiagnosisData(), editDiagnosisDataClose()"
+      >
         提交
       </el-button>
     </span>
@@ -34,7 +42,7 @@ export default {
     editDiagnosisDataVisible: {
       type: Boolean
     },
-    editData:{
+    editData: {
       type: Object
     }
   },
@@ -48,7 +56,10 @@ export default {
     },
     // 保存修改后的信息
     saveEditDiagnosisData() {
-      this.putRequest("/knowledge/DiagnosticParametersGt/DiagnosticParametersGt",this.editData).then(resp => {
+      this.putRequest(
+        "/knowledge/DiagnosticParametersGt/DiagnosticParametersGt",
+        this.editData
+      ).then(resp => {
         if (resp) {
           this.$message({
             message: "液量异常筛选条件信息修改成功!",
