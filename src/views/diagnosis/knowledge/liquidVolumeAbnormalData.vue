@@ -52,8 +52,6 @@
       border
       row-key="index"
       style="width:100%"
-      @current-change="handleCurrentChange"
-      @size-change="handleSizeChange"
     >
       <el-table-column
         prop="index"
@@ -150,6 +148,9 @@ export default {
         orgName: "",
         prodDate: ""
       },
+      //用于判断查询条件是否改变
+      oldOrgName: "",
+      oldProdDate: "",
       //采油站名称
       orgNameData: [],
       //表格数据
@@ -225,7 +226,11 @@ export default {
     },
     //条件查询
     liqFilterConditionSearch() {
-      if (this.termForm.prodDate === null) {
+      if(this.termForm.orgName!==this.oldOrgName||this.termForm.prodDate!==this.oldProdDate){
+        this.currentPage=1;
+        this.pageSize=20;
+      };
+        if (this.termForm.prodDate === null) {
         this.liqFilterConditionInit();
       } else {
         this.getRequest(
@@ -247,7 +252,9 @@ export default {
             this.getIndex();
           }
         });
-      }
+      };
+      this.oldOrgName=this.termForm.orgName;
+      this.oldProdDate=this.termForm.prodDate;
     },
     //液量异常筛选参数初始化
     ylYccsInit() {

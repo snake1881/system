@@ -33,21 +33,20 @@
         >查询</el-button
       >
     </el-form>
-    <el-divider> 功图数据异常数据（默认今日） </el-divider>
+    <el-divider > 功图数据异常数据（默认今日） </el-divider>
     <el-table
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="abnormalGtData"
       border
-      row-key="primaryId"
+      row-key="checkDate"
       :tree-props="{
         children: 'children',
         hasChildren: 'hasChildren'
       }"
       style="width:100%"
-      @current-change="handleCurrentChange"
-      @size-change="handleSizeChange"
+     
     >
       <el-table-column prop="rn" label="序号" width="100" />
       <el-table-column prop="wellId" label="井号" width="150" />
@@ -63,6 +62,7 @@
             @click="previewAbnormalGt(scope.row)"
             >查看功图</el-button
           >
+          
         </template>
       </el-table-column>
     </el-table>
@@ -98,11 +98,16 @@ export default {
         orgName: "",
         checkDate: ""
       },
+      //用于判断查询条件是否发生改变
+      oldOrgName:"",
+      OldCheckDate:"",
       //采油站名称
       orgNameData: [],
       //表格数据
       abnormalGtData: [],
       loading: true,
+      //判断是翻页还是修改查询数据重新查询的状态参数
+      status: 0 ,
       //分页
       currentPage: 1,
       pageSize: 20,
@@ -137,6 +142,10 @@ export default {
     },
     //条件查询
     abnormalGtSearch() {
+      if(this.GtForm.orgName!==this.oldOrgName||this.GtForm.checkDate!==this.OldCheckDate){
+        this.currentPage=1;
+        this.pageSize=20;
+      };
       this.getRequest(
         "/oilWell/abnormalGt/abnormalGtAllPage?checkDate=" +
           this.getTime(this.GtForm.checkDate) +
@@ -155,6 +164,8 @@ export default {
           this.pageSize = resp.data.size;
         }
       });
+      this.oldOrgName=this.GtForm.orgName;
+      this.OldCheckDate=this.GtForm.checkDate;
     },
     //加油站下拉框初始化
     orgNameInit() {
@@ -185,24 +196,26 @@ export default {
         this.abnormalGtSearch();
       }
     },
-    // 编辑
+    // 查看功图
     previewAbnormalGt(val) {
       this.previewAbnormalGtData = val;
       this.previewAbnormalGtVisible = true;
     },
-    // 关闭编辑框
+    // 关闭功图
     previewAbnormalGtClose() {
       this.previewAbnormalGtVisible = false;
     },
     //时间格式化
     getTime(dt) {
-      var year = dt.getFullYear(); //年
+      if(dt!==null){
+        var year = dt.getFullYear(); //年
       var month = dt.getMonth() + 1; //月
       var date = dt.getDate(); //日
       month = month < 10 ? "0" + month : month;
       date = date < 10 ? "0" + date : date;
       var str = year + "-" + month + "-" + date;
       return str;
+      }
     }
   }
 };

@@ -20,7 +20,8 @@
         border
         row-key="diadiagnosticStep"
         style="width:100%"
-        @current-change="handleCurrentChange"
+       
+        :span-method="objectOneMethod"
       >
         <el-table-column
           prop="diagnosticStep"
@@ -101,10 +102,6 @@ export default {
         this.loading = false;
         if (resp) {
           this.diagnosisData = resp.data;
-         this.diagnosisData.array.forEach(element => {
-           var reg = new RegExp(";", "g"); //g,表示全部替换。
-           element.diagnosticBasis.replace(reg, "<br/>");
-         });
         }
       });
     },
@@ -126,9 +123,37 @@ export default {
     addDiagnosisDataClose() {
       this.addDiagnosisDataVisible = false;
     },
-    lineBreak(val) {
-      var reg = new RegExp(";", "g"); //g,表示全部替换。
-      val.replace(reg, "<br/>");
+    //合并表格第一列相同单元格
+    objectOneMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        const _row = this.setTable(this.diagnosisData).one[rowIndex];
+        const _col = _row > 0 ? 1 : 0;
+        return {
+          rowspan: _row,
+          colspan: _col
+        };
+      }
+    },
+    setTable(tableData) {
+      let spanOneArr = [],
+        concatOne = 0;
+      tableData.forEach((item, index) => {
+        if (index === 0) {
+          spanOneArr.push(1);
+        } else {
+          if (item.diagnosticStep === tableData[index - 1].diagnosticStep) {
+            //第一列需合并相同内容的判断条件
+            spanOneArr[concatOne] += 1;
+            spanOneArr.push(0);
+          } else {
+            spanOneArr.push(1);
+            concatOne = index;
+          }
+        }
+      });
+      return {
+        one: spanOneArr
+      };
     }
   }
 };
@@ -137,7 +162,4 @@ export default {
 .element.style {
   height: 360px;
 }
-// .el-table .cell {
-//   white-space: pre-line;
-// }
 </style>
