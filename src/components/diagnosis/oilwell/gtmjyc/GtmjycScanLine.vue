@@ -13,7 +13,7 @@
     <div  >
 
     </div>
-    <div class="main"  style=" margin:auto; width:85%; height:400px;">
+    <div class="main"  style=" margin:auto; width:85%; height:450px;">
       <div  id="myChart" :style="{ width: '150%', height: '400px' , float:left} "></div>
       <div  id="myChart2" :style="{ width: '150%', height: '400px' ,float:left}"></div>
     </div>
@@ -79,7 +79,7 @@
           title: {
             x: "center",
             text: this.tableData.dynaCreateTime,
-            top: "7%",
+            top: "10%",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
@@ -136,6 +136,12 @@
               fontSize: 10
             }
           },
+          title: [{
+            subtext: '当前功图',
+            left: '51%',
+            top: '90%',
+            textAlign: 'center'
+          }],
           series: [
             {
               symbol: "none",
@@ -225,6 +231,12 @@
               fontSize: 10
             }
           },
+          title: [{
+            subtext: '标准功图',
+            left: '51%',
+            top: '90%',
+            textAlign: 'center'
+          }],
           series: [
             {
               symbol: "none",
