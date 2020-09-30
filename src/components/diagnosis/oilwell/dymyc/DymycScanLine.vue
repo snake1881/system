@@ -1,7 +1,7 @@
 <template>
 
   <el-dialog
-          title="功图展示"
+          title="动液面功图展示"
           :modal="false"
           :close-on-click-modal="false"
           :modal-append-to-body="false"
