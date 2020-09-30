@@ -1,12 +1,12 @@
-.tile {
+.standard {
     height: 90%;
     width: 100%;
     margin-top: 10px;
 }
-.tile_form {
-    width: 90%;
+.standard_form {
+    width: 52%;
     height: 7%;
-    margin: 0px 80px;
+    margin: 0% 21%;
     padding-top: 5px;
     background-color: white;
 }
@@ -25,46 +25,46 @@
     padding: 9px 15px;
     margin: 4px 0px;
 }
-.tile_echarts {
+.standard_echarts {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin: 0px 15px;
 }
 
-.tile_echarts_child{
+.standard_echarts_child{
     padding: 0px 5px;
     position: relative;
     z-index: 1;
 }
-.tile_echarts_button{
+.standard_echarts_button{
     position: relative;
     z-index: 99;
     text-align: center;
     margin-top: -27px;
     margin-left: 20px;
 }
-.tile_echarts_child:first-child{
+.standard_echarts_child:first-child{
     height: 258px;
 }
-.tile .el-dialog{
+.standard .el-dialog{
     margin-top: 24vh !important;
     width: 23% !important;
     height: 52%;
 }
-.tile .el-dialog .el-dialog__body .el-input[data-v-0542bf15] {
+.standard .el-dialog .el-dialog__body .el-input {
     width: 220px;
 }
-.tile .el-dialog .el-dialog__body {
+.standard .el-dialog .el-dialog__body {
     padding: 30px 20px;
     color: #606266;
     font-size: 14px;
     word-break: break-all;
     height: 53%;
 }
-.tile .el-dialog .el-select-dropdown.el-popper {
+.standard .el-dialog .el-select-dropdown.el-popper {
     min-height: 70px;
 }
-.tile .el-select-dropdown .el-scrollbar{
+.standard .el-select-dropdown .el-scrollbar{
     height: 284px;
 }
