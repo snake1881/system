@@ -189,7 +189,7 @@ export default {
           containLabel: true
         },
         xAxis: {
-          name: "位移",
+          name: "位移(M)",
           nameLocation: "middle",
           min: 0,
           max: 4,
@@ -257,7 +257,7 @@ export default {
     },
     //删除特征库
     deleteFeatures(){
-      console.log("要删吗?")
+      alert("要删吗?");
     },
     // 关闭修改对话框
     editFeaturesClose() {

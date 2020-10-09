@@ -225,7 +225,7 @@ export default {
           containLabel: true
         },
         xAxis: {
-          name: "位移",
+          name: "位移(M)",
           nameLocation: "middle",
           min: 0,
           max: 4,
