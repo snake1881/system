@@ -20,34 +20,37 @@
         border
         row-key="diadiagnosticStep"
         style="width:100%"
-       
         :span-method="objectOneMethod"
       >
         <el-table-column
           prop="diagnosticStep"
           label="诊断步骤"
           width="240"
+          align="center"
         ></el-table-column>
         <el-table-column
           prop="orderNumber"
           label="序号"
           width="80"
+          align="center"
         ></el-table-column>
         <el-table-column
           prop="abnormalProblem"
           label="诊断结果"
           width="300"
+          align="center"
         ></el-table-column>
-        <el-table-column label="诊断依据" width="480">
+        <el-table-column label="诊断依据" width="480" header-align="center">
           <template slot-scope="scope">
             <div v-html="scope.row.diagnosticBasis"></div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="100">
+        <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <el-button
               type="text"
-              size="small"
+              size="medium"
+              icon="el-icon-edit"
               @click="editDiagnosisData(scope.row)"
               >编辑</el-button
             >

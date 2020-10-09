@@ -50,24 +50,27 @@
       element-loading-spinner="el-icon-loading"
       :data="liqFilterConditionDate"
       border
+      height="480px"
       row-key="index"
       style="width:100%"
     >
       <el-table-column
         prop="index"
         label="序号"
-        width="50"
+        width="100"
         align="center"
       ></el-table-column>
       <el-table-column
         prop="wellName"
         label="井号"
-        width="140"
+        width="160"
+        align="center"
       ></el-table-column>
       <el-table-column
         prop="filter"
         label="条件（填写选定日期后可选择任意天）"
-        width="420px"
+        width="480px"
+        align="center"
       >
         <template scope="scope">
           <el-radio-group v-model="scope.row.filter">
@@ -82,18 +85,21 @@
         prop="appointDate"
         label="指定日期"
         width="320"
+        align="center"
       ></el-table-column>
-      <el-table-column label="操作" width="180">
+      <el-table-column label="操作" width="240" align="center">
         <template slot-scope="scope">
           <el-button
             type="text"
-            size="small"
+            size="medium"
+            icon="el-icon-edit"
             @click.prevent="editLiqFilterCondition(scope.row)"
             >编辑</el-button
           >
           <el-button
             type="text"
-            size="small"
+            size="medium"
+            icon="el-icon-delete"
             @click.prevent="deleteLiqFilterCondition(scope.row)"
             >删除</el-button
           >
@@ -160,7 +166,7 @@ export default {
       orgName: "",
       loading: true,
       currentPage: 1,
-      pageSize: 20,
+      pageSize: 10,
       total: 0,
       // 异常筛选参数设置编辑
       editYlYccsVisible: false,
@@ -228,7 +234,7 @@ export default {
     liqFilterConditionSearch() {
       if(this.termForm.orgName!==this.oldOrgName||this.termForm.prodDate!==this.oldProdDate){
         this.currentPage=1;
-        this.pageSize=20;
+        this.pageSize=10;
       };
         if (this.termForm.prodDate === null) {
         this.liqFilterConditionInit();
@@ -326,13 +332,16 @@ export default {
     },
     //时间格式化
     getTime(val) {
-      var year = val.getFullYear(); //年
+      if(val!==null){
+        var year = val.getFullYear(); //年
       var month = val.getMonth() + 1; //月
       var date = val.getDate(); //日
       month = month < 10 ? "0" + month : month;
       date = date < 10 ? "0" + date : date;
       var str = year + "-" + month + "-" + date;
       return str;
+      }
+      
     },
     //设置序号
     getIndex() {

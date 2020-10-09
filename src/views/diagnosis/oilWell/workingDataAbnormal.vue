@@ -39,6 +39,7 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="abnormalGtData"
+      height="440px"
       border
       row-key="checkDate"
       :tree-props="{
@@ -48,13 +49,13 @@
       style="width:100%"
      
     >
-      <el-table-column prop="rn" label="序号" width="100" />
-      <el-table-column prop="wellId" label="井号" width="150" />
-      <el-table-column prop="checkDate" label="日期" width="200" />
-      <el-table-column prop="abnormalProblem" label="诊断结果" width="320">
+      <el-table-column prop="rn" label="序号" align="center" width="100" />
+      <el-table-column prop="wellId" label="井号" align="center" width="160" />
+      <el-table-column prop="checkDate" label="日期" align="center" width="240" />
+      <el-table-column prop="abnormalProblem" label="诊断结果" align="center" width="320">
       </el-table-column>
-      <el-table-column prop="orgName" label="采油站" width="320" />
-      <el-table-column label="操作" width="140">
+      <el-table-column prop="orgName" label="采油站" align="center" width="320" />
+      <el-table-column label="操作" align="center" width="160">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -66,9 +67,10 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="abnormalGt_page">
+    <div class="abnormalGt_page"  >
       <!-- 分页 -->
       <el-pagination
+      class="pagination"
         :current-page.sync="currentPage"
         :page-size="pageSize"
         :total="total"
@@ -81,7 +83,7 @@
     <!-- 查看功图 -->
     <common-preview-abnormalGt
       :previewAbnormalGtVisible="previewAbnormalGtVisible"
-      :previewAbnormalGtData="previewAbnormalGtData"
+      :previewData="previewAbnormalGtData"
       @previewAbnormalGtRowClose="previewAbnormalGtClose"
     />
   </div>
@@ -106,16 +108,14 @@ export default {
       //表格数据
       abnormalGtData: [],
       loading: true,
-      //判断是翻页还是修改查询数据重新查询的状态参数
-      status: 0 ,
       //分页
       currentPage: 1,
-      pageSize: 20,
+      pageSize: 10,
       total: 0,
-      // 编辑
+      // 查看功图
       previewAbnormalGtVisible: false,
       previewAbnormalGtData: {},
-      tableDate: {},
+      tableData: {},
       coordinates: [{}]
     };
   },
@@ -144,7 +144,7 @@ export default {
     abnormalGtSearch() {
       if(this.GtForm.orgName!==this.oldOrgName||this.GtForm.checkDate!==this.OldCheckDate){
         this.currentPage=1;
-        this.pageSize=20;
+        this.pageSize=10;
       };
       this.getRequest(
         "/oilWell/abnormalGt/abnormalGtAllPage?checkDate=" +
@@ -190,27 +190,52 @@ export default {
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = parseInt(val);
-      if (this.GtForm.orgName === null) {
+      if (this.GtForm.checkDate === null) {
         this.abnormalGtInit();
       } else {
         this.abnormalGtSearch();
       }
     },
-    // 查看功图
+    // 查看功图并初始化功图数据
     previewAbnormalGt(val) {
       this.previewAbnormalGtData = val;
       this.previewAbnormalGtVisible = true;
+      // this.getRequest(
+      //   "/oilWell/abnormalGt/GetGt?checkDate=" +
+      //     this.val.checkDate +
+      //     "&wellId=" +
+      //     this.val.wellId
+      // ).then(resp => {
+      //   // this.loading = false;
+      //   if (resp) {
+      //     this.tableData = resp.data;
+      //   }
+      // });
+    },
+    //初始化功图数据
+    gtDataInit(val) {
+      this.getRequest(
+        "/oilWell/abnormalGt/GetGt?checkDate=" +
+          this.val.checkDate +
+          "&wellId=" +
+          this.val.wellId
+      ).then(resp => {
+        // this.loading = false;
+        if (resp) {
+          this.tableData = resp.data;
+        }
+      });
     },
     // 关闭功图
     previewAbnormalGtClose() {
       this.previewAbnormalGtVisible = false;
     },
     //时间格式化
-    getTime(dt) {
-      if(dt!==null){
-        var year = dt.getFullYear(); //年
-      var month = dt.getMonth() + 1; //月
-      var date = dt.getDate(); //日
+    getTime(val) {
+      if(val!==null){
+      var year = val.getFullYear(); //年
+      var month = val.getMonth() + 1; //月
+      var date = val.getDate(); //日
       month = month < 10 ? "0" + month : month;
       date = date < 10 ? "0" + date : date;
       var str = year + "-" + month + "-" + date;
@@ -221,4 +246,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.abnormalGt_page{
+   position:absolute; bottom:0;
+   
+}
+
 </style>
