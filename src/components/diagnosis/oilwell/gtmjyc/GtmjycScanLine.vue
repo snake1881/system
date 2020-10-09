@@ -10,7 +10,13 @@
           @opened="opens1"
           :before-close="editPostClose"
   >
-    <div  id="myChart" :style="{ width: '100%', height: '400px' }"></div>
+    <div  >
+
+    </div>
+    <div class="main"  style=" margin:auto; width:85%; height:450px;">
+      <div  id="myChart" :style="{ width: '150%', height: '400px' , float:left} "></div>
+      <div  id="myChart2" :style="{ width: '150%', height: '400px' ,float:left}"></div>
+    </div>
   </el-dialog>
 </template>
 
@@ -63,10 +69,106 @@
       },
       mounted() {
         this.drawLine();
+        this.drawLine2();
       },
       drawLine() {
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById("myChart"));
+        // 绘制图表
+        myChart.setOption({
+          title: {
+            x: "center",
+            text: this.tableData.dynaCreateTime,
+            top: "10%",
+            textStyle: {
+              fontSize: 13,
+              fontStyle: "normal",
+              fontWeight: "bolder"
+            },
+            subtext: ""
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "line" // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: function(params) {
+              return (
+                "<div><p>位移：" +
+                params[0].value[0] +
+                "M</p>" +
+                "<p>载荷：" +
+                params[0].value[1] +
+                "KN</p>" +
+                "</div>"
+              );
+            }
+          },
+          grid: {
+            left: "3%",
+            right: "3%",
+            bottom: "15%",
+            top: "20%",
+            containLabel: true
+          },
+          xAxis: {
+            name: "位移",
+            nameLocation: "middle",
+            min: 0,
+            max: 4,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [8, 0, 0, 0],
+              fontSize: 10
+            }
+          },
+          yAxis: {
+            name: "载荷(KN)",
+            nameLocation: "middle",
+            // min: 0,
+            // max: 100,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 6, 0],
+              fontSize: 10
+            }
+          },
+          title: [{
+            subtext: '当前功图',
+            left: '51%',
+            top: '90%',
+            textAlign: 'center'
+          }],
+          series: [
+            {
+              symbol: "none",
+              data: this.coordinates,
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5
+              }
+            }
+          ]
+        });
+      },
+      //将坐标数据串处理为坐标点
+      coordinate() {
+        var displacementArray = this.tableData.displacement.split(";");
+        var disploadArray = this.tableData.dispLoad.split(";");
+        for (var i = 0; i < displacementArray.length; i++) {
+          this.coordinates[i] = [];
+          this.coordinates[i][0] = parseFloat(displacementArray[i]);
+          this.coordinates[i][1] = parseFloat(disploadArray[i]);
+        }
+        return this.coordinates;
+      },
+      drawLine2() {
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = this.$echarts.init(document.getElementById("myChart2"));
         // 绘制图表
         myChart.setOption({
           title: {
@@ -129,6 +231,12 @@
               fontSize: 10
             }
           },
+          title: [{
+            subtext: '标准功图',
+            left: '51%',
+            top: '90%',
+            textAlign: 'center'
+          }],
           series: [
             {
               symbol: "none",
