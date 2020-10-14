@@ -52,6 +52,13 @@ const routes = [{
             component: () =>
                 import ("@/views/notice/detailsNotice.vue"),
             hidden: true
+        },
+        {
+            path: "/personal",
+            name: "个人中心",
+            component: () =>
+                import ("@/views/personal.vue"),
+            hidden: true
         }
     ]
     }

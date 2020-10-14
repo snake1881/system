@@ -1,9 +1,8 @@
 .user {
     display: flex;
     flex-direction: row;
-    height: 90%;
+    height: 93%;
     width: 100%;
-    margin-top: 10px;
 }
 
 .user_left {
@@ -14,7 +13,7 @@
 }
 
 .user_right {
-    width: 85%;
+    width: 86%;
     height: 100%;
 }
 

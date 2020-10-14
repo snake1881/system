@@ -30,8 +30,11 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         :data="tableData"
-        height="84%"
+        height="85%"
         border
+        :row-style="{height:'2px'}"
+        :cell-style="{padding:'0px'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
@@ -50,8 +53,8 @@
         <el-table-column prop="createTime" label="创建时间" width="180" />
         <el-table-column label="操作" width="120" fixed="right">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editUser(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="small" @click="editUser(scope.row)" class="iconfont icon-bianji"/>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu"/>
           </template>
         </el-table-column>
       </el-table>
@@ -153,7 +156,6 @@ export default {
     },
     // 点击树节点显示相应数据
     getCheckedKeys(val) {
-      console.log(val);
       this.getRequest(
         "/system/sysUser/users/" +
           val.departmentId +

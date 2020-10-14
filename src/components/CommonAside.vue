@@ -1,12 +1,15 @@
 <template>
   <el-menu
-    background-color="#3d464d"
-    text-color="#fff"
-    active-text-color="#ffd04b"
+    background-color="#1F2D3D"
+    text-color="#909399"
+    active-text-color="#fff"
     default-active="#"
     :unique-opened="true"
     router
+    :collapse="isCollapse"
   >
+    <!-- 侧边栏伸缩 -->
+    <i class="el-icon-s-unfold menu-icon" @click="toggleCollapse()" />
     <div v-for="(item, index) in this.menus.children" :key="index">
       <div v-if="item.children">
         <el-menu-item
@@ -46,10 +49,16 @@ export default {
   },
   data() {
     return {
-      menus: this.$store.state.routes[0].children[this.routerNumber]
+      menus: this.$store.state.routes[0].children[this.routerNumber],
+      isCollapse: false
     };
   },
-  methods: {}
+  methods: {
+    // 侧边栏伸缩
+    toggleCollapse () {
+      this.isCollapse = !this.isCollapse
+    }
+  }
 };
 </script>
 
@@ -57,5 +66,10 @@ export default {
 .el-menu {
   height: 100%;
   text-indent: 25px;
+}
+.menu-icon{
+  font-size: 30px;
+  margin: 0 12px;
+  // background-color: rgb(209, 205, 205);
 }
 </style>

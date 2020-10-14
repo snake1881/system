@@ -5,7 +5,7 @@ import store from "./store";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import echarts from "echarts";
-import VueAMap from "vue-amap";
+import VueAMap from "vue-amap"
 
 Vue.config.productionTip = false;
 Vue.use(Element);

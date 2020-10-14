@@ -31,13 +31,14 @@
 .container_right {
     width: 15%;
     display: flex;
+    border-left: solid 2px rgb(102, 102, 102);
     flex-direction: row;
 }
 
 .container_right_notice{
-    width: 300px;
-    height: 200px;
-    margin-top: 30px;
+    width: 30px;
+    height: 30px;
+    margin: 30px 0 5px 0;
 }
 .container_right_notice_scrollbar{
     height:180px;
@@ -53,31 +54,34 @@
     margin:5px 0;
 }
 .container_right_notice_button{
-    width: 100%;
+    width: 90%;
     height: 10px;
     margin-top:2px;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     color: red;
     border-top: solid 1px rgb(218, 215, 215);
 
 }
 .container_right .container_right_badge{
-    margin-top: -2px;
+    margin: -10px 0px 10px 10px;
 }
 
 .container_right .container_right_user {
-    width: 45px;
-    height: 45px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
-    margin-left: 80%;
-    margin-top: 35%;
+    margin: 20px 0px 0px 10px;
+   
 }
 
 .container_right .container_right_username {
-    line-height: 60px;
+    line-height: 50px;
     font-size: 16px;
-    margin-top: 6%;
-    margin-left: 25%;
+    margin: 8px 0 0 10px;
     color: #fff;
+}
+
+.container_right .container_right_out {
+    margin: 7px 0 0 15px;
 }

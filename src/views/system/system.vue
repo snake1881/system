@@ -7,7 +7,7 @@
       </el-aside>
       <el-main class="sys_main">
         <!-- 页头 -->
-        <page-header pageHeaderName="系统管理" />
+        <page-header />
         <router-view />
       </el-main>
     </el-container>

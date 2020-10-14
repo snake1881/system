@@ -26,26 +26,29 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="roleData"
-      height="84%"
+      height="85%"
       border
       style="width:100%"
+      :row-style="{height:'2px'}"
+      :cell-style="{padding:'0px'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="roleName" label="角色名称" width="240" />
-      <el-table-column prop="roleKey" label="权限字符" width="210" />
-      <el-table-column prop="sequence" label="显示顺序" width="160" />
-      <el-table-column prop="status" label="状态" width="160">
+      <el-table-column prop="roleKey" label="权限字符" width="240" />
+      <el-table-column prop="sequence" label="显示顺序" width="180" />
+      <el-table-column prop="status" label="状态" width="240">
         <template slot-scope="scope">
           <p v-if="scope.row.status == '0'">停用</p>
           <p v-if="scope.row.status == '1'">正常</p>
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="240" />
-      <el-table-column label="操作" width="230">
+      <el-table-column label="操作" width="140">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editRole(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="dlete(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="editRole(scope.row)" class="iconfont icon-bianji" />
+          <el-button type="text" size="small" @click="dlete(scope.row)" class="iconfont icon-shanchu" />
         </template>
       </el-table-column>
     </el-table>
@@ -245,4 +248,9 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/role.css";
+</style>
+<style>
+.role .iconfont{
+  font-size: 20px;
+}
 </style>

@@ -12,12 +12,6 @@
         <el-date-picker placeholder="结束时间" v-model="logingLogForm.endTime" size="medium" />
       </el-form-item>
       <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
-      <el-button
-        type="primary"
-        icon="el-icon-folder-checked"
-        size="small"
-        @click="exportLogingLog()"
-      >导出</el-button>
     </el-form>
     <!-- 表格数据 -->
     <el-table
@@ -26,23 +20,26 @@
       element-loading-spinner="el-icon-loading"
       :data="logingLogData"
       @selection-change="handleSelectionChange"
-      height="84%"
+      height="85%"
       border
       style="width:100%"
+      :row-style="{height:'2px'}"
+      :cell-style="{padding:'0px'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="operationId" label="日志编号" width="90" />
       <el-table-column prop="moduleName" label="模块名称" width="140" />
-      <el-table-column prop="operatorName" label="登录名称" width="120" />
-      <el-table-column prop="requestIp" label="登陆地址" width="120" />
+      <el-table-column prop="operatorName" label="登录名称" width="130" />
+      <el-table-column prop="requestIp" label="登陆地址" width="140" />
       <el-table-column prop="requestLocation" label="登陆地点" width="140" />
-      <el-table-column prop="channel" label="设备" width="100" />
+      <el-table-column prop="channel" label="设备" width="120" />
       <el-table-column prop="operationType" label="操作类型" width="100" />
       <el-table-column prop="operationMsg" label="操作信息" width="100" />
       <el-table-column prop="operationTime" label="登陆时间" width="240" />
       <el-table-column label="操作" width="80">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="dleteLoginLog(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="dleteLoginLog(scope.row)" class="iconfont icon-shanchu" />
         </template>
       </el-table-column>
     </el-table>
@@ -107,15 +104,6 @@ export default {
           this.pageSize = resp.data.size;
         }
       });
-      // this.getRequest(
-      //   "/loginLog/findLoginById?id=" + this.logingLogForm.id
-      // ).then(resp => {
-      //   if (resp) {
-      //     let loginData = new Array();
-      //     loginData.push(resp.data);
-      //     this.logingLogData = loginData;
-      //   }
-      // });
     },
     //表格数据初始化
     loginLogInit() {
@@ -174,14 +162,15 @@ export default {
     // 表格数据多选
     handleSelectionChange(val) {
       this.selectData = val;
-    },
-    // 导出
-    exportLogingLog() {
-      console.log(1);
     }
   }
 };
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/role.css";
+</style>
+<style>
+.role .iconfont{
+  font-size: 20px;
+}
 </style>

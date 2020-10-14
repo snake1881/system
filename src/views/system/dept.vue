@@ -17,10 +17,13 @@
       }"
       height="92%"
       style="width:100%"
+      :row-style="{height:'2px'}"
+      :cell-style="{padding:'0px'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
       <el-table-column prop="departmentName" label="部门名称" width="260" />
       <el-table-column prop="sequence" label="排序" width="260" />
-      <el-table-column prop="departmentType" label="部门类型" width="230">
+      <el-table-column prop="departmentType" label="部门类型" width="260">
         <template slot-scope="scope">
           <p v-if="scope.row.departmentType == '0'">内部单位</p>
           <p v-if="scope.row.departmentType == '1'">管理机构</p>
@@ -29,9 +32,9 @@
       <el-table-column prop="createTime" label="创建时间" width="280" />
       <el-table-column label="操作" width="260">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addDept(scope.row)">新增</el-button>
-          <el-button type="text" size="small" @click="editDept(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="dleteDept(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="addDept(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px" />
+          <el-button type="text" size="small" @click="editDept(scope.row)" class="iconfont icon-bianji" />
+          <el-button type="text" size="small" @click="dleteDept(scope.row)" class="iconfont icon-shanchu" />
         </template>
       </el-table-column>
     </el-table>
@@ -148,4 +151,9 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/dept.css";
+</style>
+<style>
+.dept .iconfont{
+  font-size: 20px;
+}
 </style>

@@ -2,7 +2,7 @@
   <div class="header_container">
     <div class="container_left">
       <img class="container_left_img" src="../../assets/images/logo1.png" />
-      <span class="container_left_text">定边采油厂智能油田平台</span>
+      <span class="container_left_text">定边采油厂智能油田一体化平台</span>
     </div>
     <!-- 导航栏 -->
     <div class="container_middle">
@@ -10,7 +10,7 @@
         router
         mode="horizontal"
         default-active="/Index"
-        background-color="#0D56A6"
+        background-color="#132231"
         text-color="#fff"
         active-text-color="#ffd04b"
         v-if="this.$store.state.routes[0]"
@@ -26,21 +26,32 @@
     </div>
     <!-- 用户信息 -->
     <div class="container_right">
-      <!-- 消息通知 -->
+      <!-- 图片+详细 -->
+      <el-dropdown trigger="click">
+        <span>
+          <img class="container_right_user" alt="用户" src="../../assets/images/header.jpg"/>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item command="usercenter" @click.native="goToPersonal()">个人中心</el-dropdown-item>
+          <el-dropdown-item command="notice" @click.native="goToSendNotice()">发布通知</el-dropdown-item>
+          <!-- <el-dropdown-item command="setting">设置</el-dropdown-item>
+          <el-dropdown-item command="logout">注销</el-dropdown-item> -->
+        </el-dropdown-menu>
+      </el-dropdown>
+      <!-- 用户名 -->
+      <span class="container_right_username">{{ username }}</span>
+       <!-- 消息通知 -->
       <el-popover placement="bottom" class="container_right_notice" trigger="click">
         <el-tabs type="border-card">
           <el-tab-pane label="未读" >
             <el-scrollbar class="container_right_notice_scrollbar">
               <!-- 未阅读信息展示 end -->
               <template v-for="(item, index) in lists">
-                <div
-                  v-if="item.msgState == '未通知'"
-                  class="container_right_notice_content"
-                  :key="index"
-                  @click="read(item.msgId)"
-                >
-                  <div>{{item.msgContent}}</div>
-                  <div>{{item.msgTime}}</div>
+                <div v-if="item.msgState == '未通知'" class="container_right_notice_content" :key="index">
+                  <el-button type="text" @click="goToDetail()">
+                    {{ item.msgContent }}
+                    {{ item.msgTime }}
+                  </el-button>
                 </div>
               </template>
             </el-scrollbar>
@@ -49,47 +60,29 @@
             <el-scrollbar class="container_right_notice_scrollbar">
               <template v-for="(item, index) in lists">
                 <div v-if="item.msgState == '已阅读'" class="container_right_notice_content" :key="index">
-                  <div>{{item.msgContent}}</div>
-                  <div>{{item.msgTime}}</div>
+                  <el-button type="text">{{item.msgContent}} {{item.msgTime}}</el-button>
                 </div>
               </template>
             </el-scrollbar>
           </el-tab-pane>
           <el-button @click="gotoReceiveNotice()" class="container_right_notice_button" type="text">查看全部通知</el-button>
         </el-tabs>
-        <el-badge slot="reference" :value="noticeNum" :max="99" class="container_right_badge">
-          <el-button class="iconfont icon-tongzhi1" @click="cancelNoticeNum()"/>
+        <el-badge slot="reference"  :max="99" class="container_right_badge">
+          
+          <el-button class="iconfont icon-xiaoxi" @click="cancelNoticeNum()"/>
         </el-badge>
       </el-popover>
-      <!-- 图片+详细 -->
-      <el-dropdown trigger="click">
-        <span>
-          <img
-            class="container_right_user"
-            alt="用户"
-            src="../../assets/images/header.jpg"
-          />
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="usercenter">个人中心</el-dropdown-item>
-          <el-dropdown-item command="notice" @click.native="gotoSendNotice()">
-            发布通知
-          </el-dropdown-item>
-          <el-dropdown-item command="setting">设置</el-dropdown-item>
-          <el-dropdown-item command="logout">注销</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-      <!-- 用户名 -->
-      <span class="container_right_username">{{ username }}</span>
+      <!-- 退出 -->
+      <el-button class="iconfont icon-tuichu container_right_out"/>
     </div>
-  </div>
+  </div> 
 </template>
 <script>
 export default {
   data() {
     return {
       // 通知总数
-      noticeNum: 10,
+      // noticeNum: 10,
       // 通知详细
       lists:[
         {
@@ -130,15 +123,32 @@ export default {
   methods: {
     // 跳转到所有通知页面
     gotoReceiveNotice(){
-      this.$router.push({ path:'/receiveNotice'  })
+      this.$router.push({ path:'/receiveNotice' })
     },
     // 跳转到发布通知页面
-    gotoSendNotice(){
-       this.$router.push({ path:'/sendNotice'  })
+    goToSendNotice(){
+       this.$router.push({ path:'/sendNotice' })
+    },
+    // 跳转到个人中心页面
+    goToPersonal(){
+      this.$router.push({ path:'/personal' })
     },
     // 通知数量修改
     cancelNoticeNum(){
       this.noticeNum = null;
+    },
+    // 跳转到通知详情
+    goToDetail(){
+      this.$router.push(
+        { 
+          name: '消息详情',
+          params: { 
+            msg: this.lists[0].msgContent,
+            sendUser: this.$store.state.currentUser.username ,
+            title: this.lists[0].msgState
+          } 
+        }
+      );
     }
   }
 };
@@ -155,10 +165,9 @@ export default {
   height: 100%;
 }
 .container_right .el-button {
-  border-color: #0D56A6;
-  background-color: #0D56A6;
+  border-color: #132231;
+  background-color:#132231;
   padding: 0 0;
-  font-size: 26px;
 }
 .container_middle .el-menu {
   border: 0;
@@ -168,7 +177,10 @@ export default {
   height: 100%;
   line-height: 76px;
 }
-.el-scrollbar__wrap{
-  overflow: hidden;
+.container_right_notice_scrollbar .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.container_right .el-button {
+  font-size: 20px;
 }
 </style>

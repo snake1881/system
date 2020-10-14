@@ -1,74 +1,36 @@
 <template>
-  <div class="container">
-    <div class="container-left">
-      <img
-        src="../assets/images/logo1.png"
-        alt="加载中..."
-        style="width: 30%; height: 25%;margin: 6% 35% 0 35%"
-      />
-      <h3 style="text-align: center;color: #303133;font-size:32px;">
-        定边采油厂 - 延长油田股份有限公司
-      </h3>
-      <img
-        src="../assets/images/chouyouji.png"
-        alt="加载中..."
-        style="width: 40%; height: 32%;margin: 9% 30% 0 30%"
-      />
-    </div>
-    <div style="width: 28%; height: 100%;">
-      <img
-        src="../assets/images/logo.png"
-        alt="加载中..."
-        style="width: 46%; height: 15%;margin: 10% 27% 2% 27%"
-      />
-      <h3
-        style="text-align: center;color: #606266;font-size:20px;margin-bottom:70px"
+  <div class="login">
+    <h3 class="login-title">定边采油厂智能油田一体化平台</h3>
+    <el-form
+      :model="sysUserLogin"
+      :rules="rules"
+      ref="loginForm"
+      class="loginContainer"
+    >
+      <h4 class="loginContainer-h3">用户登录</h4>
+      <el-form-item prop="username">
+        <el-input v-model="sysUserLogin.username" type="text" placeholder="输入用户名">
+          <i slot="prefix" class="el-input__icon el-icon-user" style="font-size:20px;margin:0 2px" />
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input v-model="sysUserLogin.password" type="password" placeholder="输入密码">
+          <i slot="prefix" class="el-input__icon el-icon-key" style="font-size:20px;margin:0 2px" />
+        </el-input>
+      </el-form-item>
+      <!-- <el-link type="primary" style="margin:0 0 0 100px;font-size:16px" @click="goRegister()">
+        注册
+      </el-link> -->
+      <el-button
+        type="primary"
+        class="loginContainer-button"
+        @click.native.prevent="submitLogin()"
+        @keyup.enter.native="submitLogin()"
       >
-        定边采油厂智能油田平台
-      </h3>
-      <el-form
-        :model="sysUserLogin"
-        :rules="rules"
-        ref="loginForm"
-        label-width="20px"
-        class="loginContainer"
-      >
-        <el-form-item prop="username">
-          <el-input
-            v-model="sysUserLogin.username"
-            type="text"
-            placeholder="用户名"
-          >
-            <i slot="prefix" class="el-input__icon el-icon-user" style="font-size:20px;margin-left:75px" />
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input
-            v-model="sysUserLogin.password"
-            type="password"
-            placeholder="密码"
-          >
-            <i slot="prefix" class="el-input__icon el-icon-key" style="font-size:20px;margin-left:75px" />
-          </el-input>
-        </el-form-item>
-        <el-link
-          type="primary"
-          style="margin: 10px 25% 10px 65%;font-size:16px"
-          @click="goRegister"
-        >
-          注册
-        </el-link>
-        <el-button
-          size="small"
-          type="primary"
-          style="width: 50%;margin: 12px 25%;"
-          @click.native.prevent="submitLogin()"
-          @keyup.enter.native="submitLogin()"
-        >
-          登录
-        </el-button>
-      </el-form>
-    </div>
+        登录
+      </el-button>
+      <el-checkbox v-model="checked" class="loginContainer-checkbox">记住密码</el-checkbox>
+    </el-form>
   </div>
 </template>
 <script>
@@ -88,7 +50,9 @@ export default {
           { required: true, message: "请输入密码", trigger: "blur" },
           { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
         ]
-      }
+      },
+      // 复选框状态
+      checked: false
     };
   },
   created() {
@@ -107,9 +71,9 @@ export default {
   },
   methods: {
     // 跳转到注册页
-    goRegister() {
-      this.$router.replace("/Register");
-    },
+    // goRegister() {
+    //   this.$router.replace("/Register");
+    // },
     // 提交信息，登录后进入首页
     submitLogin() {
       this.$refs.loginForm.validate(valid => {
@@ -131,32 +95,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-}
-.container-left {
-  width: 72%;
-  height: 100%;
-  background: #9addff;
-}
+@import "../assets/css/login.css";
 </style>
-<style lang="less">
-.loginContainer .el-input__inner {
-  border-left-width: 0px;
-  border-top-width: 0px;
-  border-right-width: 0px;
-  border-bottom-color: #909399;
-  border-radius: 0;
-  width: 60%;
-  margin: 10px 20%;
-}
-.el-form-item__content .el-form-item__error {
-  margin-left: 20%;
-}
-.loginContainer .el-button {
-  border-radius: 20px;
+<style>
+.el-checkbox .el-checkbox__label{
+  color: white;
 }
 </style>

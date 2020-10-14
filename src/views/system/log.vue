@@ -12,7 +12,6 @@
         <el-date-picker placeholder="结束时间" v-model="logForm.endTime" size="medium" />
       </el-form-item>
       <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
-      <el-button type="primary" icon="el-icon-folder-checked" size="small" @click="exportLog()">导出</el-button>
     </el-form>
     <!-- 表格数据 -->
     <el-table
@@ -21,9 +20,12 @@
       element-loading-spinner="el-icon-loading"
       :data="logData"
       @selection-change="handleSelectionChange"
-      height="84%"
+      height="85%"
       border
       style="width:100%;"
+      :row-style="{height:'2px'}"
+      :cell-style="{padding:'0px'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="operationId" label="日志编号" width="120" />
@@ -33,10 +35,10 @@
       <el-table-column prop="departmentName" label="部门名称" width="160" />
       <el-table-column prop="requestIp" label="主机" width="140" />
       <el-table-column prop="status" label="操作状态" width="130" />
-      <el-table-column prop="operationTime" label="操作时间" width="140" />
+      <el-table-column prop="operationTime" label="操作时间" width="190" />
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="dleteLog(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="dleteLog(scope.row)" class="iconfont icon-shanchu" />
         </template>
       </el-table-column>
     </el-table>
@@ -159,10 +161,6 @@ export default {
     // 表格数据选中
     handleSelectionChange(val) {
       this.selectData = val;
-    },
-    // 导出
-    exportLog() {
-      console.log(1);
     }
   }
 };
