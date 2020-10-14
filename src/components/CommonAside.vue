@@ -7,9 +7,10 @@
     :unique-opened="true"
     router
     :collapse="isCollapse"
+    :width="isCollapse?'64px':'200px'"
   >
     <!-- 侧边栏伸缩 -->
-    <i class="el-icon-s-unfold menu-icon" @click="toggleCollapse()" />
+    <div class="toggle-button" @click="toggleCollapse">|||</div>
     <div v-for="(item, index) in this.menus.children" :key="index">
       <div v-if="item.children">
         <el-menu-item
@@ -49,7 +50,9 @@ export default {
   },
   data() {
     return {
+      // 导航栏内容
       menus: this.$store.state.routes[0].children[this.routerNumber],
+      // 侧边栏伸缩
       isCollapse: false
     };
   },
@@ -67,9 +70,16 @@ export default {
   height: 100%;
   text-indent: 25px;
 }
-.menu-icon{
-  font-size: 30px;
-  margin: 0 12px;
-  // background-color: rgb(209, 205, 205);
+.toggle-button {
+    background-color: #303752;
+    font-size: 20px;
+    height: 20px;
+    padding: 8px 0;
+    line-height: 24px;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 0.2em;
+    cursor: pointer;
 }
+
 </style>

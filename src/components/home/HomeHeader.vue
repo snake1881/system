@@ -73,7 +73,7 @@
         </el-badge>
       </el-popover>
       <!-- 退出 -->
-      <el-button class="iconfont icon-tuichu container_right_out"/>
+      <el-button class="iconfont icon-tuichu container_right_out" @click="logout()"/>
     </div>
   </div> 
 </template>
@@ -149,7 +149,13 @@ export default {
           } 
         }
       );
-    }
+    },
+    // 退出功能
+    logout () {
+      // 清空token
+      window.sessionStorage.clear()
+      this.$router.push('/')
+    },
   }
 };
 </script>
