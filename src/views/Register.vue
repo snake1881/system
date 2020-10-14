@@ -82,7 +82,7 @@ export default {
 <style lang="less">
 .container {
   height: 100vh;
-  background-image: url("../assets/images/login.jpg");
+  // background-image: url("../assets/images/login.jpg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   // margin: 0;

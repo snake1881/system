@@ -1,0 +1,12 @@
+ .personal{
+     width: 80%;
+     height: 100%;
+     margin: 0 10%;
+     background-color: violet;
+ }
+ .personal_form_img {
+    width: 150px;
+    height: 150px;
+    margin: 0 400px;
+    border-radius: 50%;
+}

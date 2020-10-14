@@ -8,8 +8,8 @@
         <el-button type="warning" icon="el-icon-place" circle class="receiveNotice_container_button"/>
         <div class="receiveNotice_container_detail">
           <el-button @click="gotoDetailsNotice()" type="text" style="margin-right:30px"> {{ item.notContainer}} </el-button>
-          <el-button @click="gotoDetailsNotice()" type="text"> {{ item.notTime}} </el-button>
-          <el-button @click="gotoDetailsNotice()" type="text"> {{ item.notSend}} </el-button>
+          <el-button type="text"> {{ item.notTime}} </el-button>
+          <el-button type="text"> {{ item.notSend}} </el-button>
         </div>
       </div>
     </el-card>
@@ -64,20 +64,29 @@ export default {
     };
   },
   created() {
-    // this.noticeInit();
+    this.noticeInit();
   },
   methods: {
     // 初始化所有通知
-    // noticeInit() {
-    //   this.getRequest("/").then(resp => {
-    //     if (resp) {
-    //       this.noticeData = resp;
-    //     }
-    //   });
-    // },
-    // 跳转到接收通知页面
+    noticeInit() {
+      this.getRequest("/").then(resp => {
+        if (resp) {
+          // this.noticeData = resp;
+        }
+      });
+    },
+    // 详情
     gotoDetailsNotice() {
-      this.$router.replace("/detailsNotice");
+      this.$router.push(
+        { 
+          name: '消息详情',
+          params: { 
+            msg: this.noticeData[0].notContainer,
+            sendUser: this.$store.state.currentUser.username  ,
+            title: this.noticeData[0].notTime
+          } 
+        }
+      );
     }
   }
 };

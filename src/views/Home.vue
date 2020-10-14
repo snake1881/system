@@ -27,10 +27,10 @@ body {
   height: 100%;
 }
 .el-header {
-  height: 10% !important;
+  height: 8% !important;
   width: 100%;
   padding: 0 0;
-  background-color: #0D56A6;
+  background-color: #132231;
 }
 .el-main {
   height: 90%;
