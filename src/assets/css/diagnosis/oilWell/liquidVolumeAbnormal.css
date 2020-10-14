@@ -16,10 +16,21 @@
     height: 6%;
 }
 
-.liquid_volume_abnormal_dialog{
+.liquid_volume_abnormal_dialog {
     width: 100%;
 }
+
 .liquid_volume_abnormal_dialog_form {
     width: 100%;
+}
 
+.liquid_volume_abnormal_dialog_liq {
+    height: 430px;
+    width: 100%;
+}
+
+.liquid_volume_abnormal_dialog_liq_text {
+    line-height: 430px;
+    margin-left: 42%;
+    font-size: 26px;
 }

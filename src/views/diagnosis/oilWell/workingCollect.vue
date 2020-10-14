@@ -10,20 +10,30 @@
             size="medium"
             @focus="selectOrgName()"
           >
-            <el-option v-for="item in orgNames" :key="item" :value="item" :label="item" />
+            <el-option label="全区" value="全区" />
+            <el-option
+              v-for="item in orgNames"
+              :key="item"
+              :value="item"
+              :label="item"
+            />
           </el-select>
         </el-form-item>
         <el-form-item>
           <el-date-picker
             v-model="abnormalForm.formDate"
             type="date"
-            value-format="yyyy-MM-dd HH:mm:ss"
+            value-format="yyyy-MM-dd"
             placeholder="选择日期"
             size="medium"
           />
         </el-form-item>
         <el-form-item label="报警级别">
-          <el-select v-model="abnormalForm.liqOrWater" placeholder="全部" size="medium">
+          <el-select
+            v-model="abnormalForm.liqOrWater"
+            placeholder="全部"
+            size="medium"
+          >
             <el-option label="一级" value="1"></el-option>
             <el-option label="二级" value="2"></el-option>
             <el-option label="三级" value="3"></el-option>
@@ -35,7 +45,8 @@
             icon="el-icon-search"
             size="small"
             @click="searchWorkingCollect()"
-          >查询</el-button>
+            >查询</el-button
+          >
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
@@ -52,26 +63,82 @@
         :row-key="getRowKeys"
       >
         <el-table-column type="expand">
-          <template>
-            <div class="work_collect_item_detail">
-              <div v-for="(item,index) in loadCollect" :key="index">
+          <template slot-scope="scope">
+            <div
+              class="work_collect_item_detail"
+              :key="scope.row.primaryId"
+              v-loading="loadCollectLoad"
+              element-loading-text="拼命加载中"
+              element-loading-spinner="el-icon-loading"
+            >
+              <div v-for="(item, index) in loadCollect" :key="index">
                 <span>{{ item.checkDate }}</span>
                 <span style="margin-left:20px">{{ item.thirdResult }}</span>
-                <el-button type="text" @click="details(item)" style="margin-left:20px">详情</el-button>
+                <el-button
+                  type="text"
+                  @click="details(item)"
+                  style="margin-left:20px"
+                  >详情</el-button
+                >
               </div>
             </div>
           </template>
         </el-table-column>
         <el-table-column label="序号" type="index" width="80" align="center" />
-        <el-table-column prop="wellCommonName" label="井号" width="120" align="center" />
-        <el-table-column prop="checkDate" label="日期" width="180" align="center" />
-        <el-table-column prop="orgName" label="采油站" width="160" align="center" />
-        <el-table-column prop="stroke" label="冲程" width="100" align="center" />
-        <el-table-column prop="frequency" label="冲刺" width="100" align="center" />
-        <el-table-column prop="suspMaxLoad" label="最大载荷" width="100" align="center" />
-        <el-table-column prop="suspMinLoad" label="最小载荷" width="100" align="center" />
-        <el-table-column prop="thirdResult" label="诊断结果" width="150" align="center" />
-        <el-table-column prop="normalWaterCut" label="人工确认" width="140" align="center" />
+        <el-table-column
+          prop="wellCommonName"
+          label="井号"
+          width="120"
+          align="center"
+        />
+        <el-table-column
+          prop="checkDate"
+          label="日期"
+          width="180"
+          align="center"
+        />
+        <el-table-column
+          prop="orgName"
+          label="采油站"
+          width="160"
+          align="center"
+        />
+        <el-table-column
+          prop="stroke"
+          label="冲程"
+          width="100"
+          align="center"
+        />
+        <el-table-column
+          prop="frequency"
+          label="冲刺"
+          width="100"
+          align="center"
+        />
+        <el-table-column
+          prop="suspMaxLoad"
+          label="最大载荷"
+          width="100"
+          align="center"
+        />
+        <el-table-column
+          prop="suspMinLoad"
+          label="最小载荷"
+          width="100"
+          align="center"
+        />
+        <el-table-column
+          prop="thirdResult"
+          label="诊断结果"
+          width="150"
+          align="center"
+        />
+        <el-table-column
+          prop="normalWaterCut"
+          label="人工确认"
+          width="140"
+          align="center"
+        />
       </el-table>
       <!-- 分页 -->
       <div class="work_collect_page">
@@ -89,16 +156,25 @@
     <!-- 详情 -->
     <div class="work_collect_item" v-if="!isShow">
       <div class="work_collect_item_detail_btn">
-        <el-button icon="el-icon-arrow-left" type="text" @click="back()">返回</el-button>
-        <el-button type="primary" size="small" style="margin-left:25%">液量曲线</el-button>
+        <el-button icon="el-icon-arrow-left" type="text" @click="back()"
+          >返回</el-button
+        >
+        <el-button type="primary" size="small" style="margin-left:25%"
+          >液量曲线</el-button
+        >
         <el-button type="primary" size="small">载荷曲线</el-button>
-        <el-button type="primary" size="small" @click="dialogTableVisible = true">功图叠加</el-button>
+        <el-button
+          type="primary"
+          size="small"
+          @click="dialogTableVisible = true"
+          >功图叠加</el-button
+        >
         <el-button type="primary" size="small">功图平铺</el-button>
         <el-button type="primary" size="small">重新诊断</el-button>
       </div>
       <table cellspacing="0" class="work_collect_item_detail_table">
         <tr>
-          <th></th>
+          <th>当前数据</th>
           <th>冲程</th>
           <th>冲刺</th>
           <th>最大载荷</th>
@@ -108,7 +184,7 @@
           <th>动液面</th>
         </tr>
         <tr>
-          <td>当前数据</td>
+          <td>{{ this.detailsCollect.wellCommonName }}</td>
           <td>{{ this.detailsCollect.stroke }}</td>
           <td>{{ this.detailsCollect.frequency }}</td>
           <td>{{ this.detailsCollect.suspMaxLoad }}</td>
@@ -118,12 +194,17 @@
           <td>0</td>
         </tr>
       </table>
+
       <div class="work_collect_item_gt">
         <div class="work_collect_item_gt_g" id="gt1" ref="dom1" />
         <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
         <div class="work_collect_item_gt_g" id="gt3" ref="dom3" />
       </div>
-      <table cellspacing="0" class="work_collect_item_detail_table" style="margin-top:-2%">
+      <table
+        cellspacing="0"
+        class="work_collect_item_detail_table"
+        style="margin-top:-1%"
+      >
         <tr>
           <th>诊断结论(系统)</th>
           <th>{{ this.detailsCollect.thirdResult }}</th>
@@ -137,18 +218,34 @@
           <td></td>
         </tr>
       </table>
+
       <div class="work_collect_item_measure">
         <div class="work_collect_item_measure_left">历史措施</div>
         <el-table
-          :header-cell-style="{background:'#E4E7ED',color:'#606266'}"
+          :header-cell-style="{ background: '#E4E7ED', color: '#606266' }"
           :data="measure"
           height="100%"
           border
           style="width:85%;"
         >
-          <el-table-column label="序号" type="index" width="180" align="center" />
-          <el-table-column prop="prodDate" label="日期" width="360" align="center" />
-          <el-table-column prop="measure" label="措施" width="558" align="center" />
+          <el-table-column
+            label="序号"
+            type="index"
+            width="180"
+            align="center"
+          />
+          <el-table-column
+            prop="prodDate"
+            label="日期"
+            width="360"
+            align="center"
+          />
+          <el-table-column
+            prop="measure"
+            label="措施"
+            width="558"
+            align="center"
+          />
         </el-table>
       </div>
     </div>
@@ -159,33 +256,53 @@
       class="work_collect_item_appent_gt_dialog"
     >
       <!-- 搜索框 -->
-      <el-form :model="dialogForm" :inline="true" class="work_collect_item_appent_gt_dialog_form">
-        <el-form-item>
-          <el-input v-model="dialogForm.orgName" :disabled="true"/>
+      <el-form
+        :model="dialogForm"
+        :inline="true"
+        class="work_collect_item_appent_gt_dialog_form"
+      >
+        <el-form-item v-if="detailsCollect">
+          <el-input
+            :placeholder="detailsCollect.orgName"
+            size="medium"
+            :disabled="true"
+          />
         </el-form-item>
-        <el-form-item>
-          <el-input v-model="dialogForm.wellCommonName" :disabled="true"/>
+        <el-form-item v-if="detailsCollect">
+          <el-input
+            :placeholder="detailsCollect.wellCommonName"
+            size="medium"
+            :disabled="true"
+          />
         </el-form-item>
         <el-form-item>
           <el-date-picker
             v-model="dialogForm.startDate"
-            type="date"
+            type="daterange"
             value-format="yyyy-MM-dd"
-            placeholder="开始时间"
-          />
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          >
+          </el-date-picker>
         </el-form-item>
-        <el-form-item>
-          <el-date-picker
-            v-model="dialogForm.endDate"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="结束时间"
-          />
-        </el-form-item>
-        <el-button type="primary" round @click="appendGt()">查询</el-button>
+        <el-button type="primary" size="medium" @click="appendGt()"
+          >查询</el-button
+        >
       </el-form>
       <!-- 功图叠加 -->
-      <div style="height: 300px;width:700px" id="gt4" ref="dom4" class=""/>
+      <div
+        id="gt4"
+        ref="dom4"
+        class="work_collect_item_appent_gt_dialog_gt"
+        v-loading="dialogLoading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+      >
+        <span class="work_collect_item_appent_gt_dialog_gt_text">{{
+          this.dialogGt
+        }}</span>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -215,6 +332,8 @@ export default {
       total: 0,
       // 表格加载动画
       loading: true,
+      // 展开行加载动画
+      loadCollectLoad: true,
       // 采油站数据
       orgNames: [],
       // 默认展示内容
@@ -225,16 +344,14 @@ export default {
       expands: [],
       // 功图叠加对话框标记
       dialogTableVisible: false,
+      // 功图叠加加载动画
+      dialogLoading: false,
+      // 功图叠加默认显示内容
+      dialogGt: "暂无数据",
       // 功图叠加对话框搜索框
       dialogForm: {
-        // 采油站
-        orgName: "",
-        // 井号
-        wellCommonName: "",
-        // 开始日期
-        startDate: "",
-        // 结束日期
-        endDate: ""
+        // 日期段
+        startDate: ""
       }
     };
   },
@@ -245,12 +362,18 @@ export default {
     // 数据初始化
     workingCollectInit() {
       this.loading = true;
-      this.getRequest(
+      let url =
         "/oilWell/workCollect/page?current=" +
-          this.currentPage +
-          "&pageSize=" +
-          this.pageSize
-      ).then(resp => {
+        this.currentPage +
+        "&pageSize=" +
+        this.pageSize;
+      if (
+        this.abnormalForm.formDate !== "" &&
+        this.abnormalForm.formDate !== null
+      ) {
+        url += "&date=" + this.abnormalForm.formDate;
+      }
+      this.getRequest(url).then(resp => {
         this.loading = false;
         if (resp) {
           this.workingCollect = resp.data.records;
@@ -262,9 +385,9 @@ export default {
     },
     // 只展开一行放入当前行id
     getRowKeys(row) {
-      return row.wellCommonName;
+      return row.primaryId;
     },
-    // 单行数据
+    // 控制展开与关闭行
     rowCollectInit(row, expandedRows) {
       //只展开一行
       if (expandedRows.length) {
@@ -272,13 +395,16 @@ export default {
         this.expands = [];
         if (row) {
           //只展开当前行wellCommonName
-          this.expands.push(row.wellCommonName);
+          this.expands.push(row.primaryId);
+          this.loadCollect = [];
+          this.loadCollectLoad = true;
           this.getRequest(
             "/oilWell/workCollect/dgnsResult/" +
               row.wellCommonName +
               "?date=" +
               row.checkDate
           ).then(resp => {
+            this.loadCollectLoad = false;
             if (resp) {
               this.loadCollect = resp.data;
             }
@@ -291,33 +417,37 @@ export default {
     },
     // 表单条件查询
     searchWorkingCollect() {
-      this.loading = true;
-      let url =
-        "/oilWell/workCollect/dgnsResult?current=" +
-        this.currentPage +
-        "&pageSize=" +
-        this.pageSize;
-      if (this.abnormalForm.orgName !== null) {
-        url += "&orgName=" + this.abnormalForm.orgName;
-      }
-      if (
-        this.abnormalForm.formDate !== null &&
-        this.abnormalForm.formDate !== ""
-      ) {
-        url += "&date=" + this.abnormalForm.formDate;
-      }
-      if (this.abnormalForm.alarmLevel !== null) {
-        url += "&alarmLevel=" + this.abnormalForm.alarmLevel;
-      }
-      this.getRequest(url).then(resp => {
-        this.loading = false;
-        if (resp) {
-          this.workingCollect = resp.data.records;
-          this.total = resp.data.total;
-          this.currentPage = resp.data.current;
-          this.pageSize = resp.data.size;
+      if (this.abnormalForm.orgName === "全区") {
+        this.workingCollectInit();
+      } else {
+        this.loading = true;
+        let url =
+          "/oilWell/workCollect/dgnsResult?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize;
+        if (this.abnormalForm.orgName !== null) {
+          url += "&orgName=" + this.abnormalForm.orgName;
         }
-      });
+        if (
+          this.abnormalForm.formDate !== null &&
+          this.abnormalForm.formDate !== ""
+        ) {
+          url += "&date=" + this.abnormalForm.formDate;
+        }
+        if (this.abnormalForm.alarmLevel !== null) {
+          url += "&alarmLevel=" + this.abnormalForm.alarmLevel;
+        }
+        this.getRequest(url).then(resp => {
+          this.loading = false;
+          if (resp) {
+            this.workingCollect = resp.data.records;
+            this.total = resp.data.total;
+            this.currentPage = resp.data.current;
+            this.pageSize = resp.data.size;
+          }
+        });
+      }
     },
     // 跳转至详情页面
     details(row) {
@@ -370,18 +500,24 @@ export default {
               title: {
                 subtext: name,
                 x: "center",
-                top: "4%",
+                top: "4%"
+              },
+              tooltip: {
+                trigger: "axis"
               },
               xAxis: {
                 min: 0,
                 max: 4,
                 type: "value",
                 axisLine: { onZero: false },
-                name: "位移(m)"
+                name: "位移(m)",
+                nameTextStyle: {
+                  padding: [58, 0, 0, -190]
+                }
               },
               yAxis: {
                 min: 0,
-                max: 70,
+                max: 80,
                 type: "value",
                 axisLine: { onZero: false },
                 name: "载荷(kN)"
@@ -389,6 +525,7 @@ export default {
               series: [
                 {
                   type: "line",
+                  name: "载荷",
                   smooth: true,
                   symbol: "none",
                   data: gt
@@ -401,58 +538,83 @@ export default {
     },
     // 功图叠加
     appendGt() {
-      this.getRequest(
-        "/oilWell/workCollect/gt/定1987-3" +
-          // wellCommonName +
-          "?startDate=" +
-          this.dialogForm.startDate +
-          "&endDate=" +
-          this.dialogForm.endDate
-      ).then(resp => {
-        if (resp) {
-          let legendData = [];
-          let seriesData = [];
-          for (var i = 0; i < resp.data.length; i++) {
-            legendData.push(resp.data[i].date);
-            seriesData.push({
-              type: "line",
-              name: resp.data[i].date,
-              smooth: true,
-              symbol: "none",
-              data: resp.data[i].gt
-            });
+      if (
+        this.dialogForm.startDate !== null &&
+        this.dialogForm.startDate !== ""
+      ) {
+        this.dialogLoading = true;
+        this.getRequest(
+          "/oilWell/workCollect/gt/" +
+            this.detailsCollect.wellCommonName +
+            "?startDate=" +
+            this.dialogForm.startDate[0] +
+            "&endDate=" +
+            this.dialogForm.startDate[1]
+        ).then(resp => {
+          this.dialogLoading = false;
+          if (resp) {
+            this.dialogGt = "";
+            let legendData = [];
+            let seriesData = [];
+            for (var i = 0; i < resp.data.length; i++) {
+              legendData.push(resp.data[i].date);
+              seriesData.push({
+                type: "line",
+                name: resp.data[i].date,
+                smooth: true,
+                symbol: "none",
+                data: resp.data[i].gt
+              });
+            }
+            let myChart = echarts.init(
+              document.getElementById(this.$refs.dom4.id)
+            );
+            myChart.setOption(
+              {
+                title: {
+                  subtext: "功图叠加",
+                  x: "center"
+                },
+                legend: {
+                  data: legendData,
+                  orient: "vertical",
+                  x: "right",
+                  width: 150,
+                  orient: "textVerticalAlign"
+                },
+                grid: {
+                  left: "3%",
+                  right: 180
+                },
+                xAxis: {
+                  min: 0,
+                  max: 4,
+                  type: "value",
+                  axisLine: { onZero: false },
+                  name: "位移(m)",
+                  nameTextStyle: {
+                    padding: [70, 0, 0, -450]
+                  }
+                },
+                yAxis: {
+                  min: 0,
+                  max: 80,
+                  type: "value",
+                  axisLine: { onZero: false },
+                  name: "载荷(kN)"
+                },
+                series: seriesData
+              },
+              true
+            );
           }
-          let myChart = echarts.init(
-            document.getElementById(this.$refs.dom4.id)
-          );
-          myChart.setOption({
-            title: {
-              subtext: "功图叠加",
-              x: "center"
-            },
-            legend: {
-              data: legendData,
-              right: "1%",
-              orient: "textVerticalAlign"
-            },
-            xAxis: {
-              min: 0,
-              max: 4,
-              type: "value",
-              axisLine: { onZero: false },
-              name: "位移(m)"
-            },
-            yAxis: {
-              min: 0,
-              max: 70,
-              type: "value",
-              axisLine: { onZero: false },
-              name: "载荷(kN)"
-            },
-            series: seriesData
-          });
-        }
-      });
+        });
+      } else {
+        this.$message({
+          message: "请先输入开始-结束日期再查询",
+          type: "warning"
+        });
+      }
     },
     // 返回工况汇总
     back() {

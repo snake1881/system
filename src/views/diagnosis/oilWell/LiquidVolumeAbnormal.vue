@@ -1,7 +1,11 @@
 <template>
   <div class="liquid_volume_abnormal">
     <!-- 条件查询 -->
-    <el-form class="liquid_volume_abnormal_form" :model="abnormalForm" :inline="true">
+    <el-form
+      class="liquid_volume_abnormal_form"
+      :model="abnormalForm"
+      :inline="true"
+    >
       <el-form-item label="采油站">
         <el-select
           v-model="abnormalForm.orgName"
@@ -9,22 +13,32 @@
           size="medium"
           @focus="selectOrgName()"
         >
-          <el-option v-for="item in orgNames" :key="item" :value="item" :label="item" />
+          <el-option label="全区" value="全区" />
+          <el-option
+            v-for="item in orgNames"
+            :key="item"
+            :value="item"
+            :label="item"
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-date-picker
           v-model="abnormalForm.formDate"
           type="date"
-          value-format="yyyy-MM-dd HH:mm:ss"
+          value-format="yyyy-MM-dd"
           placeholder="选择日期"
           size="medium"
         />
       </el-form-item>
       <el-form-item label="条件">
-        <el-select v-model="abnormalForm.liqOrWater" placeholder="全部" size="medium">
-          <el-option label="液量" value="shanghai"></el-option>
-          <el-option label="含水" value="beijing"></el-option>
+        <el-select
+          v-model="abnormalForm.liqOrWater"
+          placeholder="全部"
+          size="medium"
+        >
+          <el-option label="液量" value="liq"></el-option>
+          <el-option label="含水" value="water"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -33,7 +47,8 @@
           icon="el-icon-search"
           size="small"
           @click="searchLiquidVolume()"
-        >查询</el-button>
+          >查询</el-button
+        >
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
@@ -46,21 +61,78 @@
       border
       style="width:100%;"
     >
-      <el-table-column label="序号" type="index" width="80" align="center"></el-table-column>
-      <el-table-column prop="wellName" label="井号" width="100"  align="center" />
-      <el-table-column prop="prodDate" label="日期" width="160"  align="center" />
-      <el-table-column prop="prodTime" label="生产时间" width="80"  align="center" />
-      <el-table-column prop="abnormalProblem" label="诊断结果" width="200"  align="center" />
-      <el-table-column prop="orgName" label="采油站" width="140"  align="center" />
-      <el-table-column prop="liqProdDaily" label="产液量" width="100"  align="center" />
-      <el-table-column prop="waterCut" label="含水率" width="100"  align="center" />
-      <el-table-column prop="normalLiqProdDaily" label="正常产液量" width="100"  align="center" />
-      <el-table-column prop="normalWaterCut" label="正常含水率" width="100"  align="center" />
-      <el-table-column prop="remarks" label="备注" width="140"  align="center" />
-      <el-table-column label="操作" width="120"  align="center">
+      <el-table-column
+        label="序号"
+        type="index"
+        width="80"
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="wellName"
+        label="井号"
+        width="100"
+        align="center"
+      />
+      <el-table-column
+        prop="prodDate"
+        label="日期"
+        width="160"
+        align="center"
+      />
+      <el-table-column
+        prop="prodTime"
+        label="生产时间"
+        width="80"
+        align="center"
+      />
+      <el-table-column
+        prop="abnormalProblem"
+        label="诊断结果"
+        width="200"
+        align="center"
+      />
+      <el-table-column
+        prop="orgName"
+        label="采油站"
+        width="140"
+        align="center"
+      />
+      <el-table-column
+        prop="liqProdDaily"
+        label="产液量"
+        width="100"
+        align="center"
+      />
+      <el-table-column
+        prop="waterCut"
+        label="含水率"
+        width="100"
+        align="center"
+      />
+      <el-table-column
+        prop="normalLiqProdDaily"
+        label="正常产液量"
+        width="100"
+        align="center"
+      />
+      <el-table-column
+        prop="normalWaterCut"
+        label="正常含水率"
+        width="100"
+        align="center"
+      />
+      <el-table-column prop="remarks" label="备注" width="140" align="center" />
+      <el-table-column label="操作" fixed="right" width="120" align="center">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="details(scope.row)">查看曲线</el-button>
-          <el-button type="text" size="small" @click="dleteByPrimaryId(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="details(scope.row)"
+            >查看曲线</el-button
+          >
+          <el-button
+            type="text"
+            size="small"
+            @click="dleteByPrimaryId(scope.row)"
+            >删除</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -76,41 +148,60 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog title="详细信息" :visible.sync="dialogTableVisible" class="liquid_volume_abnormal_dialog">
+    <el-dialog
+      title="液量曲线"
+      width="70%"
+      :visible.sync="dialogTableVisible"
+      class="liquid_volume_abnormal_dialog"
+    >
       <!-- 搜索框 -->
-      <el-form :model="dialogForm"  :inline="true" class="liquid_volume_abnormal_dialog_form"> 
+      <el-form
+        :model="dialogForm"
+        :inline="true"
+        class="liquid_volume_abnormal_dialog_form"
+      >
         <el-form-item>
-          <el-input v-model="dialogForm.orgName" :disabled="true"/>
-        </el-form-item> 
+          <el-input
+            v-model="dialogForm.orgName"
+            size="medium"
+            :disabled="true"
+          />
+        </el-form-item>
         <el-form-item>
-          <el-input v-model="dialogForm.wellName" :disabled="true"/>
-        </el-form-item> 
-        <el-form-item label="开始">
+          <el-input
+            v-model="dialogForm.wellName"
+            size="medium"
+            :disabled="true"
+          />
+        </el-form-item>
+        <el-form-item>
           <el-date-picker
             v-model="dialogForm.startDate"
-            type="date"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            size="medium"
-          />
-      </el-form-item>
-      <el-form-item label="结束">
-          <el-date-picker
-            v-model="dialogForm.endDate"
-            type="date"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            size="medium"
-          />
-      </el-form-item>
-     <el-button  type="primary" round @click="lineChart()">查询</el-button>
+            type="daterange"
+            value-format="yyyy-MM-dd"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-button type="primary" size="medium" @click="lineChart()"
+          >查询</el-button
+        >
       </el-form>
       <!-- 折线图 -->
-      <div 
-        style="height: 300px" 
-        id="line"  
-        v-loading="loading"
+      <div
+        id="line"
+        ref="dom"
+        class="liquid_volume_abnormal_dialog_liq"
+        v-loading="dialogLoading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
-      />
+      >
+        <span class="liquid_volume_abnormal_dialog_liq_text">{{
+          this.dialogLiq
+        }}</span>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -136,20 +227,20 @@ export default {
       total: 0,
       // 表格加载动画
       loading: true,
-      // 查看曲线对话框标记
+      // 液量曲线加载动画
+      dialogLoading: false,
+      // 液量曲线对话框标记
       dialogTableVisible: false,
-      // 对话框搜索框
-      dialogForm:{
+      // 液量曲线对话框默认内容
+      dialogLiq: "暂无数据",
+      // 液量曲线对话框搜索框
+      dialogForm: {
         // 采油站
-        orgName:"",
+        orgName: "",
         // 井号
-        wellName:"",
-        // id
-        primaryId:"",
-        // 开始日期
-        startDate: "",
-        // 结束日期
-        endDate: ""
+        wellName: "",
+        // 日期段
+        startDate: ""
       },
       orgNames: []
     };
@@ -161,35 +252,14 @@ export default {
     // 数据初始化
     liquidVolumeInit() {
       this.loading = true;
-      this.getRequest(
-        "/oilWell/liquidVolumeAbnormal/page?current=" +
-          this.currentPage +
-          "&pageSize=" +
-          this.pageSize
-      ).then(resp => {
-        this.loading = false;
-        if (resp) {
-          this.liquidVolumeAbnormal = resp.data.records;
-          this.total = resp.data.total;
-          this.currentPage = resp.data.current;
-          this.pageSize = resp.data.size;
-        }
-      });
-    },
-    // 按条件查询
-    searchLiquidVolume() {
-      this.loading = true;
       let url =
-        "/oilWell/liquidVolumeAbnormal/liquidVolumeAbnormal?current=" +
+        "/oilWell/liquidVolumeAbnormal/page?current=" +
         this.currentPage +
         "&pageSize=" +
         this.pageSize;
-      if (this.abnormalForm.orgName !== null) {
-        url += "&orgName=" + this.abnormalForm.orgName;
-      }
       if (
-        this.abnormalForm.formDate !== null &&
-        this.abnormalForm.formDate !== ""
+        this.abnormalForm.formDate !== "" &&
+        this.abnormalForm.formDate !== null
       ) {
         url += "&date=" + this.abnormalForm.formDate;
       }
@@ -203,83 +273,140 @@ export default {
         }
       });
     },
+    // 按条件查询
+    searchLiquidVolume() {
+      if (this.abnormalForm.orgName === "全区") {
+        this.liquidVolumeInit();
+      } else {
+        this.loading = true;
+        let url =
+          "/oilWell/liquidVolumeAbnormal/liquidVolumeAbnormal?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize;
+        if (this.abnormalForm.orgName !== null) {
+          url += "&orgName=" + this.abnormalForm.orgName;
+        }
+        if (
+          this.abnormalForm.formDate !== null &&
+          this.abnormalForm.formDate !== ""
+        ) {
+          url += "&date=" + this.abnormalForm.formDate;
+        }
+        if (this.abnormalForm.liqOrWater !== null) {
+          url += "&liqOrWater=" + this.abnormalForm.liqOrWater;
+        }
+        this.getRequest(url).then(resp => {
+          this.loading = false;
+          if (resp) {
+            this.liquidVolumeAbnormal = resp.data.records;
+            this.total = resp.data.total;
+            this.currentPage = resp.data.current;
+            this.pageSize = resp.data.size;
+          }
+        });
+      }
+    },
     // 查看曲线
     details(val) {
       this.dialogTableVisible = true;
-      this.dialogForm.orgName = val.orgName; 
-      this.dialogForm.wellName = val.wellName; 
-      this.dialogForm.primaryId = val.primaryId;
-      this.drawLine(val.primaryId, val.prodDate, null);
+      this.dialogForm.orgName = val.orgName;
+      this.dialogForm.wellName = val.wellName;
     },
-    // 点击按钮根据时间查询，显示折线图
-    lineChart(){
-      this.drawLine(this.dialogForm.primaryId, this.dialogForm.startDate,this.dialogForm.endDate);
-    },
-    // 画图
-    drawLine(id,startDate,endDate) {
-      let url = "/oilWell/liquidVolumeAbnormal/liquidVolumeAbnormal/" + id + "?startDate=" + startDate;
-      if(endDate !== null) {
-        url += "&endDate=" + endDate;
+    // 画图(液量曲线)
+    lineChart() {
+      if (
+        this.dialogForm.startDate !== null &&
+        this.dialogForm.startDate !== ""
+      ) {
+        this.dialogLoading = true;
+        this.getRequest(
+          "/oilWell/liquidVolumeAbnormal/liquidVolumeAbnormal/" +
+            this.dialogForm.wellName +
+            "?startDate=" +
+            this.dialogForm.startDate[0] +
+            "&endDate=" +
+            this.dialogForm.startDate[1]
+        ).then(resp => {
+          this.dialogLoading = false;
+          if (resp) {
+            this.dialogLiq = "";
+            let myChart = echarts.init(
+              document.getElementById(this.$refs.dom.id)
+            );
+            myChart.setOption(
+              {
+                title: {
+                  subtext: this.dialogForm.wellName,
+                  x: "center",
+                  top: "4%"
+                },
+                legend: {
+                  data: ["日产液量", "日产油量", "含水率"]
+                },
+                grid: {
+                  bottom: 80
+                },
+                tooltip: {
+                  trigger: "axis",
+                  axisPointer: {
+                    type: "cross",
+                    animation: false,
+                    label: {
+                      backgroundColor: "#505765"
+                    }
+                  }
+                },
+                xAxis: [
+                  {
+                    type: "category",
+                    boundaryGap: false,
+                    data: resp.data.date[0]
+                  }
+                ],
+                yAxis: [
+                  {
+                    name: "产量(方)",
+                    type: "value",
+                    max: 10
+                  },
+                  {
+                    name: "含水率(%)",
+                    max: 100,
+                    type: "value"
+                  }
+                ],
+                series: [
+                  {
+                    name: "日产液量",
+                    type: "line",
+                    yAxisIndex: 0,
+                    data: resp.data.prodDaily[0]
+                  },
+                  {
+                    name: "日产油量",
+                    type: "line",
+                    yAxisIndex: 0,
+                    data: resp.data.oilDaily[0]
+                  },
+                  {
+                    name: "含水率",
+                    type: "line",
+                    yAxisIndex: 1,
+                    data: resp.data.waterDaily[0]
+                  }
+                ]
+              },
+              true
+            );
+          }
+        });
+      } else {
+        this.$message({
+          message: "请先输入开始-结束日期再查询",
+          type: "warning"
+        });
       }
-      this.getRequest( url ).then(resp => {
-         this.loading = false;
-        if(resp){
-          let dom = document.getElementById("line");
-          let myChart = echarts.init(dom);
-           myChart.setOption({
-          legend: {
-            data: ["日产液量", "日产油量", "日含水率"]
-          },
-          tooltip : {
-            trigger: 'axis',
-          },
-          grid: {
-            bottom: "10%"
-          },
-          xAxis: {
-            type: "time",
-            axisLabel: {
-              show: true
-            }
-          },
-          yAxis: [
-            {
-              type: "value",
-              position: "left",
-              name:"产量(方)"
-            },
-            {
-              type: "value",
-              position: "right",
-              name:"含水率(%)",
-              axisLabel: {  
-                show: true
-              }
-            }
-          ],
-          series: [{
-            name:"日产液量",
-            data: resp.data.prodDaily,
-            type: "line",
-            yAxisIndex: 0, // 通过这个判断左右
-            smooth: true
-            }, {
-              name:"日产油量",
-              data: resp.data.oilDaily,
-              type: "line",
-              yAxisIndex: 1, //右
-              smooth: true
-            },{
-              name:"日含水率",
-              data: resp.data.waterDaily,
-              type: "line",
-              yAxisIndex: 1, //右
-              smooth: true
-            }
-        ]
-      });
-        }
-      });
     },
     // 根据primaryId删除异常数据
     dleteByPrimaryId(val) {
@@ -315,9 +442,4 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../../assets/css/diagnosis/oilWell/liquidVolumeAbnormal.css";
-</style>
-<style scoped>
-.el-input {
-  width: 120px;
-}
 </style>
