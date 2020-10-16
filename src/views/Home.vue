@@ -25,17 +25,17 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
+  background-color: #1a2a3a;
 }
 .el-header {
   height: 8% !important;
   width: 100%;
   padding: 0 0;
-  background-color: #132231;
+  background-color: #20374e;
 }
 .el-main {
-  height: 90%;
+  height: 92%;
   width: 100%;
-  background-color: #f2f6fc;
   padding: 0;
 }
 </style>

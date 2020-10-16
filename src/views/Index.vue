@@ -3,30 +3,32 @@
     <div class="main_between">
       <el-card class="main_between_1" shadow="hover">
         <div class="main_between_1_item">
-          <span style="text-align: left;font-size: 14px">采油站基本信息</span>
-          <div class="main_between_1_item_basicInformation">
-            <el-table :data="tableData" stripe style="width: 100%">
-              <el-table-column  prop="date" label="采油站" width="100" />
-              <el-table-column  prop="name" label="总井数" width="80" />
-              <el-table-column  prop="address" label="开井数" width="70" />
-              <el-table-column  prop="oil" label="产油量" width="70" />
-            </el-table>
+          <span class="main_middle_1_item_span"> 油井情况 </span>
+          <div class="main_between_1_item_well">
+            <!-- 图形 -->
+            <div id="well" class="main_between_1_item_well_line" />
+            <div class="main_between_1_item_desc">
+              <span class="main_between_1_item_desc_span">总井数:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_desc_span">开井数:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_desc_span">日产液量:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_desc_span">当月累计产量:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_desc_span">当年累计产量:<span style="color:#ED7C30">100</span></span>
+            </div>
           </div>
+          
         </div>
       </el-card>
       <el-card class="main_between_2" shadow="hover">
         <div class="main_between_2_item">
-          <!-- <i class="el-icon-pie-chart" />
-          <span> 数据统计 </span> -->
-          <div id="statistics" class="main_between_2_item_statistics"></div>
+          <span class="main_middle_1_item_span"> 油井异常情况 </span>
+          <div id="wellAbnormal" class="main_between_2_item_wellAbnormal" />
         </div>
       </el-card>
     </div>
     <div class="main_middle">
       <el-card class="main_middle_1" shadow="hover">
         <div class="main_middle_1_item">
-          <i class="el-icon-map-location" />
-          <span> GIS地图 </span>
+          <span class="main_middle_1_item_span"> GIS地图 </span>
           <!-- 
           amap-manager： 地图管理对象
           vid：地图容器节点的ID
@@ -49,46 +51,36 @@
       </el-card>
       <el-card class="main_middle_2" shadow="hover">
         <div class="main_middle_2_item">
-          <!-- <i class="el-icon-truck" />
-          <span> 车辆投入 </span> -->
-          <div id="car" class="main_middle_2_item_car"/>
+          <span class="main_middle_1_item_span"> 车辆投入 </span>
         </div>
       </el-card>
     </div>
     <div class="main_between">
       <el-card class="main_between_1" shadow="hover">
         <div class="main_between_1_item">
-          <div class="main_between_1_item__announce">
-            <!-- <i class="el-icon-chat-line-square" /> -->
-            <span> 企业要闻 </span>
-            <el-button type="text" class="el-icon-plus main_between_1_item__announce_button">更多</el-button>
-          </div>
-         <!-- 消息详情 -->
-          <div class="main_between_1_item_notice">
-            <span class="main_between_1_item_notice_span">.公司党委会集体学习习近平总书记在科学家座谈会上的重要讲话精神</span>
-            <span class="main_between_1_item_notice_span">.油田迈进智能化安全管理新时代</span>
-            <span class="main_between_1_item_notice_span">.公司党委召开理论学习中心组学习扩大会议</span>
-            <span class="main_between_1_item_notice_span">.公司召开审计工作推进会议</span>
-            <span class="main_between_1_item_notice_span">.公司六大举措推进工程项目建设</span>
-            <span class="main_between_1_item_notice_span">.高振东督导南泥湾采油厂以案促改专题民主生活会</span>
-            <span class="main_between_1_item_notice_span">.油田公司党委召开理论学习中心组学习扩大会议</span>
+          <span class="main_middle_1_item_span"> 水井情况 </span>
+          <div class="main_between_1_item_water">
+            <!-- 水井情况1 -->
+            <div class="water1">
+              <div id="water1" class="main_between_1_item_water1" />
+              <span class="main_between_1_item_water1_span">总井数:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_water1_span">开井数:<span style="color:#ED7C30">100</span></span>
+            </div>
+           <!-- 水井情况2 -->
+           <div class="water2">
+              <div id="water2" class="main_between_1_item_water2" />
+              <span class="main_between_1_item_water1_span">正常井数:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_water1_span">超注井数:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_water1_span">欠注井数:<span style="color:#ED7C30">100</span></span>
+           </div>
+           
           </div>
         </div>
       </el-card>
       <el-card class="main_between_2" shadow="hover">
         <div class="main_between_2_item">
-          <i class="el-icon-document" />
-          <span> 生产进度 </span>
-          <div class="main_between_2_progress">
-            <span class="main_between_2_progress_span">东仁沟水井治理下达150项，已完成52项</span>
-            <el-progress :text-inside="true" :stroke-width="26" :percentage="35" style="margin-top:10px"/>
-            <span class="main_between_2_progress_span">东关采油站硬件设备维护下达80项，已完成56项</span>
-            <el-progress :text-inside="true" :stroke-width="26" :percentage="70" status="success" style="margin-top:10px"/>
-            <span class="main_between_2_progress_span">王圈油井治理下达240项，已完成112项</span>
-            <el-progress :text-inside="true" :stroke-width="26" :percentage="47" status="warning" style="margin-top:10px"/>
-            <span class="main_between_2_progress_span">初步地质勘探下达580项，已完成487项</span>
-            <el-progress :text-inside="true" :stroke-width="26" :percentage="84" status="exception" style="margin-top:10px"/>
-          </div>
+          <span class="main_middle_1_item_span"> 措施情况 </span>
+          <div id="measure" class="main_between_2_item_measure"></div>
         </div>
       </el-card>
     </div>
@@ -117,106 +109,292 @@ export default {
         events: {
           init() {}
         }
-      }],
-      // 表格数据
-      tableData: [{
-          date: '1766采油站',
-          name: '1564',
-          address: '987',
-          oil: 564
-        }, {
-          date: '东关采油站',
-          name: '4526',
-          address: '573',
-          oil: 759
-        }, {
-          date: '一号采油站',
-          name: '3421',
-          address: '864',
-          oil: 948
-        }, {
-          date: '庙沟采油站',
-          name: '87089',
-          address: '2452',
-          oil: 853
-        }
-      ]
-      }
+      }]
+    }
   },
   mounted(){
-    // 车辆投入
-    this.carInit();
-    // 数据统计
-    this.statisticsInit();
-   
+    // 油井情况
+    this.wellInit();
+    // 油水井异常情况
+    this.wellAbnormalInit();
+    // 水井情况
+    this.waterWllInit(); 
+    // 措施情况
+    this.measureInit();
   },
   methods:{
-    // 车辆投入
-    carInit(){
-      let dom = document.getElementById("car");
+    // 油井情况
+    wellInit(){
+      let dom = document.getElementById("well");
       let myChart = echarts.init(dom);
       myChart.setOption({
-        title : {
-          text: '车辆投入',
-          x:'left',
+        tooltip: {
+          trigger: 'axis'
         },
-       legend: {},
-       tooltip: {},
-       grid: {},
-       dataset: {
-          source: [
-            ['carType', '货车', '汽车', '卡车'],
-            ['外检测工程部', 43.3, 85.8, 93.7],
-            ['运维部', 83.1, 73.4, 55.1],
-            ['内检测工程部', 86.4, 65.2, 82.5],
-            ['无损检测部', 72.4, 53.9, 39.1],
-            ['综合检测部', 22.6, 80.2, 50.7],
-          ]
-       },
-       xAxis: {type: 'category'},
-       yAxis: {},
-       series: [
-          {type: 'bar'},
-          {type: 'bar'},
-          {type: 'bar'}
+        // 折线颜色
+        color:['#66CC99','#ED7C30'],
+        legend: {
+          data: ['产液量', '开井情况'],
+          textStyle: {
+            color: '#ffffff',
+            fontSize: 12
+          },
+        },
+        xAxis: {
+          boundaryGap: false,
+          data: ['1', '2', '3', '4', '5', '6', '7','8','9','10'],
+          // 文字大小与颜色
+          axisLabel: {
+            textStyle: {
+              color: '#c3dbff',  //更改坐标轴文字颜色
+              fontSize : 14      //更改坐标轴文字大小
+            }
+          },
+          // 轴线颜色
+          axisLine: {
+            lineStyle:{color:'#C0C4CC'} 
+          },
+          // 网格线
+          splitLine: { show:false }
+
+        },
+        yAxis: [
+          // 产液量
+          {
+            name:'吨',
+            type: 'value',
+            // 文字大小与颜色
+            axisLabel: {
+              textStyle: {
+                color: '#c3dbff',  //更改坐标轴文字颜色
+                fontSize : 10     //更改坐标轴文字大小
+              }
+            },
+            // 轴线颜色
+            axisLine:{
+              lineStyle:{color:'#C0C4CC'} 
+            },
+            // 网格线
+            splitLine: { show:false } 
+          },
+          // 开井情况
+          {
+            name:'比例(%)',
+            type: 'value',
+            max: 100,
+            // 文字大小与颜色
+            axisLabel: {
+              textStyle: {
+                color: '#c3dbff',  //更改坐标轴文字颜色
+                fontSize : 10     //更改坐标轴文字大小
+              }
+            },
+            // 轴线颜色
+            axisLine: {
+              lineStyle:{color:'#C0C4CC'} 
+            },
+            // 网格线
+            splitLine: { show:false }
+
+          }
+        ],
+        series: [
+            {
+                name: '产液量',
+                type: 'line',
+                data: [20, 32, 40, 34, 40, 30, 63, 36, 23, 24, 34],
+                yAxisIndex: 0,
+            },
+            {
+                name: '开井情况',
+                type: 'line',
+                data: [70, 82, 91, 64, 80, 70, 90, 74, 81, 82],
+                yAxisIndex: 1,
+            },
         ]
       });
     },
-    // 数据统计
-    statisticsInit(){
-      let dom = document.getElementById("statistics");
+    // 油水井异常情况
+    wellAbnormalInit(){
+      let dom = document.getElementById("wellAbnormal");
       let myChart = echarts.init(dom);
       myChart.setOption({
-        title: {
-          text: '数据统计',
-          left: 'center'
-        },
         tooltip: {
-            trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        trigger: 'item',
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        legend: {
-          orient: 'vertical',
-          left: 'left',
-          data: ['临时用工', '技术分包', '派遣人员', '合同化员工', '市场化员工']
-        },
+        // 颜色
+        color:['#66CC99','#ED7C30','#FFFF00','#66CCCC','#CC3333','#FF9999','#CC6633'],
         series: [
           {
-            name: '',
+            name: '比例',
             type: 'pie',
-            radius: '55%',
-            center: ['50%', '60%'],
+            selectedMode: 'single',
+            radius: [0, '30%'],
+            label: {
+                position: 'inner'
+            },
+            // 指示线
+            labelLine: {
+                show: false
+            },
             data: [
-                {value: 335, name: '临时用工'},
-                {value: 310, name: '技术分包'},
-                {value: 234, name: '派遣人员'},
-                {value: 135, name: '合同化员工'},
-                {value: 548, name: '市场化员工'}
+                {value: 335, name: '总井数'},
+                {value: 30, name: '开井数'}
             ]
+          },
+          {   
+            name: '所占比例',
+            type: 'pie',
+            radius: ['40%', '55%'],
+            data: [
+              {value: 335, name: '正常井'},
+              {value: 210, name: '液量异常'},
+              {value: 234, name: '含水异常'},
+              {value: 335, name: '工况异常'},
+              {value: 448, name: '设备异常'}
+            ]    
           }
         ]
       });
     },
+    // 水井情况
+    waterWllInit(){
+      // 水井情况1
+      let dom1 = document.getElementById("water1");
+      let myChart1 = echarts.init(dom1);
+      myChart1.setOption({
+        tooltip: {
+         formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+          data: ['总井数', '开井数'],
+          textStyle: {
+            color: '#ffffff',
+            fontSize: 12
+          },
+        },
+        // 图形颜色
+        color:['#66CC99','#ED7C30'],
+        series: [
+          {
+            name: '所占比例',
+            type: 'pie',
+            data: [
+              {value: 335, name: '总井数'},
+              {value: 100, name: '开井数'},
+            ],
+            // 指示线
+            label:{
+              normal:{
+                show:false
+              }
+            }
+          }
+        ]
+      });
+      // 水井情况2
+      let dom2 = document.getElementById("water2");
+      let myChart2 = echarts.init(dom2);
+      myChart2.setOption({
+         tooltip: {
+          formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        legend: {
+          data: ['正常', '超注','欠注'],
+          textStyle: {
+            color: '#ffffff',
+            fontSize: 8
+          },
+        },
+        // 图形颜色
+        color:['#66CC99','#ED7C30','#FFFF00'],
+        series: [
+          {
+            name: '所占比例',
+            type: 'pie',
+            data: [
+              {value: 405, name: '正常'},
+              {value: 120, name: '超注'},
+              {value: 450, name: '欠注'},
+            ],
+            // 指示线
+            label:{
+              normal:{
+                show:false
+              }
+            }
+          }
+        ]
+      });
+    },
+    // 措施情况
+    measureInit(){
+      let dom = document.getElementById("measure");
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        tooltip: {
+          trigger: "axis",  
+        },
+        // 图形颜色
+        color:['#66CC99','#ED7C30'],
+        legend: { 
+          data:['待措施井数','措施中井数'],
+          textStyle: {
+          color: '#ffffff',
+          fontSize: 12
+          },
+        },
+        xAxis: {
+          data: ["站1","站2","站3","站4","站5","站6"],
+          splitLine:{
+            show:false,
+          },
+          // 文字大小与颜色
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#c3dbff',  //更改坐标轴文字颜色
+              fontSize : 14      //更改坐标轴文字大小
+            }
+          },
+          // 轴线颜色
+          axisLine:{
+            lineStyle:{color:'#C0C4CC'} 
+          },
+        },
+        yAxis: {
+          splitLine:{
+            show:false,
+          },
+          // 文字大小与颜色
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: '#c3dbff',  //更改坐标轴文字颜色
+              fontSize : 10     //更改坐标轴文字大小
+            }
+          },
+          // 轴线颜色
+          axisLine:{
+            lineStyle:{color:'#C0C4CC'} 
+          },
+        },
+        series: [{
+          name: '待措施井数',
+          type: 'bar',
+          stack:'使用情况',
+          barWidth : 20,
+          data: [5, 20, 36, 10, 10, 20],
+        },{
+          name: '措施中井数',
+          type: 'bar',
+          stack:'使用情况',
+          barWidth : 20,
+          data: [40, 22, 18, 35, 42, 40],
+        }]
+      });
+    }
   }
 };
 </script>
@@ -225,7 +403,10 @@ export default {
   @import '../assets/css/home/index.css';
 </style>
 <style scoped>
-.el-vue-amap-container{
+.el-vue-amap-container {
   height: 300px;
+}
+.el-card {
+  border: none;
 }
 </style>

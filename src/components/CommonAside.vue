@@ -7,7 +7,6 @@
     :unique-opened="true"
     router
     :collapse="isCollapse"
-    :width="isCollapse?'64px':'200px'"
   >
     <!-- 侧边栏伸缩 -->
     <div class="toggle-button" @click="toggleCollapse">|||</div>
@@ -81,5 +80,13 @@ export default {
     letter-spacing: 0.2em;
     cursor: pointer;
 }
-
+</style>
+<style>
+ .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 300px;
+    min-height: 400px;
+  }
+  .el-side {
+    overflow: hidden;
+  }
 </style>

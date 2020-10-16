@@ -27,10 +27,9 @@ export const initMenu = (router, store) => {
                     // 添加默认展示子路由页面
                     let child = {
                         path: "/system/system",
-                        // 不添加name属性，避免在侧边导航栏显示
-                        // name: "系统管理首页",
+                        name: "用户管理",
                         component: () =>
-                            import ("@/views/system/index.vue"),
+                            import ("@/views/system/user.vue"),
                         hidden: true
                     };
                     route.children.push(child);
@@ -39,10 +38,9 @@ export const initMenu = (router, store) => {
                     // 添加默认展示子路由页面
                     let child1 = {
                         path: "/assessment/assessment",
-                        // 不添加name属性，避免在侧边导航栏显示
-                        // name: "绩效考核首页",
+                        name: "考核模板",
                         component: () =>
-                            import ("@/views/assessment/assIndex.vue"),
+                            import ("@/views/assessment/template.vue"),
                         hidden: true
                     };
                     route.children.push(child1);
@@ -51,13 +49,23 @@ export const initMenu = (router, store) => {
                     // 添加默认展示子路由页面
                     let child2 = {
                         path: "/diagnosis/diagnosis",
-                        // 不添加name属性，避免在侧边导航栏显示
-                        // name: "油水井诊断首页",
+                        name: "水井异常",
                         component: () =>
-                            import ("@/views/diagnosis/index.vue"),
+                            import ("@/views/diagnosis/abnormal/waterAbnormal.vue"),
                         hidden: true
                     };
                     route.children.push(child2);
+                }else if (route.path === "/unattended/unattended") {
+                    //  判断当前路由是否为无人值守 
+                    // 添加默认展示子路由页面
+                    let child3 = {
+                        path: "/unattended/unattended",
+                        name: "无人值守",
+                        component: () =>
+                            import ("@/views/unattended/unattended.vue"),
+                        hidden: true
+                    };
+                    route.children.push(child3);
                 }
                 menu[0].children.push(route);
             });

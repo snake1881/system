@@ -5,7 +5,7 @@
           <router-link :to="item.path" class="tags-li-title">
               {{item.name}}
           </router-link>
-          <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close"></i></span>
+          <span class="tags-li-icon" @click="closeTags(index)"><i class="el-icon-close" /></span>
       </li>
     </ul>
   </div>
@@ -35,12 +35,15 @@ export default {
   },
   methods: {
     isActive(path) {
+      console.log(this.$route.fullPath);
       return path === this.$route.fullPath;
     },
     // 关闭单个标签
     closeTags(index) {
       if (this.tagsList.length > 1) {
+        // 删除已关闭标签
         const delItem = this.tagsList.splice(index, 1)[0];
+        // 已关闭标签的前一个标签
         const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
         if (item) {
           delItem.path === this.$route.fullPath && this.$router.push(item.path);
@@ -53,9 +56,31 @@ export default {
     },
     // 设置标签
     setTags(route) {
+      // 判断是否为首页
       if (route.path === "/home") {
         this.tagsList = []
-      } else {
+      }else if(route.path === "/system/system"){    //判断是否为系统管理
+        this.tagsList.push({
+          path:"/system/user",
+          name:route.matched[2].name,
+        })
+      }else if(route.path === "/diagnosis/diagnosis"){   //判断是否为油水井诊断
+        this.tagsList.push({
+          path:"/assessment/template",
+          name:route.matched[2].name,
+        })
+      }else if(route.path === "/assessment/assessment"){   //判断是否为绩效考核
+        this.tagsList.push({
+          path:"/diagnosis/abnormal/waterAbnormal",
+          name:route.matched[2].name,
+        })
+      }else if(route.path === "/unattended/unattended"){   //判断是否为无人值守
+        this.tagsList.push({
+          path:"/unattended/unattended",
+          name:route.matched[2].name,
+        })
+      }
+       else {
         const isExist = this.tagsList.some(item => {
           return item.path === route.fullPath;
         });
@@ -70,47 +95,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.page_header {
-  height: 35px;
-  background-color: #f4f5f7;
-  border-bottom: 2px solid rgb(35, 34, 80);
-  position: relative;
-  overflow: hidden;
-}
-.tags ul {
-  width: 90%;
-  height: 100%;
-}
-.tags-li {
-    float: left;
-    margin: -8px 4px 5px 4px;
-    padding:0px 5px;
-    border-radius: 3px;
-    font-size: 8px;
-    overflow: hidden;
-    line-height: 20px;
-    border: 1px solid #e9eaec;
-    background: #fff;
-    vertical-align: middle;
-}
-.tags-li:not(.active):hover {
-    background: #f8f8f8;
-}
-.tags-li-title {
-    float: left;
-    max-width: 80px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    margin-right: 5px;
-    color: #666;
-}
-.tags-li.active {
-    color: #fff;
-    border: 1px solid #409EFF;
-    background-color: #409EFF;
-}
-.tags-li.active .tags-li-title {
-    color: #fff;
-}
+@import "../assets/css/pageHeader.css";
+
 </style>

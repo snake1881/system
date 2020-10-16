@@ -10,7 +10,7 @@
         router
         mode="horizontal"
         default-active="/Index"
-        background-color="#132231"
+        background-color="#20374e"
         text-color="#fff"
         active-text-color="#ffd04b"
         v-if="this.$store.state.routes[0]"
@@ -67,8 +67,7 @@
           </el-tab-pane>
           <el-button @click="gotoReceiveNotice()" class="container_right_notice_button" type="text">查看全部通知</el-button>
         </el-tabs>
-        <el-badge slot="reference"  :max="99" class="container_right_badge">
-          
+        <el-badge slot="reference"  :max="99" class="container_right_badge"> 
           <el-button class="iconfont icon-xiaoxi" @click="cancelNoticeNum()"/>
         </el-badge>
       </el-popover>
@@ -171,8 +170,8 @@ export default {
   height: 100%;
 }
 .container_right .el-button {
-  border-color: #132231;
-  background-color:#132231;
+  border-color: #20374e;
+  background-color:#20374e;
   padding: 0 0;
 }
 .container_middle .el-menu {

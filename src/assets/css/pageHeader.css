@@ -1,0 +1,43 @@
+.page_header {
+    height: 35px;
+    background-color: #f4f5f7;
+    border-bottom: 2px solid rgb(35, 34, 80);
+    position: relative;
+    overflow: hidden;
+  }
+  .tags ul {
+    width: 90%;
+    height: 100%;
+  }
+  .tags-li {
+      float: left;
+      margin: -8px 4px 5px 4px;
+      padding:0px 5px;
+      border-radius: 3px;
+      font-size: 8px;
+      overflow: hidden;
+      line-height: 20px;
+      border: 1px solid #e9eaec;
+      background: #fff;
+      vertical-align: middle;
+  }
+  .tags-li:not(.active):hover {
+      background: #f8f8f8;
+  }
+  .tags-li-title {
+      float: left;
+      max-width: 80px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      margin-right: 5px;
+      color: #666;
+      text-decoration: none;
+  }
+  .tags-li.active {
+      color: #fff;
+      background-color: #1F2D3D;
+  }
+  .tags-li.active .tags-li-title {
+      color: #fff;
+  }

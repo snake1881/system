@@ -46,12 +46,12 @@
           width="140"
           :show-overflow-tooltip="true"
         />
-        <el-table-column prop="email" label="邮箱" width="140" />
+        <el-table-column prop="email" label="邮箱" width="120" />
         <el-table-column prop="phone" label="手机" width="120" />
         <el-table-column prop="status" label="状态" width="80" />
         <el-table-column prop="sex" label="性别" width="80" />
-        <el-table-column prop="createTime" label="创建时间" width="180" />
-        <el-table-column label="操作" width="120" fixed="right">
+        <el-table-column prop="createTime" label="创建时间" width="170" />
+        <el-table-column label="操作" width="100">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editUser(scope.row)" class="iconfont icon-bianji"/>
             <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu"/>

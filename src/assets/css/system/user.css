@@ -8,12 +8,12 @@
 .user_left {
     width: 15%;
     height: 100%;
-    margin-right: 10px;
+    margin-right: 5px;
     background-color: white;
 }
 
 .user_right {
-    width: 86%;
+    width: 84%;
     height: 100%;
 }
 
