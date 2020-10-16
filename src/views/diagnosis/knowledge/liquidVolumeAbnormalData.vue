@@ -1,10 +1,12 @@
 <template>
   <!--  液量异常参数筛选界面  -->
   <div class="liqFilterCondition">
-    <el-form :model="termForm" :inline="true">
+    <div  align="center">
+    <el-form :model="termForm" :inline="true"  >
       <el-form-item>
         <el-button
           type="primary"
+           size="small"
           icon="el-icon-plus"
           @click="addLiqFilterCondition()"
           >新增</el-button
@@ -36,14 +38,16 @@
       </el-form-item>
       <el-button
         type="primary"
+         size="small"
         icon="el-icon-search"
         @click="liqFilterConditionSearch()"
         >查询</el-button
       >
-      <el-button type="primary" @click="editYlYccs(ylYccsDate)"
+      <el-button type="primary"  size="small"  @click="editYlYccs(ylYccsDate)"
         >异常参数设置</el-button
       >
     </el-form>
+    </div>
     <el-table
       v-loading="loading"
       element-loading-text="拼命加载中"
@@ -91,14 +95,14 @@
         <template slot-scope="scope">
           <el-button
             type="text"
-            size="medium"
+             size="small"
             icon="el-icon-edit"
             @click.prevent="editLiqFilterCondition(scope.row)"
             >编辑</el-button
           >
           <el-button
             type="text"
-            size="medium"
+             size="small"
             icon="el-icon-delete"
             @click.prevent="deleteLiqFilterCondition(scope.row)"
             >删除</el-button
@@ -107,7 +111,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="liqFilterCondition_page">
+    <div class="liqFilterCondition_page"  align="center">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -184,7 +188,7 @@ export default {
     this.orgNameInit();
   },
   methods: {
-    // 根据井名和日期
+    // 根据井名和日期删除
     deleteLiqFilterCondition(val) {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
@@ -313,13 +317,13 @@ export default {
     },
     // 编辑
     editLiqFilterCondition(val) {
-      // console.log(this.currentPage);
       this.editLiqFilterConditionData = val;
       this.editLiqFilterConditionVisible = true;
     },
     // 关闭编辑框
     editLiqFilterConditionClose() {
       this.editLiqFilterConditionVisible = false;
+      this.liqFilterConditionInit();
     },
     //新增
     addLiqFilterCondition() {

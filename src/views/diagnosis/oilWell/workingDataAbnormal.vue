@@ -1,6 +1,7 @@
 <template>
   <!--功图数据异常页面-->
   <div class="abnormalGt">
+    <div  align="center">
     <el-form v-model="GtForm" :inline="true">
       <el-form-item label="采油站">
         <el-select
@@ -28,11 +29,13 @@
       </el-form-item>
       <el-button
         type="primary"
+         size="small"
         icon="el-icon-search"
         @click="abnormalGtSearch()"
         >查询</el-button
       >
     </el-form>
+    </div>
     <el-divider > 功图数据异常数据（默认今日） </el-divider>
     <el-table
       v-loading="loading"
@@ -67,7 +70,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <div class="abnormalGt_page"  >
+    <div class="abnormalGt_page"  align="center" >
       <!-- 分页 -->
       <el-pagination
       class="pagination"
@@ -200,17 +203,6 @@ export default {
     previewAbnormalGt(val) {
       this.previewAbnormalGtData = val;
       this.previewAbnormalGtVisible = true;
-      // this.getRequest(
-      //   "/oilWell/abnormalGt/GetGt?checkDate=" +
-      //     this.val.checkDate +
-      //     "&wellId=" +
-      //     this.val.wellId
-      // ).then(resp => {
-      //   // this.loading = false;
-      //   if (resp) {
-      //     this.tableData = resp.data;
-      //   }
-      // });
     },
     //初始化功图数据
     gtDataInit(val) {
@@ -246,9 +238,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.abnormalGt_page{
-   position:absolute; bottom:0;
-   
-}
-
+// .abnormalGt_page{
+//    position:absolute; bottom:0;
+// }
 </style>

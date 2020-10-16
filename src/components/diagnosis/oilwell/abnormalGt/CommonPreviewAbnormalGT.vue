@@ -34,7 +34,7 @@ export default {
       xAxis: [],
       yAxis: [],
       coordinates: [[]],
-      coordinates1:[[]],
+      coordinates1: [[]],
       isColor: true
     };
   },
@@ -43,7 +43,7 @@ export default {
     priviewAbnormalGtClose() {
       this.$emit("previewAbnormalGtRowClose");
     },
-    //初始化chart数据
+    //初始化chart数据并绘图
     gtDataInit() {
       this.getRequest(
         "/oilWell/abnormalGt/GetGt?checkDate=" +
@@ -53,15 +53,19 @@ export default {
       ).then(resp => {
         // this.loading = false;
         if (resp) {
+          this.tableData1={};
           this.tableData1 = resp.data;
+          this.coordinate();
+          if(this.tableData1 === null){
+            this.tableData1.dynaCreateTime="功图数据缺失";
+          };
+          this.drawLine();
         }
       });
     },
     mounted() {
-     console.log(this.tableData1);
-        this.coordinate();
-        console.log(this.coordinates);
-        this.drawLine();
+      this.coordinate();
+      this.drawLine();
     },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
@@ -143,6 +147,7 @@ export default {
     },
     //将坐标数据串处理为坐标点
     coordinate() {
+      this.coordinates=[[]];
       var displacementArray = this.tableData1.displacement.split(";");
       var disploadArray = this.tableData1.dispLoad.split(";");
       for (var i = 0; i < displacementArray.length; i++) {
@@ -153,25 +158,7 @@ export default {
       return this.coordinates;
     },
     opens() {
-      console.log(this.previewData);
       this.gtDataInit();
-      this.mounted()
-        // this.drawLine();
-      // this.$nextTick(() => {
-      //   // this.coordinates=[[]];
-      //   // this.gtDataInit();
-      //   // this.coordinate();
-      //   // this.console(this.coordinates);
-      //   // console.log(this.coordinates);
-      //   // this.mounted();
-      //   this.drawLine();
-      //   // this.dynaCreateTime();
-      //   // this.myChart.resize();
-      //   // window.addEventListener("resize", function() {
-      //   //   this.myChart.resize();
-      //   //   //myCharts是你的初始化echarts图表时取的名字
-      //   // });
-      // });
     }
   }
 };

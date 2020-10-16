@@ -1,60 +1,69 @@
 <template>
   <div class="role">
-    <!-- 条件查询 -->
-    <el-form class="role_form" :model="orgnameAndTimeForm" :inline="true">
-      <!-- 下拉框查询 -->
-      <el-form-item label="采油站">
-        <el-select
-          v-model="orgnameAndTimeForm.wellId"
-          clearable
-          placeholder="全区"
-          size="small"
-        >
-          <el-option
-            v-for="(item, index) in this.orgnameData"
-            :key="index"
-            :label="item.orgName"
-            :value="item.wellId"
-            :disabled="item.orgName.disabled"
+    <div align="center">
+      <!-- 条件查询 -->
+      <el-form class="role_form" v-model="termData" :inline="true">
+        <!-- 下拉框查询 -->
+        <el-form-item label="采油站">
+          <el-select
+            v-model="termData.orgName"
+            clearable
+            placeholder="全区"
+            size="small"
           >
-          </el-option>
-        </el-select>
-      </el-form-item>
+            <el-option
+              v-for="item in orgNameData"
+              :key="item.orgName"
+              :label="item.orgName"
+              :value="item.orgName"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
 
-      <el-form-item label="日期" size="medium">
-        <el-date-picker
-          v-model="orgnameAndTimeForm.checkTime"
-          type="date"
-          placeholder="选择日期"
-          format="yyyy 年 MM 月 dd 日"
-          value-format="yyyy-MM-dd "
+        <el-form-item label="日期" size="medium">
+          <el-date-picker
+            v-model="termData.checkDate"
+            type="date"
+            placeholder="选择日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+          @click="searchPost()"
+          >查询</el-button
         >
-        </el-date-picker>
-      </el-form-item>
-      <el-button
-        type="primary"
-        icon="el-icon-search"
-        size="small"
-        @click="searchPost()"
-        >查询</el-button
-      >
-    </el-form>
+      </el-form>
+    </div>
     <!-- 表格数据 -->
     <el-table
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="gtmjData"
-      height="84%"
+      height="500px"
       border
+      lazy
+      row-key="checkDate"
+      :tree-props="{
+        children: 'children',
+        hasChildren: 'hasChildren'
+      }"
       style="width:100%;"
     >
-      <el-table-column prop="" align="center" label="序号" width="50">
-        <template scope="scope">
-          <span>{{ (currentPage - 1) * pageSize + scope.$index + 1 }}</span>
-        </template>
+      <el-table-column prop="index" align="center" label="序号" width="80">
       </el-table-column>
-      <el-table-column prop="wellId" align="center" label="井号" width="150" />
+      <el-table-column
+        prop="wellCommonName"
+        align="center"
+        label="井号"
+        width="180"
+      />
       <el-table-column
         prop="checkDate"
         align="center"
@@ -71,18 +80,18 @@
         prop="abnormalProblem"
         align="center"
         label="诊断结果"
-        width="320"
+        width="360"
       />
       <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editPost(scope.row)"
-            >查看曲线</el-button
+          <el-button type="text" size="small" @click="previewGtmj(scope.row)"
+            >查看功图</el-button
           >
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="role_page">
+    <div class="workingArea_page" align="center">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -93,46 +102,44 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <!-- 新增 -->
-    <common-add-post
-      :addPostVisible="addPostVisible"
-      @postRowClose="addPostClose"
-    />
-    <!-- 编辑 -->
-    <common-edit-post
-      :editPostVisible="editPostVisible"
-      :editData="editPostData"
-      @postRowClose="editPostClose"
+    <!-- 查看功图 -->
+    <common-preview-Gtmj
+      :previewGtmjVisible="previewGtmjVisible"
+      :previewData="previewGtmjData"
+      @previewGtmjRowClose="previewGtmjClose"
     />
   </div>
 </template>
 <script>
-import CommonEditPost from "../../../components/diagnosis/oilwell/gtmjyc/GtmjycScanLine";
+import CommonPreviewGtmj from "../../../components/diagnosis/oilwell/gtmjyc/GtmjycScanLine";
 export default {
   components: {
-    CommonEditPost
+    CommonPreviewGtmj
   },
   data() {
     return {
-      orgnameAndTimeForm: {
-        checkTime: "",
-        wellId: ""
+      termData: {
+        checkDate: "",
+        orgName: ""
       },
+      wellCommonName: "",
+      testData: [],
+      filterData: [],
+      filterDataCopy: [],
+      rowData: [[]],
       // 表格数据
       gtmjData: [],
       // 采油站下拉框数据
-      orgnameData: [],
+      orgNameData: [],
       // 分页数据
       currentPage: 1,
       pageSize: 10,
       total: 0,
-      // 编辑
-      editPostVisible: false,
-      editPostData: {},
-      // 新增
-      addPostVisible: false,
       // 表格加载动画
-      loading: true
+      loading: true,
+      //
+      previewGtmjVisible: false,
+      previewGtmjData: {}
     };
   },
   created() {
@@ -142,54 +149,33 @@ export default {
   methods: {
     // 根据输入信息查询
     searchPost() {
-      this.postRequest(
-        "/abnormalGtmjEntity/findListsByPage?page=" +
+      this.getRequest(
+        "/oilWell/abnormalGtmj/abnormalGtmjPage?checkDate=" +
+          this.termData.checkDate +
+          "&current=" +
           this.currentPage +
-          "&size=" +
-          this.pageSize,
-        this.orgnameAndTimeForm
+          "&orgName=" +
+          this.termData.orgName +
+          "&pageSize=" +
+          this.pageSize
       ).then(resp => {
         if (resp) {
           this.gtmjData = resp.data.records;
           this.total = resp.data.total;
+          this.filterData = resp.data.records;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
-    // 根据id删除
-    dletePost(val) {
-      this.$confirm("确定删除该条数据", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.getRequest("/position/deleteById?ids=" + val.positionId).then(
-            resp => {
-              if (resp) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!"
-                });
-              }
-              this.postInit();
-            }
-          );
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
+
     //表格数据初始化
     postInit() {
       this.getRequest(
-        "/abnormalGtmjEntity/findListByPage?page=" +
+        "/oilWell/abnormalGtmj/abnormalGtmjPage?current=" +
           this.currentPage +
-          "&size=" +
+          "&pageSize=" +
           this.pageSize
       ).then(resp => {
         this.loading = false;
@@ -198,66 +184,52 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
     //采油站下拉框数据初始化
     selectInit() {
-      this.getRequest(
-        "/abnormalGtmjEntity/findListByPage?page=" +
-          this.currentPage +
-          "&size=" +
-          this.pageSize
-      ).then(resp => {
-        this.loading = false;
-        if (resp) {
-          this.orgnameData = resp.data.records;
-          // 下拉框去重
-          var hash = {};
-          this.orgnameData = this.orgnameData.reduce(function(item, next) {
-            hash[next.orgName]
-              ? ""
-              : (hash[next.orgName] = true && item.push(next));
-            return item;
-          }, []);
-
-          this.total = resp.data.total;
-          this.currentPage = resp.data.current;
-          this.pageSize = resp.data.size;
+      this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
+        resp => {
+          this.loading = false;
+          if (resp) {
+            this.orgNameData = resp.data;
+          }
         }
-      });
+      );
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.postInit();
+      this.searchPost();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.postInit();
+      this.searchPost();
     },
-    // 编辑
-    editPost(val) {
-      this.editPostData = val;
-      this.editPostVisible = true;
+    previewGtmj(val) {
+      this.previewGtmjData = val;
+      this.previewGtmjVisible = true;
     },
-    // 关闭编辑框
-    editPostClose() {
-      this.editPostVisible = false;
+    // 关闭功图
+    previewGtmjClose() {
+      this.previewGtmjVisible = false;
     },
-    // 新增
-    addPost() {
-      this.addPostVisible = true;
-      this.postInit();
-    },
-    // 关闭新增框
-    addPostClose() {
-      this.addPostVisible = false;
+    //设置序号
+    getIndex() {
+      this.gtmjData.forEach((item, index) => {
+        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
+        return item;
+      });
     }
-  }
+  },
+  
 };
 </script>
 <style lang="less" scoped>
-@import "../../../assets/css/system/role.css";
+// .workingArea_page {
+//    position:absolute; bottom:0;
+// }
 </style>

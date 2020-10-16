@@ -1,6 +1,6 @@
  <template>
   <div class="diagnosisData">
-    <div>
+    <div  align="center">
       <el-form>
         <el-form-item>
           <el-button
@@ -49,10 +49,17 @@
           <template slot-scope="scope">
             <el-button
               type="text"
-              size="medium"
+              size="small"
               icon="el-icon-edit"
               @click="editDiagnosisData(scope.row)"
               >编辑</el-button
+            >
+            <el-button
+              type="text"
+              size="small"
+              icon="el-icon-delete"
+              @click="deleteDiagnosisData(scope.row)"
+              >删除</el-button
             >
           </template>
         </el-table-column>
@@ -63,7 +70,6 @@
       :addDiagnosisDataVisible="addDiagnosisDataVisible"
       @diagnosisDataRowClose="addDiagnosisDataClose"
     />
-
     <!-- 编辑 -->
     <common-edit-diagnosisData
       :editDiagnosisDataVisible="editDiagnosisDataVisible"
@@ -125,6 +131,36 @@ export default {
     //关闭新增框
     addDiagnosisDataClose() {
       this.addDiagnosisDataVisible = false;
+    },
+    //删除
+    deleteDiagnosisData(val) {
+      this.$confirm("确定删除该条数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.deleteRequest(
+            "/knowledge/DiagnosticParametersGt/DiagnosticParametersGt?diagnosticStep=" +
+              val.diagnosticStep +
+              "&orderNumber=" +
+              val.orderNumber
+          ).then(resp => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
+            }
+            this.diagnosisDataInit();
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     //合并表格第一列相同单元格
     objectOneMethod({ row, column, rowIndex, columnIndex }) {

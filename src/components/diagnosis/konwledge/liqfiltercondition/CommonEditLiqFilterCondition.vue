@@ -13,7 +13,7 @@
         <el-form-item label="检查日期(格式：yyyy-mm-dd):" >
           <el-input :disabled="true" v-model="editData.prodDate" style="width: 300px"/>
         </el-form-item>
-        <el-form-item label="条件（填写选定日期后可选择任意天）:" >
+        <el-form-item label="条件（选择任意天可选择日期）:" >
           <template>
             <el-radio-group v-model="editData.filter">
               <el-radio label="昨日" border></el-radio>
@@ -24,8 +24,17 @@
           </template>
         </el-form-item>
         <el-form-item v-if="editData.filter==='任意天'"
-        label="指定日期(格式：yyyy-mm-dd):" >
-          <el-input v-model="editData.appointDate" style="width: 300px"/>
+        label="指定日期:" >
+          <!-- <el-input v-model="editData.appointDate" style="width: 300px"/> -->
+          <el-date-picker
+          v-model="editData.appointDate"
+          type="date"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          style="width: 300px"
+        >
+        </el-date-picker>
         </el-form-item>
       </el-form>
     </div>
