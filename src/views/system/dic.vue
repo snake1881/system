@@ -114,9 +114,9 @@
           style="width: 100%"
           height="320px"
         >
-          <el-table-column prop="codeName" label="名称" width="430" />
-          <el-table-column prop="codeValue" label="值" width="430" />
-          <el-table-column prop="description" label="描述" width="430" />
+          <el-table-column prop="codeName" label="名称" width="440" />
+          <el-table-column prop="codeValue" label="值" width="340" />
+          <el-table-column prop="description" label="描述" width="550" />
         </el-table>
       </div>
     </div>

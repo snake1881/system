@@ -1,25 +1,14 @@
 <template>
-  <el-dialog
-    title="新增菜单"
-    :visible.sync="addMenuVisible"
-    width="60%"
-    :before-close="addMenuClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="新增菜单" :visible.sync="addMenuVisible" width="36%" :before-close="addMenuClose">
+    <div class="addMenuDiv">
       <el-form :model="addData" label-width="80px">
         <el-form-item label="上级菜单">
           <el-input v-model="addData.moduleName" />
-        </el-form-item>
-        <el-form-item label="id">
-          <el-input v-model="addData.moduleId" />
         </el-form-item>
       </el-form>
       <el-form :model="addMenuData" label-width="80px">
         <el-form-item label="菜单名称">
           <el-input v-model="addMenuData.moduleName" />
-        </el-form-item>
-        <el-form-item label="父级id">
-          <el-input v-model="addMenuData.parentModuleId" />
         </el-form-item>
         <el-form-item label="访问地址">
           <el-input v-model="addMenuData.moduleUrl" />
@@ -36,11 +25,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddMenu(), addMenuClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveAddMenu(), addMenuClose()" class="addMenuButton">提交</el-button>
+    <el-button type="info" @click="addMenuClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -56,13 +42,14 @@ export default {
   inject: ["reload"],
   data() {
     return {
+      // 菜单信息
       addMenuData: {
         moduleName: "",
         moduleUrl: "",
         moduleType: "",
         permissionMark: "",
-        parentModuleId: ""
-      }
+        parentModuleId: this.addData.moduleId
+      },
     };
   },
   methods: {
@@ -91,13 +78,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.addMenuDiv {
+  height: 320px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.addMenuDiv .el-input {
+  width: 400px;
+  height: 2px;
 }
+.addMenuButton {
+  margin: 0 0 0 180px;
+}
+</style>
 </style>

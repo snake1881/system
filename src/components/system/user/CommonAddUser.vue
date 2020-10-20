@@ -1,7 +1,7 @@
 <template>
-  <el-dialog title="新增用户信息" :visible.sync="addUserVisible" width="60%" :before-close="addUserClose">
-    <div class="dialogDiv">
-      <el-form :model="addData" label-width="80px">
+  <el-dialog title="新增用户信息" :visible.sync="addUserVisible" width="42%" :before-close="addUserClose">
+    <div class="dialogAddDiv">
+      <el-form :model="addData" label-width="70px">
         <el-form-item label="登录名称">
           <el-input v-model="addData.loginName" />
         </el-form-item>
@@ -11,6 +11,9 @@
         <el-form-item label="用户编号">
           <el-input v-model="addData.userNum" />
         </el-form-item>
+        <el-form-item label="手机">
+          <el-input v-model="addData.phone" />
+        </el-form-item>
         <el-form-item label="部门名称">
           <el-cascader
             v-model="deptmentIds"
@@ -19,10 +22,7 @@
             :props="{ checkStrictly: true }"
             @change="handleChange"
           />
-        </el-form-item>
-        <el-form-item label="手机">
-          <el-input v-model="addData.phone" />
-        </el-form-item>
+        </el-form-item>      
         <el-row>
           <el-col :span="8">
             <el-form-item label="性别">
@@ -41,17 +41,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-form-item label="角色">
-          <el-checkbox-group v-model="addData.character">
-            <el-checkbox label="管理员" value="1" />
-            <el-checkbox label="普通角色" value="2" />
-          </el-checkbox-group>
-        </el-form-item>-->
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddUser(addData), addUserClose()">提交</el-button>
-    </span>
+    <el-button type="primary" @click="saveAddUser(addData), addUserClose()" class="saveUserButton">提交</el-button>
+    <el-button type="info" @click="addUserClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -156,17 +149,26 @@ export const deptInit = val => {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.dialogAddDiv {
+  height: 375px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.dialogAddDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.saveUserButton {
+  margin: 0 0 0 180px;
 }
 </style>
+
 <style>
+.el-dialog__header {
+  background: #F8F8F8;
+  border-bottom: 2px solid #F2F6FC;
+  height: 15px;
+
+}
 .el-cascader-panel .el-radio{ 
   width: 100%;
   height: 100%;

@@ -1,11 +1,6 @@
 <template>
-  <el-dialog
-    title="角色编辑"
-    :visible.sync="editRoleVisible"
-    width="60%"
-    :before-close="editRoleClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="角色编辑" :visible.sync="editRoleVisible" width="40%" :before-close="editRoleClose">
+    <div class="editRoleDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="角色名称">
           <el-input v-model="editData.roleName" />
@@ -19,27 +14,23 @@
             <el-option label="停用" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="显示顺序">
-          <el-input v-model="editData.sequence" />
-        </el-form-item>
       </el-form>
       <!-- 树形结构 -->
-      <el-tree
-        :data="treeData"
-        show-checkbox
-        empty-text="暂无数据"
-        ref="tree"
-        highlight-current
-        :props="defaultProps"
-        node-key="moduleId"
-        @check="getCheckedKeys()"
-      />
+      <div class="editMenuDescription">
+        <el-tree
+          :data="treeData"
+          show-checkbox
+          empty-text="暂无数据"
+          ref="tree"
+          highlight-current
+          :props="defaultProps"
+          node-key="moduleId"
+          @check="getCheckedKeys()"
+        />
+      </div>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveEditRole(), editRoleClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveEditRole(), editRoleClose()" class="editRoleButton">提交</el-button>
+    <el-button type="info" @click="editRoleClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -101,13 +92,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.editRoleDiv {
+  height: 375px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.editRoleDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.editRoleButton {
+  margin: 0 0 0 180px;
+}
+.editMenuDescription {
+  height:150px;
+  overflow-y:scroll
 }
 </style>

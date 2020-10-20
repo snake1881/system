@@ -1,28 +1,14 @@
 <template>
-  <el-dialog
-    title="新增部门"
-    :visible.sync="addDepVisible"
-    width="60%"
-    :before-close="addDepClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="新增部门" :visible.sync="addDepVisible" width="40%" :before-close="addDepClose">
+    <div class="addDepDiv">
       <el-form :model="addData" label-width="80px">
         <el-form-item label="上级部门">
           <el-input v-model="addData.departmentName" />
-        </el-form-item>
-        <el-form-item label="id">
-          <el-input v-model="addData.departmentId" />
         </el-form-item>
       </el-form>
       <el-form :model="depData" label-width="80px">
         <el-form-item label="部门名称">
           <el-input v-model="depData.departmentName" />
-        </el-form-item>
-        <el-form-item label="父级id">
-          <el-input v-model="depData.parentDepartmentId" />
-        </el-form-item>
-        <el-form-item label="排列顺序">
-          <el-input v-model="depData.sequence" />
         </el-form-item>
         <el-form-item label="联系电话">
           <el-input v-model="depData.phone" />
@@ -35,11 +21,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddDep(), addDepClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveAddDep(), addDepClose()" class="addDepButton">提交</el-button>
+    <el-button type="info" @click="addDepClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -57,10 +40,9 @@ export default {
     return {
       depData: {
         departmentName: "",
-        parentDepartmentId: "",
+        parentDepartmentId: this.addData.departmentId,
         departmentType: "",
         phone: "",
-        sequence: "",
         departmentId: ""
       }
     };
@@ -92,13 +74,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.addDepDiv {
+  height: 260px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.addDepDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.addDepButton {
+  margin: 0 0 0 180px;
 }
 </style>

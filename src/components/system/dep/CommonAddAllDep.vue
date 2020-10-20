@@ -1,11 +1,6 @@
 <template>
-  <el-dialog
-    title="创建新部门"
-    :visible.sync="addAllDepVisible"
-    width="60%"
-    :before-close="addAllDepClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="创建新部门" :visible.sync="addAllDepVisible" width="40%" :before-close="addAllDepClose">
+    <div class="addAllDepDiv">
       <el-form :model="allDepData" label-width="80px">
         <el-form-item label="部门名称">
           <el-input v-model="allDepData.departmentName" />
@@ -27,11 +22,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddAllDep(), addAllDepClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveAddAllDep(), addAllDepClose()" class="addAllDepButton">提交 </el-button>
+    <el-button type="info" @click=" addAllDepClose()">取消 </el-button>
   </el-dialog>
 </template>
 <script>
@@ -79,13 +71,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.addAllDepDiv {
+  height: 260px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.addAllDepDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.addAllDepButton {
+  margin: 0 0 0 180px;
 }
 </style>

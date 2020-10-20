@@ -4,6 +4,8 @@
 
 .sys_aside {
     width: 13% !important;
+    height: 100%;
+    overflow: hidden;
 }
 
 .sys_main {

@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    title="职位编辑"
-    :visible.sync="editPostVisible"
-    width="60%"
-    :before-close="editPostClose"
-  >
+  <el-dialog title="岗位编辑" :visible.sync="editPostVisible" width="40%" :before-close="editPostClose">
     <div class="dialogDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="岗位编号">
@@ -16,16 +11,10 @@
         <el-form-item label="岗位名称">
           <el-input v-model="editData.positionName" />
         </el-form-item>
-        <el-form-item label="显示顺序">
-          <el-input v-model="editData.sequence" />
-        </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveEditPost(), editPostClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveEditPost(), editPostClose()" class="editPostButton">提交</el-button>
+    <el-button type="info" @click="editPostClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -64,13 +53,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.editPostDiv {
+  height: 220px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.editPostDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.editPostButton {
+  margin: 0 0 0 180px;
 }
 </style>

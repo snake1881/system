@@ -1,11 +1,6 @@
 <template>
-  <el-dialog
-    title="新增新菜单"
-    :visible.sync="addAllMenuVisible"
-    width="60%"
-    :before-close="addAllMenuClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="新增新菜单" :visible.sync="addAllMenuVisible" width="36%" :before-close="addAllMenuClose">
+    <div class="addAllMenuDiv">
       <el-form :model="allMenuData" label-width="80px">
         <el-form-item label="菜单名称">
           <el-input v-model="allMenuData.moduleName" />
@@ -25,11 +20,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddAllMenu(), addAllMenuClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveAddAllMenu(), addAllMenuClose()" class="addAllMenuButton">提交</el-button>
+    <el-button type="info" @click="addAllMenuClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -76,13 +68,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.addAllMenuDiv {
+  height: 260px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.addAllMenuDiv .el-input {
+  width: 400px;
+  height: 2px;
+}
+.addAllMenuButton {
+  margin: 0 0 0 180px;
 }
 </style>

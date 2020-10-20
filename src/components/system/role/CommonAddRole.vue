@@ -1,11 +1,6 @@
 <template>
-  <el-dialog
-    title="新增角色"
-    :visible.sync="addRoleVisible"
-    width="60%"
-    :before-close="addRoleClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="新增角色" :visible.sync="addRoleVisible"  width="40%" :before-close="addRoleClose">
+    <div class="addRoleDiv">
       <el-form :model="roleData" label-width="80px">
         <el-form-item label="角色名称">
           <el-input v-model="roleData.roleName" />
@@ -19,18 +14,7 @@
             <el-option label="停用" value="0"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="显示顺序">
-          <el-input v-model="roleData.sequence" />
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="roleData.remark" />
-        </el-form-item>
-        <el-form-item label="创建时间">
-          <el-date-picker
-            v-model="roleData.createTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-          />
-        </el-form-item>
+        <div class="addMenuDescription">
         <el-form-item label-width="菜单权限">
           <el-tree
             :data="roleData.menu"
@@ -43,13 +27,12 @@
             @check="getCheckedKeys()"
           />
         </el-form-item>
+        </div>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddRole(), addRoleClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveAddRole(), addRoleClose()" class="addRoleButton">提交</el-button>
+    <el-button type="info" @click="addRoleClose()">取消</el-button>
+
   </el-dialog>
 </template>
 <script>
@@ -66,9 +49,6 @@ export default {
         roleName: "",
         roleKey: "",
         status: "",
-        sequence: "",
-        remark: "",
-        createTime: "",
         menu: [],
         menuIds: []
       },
@@ -119,13 +99,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
+.addRoleDiv {
   height: 400px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.addRoleDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.addRoleButton {
+  margin: 0 0 0 180px;
+}
+.addMenuDescription {
+ height:150px;
+ overflow-y:scroll 
 }
 </style>

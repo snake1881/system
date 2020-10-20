@@ -38,7 +38,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="loginName" label="登录名称" width="120" />
+        <el-table-column prop="loginName" label="登录名称" width="125" />
         <el-table-column prop="userName" label="用户名称" width="120" />
         <el-table-column
           prop="departmentName"
@@ -46,8 +46,8 @@
           width="140"
           :show-overflow-tooltip="true"
         />
-        <el-table-column prop="email" label="邮箱" width="120" />
-        <el-table-column prop="phone" label="手机" width="120" />
+        <el-table-column prop="email" label="邮箱" width="130" />
+        <el-table-column prop="phone" label="手机" width="130" />
         <el-table-column prop="status" label="状态" width="80" />
         <el-table-column prop="sex" label="性别" width="80" />
         <el-table-column prop="createTime" label="创建时间" width="170" />

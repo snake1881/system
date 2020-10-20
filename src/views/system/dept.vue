@@ -30,7 +30,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="280" />
-      <el-table-column label="操作" width="260">
+      <el-table-column label="操作" width="270">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addDept(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px" />
           <el-button type="text" size="small" @click="editDept(scope.row)" class="iconfont icon-bianji" />

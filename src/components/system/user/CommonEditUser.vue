@@ -1,11 +1,6 @@
 <template>
-  <el-dialog
-    title="编辑用户信息"
-    :visible.sync="editUserVisible"
-    width="60%"
-    :before-close="editUserClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog  title="编辑用户信息" :visible.sync="editUserVisible" width="40%" :before-close="editUserClose">
+    <div class="dialogEditDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="登录名称">
           <el-input v-model="editData.loginName" />
@@ -40,22 +35,10 @@
             <el-option label="正常" value="2" />
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="角色">
-          <el-checkbox-group v-model="editData.active">
-            <el-checkbox label="管理员" value="1" />
-            <el-checkbox label="普通角色" value="2" />
-          </el-checkbox-group>
-        </el-form-item> -->
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button
-        type="primary"
-        @click="editUserClose(), saveEditUser(editData)"
-      >
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="editUserClose(), saveEditUser(editData)" class="editUserButton">提交</el-button>
+    <el-button type="info" @click="editUserClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -119,13 +102,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.dialogEditDiv {
+  height: 375px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.dialogEditDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.editUserButton {
+  margin: 0 0 0 180px;
 }
 </style>

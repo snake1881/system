@@ -1,11 +1,6 @@
 <template>
-  <el-dialog
-    title="新增应用字典"
-    :visible.sync="addDicVisible"
-    width="60%"
-    :before-close="addDicClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="新增应用字典" :visible.sync="addDicVisible" width="50%" :before-close="addDicClose">
+    <div class="addDicDiv">
       <el-form :model="addData" label-width="80px">
         <el-form-item label="编码名称">
           <el-input v-model="addData.codeTName" />
@@ -23,27 +18,20 @@
         >
           添加字典值
         </el-button>
-        <div style="margin-left:0px">
-          <el-form-item
-            v-for="(item, index) in addData.sysTCodeInforList"
-            :key="index"
-          >
+        <div class="addDicDescription">
+          <el-form-item v-for="(item, index) in addData.sysTCodeInforList" :key="index">
             <el-row>
-              <el-col :span="8">
+              <el-col :span="11">
                 <el-form-item label="名称">
                   <el-input v-model="item.codeName" />
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="10">
                 <el-form-item label="值">
                   <el-input v-model="item.codeValue" />
                 </el-form-item>
               </el-col>
-              <el-button
-                type="text"
-                style="margin-left:20px"
-                @click="dlete(item)"
-              >
+              <el-button  type="text" style="margin-left:20px"  @click="dlete(item)">
                 删除
               </el-button>
             </el-row>
@@ -51,11 +39,8 @@
         </div>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddDic(addData), addDicClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveAddDic(addData), addDicClose()" class="addDicButton">提交</el-button>
+    <el-button type="info" @click="addDicClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -119,12 +104,20 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.addDicDiv {
+  height: 380px;
   overflow: auto;
 }
+.addDicButton {
+  margin: 0 0 0 220px;
+}
+.addDicDescription {
+ margin-left:0px;
+ height:140px;
+ overflow-y:scroll 
+}
 </style>
-<style lang="less">
+<style>
 element.style {
   margin: 0;
 }

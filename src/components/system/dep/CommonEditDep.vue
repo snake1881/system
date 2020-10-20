@@ -1,11 +1,6 @@
 <template>
-  <el-dialog
-    title="编辑部门"
-    :visible.sync="editDepVisible"
-    width="60%"
-    :before-close="editdepClose"
-  >
-    <div class="dialogDiv">
+  <el-dialog title="编辑部门" :visible.sync="editDepVisible" width="40%" :before-close="editdepClose">
+    <div class="editDepDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="部门名称">
           <el-input v-model="editData.departmentName" />
@@ -24,11 +19,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveEditDep(), editdepClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveEditDep(), editdepClose()" class="editDepButton">提交</el-button>
+    <el-button type="info" @click="editdepClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -71,13 +63,15 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.editDepDiv {
+  height: 260px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.editDepDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.editDepButton {
+  margin: 0 0 0 180px;
 }
 </style>

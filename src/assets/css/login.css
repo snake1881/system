@@ -4,21 +4,39 @@
     background-image: url("../images/login.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    display: flex;
+    flex-direction: row;
   }
-  .login-title{
-    position: fixed;
-    right: 180px;
-    top: 140px;
+  /* 顶部标志及标题 */
+  .login-top{
+    display: flex;
+    flex-direction: row;
+    width: 40%;
+    height: 20%;
+    margin: 0 5%;
+  }
+  .login-top-image{
+    height: 40%;
+    width: 20%;
+    margin: 5% 0;
+  }
+  .login-top-title{
     color: white;
+    margin: 8% 0 0 0;
+    font-size: 30px;
+  }
+  .login-form {
+    width: 60%;
+    height: 100%;
+
   }
   .loginContainer {
-    position: fixed;
     border-radius: 8px;
-    width: 230px;
-    height: 310px;
-    margin: 220px 0px 0 1100px;
-    padding: 10px 10px;
-    background: rgb(68, 79, 119);
+    width: 30%;
+    height: 40%;
+    margin: 26%  30% 0 35%;
+    padding: 5% 2%;
+    background: rgb(50, 59, 92);
   }
   .loginContainer-h3 {
     text-align: center;

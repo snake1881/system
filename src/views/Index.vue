@@ -5,8 +5,7 @@
         <div class="main_between_1_item">
           <span class="main_middle_1_item_span"> 油井情况 </span>
           <div class="main_between_1_item_well">
-            <!-- 图形 -->
-            <div id="well" class="main_between_1_item_well_line" />
+            <!-- 油井描述 -->
             <div class="main_between_1_item_desc">
               <span class="main_between_1_item_desc_span">总井数:<span style="color:#ED7C30">100</span></span>
               <span class="main_between_1_item_desc_span">开井数:<span style="color:#ED7C30">100</span></span>
@@ -14,6 +13,8 @@
               <span class="main_between_1_item_desc_span">当月累计产量:<span style="color:#ED7C30">100</span></span>
               <span class="main_between_1_item_desc_span">当年累计产量:<span style="color:#ED7C30">100</span></span>
             </div>
+             <!-- 图形 -->
+            <div id="well" class="main_between_1_item_well_line" />
           </div>
           
         </div>
@@ -137,8 +138,11 @@ export default {
           data: ['产液量', '开井情况'],
           textStyle: {
             color: '#ffffff',
-            fontSize: 12
+            fontSize: 10
           },
+        //  orient: 'vertical',  //垂直显示
+        //  y: 'center',    //延Y轴居中
+        //  x: 'left', //居右显示,
         },
         xAxis: {
           boundaryGap: false,
@@ -202,13 +206,13 @@ export default {
             {
                 name: '产液量',
                 type: 'line',
-                data: [20, 32, 40, 34, 40, 30, 63, 36, 23, 24, 34],
+                data: [60, 132, 90, 234, 140, 150, 63, 36, 83, 24, 74],
                 yAxisIndex: 0,
             },
             {
                 name: '开井情况',
                 type: 'line',
-                data: [70, 82, 91, 64, 80, 70, 90, 74, 81, 82],
+                data: [70, 82, 91, 94, 80, 70, 90, 74, 81, 82],
                 yAxisIndex: 1,
             },
         ]

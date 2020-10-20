@@ -1,10 +1,5 @@
 <template>
-  <el-dialog
-    title="应用字典编辑"
-    :visible.sync="editDicVisible"
-    width="60%"
-    :before-close="editDicClose"
-  >
+  <el-dialog title="应用字典编辑" :visible.sync="editDicVisible" width="50%" :before-close="editDicClose">
     <div class="dialogDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="编码名称">
@@ -13,34 +8,23 @@
         <el-form-item label="编码类型">
           <el-input v-model="editData.codeType" />
         </el-form-item>
-        <el-button
-          type="text"
-          class="el-icon-circle-plus-outline"
-          @click="addDic()"
-        >
+        <el-button type="text" class="el-icon-circle-plus-outline" @click="addDic()" >
           添加字典值
         </el-button>
-        <div style="margin-left:0px">
-          <el-form-item
-            v-for="(item, index) in editData.sysTCodeInforList"
-            :key="index"
-          >
+        <div class="editDicDescription">
+          <el-form-item v-for="(item, index) in editData.sysTCodeInforList" :key="index">
             <el-row>
-              <el-col :span="8">
+              <el-col :span="11">
                 <el-form-item label="名称">
                   <el-input v-model="item.codeName" />
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
+              <el-col :span="10">
                 <el-form-item label="值">
                   <el-input v-model="item.codeValue" />
                 </el-form-item>
               </el-col>
-              <el-button
-                type="text"
-                style="margin-left:20px"
-                @click="dlete(item)"
-              >
+              <el-button type="text" style="margin-left:20px" @click="dlete(item)">
                 删除
               </el-button>
             </el-row>
@@ -48,11 +32,8 @@
         </div>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveEditDic(), editDicClose()">
-        提交
-      </el-button>
-    </span>
+    <el-button type="primary" @click="saveEditDic(), editDicClose()" class="editDicButton">提交</el-button>
+    <el-button type="info" @click="editDicClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -105,8 +86,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.editDicDiv {
+  height: 380px;
   overflow: auto;
+}
+.editDicButton {
+  margin: 0 0 0 240px;
+}
+.editDicDescription {
+ margin-left:0px;
+ height:140px;
+ overflow-y:scroll 
 }
 </style>

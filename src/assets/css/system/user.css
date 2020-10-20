@@ -13,12 +13,12 @@
 }
 
 .user_right {
-    width: 84%;
+    width: 85%;
     height: 100%;
 }
 
 .user_right_form {
-    width: 98%;
+    width: 99%;
     height: 9%;
     padding-left: 1%;
     padding-top: 5px;
@@ -26,12 +26,12 @@
 }
 
 .user_right_table {
-    width: 99%;
+    width: 100%;
     height: 84%;
 }
 
 .user_right_page {
-    width: 99%;
+    width: 100%;
     height: 6%;
     background-color: white;
 }
