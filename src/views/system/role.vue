@@ -26,7 +26,7 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="roleData"
-      height="85%"
+      height="86%"
       border
       style="width:100%"
       :row-style="{height:'2px'}"

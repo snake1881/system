@@ -16,19 +16,19 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="postData"
-      height="85%"
+      height="86%"
       border
       style="width:100%;"
       :row-style="{height:'2px'}"
       :cell-style="{padding:'0px'}"
       :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
-      <el-table-column prop="positionId" label="岗位编号" width="210" />
-      <el-table-column prop="positionCode" label="岗位编码" width="220" />
-      <el-table-column prop="positionName" label="岗位名称" width="220" />
-      <el-table-column prop="sequence" label="显示顺序" width="180" />
+      <el-table-column prop="positionId" label="岗位编号" width="170" />
+      <el-table-column prop="positionCode" label="岗位编码" width="240" />
+      <el-table-column prop="positionName" label="岗位名称" width="240" />
+      <el-table-column prop="sequence" label="显示顺序" width="164" />
       <el-table-column prop="createTime" label="创建时间" width="280" />
-      <el-table-column label="操作" width="220">
+      <el-table-column label="操作" width="240">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editPost(scope.row)" class="iconfont icon-bianji" />
           <el-button type="text" size="small" @click="dletePost(scope.row)" class="iconfont icon-shanchu" />

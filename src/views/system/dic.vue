@@ -22,7 +22,7 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         :data="dicData"
-        height="85%"
+        height="86%"
         border
         style="width:100%"
         :row-style="{height:'2px'}"
@@ -31,7 +31,7 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="90" />
-        <el-table-column prop="codeTName" label="编码名称" width="320" />
+        <el-table-column prop="codeTName" label="编码名称" width="324" />
         <el-table-column prop="codeType" label="编码类型" width="320" />
         <el-table-column prop="createTime" label="创建时间" width="340" />
         <el-table-column label="操作" width="260">

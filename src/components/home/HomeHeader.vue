@@ -149,11 +149,24 @@ export default {
         }
       );
     },
-    // 退出功能
+    // 退出系统
     logout () {
-      // 清空token
-      window.sessionStorage.clear()
-      this.$router.push('/')
+       this.$confirm("确定退出系统", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+        // 清空token
+        window.sessionStorage.clear();
+        this.$router.push('/');
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
   }
 };

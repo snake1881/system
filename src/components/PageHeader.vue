@@ -35,7 +35,6 @@ export default {
   },
   methods: {
     isActive(path) {
-      console.log(this.$route.fullPath);
       return path === this.$route.fullPath;
     },
     // 关闭单个标签

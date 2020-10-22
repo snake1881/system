@@ -20,7 +20,7 @@
       element-loading-spinner="el-icon-loading"
       :data="logData"
       @selection-change="handleSelectionChange"
-      height="85%"
+      height="86%"
       border
       style="width:100%;"
       :row-style="{height:'2px'}"

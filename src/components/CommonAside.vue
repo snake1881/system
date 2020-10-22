@@ -7,6 +7,7 @@
     :unique-opened="true"
     router
     :collapse="isCollapse"
+    class="el-menu-vertical-demo"
   >
     <!-- 侧边栏伸缩 -->
     <div class="toggle-button" @click="toggleCollapse">|||</div>
