@@ -1,5 +1,5 @@
 <template>
-  <div class="role">
+  <div class="abnormalGtmj">
     <div align="center">
       <!-- 条件查询 -->
       <el-form class="role_form" v-model="termData" :inline="true">
