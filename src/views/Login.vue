@@ -65,13 +65,17 @@ export default {
   created() {
     var _self = this;
     document.onkeydown = function(e) {
-      var key;
-      if (window.event == undefined) {
-        key = e.keyCode;
-      } else {
-        key = window.event.keyCode;
-      }
-      if (key == 13 || key == 100) {
+      // var key;
+      // if (window.event == undefined) {
+      //   key = e.keyCode;
+      // } else {
+      //   key = window.event.keyCode;
+      // }
+      // if (key == 100) {
+      //   _self.submitLogin();
+      // }
+      e = window.event || e;
+      if(e.code=='Enter'||e.code=='enter') {
         _self.submitLogin();
       }
     };
@@ -87,9 +91,13 @@ export default {
         if (valid) {
           this.postKeyValueRequest("/login", this.sysUserLogin).then(resp => {
             if (resp) {
-              this.$store.commit("INIT_CURRENTHR", resp.data);
-              window.sessionStorage.setItem("user", JSON.stringify(resp.data));
-              this.$router.replace("/Home");
+              if(resp.code === 200){
+                this.$store.commit("INIT_CURRENTHR", resp.data);
+                window.sessionStorage.setItem("user", JSON.stringify(resp.data));
+                this.$router.replace("/Home");
+              }else{
+                this.$message('密码错误，请重新输入');
+              }
             }
           });
         } else {

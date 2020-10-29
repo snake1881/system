@@ -8,6 +8,9 @@
         <el-form-item label="权限字符">
           <el-input v-model="roleData.roleKey" />
         </el-form-item>
+        <el-form-item label="角色排序">
+          <el-input v-model="roleData.sequence" />
+        </el-form-item>
         <el-form-item label="角色状态">
           <el-select v-model="roleData.status" placeholder="请选择">
             <el-option label="正常" value="1"></el-option>
@@ -49,6 +52,7 @@ export default {
         roleName: "",
         roleKey: "",
         status: "",
+        sequence:"",
         menu: [],
         menuIds: []
       },

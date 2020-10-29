@@ -1,5 +1,358 @@
-.unattended{
-    height: 100%;
+.unattended {
     width: 100%;
-    background-color: white;
+    height:100%;
+    background-color: #f2f6fc;
 }
+/* 采油队 */
+.unattended_wellTeam {
+    width: 45%;
+    height: 45%;
+    margin: 1% 2% 0 2%;
+    border: 1px solid #dfe0e2;
+    display: flex;
+    flex-direction: row;
+}
+.unattended_wellTeam_left {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.unattended_wellTeam_left_span {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 2% 30%;
+    
+}
+.unattended_wellTeam_left_img {
+    width: 70%;
+    height: 75%;
+    margin: 0 10%;
+}
+/* 采油站 */
+.unattended_station {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+.unattended-station_top {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended-station_top_title {
+    width: 60%;
+    height: 100%;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+.unattended-station_top_table {
+    width: 32%;
+    height: 90%;
+    margin: 1% 0;
+    border-collapse: collapse;
+    color: #8dbeb0;
+}
+.unattended-station_container {
+    width: 100%;
+    height: 75%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.unattended-station_container_wellStation {
+    width: 15%;
+    height: 45%;
+    margin: 1% 2% 0 2%;
+    border: 1px solid #dfe0e2;
+}
+.unattended-station_container_wellStation_title{
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+}
+.unattended-station_container_wellStation_img {
+    width: 60%;
+    height: 55%;
+    margin: 0 15%;
+}
+.unattended-station_container_wellStation_dec {
+    font-size: 13px;
+    color: #666;
+    margin: 0 2%;
+}
+/* 井场信息 */
+.unattended-wellsite_bac {
+    height: 35%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended-wellsite_bac_condition {
+    width: 50%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+    display: flex;
+    flex-direction: row;
+}
+.unattended-wellsite_bac_condition_left {
+    width: 30%;
+    height: 100%;
+    font-size: 20px;
+    color: #666;
+    font-weight: 700;
+    padding: 0 2%;
+}
+.unattended-wellsite_bac_condition_right {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended-wellsite_bac_condition_right_title {
+    width: 25%;
+    height: 100%;
+    font-size: 18px;
+    color: #666;
+    margin: 17% 2%;
+}
+.unattended-wellsite_bac_condition_right_detils {
+    width: 75%;
+    height: 100%;
+    
+}
+/* 监控预警 */
+.unattended-wellsite_bac_monitor {
+    width: 50%;
+    height: 100%;
+    border-radius: 1%;
+    border: 1px solid #dfe0e2;
+    display: flex;
+    flex-direction: row;
+}
+.unattended-wellsite_bac_monitor_left {
+    width: 75%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended-wellsite_bac_monitor_left_title {
+    width: 20%;
+    height: 100%;
+    font-size: 18px;
+    color: #666;
+    margin: 16% 2%;    
+}
+.unattended-wellsite_bac_monitor_left_details {
+    width: 55%;
+    height: 100%;
+}
+.unattended-wellsite_bac_monitor_left_video {
+    width: 35%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.unattended-wellsite_bac_monitor_left_video_container {
+    width: 40%;
+    height:20%;
+    border: 1px solid #dfe0e2;
+    margin: 2% 2%;
+    border-radius: 5%;
+}
+.unattended-wellsite_bac_monitor_right {
+    width: 20%;
+    height: 100%;
+    margin: 0 -1%;
+}
+.unattended-wellsite_well {
+    height: 65%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended-wellsite_well_oilWell {
+    width: 70%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+    display: flex;
+    flex-wrap: wrap;
+}
+.unattended-wellsite_well_oilWell_details {
+    width: 14%;
+    height: 45%;
+    border: 1px solid #dfe0e2;
+    margin: 1% 1% 0 1%;
+
+}
+.unattended-wellsite_well_oilWell_details_title {
+    font-size: 14px;
+   text-align: center;
+   font-weight: 700;
+}
+.unattended-wellsite_well_oilWell_details_img {
+    width:55%;
+    height:40%;
+    margin-left:10%
+}
+.unattended-wellsite_well_oilWell_details_dec {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    margin: 0 6%;
+    color: #666;
+}
+.unattended-wellsite_well_oilWell_details_bottom {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 2% 2%;
+}
+.unattended-wellsite_well_waterWell {
+    width: 30%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #dfe0e2;
+}
+.unattended-wellsite_well_waterWell_details {
+    width: 40%;
+    height: 45%;
+    border: 1px solid #dfe0e2;
+    margin: 2% 4%;
+
+}
+.unattended-wellsite_well_waterWell_details_title {
+    font-size: 14px;
+   text-align: center;
+   font-weight: 700;
+}
+.unattended-wellsite_well_waterWell_details_img {
+    width:55%;
+    height:42%;
+    margin-left:18%
+}
+.unattended-wellsite_well_waterWell_details_dec {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    margin: 0 12%;
+    color: #666;
+}
+.unattended-wellsite_well_waterWell_details_bottom {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 1% 5%;
+}
+/* 单井信息 */
+.unattended_singleWell {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+.unattended_singleWell_top {
+    height: 45%;
+    width: 100%;   
+    display: flex;
+    flex-direction: row;
+}
+/* 视频信息 */
+.unattended_singleWell_top_information {
+    width: 35%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+}
+.unattended_singleWell_top_information_span {
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 2%;
+}
+.unattended_singleWell_top_information_container {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended_singleWell_top_information_container_video {
+    width: 70%;
+    border: 2px solid #535353;
+    margin: 2% 1%;
+}
+.unattended_singleWell_top_information_container_dec {
+    font-size: 14px;
+    color:#666;
+    margin: 4% 0;
+}
+/* 措施作业 */
+.unattended_singleWell_top_data{
+    width: 25%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+}
+.unattended_singleWell_top_data_measure{
+    font-size: 16px;
+    color: #666;
+    margin: 2% 18%;
+}
+/* 功图曲线 */
+.unattended_singleWell_top_line {
+    width: 40%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+}
+.unattended_singleWell_container {
+    height: 55%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended_singleWell_container_proLine {
+    width: 100%;
+    height: 92%;
+}
+.proLine {
+    width: 100%;
+    height: 30%;
+    margin: 1% 2%;
+}
+.zhLine {
+    width: 100%;
+    height: 100%;
+    margin: 2% 0;  
+}
+.unattended_singleWell_container_proDaily{
+    width: 100%;
+    height: 70%;
+    color: #666;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #dfe0e2;
+}
+.unattended_singleWell_container_proDaily_title {
+    width: 20%;
+    height: 100%;
+    font-size: 16px;
+    margin: 25% 5%;
+}
+.unattended_singleWell_container_proDaily_dec {
+    width: 70%;
+    height: 100%;
+    font-size: 14px;
+}
+.unattended_singleWell_container_proMonth{
+    width: 100%;
+    height: 30%;
+    color: #666;
+    display: flex;
+    flex-direction: row;
+}
+.unattended_singleWell_container_proMonth_title {
+    width: 20%;
+    height: 100%;
+    font-size: 16px;
+    margin: 8% 5%;
+}
+.unattended_singleWell_container_proMonth_dec {
+    font-size: 14px;
+}
+
