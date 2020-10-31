@@ -62,7 +62,7 @@ export const initMenu = (router, store) => {
                         path: "/unattended/unattended",
                         name: "无人值守",
                         component: () =>
-                            import ("@/views/unattended/unattended.vue"),
+                            import ("@/views/unattended/proTeam.vue"),
                         hidden: true
                     };
                     route.children.push(child3);

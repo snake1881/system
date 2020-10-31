@@ -1,5 +1,109 @@
 .singleWell {
     height: 100%;
+    width: 99%;
+}
+.unattended_singleWell_top {
+    height: 45%;
+    width: 100%;   
+    display: flex;
+    flex-direction: row;
+}
+/* 视频信息 */
+.unattended_singleWell_top_information {
+    width: 35%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+}
+.unattended_singleWell_top_information_span {
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 2%;
+}
+.unattended_singleWell_top_information_container {
     width: 100%;
-    background-color: white;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended_singleWell_top_information_container_video {
+    width: 70%;
+    border: 2px solid #535353;
+    margin: 2% 1%;
+}
+.unattended_singleWell_top_information_container_dec {
+    font-size: 14px;
+    color:#666;
+    margin: 4% 0;
+}
+/* 措施作业 */
+.unattended_singleWell_top_data{
+    width: 25%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+}
+.unattended_singleWell_top_data_measure{
+    font-size: 16px;
+    color: #666;
+    margin: 2% 18%;
+}
+/* 功图曲线 */
+.unattended_singleWell_top_line {
+    width: 40%;
+    height: 100%;
+    border: 1px solid #dfe0e2;
+}
+.unattended_singleWell_container {
+    height: 55%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.unattended_singleWell_container_proLine {
+    width: 100%;
+    height: 92%;
+}
+.proLine {
+    width: 100%;
+    height: 30%;
+    margin: 1% 1%;
+}
+.zhLine {
+    width: 100%;
+    height: 100%;
+    margin: 2% 0;  
+}
+.unattended_singleWell_container_proDaily{
+    width: 100%;
+    height: 70%;
+    color: #666;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #dfe0e2;
+}
+.unattended_singleWell_container_proDaily_title {
+    width: 20%;
+    height: 100%;
+    font-size: 16px;
+    margin: 25% 5%;
+}
+.unattended_singleWell_container_proDaily_dec {
+    width: 70%;
+    height: 100%;
+    font-size: 14px;
+}
+.unattended_singleWell_container_proMonth{
+    width: 100%;
+    height: 30%;
+    color: #666;
+    display: flex;
+    flex-direction: row;
+}
+.unattended_singleWell_container_proMonth_title {
+    width: 20%;
+    height: 100%;
+    font-size: 16px;
+    margin: 8% 5%;
+}
+.unattended_singleWell_container_proMonth_dec {
+    font-size: 14px;
 }
