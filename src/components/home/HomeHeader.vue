@@ -12,7 +12,7 @@
         default-active="/Index"
         background-color="#20374e"
         text-color="#fff"
-        active-text-color="#ffd04b"
+        active-text-color="#fff"
         v-if="this.$store.state.routes[0]"
       >
         <el-menu-item
@@ -119,6 +119,9 @@ export default {
       username: this.$store.state.currentUser.username
     };
   },
+  created(){
+    console.log(this.$store.state.routes[0]);
+  },
   methods: {
     // 跳转到所有通知页面
     gotoReceiveNotice(){
@@ -200,5 +203,8 @@ export default {
 }
 .container_right .el-button {
   font-size: 20px;
+}
+.el-menu-item.is-active {
+  background-color: rgb(68, 73, 87) !important;;
 }
 </style>

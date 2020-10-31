@@ -3,32 +3,7 @@
     height:100%;
     background-color: #f2f6fc;
 }
-/* 采油队 */
-.unattended_wellTeam {
-    width: 45%;
-    height: 45%;
-    margin: 1% 2% 0 2%;
-    border: 1px solid #dfe0e2;
-    display: flex;
-    flex-direction: row;
-}
-.unattended_wellTeam_left {
-    width: 45%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-.unattended_wellTeam_left_span {
-    font-size: 16px;
-    font-weight: 700;
-    margin: 2% 30%;
-    
-}
-.unattended_wellTeam_left_img {
-    width: 70%;
-    height: 75%;
-    margin: 0 10%;
-}
+
 /* 采油站 */
 .unattended_station {
     width: 100%;

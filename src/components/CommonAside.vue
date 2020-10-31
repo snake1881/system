@@ -10,7 +10,9 @@
     class="el-menu-vertical-demo"
   >
     <!-- 侧边栏伸缩 -->
-    <div class="toggle-button" @click="toggleCollapse">|||</div>
+    <div class="toggle-button" @click="toggleCollapse">
+      <el-button class="toggle-button-details" >|||</el-button>
+    </div>
     <div v-for="(item, index) in this.menus.children" :key="index">
       <div v-if="item.children">
         <el-menu-item
@@ -71,15 +73,18 @@ export default {
   text-indent: 25px;
 }
 .toggle-button {
-    background-color: #303752;
+    background-color: rgb(68, 73, 87);
     font-size: 20px;
     height: 20px;
     padding: 8px 0;
     line-height: 24px;
     color: #fff;
-    text-align: center;
+    // text-align: center;
     letter-spacing: 0.2em;
     cursor: pointer;
+}
+.toggle-button-details {
+  margin: 0 10%;
 }
 </style>
 <style>
