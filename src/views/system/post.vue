@@ -115,7 +115,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.getRequest("/position/deleteById?ids=" + val.positionId).then(
+          this.deleteRequest("/position/deleteById?ids=" + val.positionId).then(
             resp => {
               if (resp) {
                 this.$message({

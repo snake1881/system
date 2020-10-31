@@ -11,6 +11,9 @@
         <el-form-item label="岗位名称">
           <el-input v-model="postData.positionName" />
         </el-form-item>
+         <el-form-item label="排列顺序">
+          <el-input v-model="postData.sequence" />
+        </el-form-item>
       </el-form>
     </div>
     <el-button type="primary" @click="saveAddPost(), addPostClose()" class="addPostButton">提交</el-button>
@@ -30,7 +33,8 @@ export default {
       postData: {
         positionId: "",
         positionCode: "",
-        positionName: ""
+        positionName: "",
+        sequence:""
       }
     };
   },
@@ -59,7 +63,7 @@ export default {
 
 <style lang="less" scoped>
 .addPostDiv {
-  height: 200px;
+  height: 260px;
   overflow: auto;
 }
 .addPostDiv .el-input {

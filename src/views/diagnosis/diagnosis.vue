@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       // 侧边栏显示
-      router6: 3
+      router6: 1
     };
   },
   methods: {}

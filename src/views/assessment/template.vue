@@ -225,7 +225,7 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteRequest("/system/codeType/codeTypes", idArray).then(
+          this.deleteRequest("/examine/templateInfor/deleteBatch", idArray).then(
             resp => {
               if (resp) {
                 this.$message({

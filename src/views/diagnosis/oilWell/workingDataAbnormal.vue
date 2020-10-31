@@ -24,6 +24,7 @@
           type="date"
           placeholder="选择日期"
           format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
         >
         </el-date-picker>
       </el-form-item>
@@ -151,7 +152,7 @@ export default {
       };
       this.getRequest(
         "/oilWell/abnormalGt/abnormalGtAllPage?checkDate=" +
-          this.getTime(this.GtForm.checkDate) +
+          this.GtForm.checkDate+
           "&current=" +
           this.currentPage +
           "&orgName=" +
@@ -222,18 +223,18 @@ export default {
     previewAbnormalGtClose() {
       this.previewAbnormalGtVisible = false;
     },
-    //时间格式化
-    getTime(val) {
-      if(val!==null){
-      var year = val.getFullYear(); //年
-      var month = val.getMonth() + 1; //月
-      var date = val.getDate(); //日
-      month = month < 10 ? "0" + month : month;
-      date = date < 10 ? "0" + date : date;
-      var str = year + "-" + month + "-" + date;
-      return str;
-      }
-    }
+    // //时间格式化
+    // getTime(val) {
+    //   if(val!==null){
+    //   var year = val.getFullYear(); //年
+    //   var month = val.getMonth() + 1; //月
+    //   var date = val.getDate(); //日
+    //   month = month < 10 ? "0" + month : month;
+    //   date = date < 10 ? "0" + date : date;
+    //   var str = year + "-" + month + "-" + date;
+    //   return str;
+    //   }
+    // }
   }
 };
 </script>

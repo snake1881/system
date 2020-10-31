@@ -1,5 +1,10 @@
 <template>
-  <el-dialog title="应用字典编辑" :visible.sync="editDicVisible" width="50%" :before-close="editDicClose">
+  <el-dialog
+    title="应用字典编辑"
+    :visible.sync="editDicVisible"
+    width="50%"
+    :before-close="editDicClose"
+  >
     <div class="dialogDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="编码名称">
@@ -8,11 +13,18 @@
         <el-form-item label="编码类型">
           <el-input v-model="editData.codeType" />
         </el-form-item>
-        <el-button type="text" class="el-icon-circle-plus-outline" @click="addDic()" >
+        <el-button
+          type="text"
+          class="el-icon-circle-plus-outline"
+          @click="addDic()"
+        >
           添加字典值
         </el-button>
         <div class="editDicDescription">
-          <el-form-item v-for="(item, index) in editData.sysTCodeInforList" :key="index">
+          <el-form-item
+            v-for="(item, index) in editData.sysTCodeInforList"
+            :key="index"
+          >
             <el-row>
               <el-col :span="11">
                 <el-form-item label="名称">
@@ -24,7 +36,11 @@
                   <el-input v-model="item.codeValue" />
                 </el-form-item>
               </el-col>
-              <el-button type="text" style="margin-left:20px" @click="dlete(item)">
+              <el-button
+                type="text"
+                style="margin-left:20px"
+                @click="dlete(item)"
+              >
                 删除
               </el-button>
             </el-row>
@@ -32,7 +48,12 @@
         </div>
       </el-form>
     </div>
-    <el-button type="primary" @click="saveEditDic(), editDicClose()" class="editDicButton">提交</el-button>
+    <el-button
+      type="primary"
+      @click="saveEditDic(), editDicClose()"
+      class="editDicButton"
+      >提交</el-button
+    >
     <el-button type="info" @click="editDicClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -56,6 +77,7 @@ export default {
     },
     // 保存修改后的信息
     saveEditDic() {
+      console.log(this.addDic);
       this.putRequest("/system/codeType/codeType", this.editData).then(resp => {
         if (resp) {
           this.$message({
@@ -69,6 +91,9 @@ export default {
     },
     // 添加
     addDic() {
+      if (this.editData.sysTCodeInforList === null) {
+        this.editData.sysTCodeInforList = [];
+      }
       this.editData.sysTCodeInforList.push({
         codeName: " ",
         codeValue: " "
@@ -94,8 +119,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .editDicDescription {
- margin-left:0px;
- height:140px;
- overflow-y:scroll 
+  margin-left: 0px;
+  height: 140px;
+  overflow-y: scroll;
 }
 </style>
