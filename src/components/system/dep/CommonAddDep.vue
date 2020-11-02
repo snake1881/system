@@ -10,6 +10,9 @@
         <el-form-item label="部门名称">
           <el-input v-model="depData.departmentName" />
         </el-form-item>
+        <el-form-item label="排列顺序">
+          <el-input v-model="depData.sequence" />
+        </el-form-item>
         <el-form-item label="联系电话">
           <el-input v-model="depData.phone" />
         </el-form-item>
@@ -40,10 +43,11 @@ export default {
     return {
       depData: {
         departmentName: "",
-        parentDepartmentId: this.addData.departmentId,
+        parentDepartmentId: "",
         departmentType: "",
         phone: "",
-        departmentId: ""
+        departmentId: "",
+        sequence:""
       }
     };
   },
@@ -54,6 +58,7 @@ export default {
     },
     // 部门
     saveAddDep() {
+      this.depData.parentDepartmentId=this.addData.departmentId;
       this.postRequest(
         "/system/department/insertDepartment",
         this.depData

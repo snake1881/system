@@ -3,15 +3,30 @@
     <!-- 条件查询 -->
     <el-form class="role_form" :model="logForm" :rules="rules" :inline="true">
       <el-form-item>
-        <el-input v-model="logForm.moduleName" placeholder="模块名称" size="medium" />
+        <el-input v-model="logForm.moduleName" clearable placeholder="模块名称" size="medium" />
       </el-form-item>
-      <el-form-item>
-        <el-date-picker placeholder="开始时间" v-model="logForm.startTime" size="medium" />
-      </el-form-item>
-      <el-form-item>
-        <el-date-picker placeholder="结束时间" v-model="logForm.endTime" size="medium" />
-      </el-form-item>
+       <el-form-item label="日期" size="medium">
+          <el-date-picker
+            v-model="chooseDate"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
       <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
+      <el-button
+          type="primary"
+          icon="el-icon-download"
+          size="small"
+          @click="fileOpen()"
+          >导出</el-button
+        >
+      </el-form-item>
     </el-form>
     <!-- 表格数据 -->
     <el-table
@@ -36,11 +51,7 @@
       <el-table-column prop="requestIp" label="主机" width="140" />
       <el-table-column prop="status" label="操作状态" width="130" />
       <el-table-column prop="operationTime" label="操作时间" width="190" />
-      <el-table-column label="操作" width="100">
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="dleteLog(scope.row)" class="iconfont icon-shanchu" />
-        </template>
-      </el-table-column>
+      
     </el-table>
     <!-- 分页 -->
     <div class="role_page">
@@ -64,8 +75,10 @@ export default {
       logForm: {
         moduleName: "",
         startTime: "",
-        endTime: ""
+        endTime: "",
+        
       },
+      chooseDate:"",
       // 表格数据
       logData: [],
       // 选中数据
@@ -89,11 +102,13 @@ export default {
   methods: {
     // 根据输入信息查询
     searchLog() {
+      this.logForm.startTime=this.chooseDate[0];
+      this.logForm.endTime=this.chooseDate[1];
+      console.log(this.logForm);
       this.postRequest(
         "/operationLog/findListsByPage?page=" +
           this.currentPage +
-          "&size=" +
-          this.pageSize,
+          "&size=" +this.pageSize,
         this.logForm
       ).then(resp => {
         if (resp) {
@@ -121,33 +136,33 @@ export default {
         }
       });
     },
-    // 删除
-    dleteLog(val) {
-      this.$confirm("确定删除该条数据", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.getRequest(
-            "/operationLog/deleteById?ids=" + val.operationId
-          ).then(resp => {
-            if (resp) {
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              });
-            }
-            this.logInit();
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
+    // // 删除
+    // dleteLog(val) {
+    //   this.$confirm("确定删除该条数据", "警告", {
+    //     confirmButtonText: "确定",
+    //     cancelButtonText: "取消",
+    //     type: "warning"
+    //   })
+    //     .then(() => {
+    //       this.deleteRequest(
+    //         "/operationLog/deleteById?ids=" + val.operationId
+    //       ).then(resp => {
+    //         if (resp) {
+    //           this.$message({
+    //             type: "success",
+    //             message: "删除成功!"
+    //           });
+    //         }
+    //         this.logInit();
+    //       });
+    //     })
+    //     .catch(() => {
+    //       this.$message({
+    //         type: "info",
+    //         message: "已取消删除"
+    //       });
+    //     });
+    // },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
@@ -161,7 +176,10 @@ export default {
     // 表格数据选中
     handleSelectionChange(val) {
       this.selectData = val;
-    }
+    },
+    fileOpen() {
+      window.open("http://localhost:8692/demo/operationLog/excelexport");
+    },
   }
 };
 </script>

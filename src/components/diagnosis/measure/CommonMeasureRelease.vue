@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     // 对话框父子组件传值
-    measuresReleaseVisible() {
+    measuresReleaseClose() {
       this.$emit("measuresReleaseRowClose");
     },
     // 保存修改后的信息
@@ -97,7 +97,8 @@ export default {
           }
         }
       );
-    }
+    },
+    
   }
 };
 </script>

@@ -23,7 +23,7 @@
           >查询</el-button
         >
       </el-form>
-      <el-divider content-position="center"  ><h2>措施发布</h2></el-divider>
+      <el-divider content-position="center"><h2>措施发布</h2></el-divider>
       <!-- 表格数据 -->
       <el-table
         v-loading="loading"
@@ -46,7 +46,6 @@
         <el-table-column
           prop="prodDate"
           align="center"
-          :formatter="formatDate"
           label="日期"
           width="150"
         />
@@ -83,14 +82,14 @@
         <el-table-column align="center" label="操作" width="180">
           <template slot-scope="scope">
             <el-button
-              v-if="scope.row.designee===null"
+              v-if="scope.row.designee === null"
               type="text"
               size="small"
               @click="measuresRelease(scope.row)"
               >发布</el-button
             >
             <el-button
-              v-if="scope.row.designee!==null"
+              v-if="scope.row.designee !== null"
               type="text"
               size="small"
               @click="planDownload()"
@@ -113,16 +112,16 @@
         />
       </div>
       <!-- 措施发布 -->
-    <common-measures-release
-      :measuresReleaseVisible="measuresReleaseVisible"
-      :releaseData="measuresReleaseData"
-      @measuresReleaseRowClose="measuresReleaseClose"
-    />
+      <common-measures-release
+        :measuresReleaseVisible="measuresReleaseVisible"
+        :releaseData="measuresReleaseData"
+        @measuresReleaseRowClose="measuresReleaseClose"
+      />
       <!-- 措施发布 -->
-    <common-plan-download
-      :planDownloadVisible="planDownloadVisible"
-      @planDownloadRowClose="planDownloadClose"
-    />
+      <common-plan-download
+        :planDownloadVisible="planDownloadVisible"
+        @planDownloadRowClose="planDownloadClose"
+      />
     </div>
   </div>
 </template>
@@ -130,7 +129,7 @@
 import CommonPlanDownload from "../../../components/diagnosis/measure/CommonPlanDownload";
 import CommonMeasuresRelease from "../../../components/diagnosis/measure/CommonMeasureRelease";
 export default {
-   components: {
+  components: {
     CommonMeasuresRelease,
     CommonPlanDownload
   },
@@ -148,7 +147,7 @@ export default {
       measuresReleaseVisible: false,
       measuresReleaseData: {},
       //
-      planDownloadVisible:false,
+      planDownloadVisible: false,
       // 表格加载动画
       loading: true
     };
@@ -228,7 +227,7 @@ export default {
     //设置序号并设置时间显示格式
     getIndex() {
       this.MeasuresData.forEach((item, index) => {
-        item.index = index + 1 + (this.currentPage - 1) * this.pageSize; 
+        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         item.prodDate = item.prodDate.slice(0, 10);
         // if (item.startDate !== null) {
         //   item.startDate = item.startDate.slice(0, 10);

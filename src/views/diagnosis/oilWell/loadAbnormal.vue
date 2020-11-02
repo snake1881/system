@@ -1,7 +1,7 @@
 <template>
   <div class="abnormalLoad">
     <div align="center">
-    <!-- 条件查询 -->
+      <!-- 条件查询 -->
       <el-form class="role_form" v-model="termData" :inline="true">
         <!-- 下拉框查询 -->
         <el-form-item label="采油站">
@@ -92,7 +92,7 @@
       </el-table-column>
     </el-table>
 
-     <!-- 分页 -->
+    <!-- 分页 -->
     <div class="Zh_page" align="center">
       <el-pagination
         :current-page.sync="currentPage"
@@ -116,7 +116,7 @@
 <script>
 import CommonPreviewZh from "../../../components/diagnosis/oilwell/abnormalZh/CommonPreviewZh";
 export default {
-   components: {
+  components: {
     CommonPreviewZh
   },
   data() {
@@ -140,28 +140,29 @@ export default {
       previewZhData: {}
     };
   },
-   created() {
+  created() {
     this.ZhInit();
     this.orgNameInit();
   },
   methods: {
     // 根据输入信息查询
     searchZh() {
-      if(this.pageSize===undefined){
-        this.pageSize=10;
-      };
-      if(this.currentPage===undefined){
-        this.currentPage=10;
-      };
+      // if(this.pageSize===undefined){
+      //   this.pageSize=10;
+      // };
+      // if(this.currentPage===undefined){
+      //   this.currentPage=1;
+      // };
+      let a = this.pageSize;
       this.getRequest(
-        "/oilWell/abnormalZh/abnormalZhPage?checkDate="+
-          this.termData.checkDate +
+        "/oilWell/abnormalZh/abnormalZhPage?checkDate=" +
+          this.termData.checkDate+
           "&current=" +
           this.currentPage +
           "&orgName=" +
           this.termData.orgName +
-          "&pageSize="+
-          this.pageSize 
+          "&pageSize=" +
+          this.pageSize
       ).then(resp => {
         if (resp) {
           this.ZhData = resp.data.records;
@@ -188,7 +189,9 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          this.getIndex();
+          if (this.ZhData != null) {
+            this.getIndex();
+          }
         }
       });
     },
@@ -225,12 +228,14 @@ export default {
     },
     //设置序号
     getIndex() {
-      this.ZhData.forEach((item, index) => {
-        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
-        return item;
-      });
+      if (this.ZhData !== null) {
+        this.ZhData.forEach((item, index) => {
+          item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
+          return item;
+        });
+      }
     }
-  },
+  }
 };
 </script>
 <style lang="less" scoped></style>

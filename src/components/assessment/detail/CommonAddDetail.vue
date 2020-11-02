@@ -7,6 +7,16 @@
   >
     <div class="dialogDiv">
       <el-form :model="addData" label-width="80px">
+        <el-form-item label="考核指标">
+          <el-select v-model="addData.indexId">
+            <el-option
+              v-for="(item, index) in this.Index"
+              :key="index"
+              :label="item.indexName"
+              :value="item.indexId"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="考核内容">
           <el-input v-model="addData.examineContent" />
         </el-form-item>
@@ -54,14 +64,28 @@ export default {
         examineStandard: "",
         score: "",
         sequence: "",
-        active: ""
-      }
+        active: "",
+        indexId:"",
+      },
+      // 考核指标
+      Index: []
     };
+  },
+  created() {
+    this.IndexInit();
   },
   methods: {
     // 对话框父子组件传值
     addDetailClose() {
       this.$emit("addClose");
+    },
+    // 考核指标初始化
+    IndexInit() {
+      this.getRequest("/examine/IndexInfo/queryAll").then(resp => {
+        if (resp) {
+          this.Index = resp.data;
+        }
+      });
     },
     // 保存
     saveAddDetail() {

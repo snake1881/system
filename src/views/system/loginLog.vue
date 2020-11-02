@@ -3,15 +3,32 @@
     <!-- 条件查询 -->
     <el-form class="role_form" :model="logingLogForm" :rules="rules" :inline="true">
       <el-form-item>
-        <el-input v-model="logingLogForm.moduleName" placeholder="模块名称" size="medium" />
+        <el-input v-model="logingLogForm.moduleName" clearable placeholder="模块名称" size="small" />
       </el-form-item>
+      <el-form-item label="日期" size="small">
+          <el-date-picker
+            v-model="chooseDate"
+            type="daterange"
+            range-separator="至"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
+        </el-form-item>
       <el-form-item>
-        <el-date-picker placeholder="开始时间" v-model="logingLogForm.startTime" size="medium" />
+      <el-button
+          type="primary"
+          icon="el-icon-download"
+          size="small"
+          @click="fileOpen()"
+          >导出</el-button
+        >
       </el-form-item>
-      <el-form-item>
-        <el-date-picker placeholder="结束时间" v-model="logingLogForm.endTime" size="medium" />
-      </el-form-item>
-      <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
     </el-form>
     <!-- 表格数据 -->
     <el-table
@@ -37,11 +54,7 @@
       <el-table-column prop="operationType" label="操作类型" width="100" />
       <el-table-column prop="operationMsg" label="操作信息" width="100" />
       <el-table-column prop="operationTime" label="登陆时间" width="240" />
-      <el-table-column label="操作" width="80">
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="dleteLoginLog(scope.row)" class="iconfont icon-shanchu" />
-        </template>
-      </el-table-column>
+      
     </el-table>
     <!-- 分页 -->
     <div class="role_page">
@@ -71,6 +84,7 @@ export default {
       logingLogData: [],
       // 多选数据
       selectData: [],
+      chooseDate:"",
       // 分页数据
       currentPage: 1,
       pageSize: 10,
@@ -90,6 +104,9 @@ export default {
   methods: {
     // 根据输入信息查询
     searchLog() {
+      this.logingLogForm.startTime=this.chooseDate[0];
+      this.logingLogForm.endTime=this.chooseDate[1];
+      console.log(this.logForm);
       this.postRequest(
         "/loginLog/findListsLoginByPage?page=" +
           this.currentPage +
@@ -132,37 +149,40 @@ export default {
       this.currentPage = val;
       this.loginLogInit();
     },
-    // 删除选中数据
-    dleteLoginLog(val) {
-      this.$confirm("确定删除该条数据", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.getRequest(
-            "/loginLog/deleteLoginById?ids=" + val.operationId
-          ).then(resp => {
-            if (resp) {
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              });
-            }
-            this.loginLogInit();
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
+    // // 删除选中数据
+    // dleteLoginLog(val) {
+    //   this.$confirm("确定删除该条数据", "警告", {
+    //     confirmButtonText: "确定",
+    //     cancelButtonText: "取消",
+    //     type: "warning"
+    //   })
+    //     .then(() => {
+    //       this.getRequest(
+    //         "/loginLog/deleteLoginById?ids=" + val.operationId
+    //       ).then(resp => {
+    //         if (resp) {
+    //           this.$message({
+    //             type: "success",
+    //             message: "删除成功!"
+    //           });
+    //         }
+    //         this.loginLogInit();
+    //       });
+    //     })
+    //     .catch(() => {
+    //       this.$message({
+    //         type: "info",
+    //         message: "已取消删除"
+    //       });
+    //     });
+    // },
     // 表格数据多选
     handleSelectionChange(val) {
       this.selectData = val;
-    }
+    },
+    fileOpen() {
+      window.open("http://localhost:8692/demo/loginLog/excelexport");
+    },
   }
 };
 </script>

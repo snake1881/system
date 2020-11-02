@@ -271,6 +271,7 @@ export default {
     },
     // 编辑字典
     editDic(val) {
+      console.log(val);
       this.editData = val;
       this.editDicVisible = true;
     },

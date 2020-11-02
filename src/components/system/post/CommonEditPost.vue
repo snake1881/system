@@ -11,6 +11,9 @@
         <el-form-item label="岗位名称">
           <el-input v-model="editData.positionName" />
         </el-form-item>
+        <el-form-item label="排列顺序">
+          <el-input v-model="editData.sequence" />
+        </el-form-item>
       </el-form>
     </div>
     <el-button type="primary" @click="saveEditPost(), editPostClose()" class="editPostButton">提交</el-button>
@@ -37,7 +40,7 @@ export default {
     },
     // 保存修改后的信息
     saveEditPost() {
-      this.postRequest("/position/UpdateById", this.editData).then(resp => {
+      this.putRequest("/position/updateById", this.editData).then(resp => {
         if (resp) {
           this.$message({
             message: "信息更改成功!",

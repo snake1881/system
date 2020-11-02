@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       // 侧边栏显示
-      router1: 1
+      router1: 4
     };
   },
   methods: {}
