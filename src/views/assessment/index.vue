@@ -26,7 +26,7 @@
       >
         <el-table-column type="selection" width="90" />
         <el-table-column prop="indexName" label="指标名称" width="210" />
-        <el-table-column prop="scoreWeight" label="分值" width="160" />
+        <el-table-column prop="scoreWeight" label="权重" width="160" />
         <el-table-column prop="sequence" label="排列顺序" width="140" />
         <el-table-column prop="examineTName" label="考核模板" width="220" />
         <el-table-column prop="remark" label="备注" width="260" />

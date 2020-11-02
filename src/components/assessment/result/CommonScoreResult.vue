@@ -13,7 +13,7 @@
           :label="item.examineContent"
         >
           <i style="margin:100px 100px">{{ item.score }}</i>
-          <el-input v-model="item.singleScore" />
+          <el-input onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" v-model="item.singleScore"  />
         </el-form-item>
       </el-form>
     </div>

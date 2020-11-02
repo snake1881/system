@@ -25,7 +25,7 @@
           />
         </el-form-item>
         <el-form-item label="考核模板">
-          <el-select v-model="addData.template">
+          <el-select v-model="addData.examineTId">
             <el-option
               v-for="(item, index) in this.template"
               :key="index"

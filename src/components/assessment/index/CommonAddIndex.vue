@@ -10,8 +10,11 @@
         <el-form-item label="指标名称">
           <el-input v-model="addData.indexName" />
         </el-form-item>
-        <el-form-item label="分值">
+        <el-form-item label="权重">
           <el-input v-model="addData.scoreWeight" />
+        </el-form-item>
+        <el-form-item label="排列顺序">
+          <el-input v-model="addData.sequence" />
         </el-form-item>
         <el-form-item label="考核模板">
           <el-select v-model="addData.examineTId">

@@ -26,13 +26,13 @@
         <el-table-column type="selection" width="90" />
         <el-table-column prop="takeObject" label="参考单位/人员" width="210" />
         <el-table-column prop="totalScore" label="总得分" width="120" />
-        <el-table-column prop="active" label="是否有效" width="210">
+        <el-table-column prop="active" label="是否有效" width="120">
           <template slot-scope="scope">
             <p v-if="scope.row.active == '0'">无效</p>
             <p v-if="scope.row.active == '1'">有效</p>
           </template>
         </el-table-column>
-        <el-table-column prop="examineDate" label="考核时间" width="160" />
+        <el-table-column prop="examineDate" label="考核时间" width="240" />
         <el-table-column prop="remark" label="备注" width="240" />
         <el-table-column label="操作" width="240">
           <template slot-scope="scope">
@@ -41,7 +41,7 @@
             <el-button
               type="text"
               size="small"
-              v-if="scope.row.totalScore !== 0"
+              v-if="scope.row.totalScore !== 0&&scope.row.totalScore !==null"
               :disabled="true"
             >
               考核打分
@@ -50,7 +50,7 @@
               type="text"
               size="small"
               @click="score(scope.row)"
-              v-if="scope.row.totalScore == 0"
+              v-if="scope.row.totalScore == 0 ||scope.row.totalScore ==null"
             >
               考核打分
             </el-button>
@@ -125,15 +125,20 @@
         </el-divider>
         <br />
         <el-table
-          :data="this.detailData.bizResultInforIndexVoList"
+          :data="this.detailData.bizExamineIndexDetailVoList"
           border
           style="width: 100%"
           height="320px"
+          row-key="indexDId"
+      :tree-props="{
+        children: 'children',
+      }"
         >
           <el-table-column prop="indexName" label="指标名称" width="360" />
           <el-table-column prop="examineContent" label="考核内容" width="360" />
           <el-table-column prop="requirement" label="工作要求" width="360" />
-          <el-table-column prop="score" label="分值" width="210" />
+          <el-table-column prop="score" label="分值" width="100" />
+          <el-table-column prop="singleScore" label="得分" width="100" />
         </el-table>
       </div>
     </div>
@@ -235,6 +240,7 @@ export default {
       checkArray.forEach(function(item) {
         idArray.push(item.examineRId);
       });
+      console.log(idArray);
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",

@@ -11,7 +11,7 @@
           <el-input v-model="editData.takeObject" />
         </el-form-item>
         <el-form-item label="总得分">
-          <el-input v-model="editData.totalScore" />
+          <el-input :disabled="true" v-model="editData.totalScore" />
         </el-form-item>
         <el-form-item label="考核时间">
           <el-date-picker
@@ -52,7 +52,7 @@ export default {
     },
     // 保存
     saveEditResult() {
-      this.postRequest(
+      this.putRequest(
         "/examine/resultInfor/bizExamineResultInfor",
         this.editData
       ).then(resp => {

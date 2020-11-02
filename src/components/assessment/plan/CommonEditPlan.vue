@@ -70,7 +70,7 @@
       </el-form>
     </div>
     <span slot="footer">
-      <el-button type="primary" @click="saveAddPlan(addData), editPlanClose()">
+      <el-button type="primary" @click="saveAddPlan(), editPlanClose()">
         提交
       </el-button>
     </span>
