@@ -13,7 +13,12 @@
           :label="item.examineContent"
         >
           <i style="margin:100px 100px">{{ item.score }}</i>
-          <el-input onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" v-model="item.singleScore"  />
+          <el-input
+            onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
+            @input="numberChange($event, index)"
+           
+            v-model.number="item.singleScore"
+          />
         </el-form-item>
       </el-form>
     </div>
@@ -59,6 +64,19 @@ export default {
           this.$message.error("打分失败，请重新提交!");
         }
       });
+    },
+    //
+    numberChange(val, index) {
+      console.log(val);
+      if(val<0||val>this.scoreData[index].score){
+        this.$alert('请在打分范围内打分！', '提示', {
+          confirmButtonText: '确定',
+          // callback: action => {
+          //   this.scoreData[index].singleScore="0";
+          //   return this.scoreData[index];
+          // }
+        });
+      }
     }
   }
 };

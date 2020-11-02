@@ -205,7 +205,7 @@ export default {
             fontWeight: "bolder"
           }
         },{
-            text: "当前功图",
+            text: "标准功图",
             top: "bottom",
             left: "center",
             textStyle: {
