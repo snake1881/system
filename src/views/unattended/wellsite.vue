@@ -13,27 +13,19 @@
     </span>
     <div class="wellsite_left_condition_details">
       <ul :style="{'marginTop':marginTop+'px'}">
-        <li 
-        v-for="(item,index) in conditionData" 
-        :key='index' 
-        style="list-style-type:none;font-size:12px;color:#666;height:22px;margin-left:-10%"
-      >{{item.name}}</li>
+        <li v-for="(item,index) in conditionData" :key='index' style="list-style-type:none;font-size:12px;color:#666;height:22px;margin-left:-10%">{{item.name}}</li>
       </ul>
     </div>
     <span class="wellsite_left_condition">
-        <i class="iconfont icon-yujing_gaoliang" style="color:rgb(214, 117, 117)" />
-        监控预警
+      <i class="iconfont icon-yujing_gaoliang" style="color:rgb(214, 117, 117)" />
+      监控预警
     </span>
     <div class="wellsite_left_condition_details">
       <ul :style="{'marginTop':marginTop+'px'}">
-        <li 
-        v-for="(item,index) in conditionData" 
-        :key='index' 
-        style="list-style-type:none;font-size:12px;color:#666;height:22px;margin-left:-10%"
-        >{{item.name}}</li>
+        <li v-for="(item,index) in conditionData" :key='index' style="list-style-type:none;font-size:12px;color:#666;height:22px;margin-left:-10%">{{item.name}}</li>
       </ul>
     </div>
-     <div class="wellsite_left_img">
+    <div class="wellsite_left_img">
       <img src="../../assets/images/monitor.jpg" style="height:80%;width:100%;margin-top:1%" />
     </div>
     <div class="wellsite_left_video">
@@ -73,6 +65,7 @@
   </div>
 </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -125,15 +118,13 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/unattended/wellsite.css";
 </style>
-
 <style>
-
 .wellsite_left_condition_details ul li:before {
-    display: inline-block;
-    content: "●"; /* '\25CF' */
-    padding-right: 10px;
-    color: rgb(214, 117, 117);
-    font-size: 20px;
+  display: inline-block;
+  content: "●";
+  /* '\25CF' */
+  padding-right: 10px;
+  color: rgb(214, 117, 117);
+  font-size: 20px;
 }
-
 </style>
