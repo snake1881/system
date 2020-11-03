@@ -11,7 +11,7 @@
   >
     <!-- 侧边栏伸缩 -->
     <div class="toggle-button" @click="toggleCollapse">
-      <el-button class="toggle-button-details" >|||</el-button>
+      <el-button class="toggle-button-details" type="text">|||</el-button>
     </div>
     <div v-for="(item, index) in this.menus.children" :key="index">
       <div v-if="item.children">
@@ -79,7 +79,6 @@ export default {
     padding: 8px 0;
     line-height: 24px;
     color: #fff;
-    // text-align: center;
     letter-spacing: 0.2em;
     cursor: pointer;
 }
@@ -89,10 +88,16 @@ export default {
 </style>
 <style>
  .el-menu-vertical-demo:not(.el-menu--collapse) {
-    width: 300px;
-    min-height: 400px;
+    width: 200px;
   }
   .el-side {
     overflow: hidden;
+  }
+  .el-menu-vertical-demo .el-menu-item {
+    padding: 0;
+
+  }
+  .el-menu[data-v-a28ad4e6]{
+    text-indent: 0;
   }
 </style>

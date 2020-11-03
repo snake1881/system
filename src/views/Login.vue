@@ -8,19 +8,19 @@
     <el-form :model="sysUserLogin" :rules="rules" ref="loginForm" class="loginContainer">
       <h4 class="loginContainer-h3">用户登录</h4>
       <el-form-item prop="username">
-        <el-input v-model="sysUserLogin.username" type="text" placeholder="输入用户名">
+        <el-input v-model="sysUserLogin.username" type="text" placeholder="输入用户名" id="username">
           <i slot="prefix" class="el-input__icon el-icon-user" style="font-size:20px;margin:0 2px" />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="sysUserLogin.password" type="password" placeholder="输入密码">
+        <el-input v-model="sysUserLogin.password" type="password" placeholder="输入密码" id="password">
           <i slot="prefix" class="el-input__icon el-icon-key" style="font-size:20px;margin:0 2px" />
         </el-input>
       </el-form-item>
       <el-button type="primary" class="loginContainer-button" @click.native.prevent="submitLogin()" @keyup.enter.native="submitLogin()">
         登录
       </el-button>
-      <el-checkbox v-model="checked" class="loginContainer-checkbox">记住密码</el-checkbox>
+      <el-checkbox v-model="checked" class="loginContainer-checkbox" @change="savePwd()">记住密码</el-checkbox>
     </el-form>
   </div>
 </div>
@@ -92,6 +92,17 @@ export default {
           return false;
         }
       });
+    },
+    // 记住密码
+    savePwd(){
+      var username = document.getElementById("username").value;
+      var password = document.getElementById("password").value;
+      if(this.checked === true){
+        sessionStorage.setItem(username,password);
+      }
+      else{
+        sessionStorage.removeItem(username);
+      }
     }
   }
 };
