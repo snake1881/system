@@ -78,6 +78,11 @@ export default {
           path:"/unattended/unattended",
           name:route.matched[2].name,
         })
+      }else if(route.path === "/information/information"){   //判断是否为基础信息
+        this.tagsList.push({
+          path:"/information/information",
+          name:route.matched[2].name,
+        })
       }
        else {
         const isExist = this.tagsList.some(item => {

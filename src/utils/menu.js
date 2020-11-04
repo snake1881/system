@@ -66,6 +66,17 @@ export const initMenu = (router, store) => {
                         hidden: true
                     };
                     route.children.push(child3);
+                }else if (route.path === "/information/information") {
+                    //  判断当前路由是否为基础信息
+                    // 添加默认展示子路由页面
+                    let child4 = {
+                        path: "/information/information",
+                        name: "基础信息",
+                        component: () =>
+                            import ("@/views/information/information.vue"),
+                        hidden: true
+                    };
+                    route.children.push(child4);
                 }
                 menu[0].children.push(route);
             });

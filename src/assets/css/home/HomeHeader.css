@@ -7,7 +7,7 @@
 }
 
 .container_left {
-    width: 40%;
+    width: 55%;
     display: flex;
     flex-direction: row;
 }
@@ -25,11 +25,11 @@
 }
 
 .container_middle {
-    width: 45%;
+    width: 40%;
 }
 
 .container_right {
-    width: 15%;
+    width: 10%;
     display: flex;
     border-left: solid 2px rgb(102, 102, 102);
     flex-direction: row;

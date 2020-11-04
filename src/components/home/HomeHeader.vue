@@ -34,8 +34,6 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="usercenter" @click.native="goToPersonal()">个人中心</el-dropdown-item>
           <el-dropdown-item command="notice" @click.native="goToSendNotice()">发布通知</el-dropdown-item>
-          <!-- <el-dropdown-item command="setting">设置</el-dropdown-item>
-          <el-dropdown-item command="logout">注销</el-dropdown-item> -->
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 用户名 -->
