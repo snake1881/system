@@ -47,9 +47,9 @@
         <span class="proTeam_container_details_right_dec">预警：<span style="color:orange">462</span> 处</span>
       </div>
       <i class="iconfont icon-icon-- proTeam_container_details_icon" @click="gotoStation()" />
-      
+
     </div>
-    <table class="proTeam_top_table" v-if="tableFlag">
+    <table class="proTeam_top_table" v-if="tableFlag" :style="positionStyle">
       <tr>
         <td rowspan="2">油井</td>
         <td colspan="3">
@@ -75,8 +75,8 @@
       </tr>
       <tr>
         <td colspan="3">
-          产液**m<sup>3</sup>
-          产油**m<sup>3</sup>
+          配注**m<sup>3</sup>
+          注水**m<sup>3</sup>
           较昨日**m<sup>3</sup>
         </td>
       </tr>
@@ -90,7 +90,6 @@
       </tr>
     </table>
   </div>
-  
 </div>
 </template>
 
@@ -98,7 +97,11 @@
 export default {
   data() {
     return {
-      tableFlag: false
+      tableFlag: false,
+      positionStyle: {
+        top: '20%',
+        left: '20%'
+      }
     }
   },
   methods: {

@@ -59,10 +59,12 @@
 
 }
 .proTeam_top_table {
+    position: absolute;
     width: 20%;
     height: 20%;
     border-collapse: collapse;
     color: #8dbeb0;
+    background-color: #E4E7ED;
 }
 .proTeam_container {
     width: 85%;
