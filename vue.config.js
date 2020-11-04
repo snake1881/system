@@ -17,5 +17,5 @@ module.exports = {
         port: 8088,
         open: true,
         proxy: proxyObj
-    }
+    },
 };

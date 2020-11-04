@@ -1,38 +1,81 @@
 .proTeam {
     height: 100%;
     width: 100%;
-}
-.proTeam_top {
-    width: 100%;
-    height: 25%;
     display: flex;
     flex-direction: row;
 }
-.proTeam_top_title {
-    width: 60%;
+.proTeam_left {
+    width: 15%;
     height: 100%;
+    
+}
+.proTeam_left_title {
+    width: 60%;
+    height: 8%;
     font-size: 20px;
     font-weight: 700;
+    margin: 1% 20%;
     text-align: center;
 }
+.proTeam_left_oilWell{
+    width: 90%;
+    height: 35%;
+    border: 1px solid #dfe0e2;
+    margin: 6% 5%;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+.proTeam_left_waterWell{
+    width: 90%;
+    height: 28%;
+    border: 1px solid #dfe0e2;
+    margin: 6% 5%;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+.proTeam_left_video
+ {
+    width: 90%;
+    height: 20%;
+    border: 1px solid #dfe0e2;
+    margin: 6% 5%;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+.proTeam_left_oilWell_title {
+    font-size: 19px;
+    margin: 4% 20%;
+
+}
+.proTeam_left_oilWell_dec {
+    margin: 2% 8%;
+    font-size: 14px;
+
+}
 .proTeam_top_table {
-    width: 32%;
-    height: 90%;
-    margin: 1% 0;
+    width: 20%;
+    height: 20%;
     border-collapse: collapse;
     color: #8dbeb0;
 }
 .proTeam_container {
-    width: 100%;
-    height: 75%;
+    width: 85%;
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
 }
 .proTeam_container_details{
-    width: 45%;
-    height: 45%;
-    margin: 1% 2% 0 2%;
-    border: 1px solid #dfe0e2;
+    width: 20%;
+    height: 20%;
+    margin: 1% 2%;
+    border-radius: 5%;
+    border: 2px solid #62917b;
     display: flex;
     flex-direction: row;
 }
@@ -42,14 +85,34 @@
     display: flex;
     flex-direction: column;
 }
-.proTeam_container_details_span {
+.proTeam_container_details_left_span {
     font-size: 16px;
-    font-weight: 700;
-    margin: 2% 30%;
-    
+    margin: 5% 15%;
+    height: 10%;
 }
-.proTeam_container_details_img {
-    width: 70%;
-    height: 75%;
-    margin: 0 10%;
+.proTeam_container_details_left_icon {
+    font-size: 20px;
+    color: orange;
+    margin: 5% 5% 0 5%;
+    height: 10%;
+}
+.proTeam_container_details_left_img {
+    width: 90%;
+    height: 50%;
+    margin: 0 5%;
+}
+.proTeam_container_details_right {
+    width: 45%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.proTeam_container_details_right_dec {
+    font-size: 14px;
+    margin: 5% 5%;
+    color: #697080;
+}
+.proTeam_container_details_icon {
+    font-size: 25px;
+    margin: 25% 0;
 }
