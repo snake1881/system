@@ -63,12 +63,12 @@ export default {
           path:"/system/user",
           name:route.matched[2].name,
         })
-      }else if(route.path === "/diagnosis/diagnosis"){   //判断是否为油水井诊断
+      }else if(route.path === "/assessment/assessment"){   //判断是否为绩效考核
         this.tagsList.push({
           path:"/assessment/template",
           name:route.matched[2].name,
         })
-      }else if(route.path === "/assessment/assessment"){   //判断是否为绩效考核
+      }else if(route.path === "/diagnosis/diagnosis"){   //判断是否为油水井诊断
         this.tagsList.push({
           path:"/diagnosis/abnormal/waterAbnormal",
           name:route.matched[2].name,
@@ -80,7 +80,7 @@ export default {
         })
       }else if(route.path === "/information/information"){   //判断是否为基础信息
         this.tagsList.push({
-          path:"/information/information",
+          path:"/information/baswellinfor",
           name:route.matched[2].name,
         })
       }
