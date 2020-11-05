@@ -4,6 +4,7 @@
     :visible.sync="measuresReleaseVisible"
     width="60%"
     :before-close="measuresReleaseClose"
+    @opened="opens()"
   >
     <div class="dialogDiv">
       <el-form :model="releaseData"  label-position="left" label-width="200px">
@@ -27,7 +28,22 @@
           </el-date-picker>
         </el-form-item >
         <el-form-item label="指派人" prop="desigee">
-          <el-input v-model="releaseData.designee" style="width: 300px" />
+          <el-select
+          v-model="releaseData.designee"
+          clearable
+          filterable
+          style="width:300px"
+          placeholder="请选择"
+          size="small"
+        >
+          <el-option
+            v-for="item in designeeOptions"
+            :key="item.userName"
+            :label="item.userName"
+            :value="item.userName"
+          >
+          </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
     </div>
@@ -65,6 +81,7 @@ export default {
         publisher: "",
         startDate: ""
       },
+      designeeOptions:[],
       rules: {
         designee: [
           { required: true, message: "请输入指派人", trigger: "blur" },
@@ -98,7 +115,18 @@ export default {
         }
       );
     },
-    
+    //指派人拉框数据查询
+    designeeInit() {
+      this.getRequest("/system/sysUser/users").then(resp => {
+        this.loading = false;
+        if (resp) {
+          this.designeeOptions = resp.data;
+        }
+      });
+    },
+    opens(){
+      this.designeeInit();
+    }
   }
 };
 </script>
