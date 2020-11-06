@@ -6,13 +6,8 @@
     default-active="#"
     :unique-opened="true"
     router
-    :collapse="isCollapse"
-    class="el-menu-vertical-demo"
+   
   >
-    <!-- 侧边栏伸缩 -->
-    <div class="toggle-button" @click="toggleCollapse">
-      <el-button class="toggle-button-details" type="text">|||</el-button>
-    </div>
     <div v-for="(item, index) in this.menus.children" :key="index">
       <div v-if="item.children">
         <el-menu-item
@@ -54,16 +49,9 @@ export default {
     return {
       // 导航栏内容
       menus: this.$store.state.routes[0].children[this.routerNumber],
-      // 侧边栏伸缩
-      isCollapse: false
     };
   },
-  methods: {
-    // 侧边栏伸缩
-    toggleCollapse () {
-      this.isCollapse = !this.isCollapse
-    }
-  }
+  methods: {}
 };
 </script>
 

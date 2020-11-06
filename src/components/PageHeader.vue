@@ -64,25 +64,16 @@ export default {
           path: "/system/user",
           name: route.matched[2].name,
         })
-<<<<<<< HEAD
-      } else if (route.path === "/diagnosis/diagnosis") { //判断是否为油水井诊断
-        this.tagsList.push({
-          path: "/diagnosis/abnormal/waterAbnormal",
-          name: route.matched[2].name,
-        });
-      } else if (route.path === "/assessment/assessment") { //判断是否为绩效考核
-=======
-      }else if(route.path === "/assessment/assessment"){   //判断是否为绩效考核
+      } else if(route.path === "/assessment/assessment"){   //判断是否为绩效考核
         this.tagsList.push({
           path:"/assessment/template",
           name:route.matched[2].name,
         })
       }else if(route.path === "/diagnosis/diagnosis"){   //判断是否为油水井诊断
->>>>>>> 755b685fda16df9a0d4305ddfbcf953a39f66db5
         this.tagsList.push({
-          path: "/assessment/template",
+          path: "/diagnosis/abnormal/waterAbnormal",
           name: route.matched[2].name,
-        })
+        });
       } else if (route.path === "/unattended/unattended") { //判断是否为无人值守
         this.tagsList.push({
           path: "/unattended/unattended",
@@ -90,13 +81,8 @@ export default {
         })
       } else if (route.path === "/information/information") { //判断是否为基础信息
         this.tagsList.push({
-<<<<<<< HEAD
           path: "/information/information",
           name: route.matched[2].name,
-=======
-          path:"/information/baswellinfor",
-          name:route.matched[2].name,
->>>>>>> 755b685fda16df9a0d4305ddfbcf953a39f66db5
         })
       } else {
         const isExist = this.tagsList.some(item => {
