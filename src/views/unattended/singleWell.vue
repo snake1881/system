@@ -115,7 +115,6 @@
   </div>
 </div>
 </template>
-
 <script>
 let echarts = require("echarts/lib/echarts");
 export default {
