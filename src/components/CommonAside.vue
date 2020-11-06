@@ -6,7 +6,6 @@
     default-active="#"
     :unique-opened="true"
     router
-   
   >
     <div v-for="(item, index) in this.menus.children" :key="index">
       <div v-if="item.children">
@@ -60,19 +59,7 @@ export default {
   height: 100%;
   text-indent: 25px;
 }
-.toggle-button {
-    background-color: rgb(68, 73, 87);
-    font-size: 20px;
-    height: 20px;
-    padding: 8px 0;
-    line-height: 24px;
-    color: #fff;
-    letter-spacing: 0.2em;
-    cursor: pointer;
-}
-.toggle-button-details {
-  margin: 0 10%;
-}
+
 </style>
 <style>
  .el-menu-vertical-demo:not(.el-menu--collapse) {
@@ -83,7 +70,6 @@ export default {
   }
   .el-menu-vertical-demo .el-menu-item {
     padding: 0;
-
   }
   .el-menu[data-v-a28ad4e6]{
     text-indent: 0;

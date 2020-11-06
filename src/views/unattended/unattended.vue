@@ -2,7 +2,7 @@
 <div class="unattended">
   <el-container>
     <el-aside class="unattended_aside">
-      <el-menu  router background-color="#20374e" text-color="#fff"  active-text-color="#fff">
+      <el-menu  router background-color="#1F2D3D" text-color="#fff"  active-text-color="#fff">
         <el-menu-item index="/unattended/proTeam">
           <span slot="title">采油队信息</span>
         </el-menu-item>

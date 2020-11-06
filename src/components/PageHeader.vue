@@ -55,7 +55,6 @@ export default {
     },
     // 设置标签
     setTags(route) {
-      console.log(route);
       // 判断是否为首页
       if (route.path === "/home") {
         this.tagsList = []
@@ -88,14 +87,21 @@ export default {
         const isExist = this.tagsList.some(item => {
           return item.path === route.fullPath;
         });
-        !isExist && this.tagsList.push({
+        if(route.matched.length === 3){
+          !isExist && this.tagsList.push({
+            path: route.fullPath,
+            name: route.matched[2].name
+          })
+        }else {
+          !isExist && this.tagsList.push({
           path: route.fullPath,
-          name: route.matched[2].name
-        })
+          name: route.matched[3].name
+          })
+        }
       }
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>
