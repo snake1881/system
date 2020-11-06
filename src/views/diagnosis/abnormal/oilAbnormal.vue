@@ -35,6 +35,7 @@
       <el-table-column prop="sbycs" label="设备异常数" min-width="10%" />
     </el-table>
     <div id="wellChart" :style="{width: '98%', height: '300px'}"></div>
+    <div id="waterWellChart" :style="{width: '98%', height: '300px'}"></div>
   </div>
 </template>
 <script>
@@ -150,12 +151,200 @@ export default {
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
       let dom = document.getElementById("wellChart");
+      let dom2 = document.getElementById("waterWellChart");
       let myChart = echarts.init(dom);
+      let myChart2 = echarts.init(dom2);
       // 绘制图表
       myChart.setOption({
         title: {
           x: "center",
           text: "采油井异常信息汇总"
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "shadow" // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: "{c}"
+        },
+        legend: {
+          top: "10%"
+        },
+        grid: {
+          left: "3%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true
+        },
+        dataset: {
+          source: [
+            [
+              "carType",
+              "总井数",
+              "开井数",
+              "总产液量",
+              "总产液量(昨)",
+              "液量异常数",
+              "含水异常数",
+              "工况异常数",
+              "设备异常数"
+            ],
+            ["1766采油站", 23, 28, 168.5, 175.5, 0, 0, 1, 2],
+            ["一号采油站", 15, 11, 99.5, 109.9, 12, 7, 0, 1],
+            ["上菜渠采油站", 20, 16, 154.5, 198.8, 19, 0, 0, 1],
+            ["下菜渠采油站", 13, 8, 202.5, 217.8, 16, 0, 2, 1],
+            ["庙沟采油站", 53, 11, 162.5, 165.4, 17, 0, 0, 1],
+            ["张天渠采油站", 54, 11, 134.5, 145.43, 14, 0, 0, 1]
+          ]
+        },
+        xAxis: {
+          type: "category",
+          axisTick: {
+            show: false //隐藏x坐标轴刻度
+          },
+          //x轴字体样式
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: "#42436A",
+              fontSize: "12"
+            },
+            rotate: "30" //字体倾斜角度
+          },
+          //x轴颜色
+          axisLine: {
+            lineStyle: {
+              color: "#e4e4e4"
+            }
+          }
+        },
+        yAxis: {
+          type: "value",
+          minInterval: 0, //只显示整数
+          axisLine: {
+            show: false //隐藏y坐标轴
+          },
+          //y轴字体样式
+          axisLabel: {
+            show: true,
+            textStyle: {
+              color: "#9495ab",
+              fontSize: "12"
+            }
+          },
+          //网格样式
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: "#e4e4e4",
+              width: 1,
+              type: "solid"
+            }
+          },
+          axisTick: {
+            show: false //隐藏y坐标轴刻度
+          }
+        },
+        series: [
+          {
+            name: "总井数",
+            type: "bar",
+            barWidth: 6, //柱体宽带
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          },
+          {
+            name: "开井数",
+            type: "bar",
+            barWidth: 6, //柱体宽度
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          },
+          ,
+          {
+            name: "总产液量",
+            type: "bar",
+            barWidth: 6, //柱体宽度
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          },
+          ,
+          {
+            name: "总产液量(昨)",
+            type: "bar",
+            barWidth: 6, //柱体宽度
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          },
+          {
+            name: "液量异常数",
+            type: "bar",
+            barWidth: 6, //柱体宽度
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          },
+          {
+            name: "含水异常数",
+            type: "bar",
+            barWidth: 6, //柱体宽度
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          },
+          {
+            name: "工况异常数",
+            type: "bar",
+            barWidth: 6, //柱体宽度
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          },
+          {
+            name: "设备异常数",
+            type: "bar",
+            barWidth: 6, //柱体宽度
+            itemStyle: {
+              normal: {
+                //柱体圆角
+                barBorderRadius: [10, 10, 0, 0]
+              }
+            }
+          }
+        ]
+      });
+      // 绘制图表
+      myChart2.setOption({
+        title: {
+          x: "center",
+          text: "注水井异常信息汇总"
         },
         tooltip: {
           trigger: "axis",

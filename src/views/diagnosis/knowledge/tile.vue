@@ -106,12 +106,7 @@ export default {
       addTileVisible: false,
       wellNameoptions: [],
       oilStationOptions: [],
-      addTileData: {
-        wellName: "",
-        dynaCreateTime: "",
-        addType: "标准功图",
-        diagnosticResults: "泵工作正常"
-      },
+      addTileData: {},
       tableData: [],
       coordinates: [[]]
     };
@@ -286,8 +281,7 @@ export default {
     },
     //添加功图至知识库
     addTile(val) {
-      this.addTileData.wellName = val.wellId;
-      this.addTileData.dynaCreateTime = val.dynaCreateTime;
+      this.addTileData = val;
       this.addTileVisible = true;
       console.log(this.addTileData);
     },

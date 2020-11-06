@@ -71,9 +71,9 @@ export const initMenu = (router, store) => {
                     // 添加默认展示子路由页面
                     let child4 = {
                         path: "/information/information",
-                        name: "基础信息",
+                        name: "单井信息",
                         component: () =>
-                            import ("@/views/information/information.vue"),
+                            import ("@/views/information/baswellinfor.vue"),
                         hidden: true
                     };
                     route.children.push(child4);
