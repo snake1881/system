@@ -1,57 +1,110 @@
-.oilStation {
-    height: 100%;
+.proTeam {
+    height: 99%;
     width: 100%;
-}
-.oilStation_top {
-    width: 100%;
-    height: 25%;
     display: flex;
     flex-direction: row;
 }
-.oilStation_top_button {
-    height: 10%;
-    margin: 1% 0;
-    padding: 0;
-    border: 0;
-}
-.oilStation_top_title {
-    width: 50%;
+.proTeam_left {
+    width: 15%;
     height: 100%;
+    
+}
+.proTeam_left_title {
+    width: 60%;
+    height: 8%;
     font-size: 20px;
     font-weight: 700;
+    margin: 1% 20%;
     text-align: center;
 }
-.oilStation_top_table {
-    width: 32%;
-    height: 90%;
-    margin: 1% 0;
+.proTeam_left_oilWell{
+    width: 90%;
+    height: 35%;
+    border: 1px solid #dfe0e2;
+    margin: 6% 5%;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+.proTeam_left_waterWell{
+    width: 90%;
+    height: 28%;
+    border: 1px solid #dfe0e2;
+    margin: 6% 5%;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+.proTeam_left_video
+ {
+    width: 90%;
+    height: 20%;
+    border: 1px solid #dfe0e2;
+    margin: 6% 5%;
+    border-radius: 10%;
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+}
+.proTeam_left_oilWell_title {
+    font-size: 19px;
+    margin: 4% 20%;
+
+}
+.proTeam_left_oilWell_dec {
+    margin: 2% 8%;
+    font-size: 14px;
+
+}
+.proTeam_top_table {
+    position: absolute;
+    width: 20%;
+    height: 20%;
     border-collapse: collapse;
     color: #8dbeb0;
+    background-color: #E4E7ED;
 }
-.oilStation_container {
-    width: 100%;
-    height: 75%;
+.proTeam_container {
+    width: 85%;
+    height: 100%;
     display: flex;
     flex-wrap: wrap;
 }
-.oilStation_container_wellStation {
-    width: 15%;
-    height: 45%;
-    margin: 1% 2% 0 2%;
-    border: 1px solid #dfe0e2;
+.oilStation_container_details{
+    width: 20%;
+    height: 20%;
+    margin: 1% 2%;
+    border-radius: 5%;
+    border: 2px solid #62917b;
+    display: flex;
+    flex-direction: column;
 }
-.oilStation_container_wellStation_title{
-    font-size: 14px;
-    font-weight: 700;
-    text-align: center;
+.proTeam_container_details_top {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
 }
-.oilStation_container_wellStation_img {
-    width: 60%;
-    height: 55%;
-    margin: 0 15%;
+.proTeam_container_details_top_span {
+    font-size: 16px;
+    margin: 1% 35%;
+    height: 10%;
+    width: 50%;
 }
-.oilStation_container_wellStation_dec {
+
+.proTeam_container_details_top_img {
+    width: 50%;
+    height: 90%;
+    margin: 0 25%;
+}
+.proTeam_container_details_container {
+    width: 100%;
+    height: 50%
+}
+.proTeam_container_details_container_dec {
     font-size: 13px;
-    color: #666;
-    margin: 0 2%;
+    margin: 2% 8%;
+    color: #697080;
 }

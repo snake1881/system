@@ -77,6 +77,17 @@ export const initMenu = (router, store) => {
                         hidden: true
                     };
                     route.children.push(child4);
+                }else if (route.path === "/downholeOperations/downholeOperations") {
+                    //  判断当前路由是否为井下作业
+                    // 添加默认展示子路由页面
+                    let child5 = {
+                        path: "/downholeOperations/downholeOperations",
+                        name: "井下作业",
+                        component: () =>
+                            import ("@/views/downholeOperations/downholeOperations.vue"),
+                        hidden: true
+                    };
+                    route.children.push(child5);
                 }
                 menu[0].children.push(route);
             });
