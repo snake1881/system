@@ -10,6 +10,7 @@
     height: 101.5%;
     margin-right: 5px;
     background-color: white;
+    overflow-y: scroll;
 }
 
 .user_right {

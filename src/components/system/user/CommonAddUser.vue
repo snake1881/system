@@ -164,7 +164,7 @@ export const deptInit = val => {
 
 <style>
 .el-dialog__header {
-  background: #F8F8F8;
+  background:#dadee6;
   border-bottom: 2px solid #F2F6FC;
   height: 15px;
 

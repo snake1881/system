@@ -12,11 +12,16 @@
           <el-input v-model="editData.permissionMark" />
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="editData.moduleType">
+          <!-- <el-select v-model="editData.moduleType">
             <el-option label="目录" value="0" />
             <el-option label="菜单" value="1" />
             <el-option label="按钮" value="2" />
-          </el-select>
+          </el-select> -->
+          <el-radio-group v-model="editData.moduleType">
+            <el-radio label="0">目录</el-radio>
+            <el-radio label="1">菜单</el-radio>
+            <el-radio label="2">按钮</el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-form>
     </div>

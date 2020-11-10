@@ -18,10 +18,10 @@
       height="92%"
       style="width:100%"
       :row-style="{height:'2px'}"
-      :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+      :cell-style="{padding:'0px','text-align':'left'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266',}"
     >
-      <el-table-column prop="departmentName" label="部门名称" width="260" />
+      <el-table-column prop="departmentName" label="部门名称" width="380" />
       <el-table-column prop="sequence" label="排序" width="260" />
       <el-table-column prop="departmentType" label="部门类型" width="260">
         <template slot-scope="scope">
@@ -29,8 +29,8 @@
           <p v-if="scope.row.departmentType == '1'">管理机构</p>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="280" />
-      <el-table-column label="操作" width="270">
+      <el-table-column prop="createTime" label="创建时间" width="300" />
+      <el-table-column label="操作" width="120">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addDept(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px" />
           <el-button type="text" size="small" @click="editDept(scope.row)" class="iconfont icon-bianji" />

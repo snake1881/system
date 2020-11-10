@@ -140,9 +140,6 @@ export default {
             color: '#ffffff',
             fontSize: 10
           },
-        //  orient: 'vertical',  //垂直显示
-        //  y: 'center',    //延Y轴居中
-        //  x: 'left', //居右显示,
         },
         xAxis: {
           boundaryGap: false,

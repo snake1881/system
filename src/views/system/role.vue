@@ -31,13 +31,13 @@
       style="width:100%"
       :row-style="{height:'2px'}"
       :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="roleName" label="角色名称" width="240" />
+      <el-table-column type="selection" width="75" />
+      <el-table-column prop="roleName" label="角色名称" width="245" />
       <el-table-column prop="roleKey" label="权限字符" width="240" />
-      <el-table-column prop="sequence" label="显示顺序" width="180" />
+      <el-table-column prop="sequence" label="显示顺序" width="200" />
       <el-table-column prop="status" label="状态" width="240">
         <template slot-scope="scope">
           <p v-if="scope.row.status == '0'">停用</p>
@@ -45,7 +45,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建时间" width="240" />
-      <el-table-column label="操作" width="140">
+      <el-table-column label="操作" width="80">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editRole(scope.row)" class="iconfont icon-bianji" />
           <el-button type="text" size="small" @click="dlete(scope.row)" class="iconfont icon-shanchu" />

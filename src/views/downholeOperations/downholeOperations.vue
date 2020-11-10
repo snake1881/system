@@ -38,13 +38,20 @@
       <el-table-column prop="6" label="完成时间" width="200" />
       <el-table-column label="操作" width="260">
         <template slot-scope="scope">
+          <!-- 编辑 -->
           <el-button type="text" size="small" @click="editOperation(scope.row)" class="iconfont icon-bianji" />
+          <!-- 提交 -->
           <el-button type="text" size="small" @click="submitOperation(scope.row)" class="el-icon-success" />
+          <!-- 查看 -->
           <el-button type="text" size="small" @click="checkOperation(scope.row)" class="el-icon-view" />
+          <!-- 派工 -->
           <el-button type="text" size="small" @click="sendOperation(scope.row)" class="el-icon-folder-remove" />
+          <!-- 完工 -->
           <el-button type="text" size="small" @click="completeOperation(scope.row)" class="el-icon-folder-checked" />
+          <!-- 进度 -->
           <el-button type="text" size="small" @click="scheduleOperation(scope.row)" class="el-icon-tickets" />
-           <el-button type="text" size="small" @click="cadenceOperation(scope.row)" class="el-icon-turn-off" />
+          <!-- 终止 -->
+          <el-button type="text" size="small" @click="cadenceOperation(scope.row)" class="el-icon-turn-off" />
         </template>
       </el-table-column>
     </el-table>
@@ -66,13 +73,37 @@
       :editData="editOperData"
       @operRowClose="editOperClose"
     />
+    <!-- 查看 -->
+    <common-check-operation 
+      :checkOperVisible="checkOperVisible"
+      :checkData="checkOperData"
+      @checkRowClose="checkOperClose"
+    />
+    <!-- 派工 -->
+    <common-send-operation 
+      :sendOperVisible="sendOperVisible"
+      :sendData="sendOperData"
+      @sendRowClose="sendOperClose"
+    />
+    <!-- 进度 -->
+    <common-schedule-operation 
+      :scheduleOperVisible="scheduleOperVisible"
+      :scheduleData="schedulesendOperData"
+      @scheduleRowClose="scheduleOperClose"
+    />
   </div>
 </template>
 <script>
-import CommonEditOperation from "../../components/downholeOperations/CommonEditOperation"
+import CommonEditOperation from "../../components/downholeOperations/CommonEditOperation";
+import CommonCheckOperation from "../../components/downholeOperations/CommonCheckOperation";
+import CommonSendOperation from "../../components/downholeOperations/CommonSendOperation";
+import CommonScheduleOperation from "../../components/downholeOperations/CommonScheduleOperation";
 export default {
   components: {
     CommonEditOperation,
+    CommonCheckOperation,
+    CommonSendOperation,
+    CommonScheduleOperation
   },
   data(){
     return{
@@ -163,6 +194,15 @@ export default {
        // 编辑
       editOperVisible: false,
       editOperData: {},
+      //查看
+      checkOperVisible:false,
+      checkOperData:{},
+      // 派工
+      sendOperVisible: false,
+      sendOperData:{},
+      // 进度
+      scheduleOperVisible: false,
+      schedulesendOperData:{}
     }
   },
   created() {
@@ -170,9 +210,7 @@ export default {
   },
   methods:{
     // 查询
-    searchOperation(){
-
-    },
+    searchOperation(){},
     // 表格数据初始化
     operationInit(){
       this.getRequest(
@@ -200,29 +238,38 @@ export default {
       this.editOperVisible = false;
     },
     // 提交
-    submitOperation(){
-
-    },
+    submitOperation(){},
     // 查看
-    checkOperation(){
-
+    checkOperation(val){
+      this.checkOperVisible = true;
+      this.checkOperData = val;
+    },
+    // 关闭查看对话框
+    checkOperClose(){
+      this.checkOperVisible = false;
     },
     // 派工
-    sendOperation(){
-
+    sendOperation(val){
+      this.sendOperVisible = true;
+      this.sendOperData = val;
+    },
+    // 关闭派工对话框
+    sendOperClose(){
+      this.sendOperVisible = false;
     },
     // 完工
-    completeOperation(){
-
-    },
+    completeOperation(){},
     // 进度
-    scheduleOperation(){
-
+    scheduleOperation(val){
+      this.scheduleOperVisible = true;
+      this.schedulesendOperData = val;
+    },
+    // 关闭进度对话框
+    scheduleOperClose(){
+      this.scheduleOperVisible = false;
     },
     // 终止
-    cadenceOperation(){
-
-    },
+    cadenceOperation(){},
      // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;

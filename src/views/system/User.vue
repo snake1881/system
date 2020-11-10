@@ -34,7 +34,7 @@
         border
         :row-style="{height:'2px'}"
         :cell-style="{padding:'0px'}"
-        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
@@ -43,7 +43,7 @@
         <el-table-column
           prop="departmentName"
           label="部门名称"
-          width="140"
+          width="160"
           :show-overflow-tooltip="true"
         />
         <el-table-column prop="email" label="邮箱" width="130" />
@@ -51,7 +51,7 @@
         <el-table-column prop="status" label="状态" width="80" />
         <el-table-column prop="sex" label="性别" width="80" />
         <el-table-column prop="createTime" label="创建时间" width="170" />
-        <el-table-column label="操作" width="100">
+        <el-table-column label="操作" width="80">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editUser(scope.row)" class="iconfont icon-bianji"/>
             <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu"/>
