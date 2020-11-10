@@ -1,23 +1,14 @@
 <template>
   <!-- 单井信息 -->
-  <div class="basewellinfor" align="center">
+  <div class="basewellinfor">
     <!-- 条件查询 -->
-    <el-form class="role_form" v-model="termData" :inline="true">
-      <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          size="small"
-          @click="addBaseWellInfor()"
-          >新增</el-button
-        >
-      </el-form-item>
+    <el-form class="basewellinfor_form" v-model="termData" :inline="true">
       <el-form-item label="井号">
         <el-input
           v-model="termData.wellName"
           clearable
           style="width:150px"
-          size="small"
+          size="medium"
           placeholder="井号"
         ></el-input>
       </el-form-item>
@@ -27,7 +18,7 @@
           clearable
           placeholder="请选择井类别"
           style="width:150px"
-          size="small"
+          size="medium"
         >
           <el-option
             v-for="item in wellCategoryOptions"
@@ -38,14 +29,13 @@
           </el-option>
         </el-select>
       </el-form-item>
-
       <el-form-item label="采油站">
         <el-select
           v-model="termData.oilStationName"
           clearable
           style="width:150px"
           placeholder="全区"
-          size="small"
+          size="medium"
         >
           <el-option
             v-for="item in orgNameData"
@@ -68,6 +58,15 @@
       <el-form-item>
         <el-button
           type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="addBaseWellInfor()"
+          >新增</el-button
+        >
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
           icon="el-icon-download"
           size="small"
           @click="fileOpen()"
@@ -76,7 +75,6 @@
       </el-form-item>
       <el-form-item>
         <el-upload
-          class="upload-demo"
           action="/demo/basWellInfor/import"
           accept=".xls,.xlsx"
           :on-preview="handlePreview"
@@ -95,14 +93,18 @@
       </el-form-item>
     </el-form>
     <el-table
+    class="basewellinfor_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="BaseWellInforData"
-      height="500px"
+      height="85%"
       border
       lazy
       style="width:100%;"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
       <el-table-column prop="index" align="center" label="序号" width="80">
       </el-table-column>
@@ -173,21 +175,20 @@
           <el-button
             type="text"
             size="small"
-            @click="BaseWellInforDelete(scope.row)"
-            >删除</el-button
-          >
+            @click="editBaseWellInfor(scope.row)"
+            class="iconfont icon-bianji"
+          />
           <el-button
             type="text"
             size="small"
-            @click="editBaseWellInfor(scope.row)"
-            >编辑</el-button
-          >
+            @click="BaseWellInforDelete(scope.row)"
+            class="iconfont icon-shanchu"
+          />
         </template>
       </el-table-column>
     </el-table>
-
     <!-- 分页 -->
-    <div class="BaseWellInfor_page" align="center">
+    <div class="baseWellInfor_page" >
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -375,7 +376,15 @@ export default {
     },
     //文件下载
     fileOpen() {
-      window.open("http://localhost:8692/demo/basWellInfor/export");
+      window.open(
+        "http://localhost:8692/demo/basWellInfor/export" +
+          "?oilStationName=" +
+          this.termData.oilStationName +
+          "&wellCategory=" +
+          this.termData.wellCategory +
+          "&wellName=" +
+          this.termData.wellName
+      );
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -415,4 +424,6 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import "../../assets/css/information/wellinfor.css";
+</style>
