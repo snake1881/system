@@ -1,23 +1,14 @@
 <template>
   <!-- 井场信息 -->
-  <div class="BaseWellSite" align="center">
+  <div class="BaseWellSite">
     <!-- 条件查询 -->
-    <el-form class="role_form" v-model="termData" :inline="true">
-      <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          size="small"
-          @click="addBaseWellSite()"
-          >新增</el-button
-        >
-      </el-form-item>
+    <el-form class="BaseWellSite_form" v-model="termData" :inline="true">
       <el-form-item label="井场名称">
         <el-input
           v-model="termData.wellSiteName"
           clearable
           style="width:150px"
-          size="small"
+          size="medium"
           placeholder="请输入井场"
         ></el-input>
       </el-form-item>
@@ -28,7 +19,7 @@
           filterable
           style="width:150px"
           placeholder="全区"
-          size="small"
+          size="medium"
         >
           <el-option
             v-for="item in orgNameData"
@@ -48,74 +39,32 @@
           >查询</el-button
         >
       </el-form-item>
-      <!-- <el-form-item>
+      <el-form-item>
         <el-button
           type="primary"
-          icon="el-icon-download"
+          icon="el-icon-plus"
           size="small"
-          @click="fileOpen()"
-          >导出</el-button
+          @click="addBaseWellSite()"
+          >新增</el-button
         >
       </el-form-item>
-      <el-form-item>
-        <el-upload
-          class="upload-demo"
-          action="/demo/basWellInfor/import"
-          accept=".xls,.xlsx"
-          :on-preview="handlePreview"
-          :on-change="handleChange"
-          :on-remove="handleRemove"
-          :on-success="handleSuccess"
-          :before-remove="beforeRemove"
-          multiple
-          :on-exceed="handleExceed"
-          :file-list="fileList"
-        >
-          <el-button size="small" icon="el-icon-upload2" type="primary"
-            >导入</el-button
-          >
-        </el-upload>
-      </el-form-item> -->
-      <!-- <el-form
-        id="upload"
-        method="POST"
-        enctype="multipart/form-data"
-        action="/demo/basWellInfor/import"
-      >
-        <el-input
-          type="file"
-          size="small"
-          name="file"
-          style="width:200px"
-          value="选择文件"
-        />
-        <el-input
-          type="submit"
-          size="small"
-          name="press"
-          style="width:80px"
-          value="导入"
-        />
-      </el-form> -->
     </el-form>
     <el-table
+    class="BaseWellSite_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="BaseWellSiteData"
-      height="500px"
+      height="85%"
       border
       lazy
       style="width:100%;"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
       <el-table-column prop="index" align="center" label="序号" width="60">
       </el-table-column>
-      <!-- <el-table-column
-        prop="waterStationId"
-        align="center"
-        label="注水站编号"
-        width="150"
-      /> -->
       <el-table-column
         prop="wellSiteName"
         align="center"
@@ -165,34 +114,25 @@
         label="经度"
         width="80"
       />
-      <el-table-column
-        prop="latitude"
-        align="center"
-        label="纬度"
-        width="80"
-      />
+      <el-table-column prop="latitude" align="center" label="纬度" width="80" />
       <el-table-column align="center" label="操作" width="180">
         <template slot-scope="scope"
           ><el-button
             type="text"
             size="small"
-            icon="el-icon-edit"
             @click="editBaseWellSite(scope.row)"
-            >编辑</el-button
-          >
+            class="iconfont icon-bianji"/>
           <el-button
             type="text"
             size="small"
-            icon="el-icon-delete"
             @click="BaseWellSiteDelete(scope.row)"
-            >删除</el-button
-          >
+            class="iconfont icon-shanchu"/>
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页 -->
-    <div class="BaseWellSite_page" align="center">
+    <div class="BaseWellSite_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -354,17 +294,17 @@ export default {
         type: "warning"
       })
         .then(() => {
-          this.deleteRequest("/basWellSiteInfor/wellSite?wellSiteId=" + val.wellSiteId).then(
-            resp => {
-              if (resp) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!"
-                });
-              }
-              this.searchBaseWellSite();
+          this.deleteRequest(
+            "/basWellSiteInfor/wellSite?wellSiteId=" + val.wellSiteId
+          ).then(resp => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!"
+              });
             }
-          );
+            this.searchBaseWellSite();
+          });
         })
         .catch(() => {
           this.$message({
@@ -373,46 +313,9 @@ export default {
           });
         });
     }
-    // //文件下载
-    // fileOpen() {
-    //   window.open("http://localhost:8692/demo/basWellInfor/export");
-    // },
-    // handleRemove(file, fileList) {
-    //   console.log(file, fileList);
-    // },
-    // handlePreview(file) {
-    //   console.log(file);
-    // },
-    // handleChange(file, fileList) {
-    //   // 当多余一个的时候替换文件
-    //   if (fileList.length > 1) {
-    //     fileList.splice(0, 1);
-    //   }
-    // },
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(
-    //     `当前限制选择 1 个文件，本次选择了 ${
-    //       files.length
-    //     } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-    //   );
-    // },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${file.name}？`);
-    // },
-    // handleSuccess(response, file, fileList) {
-    //   if (response.code === 200) {
-    //     this.$message({
-    //       type: "success",
-    //       message: response.message + "，上传了" + response.data + "条数据"
-    //     });
-    //   } else {
-    //     this.$message({
-    //       type: "info",
-    //       message: response.message + "，" + response.data
-    //     });
-    //   }
-    // }
   }
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import "../../assets/css/information/wellsiteinfor.css";
+</style>
