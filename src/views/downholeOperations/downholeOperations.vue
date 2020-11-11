@@ -39,19 +39,33 @@
       <el-table-column label="操作" width="260">
         <template slot-scope="scope">
           <!-- 编辑 -->
+          <el-tooltip content="编辑" placement="top">
           <el-button type="text" size="small" @click="editOperation(scope.row)" class="iconfont icon-bianji" />
+          </el-tooltip>
           <!-- 提交 -->
+          <el-tooltip content="提交" placement="top">
           <el-button type="text" size="small" @click="submitOperation(scope.row)" class="el-icon-success" />
+          </el-tooltip>
           <!-- 查看 -->
+          <el-tooltip content="查看" placement="top">
           <el-button type="text" size="small" @click="checkOperation(scope.row)" class="el-icon-view" />
+          </el-tooltip>
           <!-- 派工 -->
+          <el-tooltip content="派工" placement="top">
           <el-button type="text" size="small" @click="sendOperation(scope.row)" class="el-icon-folder-remove" />
+          </el-tooltip>
           <!-- 完工 -->
+          <el-tooltip content="完工" placement="top">
           <el-button type="text" size="small" @click="completeOperation(scope.row)" class="el-icon-folder-checked" />
+          </el-tooltip>
           <!-- 进度 -->
+          <el-tooltip content="进度" placement="top">
           <el-button type="text" size="small" @click="scheduleOperation(scope.row)" class="el-icon-tickets" />
+          </el-tooltip>
           <!-- 终止 -->
+          <el-tooltip content="终止" placement="top">
           <el-button type="text" size="small" @click="cadenceOperation(scope.row)" class="el-icon-turn-off" />
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
