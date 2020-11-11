@@ -8,6 +8,9 @@
         <el-form-item label="编码类型">
           <el-input v-model="addData.codeType" />
         </el-form-item>
+        <el-form-item label="排列顺序">
+          <el-input onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" v-model="addData.sequence" />
+        </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="addData.remark" />
         </el-form-item>
@@ -58,6 +61,7 @@ export default {
         codeTName: "",
         codeType: "",
         remark: "",
+        sequence:"",
         sysTCodeInforList: [
           {
             codeName: " ",

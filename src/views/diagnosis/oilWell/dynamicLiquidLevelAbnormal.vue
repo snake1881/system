@@ -1,36 +1,36 @@
 <template>
-  <div class="role">
-    <div class="topPosition" align="center">
-      <!-- 条件查询 -->
-      <el-form class="role_form" :model="termForm" :inline="true">
-        <!-- 下拉框查询 -->
-        <el-form-item label="采油站">
-          <el-select
-            v-model="termForm.orgName"
-            clearable
-            placeholder="全区"
-            size="small"
+  <div class="dymAbnormal">
+    <!-- 条件查询 -->
+    <el-form class="dymAbnormal_form" :model="termForm" :inline="true">
+      <!-- 下拉框查询 -->
+      <el-form-item label="采油站">
+        <el-select
+          v-model="termForm.orgName"
+          clearable
+          placeholder="全区"
+          size="medium"
+        >
+          <el-option
+            v-for="item in orgNameData"
+            :key="item.orgName"
+            :label="item.orgName"
+            :value="item.orgName"
           >
-            <el-option
-              v-for="item in orgNameData"
-              :key="item.orgName"
-              :label="item.orgName"
-              :value="item.orgName"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="日期" size="medium">
-          <el-date-picker
-            v-model="termForm.prodDate"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd "
-          >
-          </el-date-picker>
-        </el-form-item>
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="日期">
+        <el-date-picker
+          v-model="termForm.prodDate"
+          size="medium"
+          type="date"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd "
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
         <el-button
           type="primary"
           icon="el-icon-search"
@@ -38,18 +38,22 @@
           @click="abnormalDymSearch()"
           >查询</el-button
         >
-      </el-form>
-    </div>
+      </el-form-item>
+    </el-form>
     <!-- 表格数据 -->
     <el-table
+      class="dymAbnormal_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="dymData"
-      height="500px"
+      height="93%"
       border
       row-key="index"
       style="width:100%;"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
       <el-table-column type="expand" width="60" look="index">
         <template slot-scope="scope">
@@ -96,7 +100,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="dym_page" align="center">
+    <div class="dymAbnormal_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -170,6 +174,7 @@ export default {
             this.total = resp.data.total;
             this.currentPage = resp.data.current;
             this.pageSize = resp.data.size;
+            this.getIndex();
           }
         });
       } else if (
@@ -189,6 +194,7 @@ export default {
             this.total = resp.data.total;
             this.currentPage = resp.data.current;
             this.pageSize = resp.data.size;
+            this.getIndex();
           }
         });
       } else {
@@ -271,4 +277,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import "../../../assets/css/diagnosis/oilWell/dymAbnormal.css";
 </style>

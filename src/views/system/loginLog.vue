@@ -3,11 +3,12 @@
     <!-- 条件查询 -->
     <el-form class="role_form" :model="logingLogForm" :rules="rules" :inline="true">
       <el-form-item>
-        <el-input v-model="logingLogForm.moduleName" clearable placeholder="模块名称" size="small" />
+        <el-input v-model="logingLogForm.moduleName" clearable placeholder="模块名称" size="medium"/>
       </el-form-item>
-      <el-form-item label="日期" size="small">
+      <el-form-item label="日期" >
           <el-date-picker
             v-model="chooseDate"
+            size="medium"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"

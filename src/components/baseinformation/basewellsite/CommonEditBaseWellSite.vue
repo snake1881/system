@@ -102,7 +102,7 @@
         </el-form-item>
         </el-form>
       <el-form>
-        <el-form-item label="是否有效">
+        <!-- <el-form-item label="是否有效">
           <el-select
             v-model="editData.active"
             clearable
@@ -118,7 +118,7 @@
             >
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="备注:">
           <el-input
             size="small"

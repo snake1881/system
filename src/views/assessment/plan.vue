@@ -22,24 +22,28 @@
         height="84%"
         border
         style="width:100%"
+        :row-style="{height:'2px'}"
+        :cell-style="{padding:'0px'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="90" />
-        <el-table-column prop="planName" label="计划名称" width="210" />
-        <el-table-column prop="startDate" label="开始时间" width="160" />
-        <el-table-column prop="endDate" label="结束时间" width="160" />
-        <el-table-column prop="active" label="是否有效" width="210">
+        <el-table-column type="selection" width="80" />
+        <el-table-column prop="index" align="center" label="序号" width="80"/>
+        <el-table-column prop="planName" label="计划名称" width="300" />
+        <el-table-column prop="startDate" label="开始时间" width="200" />
+        <el-table-column prop="endDate" label="结束时间" width="200" />
+        <!-- <el-table-column prop="active" label="是否有效" width="210">
           <template slot-scope="scope">
             <p v-if="scope.row.active == '0'">无效</p>
             <p v-if="scope.row.active == '1'">有效</p>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="remark" label="备注" width="260" />
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editPlan(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
-            <el-button type="text" size="small" @click="detailPlan(scope.row)">查看详情</el-button>
+            <el-button type="text" size="small" @click="editPlan(scope.row)" class="iconfont icon-bianji"/>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu"/>
+            <el-button type="text" size="small" @click="detailPlan(scope.row)" class="iconfont icon-xiangqing"/>
           </template>
         </el-table-column>
       </el-table>
@@ -102,12 +106,12 @@
         <el-table :data="this.detailData.resultInforList" border style="width: 100%" height="320px">
           <el-table-column prop="takeObject" label="参考单位" width="340" />
           <el-table-column prop="totalScore" label="总得分" width="310" />
-          <el-table-column prop="active" label="是否有效" width="320">
+          <!-- <el-table-column prop="active" label="是否有效" width="320">
             <template slot-scope="scope">
               <p v-if="scope.row.active == '0'">无效</p>
               <p v-if="scope.row.active == '1'">有效</p>
             </template>
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column prop="remark" label="备注" width="320" />
         </el-table>
       </div>
@@ -167,6 +171,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -184,6 +189,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -288,7 +294,14 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.planInit();
-    }
+    },
+    //获取序号
+    getIndex() {
+      this.planData.forEach((item, index) => {
+        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
+        return item;
+      });
+    },
   }
 };
 </script>
