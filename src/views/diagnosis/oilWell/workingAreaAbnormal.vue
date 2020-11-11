@@ -1,55 +1,61 @@
 <template>
   <div class="abnormalGtmj">
-    <div align="center">
-      <!-- 条件查询 -->
-      <el-form class="role_form" v-model="termData" :inline="true">
-        <!-- 下拉框查询 -->
-        <el-form-item label="采油站">
-          <el-select
-            v-model="termData.orgName"
-            clearable
-            placeholder="全区"
-            size="small"
-          >
-            <el-option
-              v-for="item in orgNameData"
-              :key="item.orgName"
-              :label="item.orgName"
-              :value="item.orgName"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="日期" size="medium">
-          <el-date-picker
-            v-model="termData.checkDate"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="small"
-          @click="searchPost()"
-          >查询</el-button
+    <!-- 条件查询 -->
+    <el-form class="abnormalGtmj_form" v-model="termData" :inline="true">
+      <!-- 下拉框查询 -->
+      <el-form-item label="采油站">
+        <el-select
+          v-model="termData.orgName"
+          clearable
+          placeholder="全区"
+          size="medium"
         >
-      </el-form>
-    </div>
+          <el-option
+            v-for="item in orgNameData"
+            size="medium"
+            :key="item.orgName"
+            :label="item.orgName"
+            :value="item.orgName"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="日期" >
+        <el-date-picker
+          v-model="termData.checkDate"
+          size="medium"
+          type="date"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+        type="primary"
+        icon="el-icon-search"
+        size="small"
+        @click="searchPost()"
+        >查询</el-button
+      >
+      </el-form-item>
+    </el-form>
+
     <!-- 表格数据 -->
     <el-table
+      class="abnormalGtmj_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="gtmjData"
-      height="500px"
+      height="93%"
       border
       lazy
       row-key="checkDate"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       :tree-props="{
         children: 'children',
         hasChildren: 'hasChildren'
@@ -91,7 +97,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="workingArea_page" align="center">
+    <div class="abnormalGtmj_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -224,12 +230,9 @@ export default {
         return item;
       });
     }
-  },
-  
+  }
 };
 </script>
 <style lang="less" scoped>
-// .workingArea_page {
-//    position:absolute; bottom:0;
-// }
+@import "../../../assets/css/diagnosis/oilWell/workAreaAbnormal.css";
 </style>

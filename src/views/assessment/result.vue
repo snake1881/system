@@ -21,23 +21,21 @@
         height="84%"
         border
         style="width:100%"
+        :row-style="{height:'2px'}"
+        :cell-style="{padding:'0px'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="90" />
-        <el-table-column prop="takeObject" label="参考单位/人员" width="210" />
+        <el-table-column prop="index" align="center" label="序号" width="80"/>
+        <el-table-column prop="takeObject" label="参考单位/人员" width="300" />
         <el-table-column prop="totalScore" label="总得分" width="120" />
-        <el-table-column prop="active" label="是否有效" width="120">
-          <template slot-scope="scope">
-            <p v-if="scope.row.active == '0'">无效</p>
-            <p v-if="scope.row.active == '1'">有效</p>
-          </template>
-        </el-table-column>
         <el-table-column prop="examineDate" label="考核时间" width="240" />
         <el-table-column prop="remark" label="备注" width="240" />
         <el-table-column label="操作" width="240">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editResult(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
+            <el-button type="text" size="small" @click="editResult(scope.row)" class="iconfont icon-bianji"/>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu"/>
             <el-button
               type="text"
               size="small"
@@ -54,7 +52,7 @@
             >
               考核打分
             </el-button>
-            <el-button type="text" size="small" @click="detailResult(scope.row)">查看详情</el-button>
+            <el-button type="text" size="small" @click="detailResult(scope.row)" class="iconfont icon-xiangqing"/>
           </template>
         </el-table-column>
       </el-table>
@@ -200,6 +198,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -217,6 +216,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -345,7 +345,14 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.resultInit();
-    }
+    },
+    //获取序号
+    getIndex() {
+      this.resultData.forEach((item, index) => {
+        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
+        return item;
+      });
+    },
   }
 };
 </script>

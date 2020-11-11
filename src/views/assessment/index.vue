@@ -5,12 +5,34 @@
       <!-- 条件查询 -->
       <el-form class="role_form" :model="indexFrom" :inline="true">
         <el-form-item>
-          <el-input v-model="indexFrom.indexName" placeholder="指标名称" size="medium" />
+          <el-input
+            v-model="indexFrom.indexName"
+            placeholder="指标名称"
+            size="medium"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="small" @click="searchIndex()">查询</el-button>
-          <el-button type="primary" icon="el-icon-plus" size="small" @click="addIndex()">新增</el-button>
-          <el-button type="primary" icon="el-icon-delete" size="small" @click="selectdelete()">批量删除</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="small"
+            @click="searchIndex()"
+            >查询</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
+            size="small"
+            @click="addIndex()"
+            >新增</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            size="small"
+            @click="selectdelete()"
+            >批量删除</el-button
+          >
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
@@ -22,19 +44,38 @@
         height="84%"
         border
         style="width:100%"
+        :row-style="{ height: '2px' }"
+        :cell-style="{ padding: '0px' }"
+        :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="90" />
-        <el-table-column prop="indexName" label="指标名称" width="210" />
+        <el-table-column prop="index" align="center" label="序号" width="80" />
+        <el-table-column prop="indexName" label="指标名称" width="260" />
         <el-table-column prop="scoreWeight" label="权重" width="160" />
         <el-table-column prop="sequence" label="排列顺序" width="140" />
-        <el-table-column prop="examineTName" label="考核模板" width="220" />
-        <el-table-column prop="remark" label="备注" width="260" />
+        <el-table-column prop="examineTName" label="考核模板" width="260" />
+        <!-- <el-table-column prop="remark" label="备注" width="260" /> -->
         <el-table-column label="操作" width="200">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editIndex(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
-            <el-button type="text" size="small" @click="detailIndex(scope.row)">查看详情</el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click="editIndex(scope.row)"
+              class="iconfont icon-bianji"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="sinDelete(scope.row)"
+              class="iconfont icon-shanchu"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="detailIndex(scope.row)"
+              class="iconfont icon-xiangqing"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -51,7 +92,10 @@
         />
       </div>
       <!-- 新增 -->
-      <common-add-index :addIndexVisible="addIndexVisible" @addClose="addIndexClose" />
+      <common-add-index
+        :addIndexVisible="addIndexVisible"
+        @addClose="addIndexClose"
+      />
       <!-- 编辑 -->
       <common-edit-index
         :editIndexVisible="editIndexVisible"
@@ -68,7 +112,8 @@
         :underline="false"
         type="primary"
         icon="el-icon-arrow-left"
-      >返回</el-link>
+        >返回</el-link
+      >
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
@@ -96,7 +141,12 @@
           <span style="color: #50a6fe;">考核指标详情</span>
         </el-divider>
         <br />
-        <el-table :data="this.detailData.indexDetails" border style="width: 100%" height="320px">
+        <el-table
+          :data="this.detailData.indexDetails"
+          border
+          style="width: 100%"
+          height="320px"
+        >
           <el-table-column prop="examineContent" label="考核内容" width="500" />
           <el-table-column prop="requirement" label="考核标准" width="500" />
           <el-table-column prop="score" label="分值" width="294" />
@@ -159,6 +209,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -176,6 +227,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -279,6 +331,13 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.indexInit();
+    },
+    //获取序号
+    getIndex() {
+      this.indexData.forEach((item, index) => {
+        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
+        return item;
+      });
     }
   }
 };

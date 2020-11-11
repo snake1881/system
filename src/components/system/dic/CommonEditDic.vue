@@ -13,6 +13,9 @@
         <el-form-item label="编码类型">
           <el-input v-model="editData.codeType" />
         </el-form-item>
+        <el-form-item label="排列顺序">
+          <el-input onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" v-model="editData.sequence"  />
+        </el-form-item> 
         <el-button
           type="text"
           class="el-icon-circle-plus-outline"

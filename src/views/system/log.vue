@@ -5,9 +5,10 @@
       <el-form-item>
         <el-input v-model="logForm.moduleName" clearable placeholder="模块名称" size="medium" />
       </el-form-item>
-       <el-form-item label="日期" size="medium">
+       <el-form-item label="日期" >
           <el-date-picker
             v-model="chooseDate"
+            size="medium"
             type="daterange"
             range-separator="至"
             start-placeholder="开始日期"
@@ -19,6 +20,8 @@
         </el-form-item>
         <el-form-item>
       <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
+      </el-form-item>
+        <el-form-item>
       <el-button
           type="primary"
           icon="el-icon-download"

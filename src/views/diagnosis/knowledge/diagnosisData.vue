@@ -1,17 +1,8 @@
  <template>
   <div class="diagnosisData">
-    <div  align="center">
-      <el-form>
-        <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-plus"
-            size="small"
-            @click="addDiagnosisData()"
-            >新增</el-button
-          >
-        </el-form-item>
-      </el-form>
+    <div class="diagnosisData_top">
+      <el-button id="diagnosisData_top_btn" type="text" class="el-icon-plus" @click="addDiagnosisData()">新增</el-button>
+    </div>
       <el-table
         v-loading="loading"
         element-loading-text="拼命加载中"
@@ -20,6 +11,9 @@
         border
         row-key="diadiagnosticStep"
         style="width:100%"
+        :row-style="{height:'2px'}"
+        :cell-style="{padding:'0px'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
         :span-method="objectOneMethod"
       >
         <el-table-column
@@ -50,21 +44,17 @@
             <el-button
               type="text"
               size="small"
-              icon="el-icon-edit"
               @click="editDiagnosisData(scope.row)"
-              >编辑</el-button
-            >
+              class="iconfont icon-bianji" />
             <el-button
               type="text"
               size="small"
-              icon="el-icon-delete"
               @click="deleteDiagnosisData(scope.row)"
-              >删除</el-button
-            >
+              class="iconfont icon-shanchu"/>
           </template>
         </el-table-column>
       </el-table>
-    </div>
+    
     <!-- 新增 -->
     <common-add-diagnosisData
       :addDiagnosisDataVisible="addDiagnosisDataVisible"

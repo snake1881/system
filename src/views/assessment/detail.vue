@@ -3,12 +3,34 @@
     <!-- 条件查询 -->
     <el-form class="role_form" :model="detailFrom" :inline="true">
       <el-form-item>
-        <el-input v-model="detailFrom.examineContent" placeholder="考核内容" size="medium" />
+        <el-input
+          v-model="detailFrom.examineContent"
+          placeholder="考核内容"
+          size="medium"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="small" @click="searchIndex()">查询</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="small" @click="addDetail()">新增</el-button>
-        <el-button type="primary" icon="el-icon-delete" size="small" @click="selectdelete()">批量删除</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+          @click="searchIndex()"
+          >查询</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="addDetail()"
+          >新增</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-delete"
+          size="small"
+          @click="selectdelete()"
+          >批量删除</el-button
+        >
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
@@ -20,24 +42,32 @@
       height="84%"
       border
       style="width:100%"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="examineContent" label="考核内容" width="220" />
-      <el-table-column prop="requirement" label="工作要求" width="220" />
-      <el-table-column prop="examineStandard" label="考核标准" width="220" />
+      <el-table-column type="selection" width="60" />
+      <el-table-column prop="index" align="center" label="序号" width="80" />
+      <el-table-column prop="examineContent" label="考核内容" width="240" />
+      <el-table-column prop="requirement" label="工作要求" width="240" />
+      <el-table-column prop="examineStandard" label="考核标准" width="300" />
       <el-table-column prop="score" label="分值" width="120" />
       <el-table-column prop="sequence" label="排列顺序" width="120" />
-      <el-table-column prop="active" label="是否有效" width="120">
+      <el-table-column label="操作" width="160">
         <template slot-scope="scope">
-          <p v-if="scope.row.active == '0'">无效</p>
-          <p v-if="scope.row.active == '1'">有效</p>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" width="210">
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editDetail(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
+          <el-button
+            type="text"
+            size="small"
+            class="iconfont icon-bianji"
+            @click="editDetail(scope.row)"
+          />
+          <el-button
+            type="text"
+            size="small"
+            class="iconfont icon-shanchu"
+            @click="sinDelete(scope.row)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -54,7 +84,10 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-detail :addDetailVisible="addDetailVisible" @addClose="addDetailClose" />
+    <common-add-detail
+      :addDetailVisible="addDetailVisible"
+      @addClose="addDetailClose"
+    />
     <!-- 编辑 -->
     <common-edit-detail
       :editDetailVisible="editDetailVisible"
@@ -113,6 +146,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -130,6 +164,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.getIndex();
         }
       });
     },
@@ -223,6 +258,13 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.detailInit();
+    },
+    //获取序号
+    getIndex() {
+      this.detailData.forEach((item, index) => {
+        item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
+        return item;
+      });
     }
   }
 };

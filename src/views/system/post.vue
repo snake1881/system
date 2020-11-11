@@ -95,9 +95,11 @@ export default {
       this.postRequest(
         "/position/findListsByPage?page=" +
           this.currentPage +
+          "&positionName="+
+          this.postForm.positionName +
           "&size=" +
           this.pageSize,
-        this.postForm
+       
       ).then(resp => {
         if (resp) {
           this.postData = resp.data.records;
