@@ -25,7 +25,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="primary" @click="saveAddMenu(), addMenuClose()" class="addMenuButton">提交</el-button>
+    <el-button type="primary" @click="saveAddMenu(addData), addMenuClose()" class="addMenuButton">提交</el-button>
     <el-button type="info" @click="addMenuClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -48,7 +48,7 @@ export default {
         moduleUrl: "",
         moduleType: "",
         permissionMark: "",
-        parentModuleId: this.addData.moduleId
+        parentModuleId: ""
       },
     };
   },
@@ -58,7 +58,9 @@ export default {
       this.$emit("menuRowClose");
     },
     // 菜单树
-    saveAddMenu() {
+    saveAddMenu(val) {
+      //将父节点id赋值给子节点
+      this.addMenuData.parentModuleId=val.moduleId; 
       this.postRequest("/system/sysModule/insert", this.addMenuData).then(
         resp => {
           if (resp) {
