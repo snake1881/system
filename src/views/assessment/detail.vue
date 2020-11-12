@@ -17,27 +17,23 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="detailData"
-      height="84%"
       border
-      style="width:100%"
+      style="width:100%;height:86%"
+      :row-style="{height:'2px'}"
+      :cell-style="{padding:'0px'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" />
-      <el-table-column prop="examineContent" label="考核内容" width="220" />
-      <el-table-column prop="requirement" label="工作要求" width="220" />
-      <el-table-column prop="examineStandard" label="考核标准" width="220" />
-      <el-table-column prop="score" label="分值" width="120" />
+      <el-table-column type="selection" width="90" />
+      <el-table-column prop="examineContent" label="考核内容" width="300" />
+      <el-table-column prop="requirement" label="工作要求" width="280" />
+      <el-table-column prop="examineStandard" label="考核标准" width="280" />
+      <el-table-column prop="score" label="分值" width="140" />
       <el-table-column prop="sequence" label="排列顺序" width="120" />
-      <el-table-column prop="active" label="是否有效" width="120">
+      <el-table-column label="操作" width="125">
         <template slot-scope="scope">
-          <p v-if="scope.row.active == '0'">无效</p>
-          <p v-if="scope.row.active == '1'">有效</p>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" width="210">
-        <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editDetail(scope.row)">编辑</el-button>
-          <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="editDetail(scope.row)" class="iconfont icon-bianji" />
+          <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu" />
         </template>
       </el-table-column>
     </el-table>

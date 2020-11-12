@@ -1,52 +1,56 @@
 <template>
-  <el-dialog
-    title="新增考核指标明细"
-    :visible.sync="addDetailVisible"
-    width="60%"
-    :before-close="addDetailClose"
-  >
-    <div class="dialogDiv">
-      <el-form :model="addData" label-width="80px">
-        <el-form-item label="考核指标">
-          <el-select v-model="addData.indexId">
-            <el-option
-              v-for="(item, index) in this.Index"
-              :key="index"
-              :label="item.indexName"
-              :value="item.indexId"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="考核内容">
-          <el-input v-model="addData.examineContent" />
-        </el-form-item>
-        <el-form-item label="工作要求">
-          <el-input v-model="addData.requirement" />
-        </el-form-item>
-        <el-form-item label="考核标准">
-          <el-input v-model="addData.examineStandard" />
-        </el-form-item>
-        <el-form-item label="分值">
-          <el-input v-model="addData.score" />
-        </el-form-item>
-        <el-form-item label="是否有效">
-          <el-select v-model="addData.active">
-            <el-option label="无效" value="0" />
-            <el-option label="有效" value="1" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </div>
-    <span slot="footer">
-      <el-button
-        type="primary"
-        @click="saveAddDetail(addData), addDetailClose()"
-      >
-        提交
-      </el-button>
-    </span>
-  </el-dialog>
+<el-dialog title="新增考核指标明细" :visible.sync="addDetailVisible" width="50%" :before-close="addDetailClose">
+  <div class="addDetail">
+    <el-form :model="addData" label-width="80px">
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="考核内容">
+            <el-input v-model="addData.examineContent" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="工作要求">
+            <el-input v-model="addData.requirement" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="考核标准">
+            <el-input v-model="addData.examineStandard" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="分值">
+            <el-input v-model="addData.score" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="是否有效">
+            <el-select v-model="addData.active">
+              <el-option label="无效" value="0" />
+              <el-option label="有效" value="1" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="考核指标">
+            <el-select v-model="addData.indexId">
+              <el-option v-for="(item, index) in this.Index" :key="index" :label="item.indexName" :value="item.indexId" />
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+    </el-form>
+  </div>
+    <el-button type="primary" @click="saveAddDetail(addData), addDetailClose()" class="addDetaillButton"> 提交 </el-button>
+    <el-button type="info" @click=" addDetailClose()"> 取消 </el-button>
+</el-dialog>
 </template>
+
 <script>
 export default {
   props: {
@@ -65,7 +69,7 @@ export default {
         score: "",
         sequence: "",
         active: "",
-        indexId:"",
+        indexId: "",
       },
       // 考核指标
       Index: []
@@ -107,13 +111,19 @@ export default {
   }
 };
 </script>
+
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.addDetail {
+  height: 240px;
   overflow: auto;
 }
-</style>
-<style lang="less">
+.addDetail .el-input {
+  width: 220px;
+}
+.addDetaillButton{
+  margin-left: 240px;
+}
+</style><style lang="less">
 element.style {
   margin: 0;
 }

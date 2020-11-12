@@ -2,10 +2,10 @@
   <el-dialog
     title="编辑考核模板"
     :visible.sync="editTemVisible"
-    width="60%"
+    width="40%"
     :before-close="editTemClose"
   >
-    <div class="dialogDiv">
+    <div class="editTem">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="模板名称">
           <el-input v-model="editData.templateName" />
@@ -13,19 +13,10 @@
         <el-form-item label="制定单位">
           <el-input v-model="editData.formulationUnit" />
         </el-form-item>
-        <el-form-item label="是否有效">
-          <el-select v-model="editData.active" placeholder="请选择">
-            <el-option label="有效" value="1" />
-            <el-option label="无效" value="0" />
-          </el-select>
-        </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveEditTem(editData), editTemClose()">
-        提交
-      </el-button>
-    </span>
+      <el-button type="primary" @click="saveEditTem(editData), editTemClose()" class="editTemButton"> 提交</el-button>
+      <el-button type="primary" @click="editTemClose()"> 取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -65,9 +56,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.editTem {
+  height: 140px;
   overflow: auto;
+}
+.editTem .el-input {
+  width: 420px;
+  height: 2px;
+}
+.editTemButton {
+  margin: 0 0 0 180px;
 }
 </style>
 <style lang="less">

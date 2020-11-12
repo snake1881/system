@@ -42,15 +42,15 @@
       style="width:100%"
       :row-style="{height:'2px'}"
       :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="operationId" label="日志编号" width="90" />
-      <el-table-column prop="moduleName" label="模块名称" width="140" />
-      <el-table-column prop="operatorName" label="登录名称" width="130" />
-      <el-table-column prop="requestIp" label="登陆地址" width="140" />
-      <el-table-column prop="requestLocation" label="登陆地点" width="140" />
-      <el-table-column prop="channel" label="设备" width="120" />
+      <el-table-column prop="moduleName" label="模块名称" width="150" />
+      <el-table-column prop="operatorName" label="登录名称" width="150" />
+      <el-table-column prop="requestIp" label="登陆地址" width="150" />
+      <el-table-column prop="requestLocation" label="登陆地点" width="150" />
+      <el-table-column prop="channel" label="设备" width="150" />
       <el-table-column prop="operationType" label="操作类型" width="100" />
       <el-table-column prop="operationMsg" label="操作信息" width="100" />
       <el-table-column prop="operationTime" label="登陆时间" width="240" />

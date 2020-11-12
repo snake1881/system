@@ -19,27 +19,23 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         :data="planData"
-        height="84%"
         border
-        style="width:100%"
+        style="width:100%;height:85%"
+        :row-style="{height:'2px'}"
+        :cell-style="{padding:'0px'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="90" />
-        <el-table-column prop="planName" label="计划名称" width="210" />
-        <el-table-column prop="startDate" label="开始时间" width="160" />
-        <el-table-column prop="endDate" label="结束时间" width="160" />
-        <el-table-column prop="active" label="是否有效" width="210">
+        <el-table-column prop="planName" label="计划名称" width="300" />
+        <el-table-column prop="startDate" label="开始时间" width="270" />
+        <el-table-column prop="endDate" label="结束时间" width="270" />
+        <el-table-column prop="remark" label="备注" width="285" />
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <p v-if="scope.row.active == '0'">无效</p>
-            <p v-if="scope.row.active == '1'">有效</p>
-          </template>
-        </el-table-column>
-        <el-table-column prop="remark" label="备注" width="260" />
-        <el-table-column label="操作" width="200">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editPlan(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
-            <el-button type="text" size="small" @click="detailPlan(scope.row)">查看详情</el-button>
+            <el-button type="text" size="small" @click="editPlan(scope.row)" class="iconfont icon-bianji" />
+            <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu" />
+            <el-button type="text" size="small" @click="detailPlan(scope.row)" class="iconfont icon-xiangqing" />
           </template>
         </el-table-column>
       </el-table>
@@ -99,16 +95,14 @@
           <span style="color: #50a6fe;">参考单位</span>
         </el-divider>
         <br />
-        <el-table :data="this.detailData.resultInforList" border style="width: 100%" height="320px">
-          <el-table-column prop="takeObject" label="参考单位" width="340" />
-          <el-table-column prop="totalScore" label="总得分" width="310" />
-          <el-table-column prop="active" label="是否有效" width="320">
-            <template slot-scope="scope">
-              <p v-if="scope.row.active == '0'">无效</p>
-              <p v-if="scope.row.active == '1'">有效</p>
-            </template>
-          </el-table-column>
-          <el-table-column prop="remark" label="备注" width="320" />
+        <el-table 
+          :data="this.detailData.resultInforList" 
+          border 
+          style="width: 100%;height:90%" 
+        >
+          <el-table-column prop="takeObject" label="参考单位" width="450" />
+          <el-table-column prop="totalScore" label="总得分" width="425" />
+          <el-table-column prop="remark" label="备注" width="460" />
         </el-table>
       </div>
     </div>

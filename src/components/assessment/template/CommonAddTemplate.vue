@@ -2,10 +2,10 @@
   <el-dialog
     title="新增考核模板"
     :visible.sync="addTemVisible"
-    width="60%"
+    width="40%"
     :before-close="addTemClose"
   >
-    <div class="dialogDiv">
+    <div class="addTem">
       <el-form :model="addData" label-width="80px">
         <el-form-item label="模板名称">
           <el-input v-model="addData.templateName" />
@@ -13,19 +13,10 @@
         <el-form-item label="制定单位">
           <el-input v-model="addData.formulationUnit" />
         </el-form-item>
-        <el-form-item label="是否有效">
-          <el-select v-model="addData.active" placeholder="请选择">
-            <el-option label="有效" value="1" />
-            <el-option label="无效" value="0" />
-          </el-select>
-        </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveAddTem(addData), addTemClose()">
-        提交
-      </el-button>
-    </span>
+      <el-button type="primary" @click="saveAddTem(addData), addTemClose()" class="saveTemButton"> 提交 </el-button>
+      <el-button type="info" @click="addTemClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -42,7 +33,6 @@ export default {
       addData: {
         templateName: "",
         formulationUnit: "",
-        active: ""
       }
     };
   },
@@ -71,9 +61,16 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.addTem {
+  height: 140px;
   overflow: auto;
+}
+.addTem .el-input {
+  width: 420px;
+  height: 2px;
+}
+.saveTemButton {
+  margin: 0 0 0 180px;
 }
 </style>
 <style lang="less">

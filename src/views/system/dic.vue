@@ -27,14 +27,14 @@
         style="width:100%"
         :row-style="{height:'2px'}"
         :cell-style="{padding:'0px'}"
-        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="90" />
-        <el-table-column prop="codeTName" label="编码名称" width="324" />
-        <el-table-column prop="codeType" label="编码类型" width="320" />
-        <el-table-column prop="createTime" label="创建时间" width="340" />
-        <el-table-column label="操作" width="260">
+        <el-table-column type="selection" width="125" />
+        <el-table-column prop="codeTName" label="编码名称" width="360" />
+        <el-table-column prop="codeType" label="编码类型" width="360" />
+        <el-table-column prop="createTime" label="创建时间" width="370" />
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editDic(scope.row)" class="iconfont icon-bianji" />
             <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu" />

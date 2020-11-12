@@ -1,7 +1,7 @@
 <template>
 <div class="login">
   <div class="login-top">
-    <img class="login-top-image" src="../assets/images/logo1.png" />
+    <img class="login-top-image" src="../assets/images/logo2.png" />
     <h3 class="login-top-title">定边采油厂智能油田一体化平台</h3>
   </div>
   <div class="login-form">

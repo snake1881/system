@@ -19,22 +19,24 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         :data="indexData"
-        height="84%"
         border
-        style="width:100%"
+        style="width:100%;height:86%"
+        :row-style="{height:'2px'}"
+        :cell-style="{padding:'0px'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="90" />
-        <el-table-column prop="indexName" label="指标名称" width="210" />
-        <el-table-column prop="scoreWeight" label="权重" width="160" />
-        <el-table-column prop="sequence" label="排列顺序" width="140" />
-        <el-table-column prop="examineTName" label="考核模板" width="220" />
-        <el-table-column prop="remark" label="备注" width="260" />
-        <el-table-column label="操作" width="200">
+        <el-table-column prop="indexName" label="指标名称" width="240" />
+        <el-table-column prop="scoreWeight" label="权重" width="150" />
+        <el-table-column prop="sequence" label="排列顺序" width="155" />
+        <el-table-column prop="examineTName" label="考核模板" width="300" />
+        <el-table-column prop="remark" label="备注" width="280" />
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editIndex(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
-            <el-button type="text" size="small" @click="detailIndex(scope.row)">查看详情</el-button>
+            <el-button type="text" size="small" @click="editIndex(scope.row)" class="iconfont icon-bianji" />
+            <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu" />
+            <el-button type="text" size="small" @click="detailIndex(scope.row)" class="iconfont icon-xiangqing" />
           </template>
         </el-table-column>
       </el-table>
@@ -96,10 +98,14 @@
           <span style="color: #50a6fe;">考核指标详情</span>
         </el-divider>
         <br />
-        <el-table :data="this.detailData.indexDetails" border style="width: 100%" height="320px">
-          <el-table-column prop="examineContent" label="考核内容" width="500" />
-          <el-table-column prop="requirement" label="考核标准" width="500" />
-          <el-table-column prop="score" label="分值" width="294" />
+        <el-table 
+        :data="this.detailData.indexDetails" 
+        border 
+        style="width: 100%;height:90%" 
+        >
+          <el-table-column prop="examineContent" label="考核内容" width="515" />
+          <el-table-column prop="requirement" label="考核标准" width="510" />
+          <el-table-column prop="score" label="分值" width="310" />
         </el-table>
       </div>
     </div>

@@ -2,10 +2,10 @@
   <el-dialog
     title="考核打分"
     :visible.sync="scoreResultVisible"
-    width="60%"
+    width="50%"
     :before-close="scoreResultClose"
   >
-    <div class="dialogDiv">
+    <div class="scoreResult">
       <el-form label-width="300px">
         <el-form-item
           v-for="(item, index) in this.scoreData"
@@ -22,11 +22,8 @@
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveEditResult(), scoreResultClose()">
-        提交
-      </el-button>
-    </span>
+      <el-button type="primary" @click="saveEditResult(), scoreResultClose()" class="scoreResultButton">提交</el-button>
+      <el-button type="info" @click="scoreResultClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
@@ -83,13 +80,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
+.scoreResult {
   height: 400px;
   overflow: auto;
 }
+.scoreResultButton {
+  margin-left: 260px;
+}
 </style>
 <style lang="less" scoped>
-.el-input {
-  width: 100px;
+.scoreResult .el-input {
+  width: 150px;
 }
 </style>

@@ -1,83 +1,69 @@
 <template>
-  <el-dialog
-    title="考核指标编辑"
-    :visible.sync="editIndexVisible"
-    width="60%"
-    :before-close="editIndexClose"
-  >
-    <div class="dialogDiv">
-      <el-form :model="editData" label-width="80px">
-        <el-form-item label="指标名称">
-          <el-input v-model="editData.indexName" />
-        </el-form-item>
-        <el-form-item label="分值">
-          <el-input v-model="editData.scoreWeight" />
-        </el-form-item>
-        <el-form-item label="排列顺序">
-          <el-input v-model="editData.sequence" />
-        </el-form-item>
-        <el-form-item label="考核模板">
-          <el-select v-model="editData.examineTName">
-            <el-option
-              v-for="(item, index) in this.template"
-              :key="index"
-              :label="item.templateName"
-              :value="item.templateName"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="父级指标">
-          <el-select v-model="editData.indexPName">
-            <el-option
-              v-for="(item, index) in this.pIndex"
-              :key="index"
-              :label="item.indexName"
-              :value="item.indexPId"
-            />
-          </el-select>
-        </el-form-item>
-        <el-button
-          type="text"
-          class="el-icon-circle-plus-outline"
-          @click="addIndexDetail()"
-        >
-          添加考核指标明细
-        </el-button>
-        <div style="margin-left:0px">
-          <el-form-item
-            v-for="(item, index) in editData.indexDetails"
-            :key="index"
-          >
-            <el-row>
-              <el-col :span="8">
-                <el-form-item label="考核内容">
-                  <el-input v-model="item.examineContent" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="分值">
-                  <el-input v-model="item.score" />
-                </el-form-item>
-              </el-col>
-              <el-button
-                type="text"
-                style="margin-left:20px"
-                @click="dlete(item)"
-              >
-                删除
-              </el-button>
-            </el-row>
+<el-dialog title="考核指标编辑" :visible.sync="editIndexVisible" width="50%" :before-close="editIndexClose">
+  <div class="editIndex">
+    <el-form :model="editData" label-width="80px">
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="指标名称">
+            <el-input v-model="editData.indexName" />
           </el-form-item>
-        </div>
-      </el-form>
-    </div>
-    <span slot="footer">
-      <el-button type="primary" @click="saveEditIndex(), editIndexClose()">
-        提交
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="分值">
+            <el-input v-model="editData.scoreWeight" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="排列顺序">
+            <el-input v-model="editData.sequence" />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <el-form-item label="考核模板">
+        <el-select v-model="editData.examineTName">
+          <el-option v-for="(item, index) in this.template" :key="index" :label="item.templateName" :value="item.templateName" />
+        </el-select>
+      </el-form-item>
+        </el-col>
+        <el-col :span="8">
+           <el-form-item label="父级指标">
+        <el-select v-model="editData.indexPName">
+          <el-option v-for="(item, index) in this.pIndex" :key="index" :label="item.indexName" :value="item.indexPId" />
+        </el-select>
+      </el-form-item>
+        </el-col>
+      </el-row>
+      <el-button type="text" class="el-icon-circle-plus-outline" @click="addIndexDetail()">
+        添加考核指标明细
       </el-button>
-    </span>
-  </el-dialog>
+      <div class="editIndexDec">
+        <el-form-item v-for="(item, index) in editData.indexDetails" :key="index">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="考核内容">
+                <el-input v-model="item.examineContent" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="分值">
+                <el-input v-model="item.score" />
+              </el-form-item>
+            </el-col>
+            <el-button type="text" style="margin-left:20px" @click="dlete(item)">
+              删除
+            </el-button>
+          </el-row>
+        </el-form-item>
+      </div>
+    </el-form>
+  </div>
+    <el-button type="primary" @click="saveEditIndex(), editIndexClose()" class="editInedxButton"> 提交</el-button>
+    <el-button type="info" @click="editIndexClose()"> 取消</el-button>
+</el-dialog>
 </template>
+
 <script>
 export default {
   props: {
@@ -155,12 +141,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialogDiv {
-  height: 400px;
+.editIndex {
+  height: 350px;
   overflow: auto;
 }
-</style>
-<style lang="less">
+.editIndexDec {
+  margin-left:0px; 
+ height:140px;
+ overflow-y:scroll 
+}
+.editInedxButton {
+  margin: 0 0 0 260px;
+}
+</style><style lang="less">
 element.style {
   margin: 0;
 }

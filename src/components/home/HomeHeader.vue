@@ -1,7 +1,7 @@
 <template>
   <div class="header_container">
     <div class="container_left">
-      <img class="container_left_img" src="../../assets/images/logo1.png" />
+      <img class="container_left_img" src="../../assets/images/logo2.png" />
       <span class="container_left_text">定边采油厂智能油田一体化平台</span>
     </div>
     <!-- 导航栏 -->

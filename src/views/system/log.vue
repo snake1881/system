@@ -40,16 +40,16 @@
       style="width:100%;"
       :row-style="{height:'2px'}"
       :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
     >
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="operationId" label="日志编号" width="120" />
-      <el-table-column prop="moduleName" label="模块名称" width="160" />
-      <el-table-column prop="operationType" label="操作类型" width="140" />
-      <el-table-column prop="operatorName" label="操作人员" width="140" />
+      <el-table-column prop="operationId" label="日志编号" width="100" />
+      <el-table-column prop="moduleName" label="模块名称" width="180" />
+      <el-table-column prop="operationType" label="操作类型" width="160" />
+      <el-table-column prop="operatorName" label="操作人员" width="170" />
       <el-table-column prop="departmentName" label="部门名称" width="160" />
-      <el-table-column prop="requestIp" label="主机" width="140" />
-      <el-table-column prop="status" label="操作状态" width="130" />
+      <el-table-column prop="requestIp" label="主机" width="160" />
+      <el-table-column prop="status" label="操作状态" width="160" />
       <el-table-column prop="operationTime" label="操作时间" width="190" />
       
     </el-table>

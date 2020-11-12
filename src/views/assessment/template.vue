@@ -19,26 +19,22 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         :data="templateData"
-        height="84%"
         border
-        style="width:100%"
+        style="width:100%;height:86%"
+        :row-style="{height:'2px'}"
+        :cell-style="{padding:'0px'}"
+        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="90" />
-        <el-table-column prop="templateName" label="模板名称" width="280" />
-        <el-table-column prop="formulationUnit" label="制定单位" width="260" />
-        <el-table-column prop="formulationDate" label="制定时间" width="260" />
-        <el-table-column prop="active" label="是否有效" width="200">
+        <el-table-column prop="templateName" label="模板名称" width="380" />
+        <el-table-column prop="formulationUnit" label="制定单位" width="360" />
+        <el-table-column prop="formulationDate" label="制定时间" width="380" />
+        <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <p v-if="scope.row.active == '0'">无效</p>
-            <p v-if="scope.row.active == '1'">有效</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="200">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editTem(scope.row)">编辑</el-button>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)">删除</el-button>
-            <el-button type="text" size="small" @click="detailTem(scope.row)">查看详情</el-button>
+            <el-button type="text" size="small" @click="editTem(scope.row)" class="iconfont icon-bianji"/>
+            <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu"/>
+            <el-button type="text" size="small" @click="detailTem(scope.row)" class="iconfont icon-xiangqing" />
           </template>
         </el-table-column>
       </el-table>
@@ -101,18 +97,11 @@
         <el-table
           :data="this.detailData.bizExamineIndexInfors"
           border
-          style="width: 100%"
-          height="320px"
+          style="width: 100%;height:90%"
         >
-          <el-table-column prop="indexName" label="指标名称" width="340" />
-          <el-table-column prop="scoreWeight" label="分值" width="310" />
-          <el-table-column prop="active" label="是否有效" width="320">
-            <template slot-scope="scope">
-              <p v-if="scope.row.active == '0'">无效</p>
-              <p v-if="scope.row.active == '1'">有效</p>
-            </template>
-          </el-table-column>
-          <el-table-column prop="remark" label="备注" width="320" />
+          <el-table-column prop="indexName" label="指标名称" width="470" />
+          <el-table-column prop="scoreWeight" label="分值" width="405" />
+          <el-table-column prop="remark" label="备注" width="460" />
         </el-table>
       </div>
     </div>

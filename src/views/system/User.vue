@@ -1,15 +1,22 @@
 <template>
   <div class="user">
-    <div class="user_left">
+    <div class="user_left tree-container">
       <el-tree
         ref="tree"
+        :indent="0"
         empty-text="暂无数据"
         accordion
         :data="deparmentData"
         :props="defaultProps"
         node-key="deparmentData.departmentId"
         @node-click="getCheckedKeys"
-      />
+      >
+       <span class="custom-tree-node" slot-scope="{node}">
+          <span class="el-icon-folder-opened" style="font-size:12px">
+            {{ node.label }}
+          </span>              
+        </span>
+      </el-tree>
     </div>
     <div class="user_right">
       <!--顶部搜索框-->
@@ -288,6 +295,44 @@ export default {
 <style>
 .el-table td,.el-table th {
   text-align: center;
-  padding: 8px 0;
+  padding: 5x 0;
+}
+.el-tree-node{
+  position: relative;
+}
+.el-tree-node__children{
+  padding-left: 16px;
+}
+.el-tree-node :last-child:before {
+  height: 38px;
+}
+.el-tree>.el-tree-node:before{
+  border-left: none;
+}
+.el-tree>.el-tree-node:after{
+  border-top: none;
+}
+.el-tree-node:before,.el-tree-node:after{
+  content: "";
+  left: -4px;
+  position: absolute;
+  right: auto;
+  border-width: 1px;
+}
+.tree :first-child .el-tree-node:before{
+  border-left: none;
+}
+.el-tree-node:before {
+  border-left: 1px dashed #a1a7ad;
+  bottom: 0px;
+  height: 100%;
+  top: -20px;
+  width: 1px;
+}
+.el-tree-node:after {
+  border-top: 1px dashed  #a1a7ad;
+  height: 20px;
+  top: 17px;
+  width: 20px;
 }
 </style>

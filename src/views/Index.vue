@@ -7,16 +7,15 @@
           <div class="main_between_1_item_well">
             <!-- 油井描述 -->
             <div class="main_between_1_item_desc">
-              <span class="main_between_1_item_desc_span">总井数:<span style="color:#ED7C30">100</span></span>
-              <span class="main_between_1_item_desc_span">开井数:<span style="color:#ED7C30">100</span></span>
-              <span class="main_between_1_item_desc_span">日产液量:<span style="color:#ED7C30">100</span></span>
-              <span class="main_between_1_item_desc_span">当月累计产量:<span style="color:#ED7C30">100</span></span>
-              <span class="main_between_1_item_desc_span">当年累计产量:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_desc_span">总井数:<span style="color:#99CCFF">100</span></span>
+              <span class="main_between_1_item_desc_span">开井数:<span style="color:#99CCFF">100</span></span>
+              <span class="main_between_1_item_desc_span">日产液量:<span style="color:#99CCFF">100</span></span>
+              <span class="main_between_1_item_desc_span">当月累计产量:<span style="color:#99CCFF">100</span></span>
+              <span class="main_between_1_item_desc_span">当年累计产量:<span style="color:#99CCFF">100</span></span>
             </div>
              <!-- 图形 -->
             <div id="well" class="main_between_1_item_well_line" />
           </div>
-          
         </div>
       </el-card>
       <el-card class="main_between_2" shadow="hover">
@@ -64,15 +63,15 @@
             <!-- 水井情况1 -->
             <div class="water1">
               <div id="water1" class="main_between_1_item_water1" />
-              <span class="main_between_1_item_water1_span">总井数:<span style="color:#ED7C30">100</span></span>
-              <span class="main_between_1_item_water1_span">开井数:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_water1_span">总井数:<span style="color:#99CCFF">100</span></span>
+              <span class="main_between_1_item_water1_span">开井数:<span style="color:#99CCFF">100</span></span>
             </div>
            <!-- 水井情况2 -->
            <div class="water2">
               <div id="water2" class="main_between_1_item_water2" />
-              <span class="main_between_1_item_water1_span">正常井数:<span style="color:#ED7C30">100</span></span>
-              <span class="main_between_1_item_water1_span">超注井数:<span style="color:#ED7C30">100</span></span>
-              <span class="main_between_1_item_water1_span">欠注井数:<span style="color:#ED7C30">100</span></span>
+              <span class="main_between_1_item_water1_span">正常井数:<span style="color:#99CCFF">100</span></span>
+              <span class="main_between_1_item_water1_span">超注井数:<span style="color:#99CCFF">100</span></span>
+              <span class="main_between_1_item_water1_span">欠注井数:<span style="color:#99CCFF">100</span></span>
            </div>
            
           </div>
@@ -133,7 +132,7 @@ export default {
           trigger: 'axis'
         },
         // 折线颜色
-        color:['#66CC99','#ED7C30'],
+        color:['#0066CC','#CC3333'],
         legend: {
           data: ['产液量', '开井情况'],
           textStyle: {
@@ -225,7 +224,7 @@ export default {
         formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
         // 颜色
-        color:['#66CC99','#ED7C30','#FFFF00','#66CCCC','#CC3333','#FF9999','#CC6633'],
+        color:['#FFCC33','#0352a3','#0066CC','#FFFFFF','#CC3333','#CCCCCC','#6666FF'],
         series: [
           {
             name: '比例',
@@ -240,8 +239,8 @@ export default {
                 show: false
             },
             data: [
-                {value: 335, name: '总井数'},
-                {value: 30, name: '开井数'}
+                {value: 380, name: '总井数'},
+                {value: 270, name: '开井数'}
             ]
           },
           {   
@@ -276,14 +275,14 @@ export default {
           },
         },
         // 图形颜色
-        color:['#66CC99','#ED7C30'],
+        color:['#0352a3','#FFCC33'],
         series: [
           {
             name: '所占比例',
             type: 'pie',
             data: [
-              {value: 335, name: '总井数'},
-              {value: 100, name: '开井数'},
+              {value: 300, name: '总井数'},
+              {value: 160, name: '开井数'},
             ],
             // 指示线
             label:{
@@ -309,15 +308,15 @@ export default {
           },
         },
         // 图形颜色
-        color:['#66CC99','#ED7C30','#FFFF00'],
+        color:['#0066CC','#FFFFFF','#CC3333'],
         series: [
           {
             name: '所占比例',
             type: 'pie',
             data: [
-              {value: 405, name: '正常'},
-              {value: 120, name: '超注'},
-              {value: 450, name: '欠注'},
+              {value: 380, name: '正常'},
+              {value: 240, name: '超注'},
+              {value: 320, name: '欠注'},
             ],
             // 指示线
             label:{
@@ -334,23 +333,18 @@ export default {
       let dom = document.getElementById("measure");
       let myChart = echarts.init(dom);
       myChart.setOption({
-        tooltip: {
-          trigger: "axis",  
-        },
-        // 图形颜色
-        color:['#66CC99','#ED7C30'],
+        tooltip: { trigger: "axis" },
+        color: ['#FFCC33','#0352a3'],
         legend: { 
-          data:['待措施井数','措施中井数'],
+          data: ['待措施井数','措施中井数'],
           textStyle: {
-          color: '#ffffff',
-          fontSize: 12
+           color: '#ffffff',
+            fontSize: 12
           },
         },
         xAxis: {
           data: ["站1","站2","站3","站4","站5","站6"],
-          splitLine:{
-            show:false,
-          },
+          splitLine:{ show:false },
           // 文字大小与颜色
           axisLabel: {
             show: true,
@@ -365,9 +359,7 @@ export default {
           },
         },
         yAxis: {
-          splitLine:{
-            show:false,
-          },
+          splitLine:{  show:false },
           // 文字大小与颜色
           axisLabel: {
             show: true,
