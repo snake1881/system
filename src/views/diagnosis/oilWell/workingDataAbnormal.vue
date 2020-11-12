@@ -1,10 +1,10 @@
 <template>
   <!--功图数据异常页面-->
   <div class="abnormalGt">
-    <div  align="center">
-    <el-form v-model="GtForm" :inline="true">
+    <el-form class="abnormalGt_form" v-model="GtForm" :inline="true">
       <el-form-item label="采油站">
         <el-select
+          size="medium"
           v-model="GtForm.orgName"
           filterable
           clearable
@@ -20,6 +20,7 @@
       </el-form-item>
       <el-form-item label="日期">
         <el-date-picker
+          size="medium"
           v-model="GtForm.checkDate"
           type="date"
           placeholder="选择日期"
@@ -28,22 +29,24 @@
         >
         </el-date-picker>
       </el-form-item>
-      <el-button
-        type="primary"
-         size="small"
-        icon="el-icon-search"
-        @click="abnormalGtSearch()"
-        >查询</el-button
-      >
+      <el-form-item>
+        <el-button
+          type="primary"
+          size="small"
+          icon="el-icon-search"
+          @click="abnormalGtSearch()"
+          >查询</el-button
+        >
+      </el-form-item>
     </el-form>
-    </div>
-    <el-divider > 功图数据异常数据（默认今日） </el-divider>
+
     <el-table
+      class="abnormalGt_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="abnormalGtData"
-      height="440px"
+      height="86%"
       border
       row-key="checkDate"
       :tree-props="{
@@ -51,14 +54,31 @@
         hasChildren: 'hasChildren'
       }"
       style="width:100%"
-     
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
       <el-table-column prop="rn" label="序号" align="center" width="100" />
       <el-table-column prop="wellId" label="井号" align="center" width="160" />
-      <el-table-column prop="checkDate" label="日期" align="center" width="240" />
-      <el-table-column prop="abnormalProblem" label="诊断结果" align="center" width="320">
+      <el-table-column
+        prop="checkDate"
+        label="日期"
+        align="center"
+        width="240"
+      />
+      <el-table-column
+        prop="abnormalProblem"
+        label="诊断结果"
+        align="center"
+        width="320"
+      >
       </el-table-column>
-      <el-table-column prop="orgName" label="采油站" align="center" width="320" />
+      <el-table-column
+        prop="orgName"
+        label="采油站"
+        align="center"
+        width="320"
+      />
       <el-table-column label="操作" align="center" width="160">
         <template slot-scope="scope">
           <el-button
@@ -67,14 +87,13 @@
             @click="previewAbnormalGt(scope.row)"
             >查看功图</el-button
           >
-          
         </template>
       </el-table-column>
     </el-table>
-    <div class="abnormalGt_page"  align="center" >
+    <div class="abnormalGt_page">
       <!-- 分页 -->
       <el-pagination
-      class="pagination"
+        class="pagination"
         :current-page.sync="currentPage"
         :page-size="pageSize"
         :total="total"
@@ -105,8 +124,8 @@ export default {
         checkDate: ""
       },
       //用于判断查询条件是否发生改变
-      oldOrgName:"",
-      OldCheckDate:"",
+      oldOrgName: "",
+      OldCheckDate: "",
       //采油站名称
       orgNameData: [],
       //表格数据
@@ -146,13 +165,16 @@ export default {
     },
     //条件查询
     abnormalGtSearch() {
-      if(this.GtForm.orgName!==this.oldOrgName||this.GtForm.checkDate!==this.OldCheckDate){
-        this.currentPage=1;
-        this.pageSize=10;
-      };
+      if (
+        this.GtForm.orgName !== this.oldOrgName ||
+        this.GtForm.checkDate !== this.OldCheckDate
+      ) {
+        this.currentPage = 1;
+        this.pageSize = 10;
+      }
       this.getRequest(
         "/oilWell/abnormalGt/abnormalGtAllPage?checkDate=" +
-          this.GtForm.checkDate+
+          this.GtForm.checkDate +
           "&current=" +
           this.currentPage +
           "&orgName=" +
@@ -168,8 +190,8 @@ export default {
           this.pageSize = resp.data.size;
         }
       });
-      this.oldOrgName=this.GtForm.orgName;
-      this.OldCheckDate=this.GtForm.checkDate;
+      this.oldOrgName = this.GtForm.orgName;
+      this.OldCheckDate = this.GtForm.checkDate;
     },
     //加油站下拉框初始化
     orgNameInit() {
@@ -222,24 +244,10 @@ export default {
     // 关闭功图
     previewAbnormalGtClose() {
       this.previewAbnormalGtVisible = false;
-    },
-    // //时间格式化
-    // getTime(val) {
-    //   if(val!==null){
-    //   var year = val.getFullYear(); //年
-    //   var month = val.getMonth() + 1; //月
-    //   var date = val.getDate(); //日
-    //   month = month < 10 ? "0" + month : month;
-    //   date = date < 10 ? "0" + date : date;
-    //   var str = year + "-" + month + "-" + date;
-    //   return str;
-    //   }
-    // }
+    }
   }
 };
 </script>
 <style lang="less" scoped>
-// .abnormalGt_page{
-//    position:absolute; bottom:0;
-// }
+@import "../../../assets/css/diagnosis/oilWell/workDataAbnormal.css";
 </style>

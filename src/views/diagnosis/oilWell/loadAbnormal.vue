@@ -1,36 +1,37 @@
 <template>
   <div class="abnormalLoad">
-    <div align="center">
-      <!-- 条件查询 -->
-      <el-form class="role_form" v-model="termData" :inline="true">
-        <!-- 下拉框查询 -->
-        <el-form-item label="采油站">
-          <el-select
-            v-model="termData.orgName"
-            clearable
-            placeholder="全区"
-            size="small"
+    <!-- 条件查询 -->
+    <el-form class="abnormalLoad_form" v-model="termData" :inline="true">
+      <!-- 下拉框查询 -->
+      <el-form-item label="采油站">
+        <el-select
+          v-model="termData.orgName"
+          clearable
+          placeholder="全区"
+          size="medium"
+        >
+          <el-option
+            v-for="item in orgNameData"
+            :key="item.orgName"
+            :label="item.orgName"
+            :value="item.orgName"
           >
-            <el-option
-              v-for="item in orgNameData"
-              :key="item.orgName"
-              :label="item.orgName"
-              :value="item.orgName"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
+          </el-option>
+        </el-select>
+      </el-form-item>
 
-        <el-form-item label="日期" size="medium">
-          <el-date-picker
-            v-model="termData.checkDate"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item>
+      <el-form-item label="日期">
+        <el-date-picker
+          size="medium"
+          v-model="termData.checkDate"
+          type="date"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
         <el-button
           type="primary"
           icon="el-icon-search"
@@ -38,19 +39,23 @@
           @click="searchZh()"
           >查询</el-button
         >
-      </el-form>
-    </div>
+      </el-form-item>
+    </el-form>
 
     <!-- 表格数据 -->
     <el-table
+      class="abnormalLoad_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="ZhData"
-      height="500px"
+      height="93%"
       border
       lazy
       row-key="checkDate"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       :tree-props="{
         children: 'children',
         hasChildren: 'hasChildren'
@@ -93,7 +98,7 @@
     </el-table>
 
     <!-- 分页 -->
-    <div class="Zh_page" align="center">
+    <div class="abnormalLoad_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -156,7 +161,7 @@ export default {
       let a = this.pageSize;
       this.getRequest(
         "/oilWell/abnormalZh/abnormalZhPage?checkDate=" +
-          this.termData.checkDate+
+          this.termData.checkDate +
           "&current=" +
           this.currentPage +
           "&orgName=" +
@@ -238,4 +243,6 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import "../../../assets/css/diagnosis/oilWell/loadAbnormal.css";
+</style>

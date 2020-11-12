@@ -30,28 +30,42 @@
       :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
       <el-table-column prop="number" label="序号" width="120" />
-      <el-table-column prop="1" label="当前任务" width="210" />
-      <el-table-column prop="2" label="井号" width="180" />
-      <el-table-column prop="3" label="作业名称" width="210" />
-      <el-table-column prop="4" label="作业类型" width="210" />
-      <el-table-column prop="5" label="状态" width="140" />
-      <el-table-column prop="6" label="完成时间" width="200" />
+      <el-table-column prop="a" label="当前任务" width="210" />
+      <el-table-column prop="b" label="井号" width="180" />
+      <el-table-column prop="c" label="作业名称" width="210" />
+      <el-table-column prop="d" label="作业类型" width="210" />
+      <el-table-column prop="e" label="状态" width="140" />
+      <el-table-column prop="f" label="完成时间" width="200" />
       <el-table-column label="操作" width="260">
         <template slot-scope="scope">
           <!-- 编辑 -->
-          <el-button type="text" size="small" @click="editOperation(scope.row)" class="iconfont icon-bianji" />
+          <el-tooltip content="编辑" placement="top">
+          <el-button type="text" size="small" v-if="scope.row.a==='上报'" @click="editOperation(scope.row)" class="iconfont icon-bianji" />
+          </el-tooltip>
           <!-- 提交 -->
-          <el-button type="text" size="small" @click="submitOperation(scope.row)" class="el-icon-success" />
+          <el-tooltip content="提交" placement="top">
+          <el-button type="text" size="small" v-if="scope.row.a==='上报'" @click="submitOperation(scope.row)" class="el-icon-success" />
+          </el-tooltip>
           <!-- 查看 -->
-          <el-button type="text" size="small" @click="checkOperation(scope.row)" class="el-icon-view" />
+          <el-tooltip content="查看" placement="top">
+          <el-button type="text" size="small" v-if="scope.row.a==='派工' || scope.row.a==='现场作业' || scope.row.a==='效果评价'" @click="checkOperation(scope.row)" class="el-icon-view" />
+          </el-tooltip>
           <!-- 派工 -->
-          <el-button type="text" size="small" @click="sendOperation(scope.row)" class="el-icon-folder-remove" />
+          <el-tooltip content="派工" placement="top">
+          <el-button type="text" size="small" v-if="scope.row.a==='派工'" @click="sendOperation(scope.row)" class="el-icon-folder-remove" />
+          </el-tooltip>
           <!-- 完工 -->
-          <el-button type="text" size="small" @click="completeOperation(scope.row)" class="el-icon-folder-checked" />
+          <el-tooltip content="完工" placement="top">
+          <el-button type="text" size="small" v-if="scope.row.a==='现场作业'" @click="completeOperation(scope.row)" class="el-icon-folder-checked" />
+          </el-tooltip>
           <!-- 进度 -->
-          <el-button type="text" size="small" @click="scheduleOperation(scope.row)" class="el-icon-tickets" />
+          <el-tooltip content="进度" placement="top">
+          <el-button type="text" size="small" v-if="scope.row.a==='现场作业'" @click="scheduleOperation(scope.row)" class="el-icon-tickets" />
+          </el-tooltip>
           <!-- 终止 -->
-          <el-button type="text" size="small" @click="cadenceOperation(scope.row)" class="el-icon-turn-off" />
+          <el-tooltip content="终止" placement="top">
+          <el-button type="text" size="small" v-if="scope.row.a==='上报'" @click="cadenceOperation(scope.row)" class="el-icon-turn-off" />
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -114,75 +128,75 @@ export default {
       operationData:[
         {
           number:1,
-          1:'上报',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'上报',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         },
         {
           number:1,
-          1:'派工',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'派工',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         },
         {
           number:1,
-          1:'派工',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'派工',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         },
         {
           number:1,
-          1:'派工',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'效果评价',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         },
          {
           number:1,
-          1:'派工',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'现场作业',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         },
         {
           number:1,
-          1:'派工',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'派工',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         },
         {
           number:1,
-          1:'派工',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'派工',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         },
         {
           number:1,
-          1:'派工',
-          2:'定117-1',
-          3:'解断脱',
-          4:'常规检泵',
-          5:'完成',
-          6:'2020-06-17'
+          a:'派工',
+          b:'定117-1',
+          c:'解断脱',
+          d:'常规检泵',
+          e:'完成',
+          f:'2020-06-17'
         }
       ],
         // 分页

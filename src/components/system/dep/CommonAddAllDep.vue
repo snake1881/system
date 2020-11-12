@@ -5,9 +5,6 @@
         <el-form-item label="部门名称">
           <el-input v-model="allDepData.departmentName" />
         </el-form-item>
-        <el-form-item label="排列顺序">
-          <el-input v-model="allDepData.sequence" />
-        </el-form-item>
         <el-form-item label="联系电话">
           <el-input v-model="allDepData.phone" />
         </el-form-item>
@@ -19,6 +16,9 @@
             <el-option label="内部单位" value="0" />
             <el-option label="管理机构" value="1" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="排列顺序">
+          <el-input v-model="allDepData.sequence" />
         </el-form-item>
       </el-form>
     </div>

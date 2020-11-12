@@ -1,6 +1,6 @@
 <template>
-  <div class="system">
-    <div align="center">
+  <div class="publish">
+    
       <!-- 条件查询 -->
       <el-form class="role_form" v-model="termData" :inline="true">
         <el-form-item label="日期" size="medium">
@@ -23,7 +23,6 @@
           >查询</el-button
         >
       </el-form>
-      <el-divider content-position="center"><h2>措施发布</h2></el-divider>
       <!-- 表格数据 -->
       <el-table
         v-loading="loading"
@@ -34,6 +33,9 @@
         border
         lazy
         style="width:100%;"
+        :row-style="{ height: '2px' }"
+        :cell-style="{ padding: '0px' }"
+        :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
         <el-table-column prop="index" align="center" label="序号" width="80">
         </el-table-column>
@@ -122,7 +124,6 @@
         :planDownloadVisible="planDownloadVisible"
         @planDownloadRowClose="planDownloadClose"
       />
-    </div>
   </div>
 </template>
 <script>

@@ -36,7 +36,7 @@
             v-model="BasTeamInfor.status"
             clearable
             style="width:250px"
-            placeholder="有效"
+            placeholder="施工状态"
             size="small"
           >
             <el-option
@@ -50,7 +50,7 @@
         </el-form-item>
       </el-form>
       <el-form>
-        <el-form-item label="是否有效">
+        <!-- <el-form-item label="是否有效">
           <el-select
             v-model="BasTeamInfor.active"
             clearable
@@ -66,7 +66,7 @@
             >
             </el-option>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="备注:">
           <el-input
             size="small"

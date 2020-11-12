@@ -1,58 +1,59 @@
 <template>
   <!--  液量异常参数筛选界面  -->
   <div class="liqFilterCondition">
-    <div  align="center">
-    <el-form :model="termForm" :inline="true"  >
-      <el-form-item>
+    <div align="center">
+      <el-form :model="termForm" :inline="true">
+        <el-form-item label="采油站">
+          <el-select
+            v-model="termForm.orgName"
+            filterable
+            clearable
+            placeholder="全区"
+          >
+            <el-option
+              v-for="item in orgNameData"
+              :key="item.orgName"
+              :label="item.orgName"
+              :value="item.orgName"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="日期">
+          <el-date-picker
+            v-model="termForm.prodDate"
+            type="date"
+            placeholder="选择日期"
+            format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+        </el-form-item>
         <el-button
           type="primary"
-           size="small"
+          size="small"
+          icon="el-icon-search"
+          @click="liqFilterConditionSearch()"
+          >查询</el-button
+        >
+        <el-button
+          type="primary"
+          size="small"
           icon="el-icon-plus"
           @click="addLiqFilterCondition()"
           >新增</el-button
         >
-      </el-form-item>
-      <el-form-item label="采油站">
-        <el-select
-          v-model="termForm.orgName"
-          filterable
-          clearable
-          placeholder="全区"
+        <el-button type="primary" size="small" @click="editYlYccs(ylYccsDate)"
+          >异常参数设置</el-button
         >
-          <el-option
-            v-for="item in orgNameData"
-            :key="item.orgName"
-            :label="item.orgName"
-            :value="item.orgName"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="日期">
-        <el-date-picker
-          v-model="termForm.prodDate"
-          type="date"
-          placeholder="选择日期"
-          format="yyyy-MM-dd"
-        >
-        </el-date-picker>
-      </el-form-item>
-      <el-button
-        type="primary"
-         size="small"
-        icon="el-icon-search"
-        @click="liqFilterConditionSearch()"
-        >查询</el-button
-      >
-      <el-button type="primary"  size="small"  @click="editYlYccs(ylYccsDate)"
-        >异常参数设置</el-button
-      >
-    </el-form>
+      </el-form>
     </div>
     <el-table
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="liqFilterConditionDate"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       border
       height="480px"
       row-key="index"
@@ -95,23 +96,19 @@
         <template slot-scope="scope">
           <el-button
             type="text"
-             size="small"
-            icon="el-icon-edit"
+            size="small"
             @click.prevent="editLiqFilterCondition(scope.row)"
-            >编辑</el-button
-          >
+            class="iconfont icon-bianji"/>
           <el-button
             type="text"
-             size="small"
-            icon="el-icon-delete"
+            size="small"
             @click.prevent="deleteLiqFilterCondition(scope.row)"
-            >删除</el-button
-          >
+            class="iconfont icon-shanchu"/>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="liqFilterCondition_page"  align="center">
+    <div class="liqFilterCondition_page" align="center">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -236,11 +233,14 @@ export default {
     },
     //条件查询
     liqFilterConditionSearch() {
-      if(this.termForm.orgName!==this.oldOrgName||this.termForm.prodDate!==this.oldProdDate){
-        this.currentPage=1;
-        this.pageSize=10;
-      };
-        if (this.termForm.prodDate === null) {
+      if (
+        this.termForm.orgName !== this.oldOrgName ||
+        this.termForm.prodDate !== this.oldProdDate
+      ) {
+        this.currentPage = 1;
+        this.pageSize = 10;
+      }
+      if (this.termForm.prodDate === null) {
         this.liqFilterConditionInit();
       } else {
         this.getRequest(
@@ -262,9 +262,9 @@ export default {
             this.getIndex();
           }
         });
-      };
-      this.oldOrgName=this.termForm.orgName;
-      this.oldProdDate=this.termForm.prodDate;
+      }
+      this.oldOrgName = this.termForm.orgName;
+      this.oldProdDate = this.termForm.prodDate;
     },
     //液量异常筛选参数初始化
     ylYccsInit() {
@@ -336,16 +336,15 @@ export default {
     },
     //时间格式化
     getTime(val) {
-      if(val!==null){
+      if (val !== null) {
         var year = val.getFullYear(); //年
-      var month = val.getMonth() + 1; //月
-      var date = val.getDate(); //日
-      month = month < 10 ? "0" + month : month;
-      date = date < 10 ? "0" + date : date;
-      var str = year + "-" + month + "-" + date;
-      return str;
+        var month = val.getMonth() + 1; //月
+        var date = val.getDate(); //日
+        month = month < 10 ? "0" + month : month;
+        date = date < 10 ? "0" + date : date;
+        var str = year + "-" + month + "-" + date;
+        return str;
       }
-      
     },
     //设置序号
     getIndex() {
