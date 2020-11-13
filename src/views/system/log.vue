@@ -43,7 +43,7 @@
       style="width:100%;"
       :row-style="{height:'2px'}"
       :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
+      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="operationId" label="日志编号" width="100" />
@@ -181,7 +181,14 @@ export default {
       this.selectData = val;
     },
     fileOpen() {
-      window.open("http://localhost:8692/demo/operationLog/excelexport");
+      console.log(this.logForm);
+      window.open("http://localhost:8692/demo/operationLog/excelexport?endTime="+
+      this.logForm.endTime+
+      "&moduleName="+
+      this.logForm.moduleName+
+      "&startTime="+
+      this.logForm.startTime
+      );
     },
   }
 };

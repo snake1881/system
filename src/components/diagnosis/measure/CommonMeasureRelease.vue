@@ -36,8 +36,8 @@
           size="medium"
         >
           <el-option
-            v-for="item in designeeOptions"
-            :key="item.userName"
+            v-for="(item,index)  in this.designeeOptions"
+            :key="index"
             :label="item.userName"
             :value="item.userName"
           >
@@ -146,7 +146,7 @@ export default {
   height: 2px;
 }
 .dialogDiv .el-select {
-  width: 420px;
+  width: 350px;
   height: 2px;
 }
 .dialogDiv .el-date-picker {

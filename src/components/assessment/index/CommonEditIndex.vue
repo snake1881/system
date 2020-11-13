@@ -22,8 +22,8 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="考核模板">
-        <el-select v-model="editData.examineTName">
-          <el-option v-for="(item, index) in this.template" :key="index" :label="item.templateName" :value="item.templateName" />
+        <el-select v-model="editData.examineTId">
+          <el-option v-for="(item, index) in this.template" :key="index" :label="item.templateName" :value="item.examineTId" />
         </el-select>
       </el-form-item>
         </el-col>

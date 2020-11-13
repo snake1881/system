@@ -151,7 +151,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <el-form :inline="true">
+      <el-form  label-position="right" label-width="120px" :inline="true">
         <el-form-item label="区队:">
           <el-select
             @change="oilStationChange"
@@ -188,7 +188,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <el-form :inline="true">
+      <el-form  label-position="right" label-width="120px" :inline="true">
         <el-form-item
           v-if="BaseWellInfor.wellCategory === '0'"
           label="注水站:"

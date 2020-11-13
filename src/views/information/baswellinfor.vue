@@ -126,7 +126,7 @@
         label="采油站"
         width="150"
       />
-      <el-table-column prop="creator" align="center" label="井深" width="100" />
+      <el-table-column prop="wellDepth" align="center" label="井深" width="100" />
       <el-table-column
         prop="productionDate"
         align="center"

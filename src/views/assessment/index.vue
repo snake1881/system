@@ -12,6 +12,13 @@
           />
         </el-form-item>
         <el-form-item>
+          <el-input
+            v-model="indexFrom.templateName"
+            placeholder="模板名称"
+            size="medium"
+          />
+        </el-form-item>
+        <el-form-item>
           <el-button
             type="primary"
             icon="el-icon-search"
@@ -52,7 +59,7 @@
         <el-table-column prop="indexName" label="指标名称" width="240" />
         <el-table-column prop="scoreWeight" label="权重" width="150" />
         <el-table-column prop="sequence" label="排列顺序" width="155" />
-        <el-table-column prop="examineTName" label="考核模板" width="300" />
+        <el-table-column prop="templateName" label="考核模板" width="300" />
         <el-table-column prop="remark" label="备注" width="280" />
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
@@ -114,7 +121,7 @@
             <div style="width: 25%">{{ this.detailData.indexName }}</div>
             <div style="width: 25%">{{ this.detailData.indexName }}</div>
             <div style="width: 25%">{{ this.detailData.scoreWeight }}</div>
-            <div style="width: 25%">{{ this.detailData.examineTName }}</div>
+            <div style="width: 25%">{{ this.detailData.templateName }}</div>
           </div>
         </div>
 
@@ -125,9 +132,9 @@
         </el-divider>
         <br />
         <el-table 
-        :data="this.detailData.indexDetails" 
-        border 
-        style="width: 100%;height:90%" 
+          :data="this.detailData.indexDetails"
+          border
+          style="width: 100%;height:90%"
         >
           <el-table-column prop="examineContent" label="考核内容" width="515" />
           <el-table-column prop="requirement" label="考核标准" width="510" />
@@ -149,7 +156,8 @@ export default {
     return {
       //搜索框
       indexFrom: {
-        indexName: ""
+        indexName: "",
+        templateName: ""
       },
       // 表格数据
       indexData: [],
@@ -179,12 +187,14 @@ export default {
     // 根据输入信息查询
     searchIndex() {
       this.postRequest(
-        "/examine/IndexInfo/findListsByPageAndCon?current=" +
-          this.currentPage +
-          "&indexName=" +
-          this.indexFrom.indexName +
-          "&pageSize=" +
-          this.pageSize
+        "/examine/IndexInfo/selectByTerm?current="+
+        this.currentPage +
+        "&indexName="+
+        this.indexFrom.indexName +
+        "&pageSize="+
+        this.pageSize+
+        "&templateName=" +
+        this.indexFrom.templateName
       ).then(resp => {
         if (resp) {
           this.indexData = resp.data.records;
@@ -198,9 +208,9 @@ export default {
     //表格数据初始化
     indexInit() {
       this.postRequest(
-        "/examine/IndexInfo/findListsByPage?page=" +
+        "/examine/IndexInfo/selectByTerm?current=" +
           this.currentPage +
-          "&size=" +
+          "&pageSize=" +
           this.pageSize
       ).then(resp => {
         this.loading = false;

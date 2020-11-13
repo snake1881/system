@@ -6,8 +6,8 @@
     :before-close="planDownloadClose"
   >
     <div  class="dialogDiv">
-      <el-form label-width="120px">
-        <el-from-item label="模板选择：">
+      <el-form label-width="120px" align="center">
+          <el-from-item label="模板选择：">
           <span>模板选择：</span>
           <el-select clearable v-model="value" placeholder="请选择">
             <el-option
@@ -132,18 +132,18 @@ export default {
   height: 200px;
   overflow: auto;
 }
-.dialogDiv .el-input {
-  width: 420px;
-  height: 2px;
-}
+// .dialogDiv .el-input {
+//   width: 420px;
+//   height: 2px;
+// }
 .dialogDiv .el-select {
   width: 420px;
   height: 2px;
 }
-.dialogDiv .el-date-picker {
-  width: 420px;
-  height: 2px;
-}
+// .dialogDiv .el-date-picker {
+//   width: 420px;
+//   height: 2px;
+// }
 .downloadExcelButton {
   margin: 0 0 0 240px;
 }
