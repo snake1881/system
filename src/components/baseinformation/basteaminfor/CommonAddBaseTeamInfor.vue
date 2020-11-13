@@ -2,42 +2,32 @@
   <el-dialog
     title="施工队伍信息新增"
     :visible.sync="addBasTeamInforVisible"
-    width="60%"
+    width="42%"
     :before-close="addBasTeamInforClose"
   >
     <div class="dialogDiv">
-      <el-form label-position="right" label-width="120px" :inline="true">
+      <el-form  label-width="120px" >
         <el-form-item label="施工队伍名称:">
           <el-input
-            size="small"
             v-model="BasTeamInfor.teamName"
-            style="width:150px"
           />
         </el-form-item>
         <el-form-item label="负责人:">
           <el-input
-            size="small"
             v-model="BasTeamInfor.leader"
-            style="width:150px"
           />
         </el-form-item>
-      </el-form>
-      <el-form :inline="true">
         <el-form-item label="联系电话">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BasTeamInfor.telephone"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="施工状态">
           <el-select
             v-model="BasTeamInfor.status"
             clearable
-            style="width:250px"
             placeholder="施工状态"
-            size="small"
           >
             <el-option
               v-for="item in statusOptions"
@@ -48,30 +38,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-      </el-form>
-      <el-form>
-        <!-- <el-form-item label="是否有效">
-          <el-select
-            v-model="BasTeamInfor.active"
-            clearable
-            style="width:250px"
-            placeholder="有效"
-            size="small"
-          >
-            <el-option
-              v-for="item in activeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item> -->
         <el-form-item label="备注:">
           <el-input
-            size="small"
             v-model="BasTeamInfor.remark"
-            style="width:400px"
           />
         </el-form-item>
       </el-form>
@@ -79,9 +48,16 @@
     <span slot="footer">
       <el-button
         type="primary"
+        class="saveAddBasTeamInforButton"
         @click="saveAddBasTeamInfor(), addBasTeamInforClose()"
       >
         提交
+      </el-button>
+      <el-button
+        type="info"
+        @click="addBasTeamInforClose()"
+      >
+        取消
       </el-button>
     </span>
   </el-dialog>
@@ -160,9 +136,25 @@ export default {
   height: 400px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.dialogDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-select {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-date-picker {
+  width: 420px;
+  height: 2px;
+}
+.saveAddBasTeamInforButton {
+  margin: 0 0 0 240px;
+}
+.el-dialog__header {
+  background:#dadee6;
+  border-bottom: 2px solid #F2F6FC;
+  height: 15px;
+
 }
 </style>

@@ -4,7 +4,7 @@
     :modal="false"
     :close-on-click-modal="false"
     :modal-append-to-body="false"
-    size="600px"
+    size="42%"
     :visible.sync="previewAbnormalGtVisible"
     @opened="opens"
     :before-close="priviewAbnormalGtClose"
@@ -74,7 +74,7 @@ export default {
       myChart.setOption({
         title: {
           x: "center",
-          text: this.tableData1.dynaCreateTime,
+          text: this.tableData1.wellCommonName + "号井   " +this.tableData1.dynaCreateTime +"  功图",
           top: "7%",
           textStyle: {
             fontSize: 13,
@@ -173,5 +173,11 @@ export default {
 <style lang="less" scoped>
 .el-input {
   width: 700px;
+}
+.el-dialog__header {
+  background:#dadee6;
+  border-bottom: 2px solid #F2F6FC;
+  height: 15px;
+
 }
 </style>

@@ -2,31 +2,21 @@
   <el-dialog
     title="井场信息新增"
     :visible.sync="addBaseWellSiteVisible"
-    width="60%"
+    width="42%"
     @opened="opens"
     :before-close="addBaseWellSiteClose"
   >
     <div class="dialogDiv">
-      <el-form
-        label-position="right"
-        label-width="120px"
-        :inline="true"
-      >
+      <el-form label-width="120px">
         <el-form-item label="井场名称:">
-          <el-input
-            size="small"
-            v-model="BaseWellSite.wellSiteName"
-            style="width:150px"
-          />
+          <el-input v-model="BaseWellSite.wellSiteName" />
         </el-form-item>
         <el-form-item label="采油站名称:">
           <el-select
             v-model="BaseWellSite.oilStationId"
             clearable
             filterable
-            style="width:150px"
             placeholder="全区"
-            size="small"
           >
             <el-option
               v-for="item in oilStationIdOptions"
@@ -37,22 +27,16 @@
             </el-option>
           </el-select>
         </el-form-item>
-      </el-form>
-      <el-form :inline="true">
         <el-form-item label="油罐数量">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWellSite.tankNum"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="油罐总容量(M3)">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWellSite.totalCapacity"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="建成日期:">
@@ -61,81 +45,46 @@
             type="date"
             placeholder="建成日期"
             value-format="yyyy-MM-dd HH:mm:ss"
-            style="width: 150px"
-            size="small"
           >
           </el-date-picker>
         </el-form-item>
-        </el-form>
-      <el-form :inline="true">
         <el-form-item label="经度:">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWellSite.longitude"
-            style="width: 150px"
           />
         </el-form-item>
-         <el-form-item label="井场位置:">
+        <el-form-item label="井场位置:">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWellSite.position"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="纬度:">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWellSite.latitude"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="海拔高度(M):">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWellSite.altitude"
-            style="width: 150px"
           />
         </el-form-item>
-        </el-form>
-      <el-form>
-        <!-- <el-form-item label="是否有效">
-          <el-select
-            v-model="BaseWellSite.active"
-            clearable
-            style="width:250px"
-            placeholder="有效"
-            size="small"
-          >
-            <el-option
-              v-for="item in activeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item> -->
         <el-form-item label="备注:">
-          <el-input
-            size="small"
-            v-model="BaseWellSite.remark"
-            style="width:400px"
-          />
+          <el-input v-model="BaseWellSite.remark" />
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
-      <el-button
-        type="primary"
-        @click="saveAddBaseWellSite(), addBaseWellSiteClose()"
-      >
-        提交
-      </el-button>
-    </span>
+    <el-button
+      type="primary"
+      class="saveAddBaseWellSiteButton"
+      @click="saveAddBaseWellSite(), addBaseWellSiteClose()"
+    >
+      提交
+    </el-button>
+    <el-button type="info" @click="addBaseWellSiteClose()">取消 </el-button>
   </el-dialog>
 </template>
 <script>
@@ -149,19 +98,19 @@ export default {
   data() {
     return {
       BaseWellSite: {
-        waterStationName:"",
-        oilStationId:"",
-        totalCapacity:"",
-        completionDate:"",
-        position:"",
-        longitude:"",
-        latitude:"",
-        altitude:"",
-        active:"",
-        remark:"",
+        waterStationName: "",
+        oilStationId: "",
+        totalCapacity: "",
+        completionDate: "",
+        position: "",
+        longitude: "",
+        latitude: "",
+        altitude: "",
+        active: "",
+        remark: ""
       },
       //
-      activeOptions:[
+      activeOptions: [
         {
           value: "0",
           label: "无效"
@@ -172,8 +121,7 @@ export default {
         }
       ],
       //区队ID
-      oilStationIdOptions: [],
-      
+      oilStationIdOptions: []
     };
   },
   methods: {
@@ -206,7 +154,7 @@ export default {
         }
       });
     },
-    
+
     opens() {
       this.oilStationInit();
     }
@@ -219,9 +167,25 @@ export default {
   height: 400px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.dialogDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-select {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-date-picker {
+  width: 420px;
+  height: 2px;
+}
+.saveAddBaseWellSiteButton {
+  margin: 0 0 0 240px;
+}
+.el-dialog__header {
+  background:#dadee6;
+  border-bottom: 2px solid #F2F6FC;
+  height: 15px;
+
 }
 </style>

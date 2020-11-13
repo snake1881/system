@@ -4,13 +4,13 @@
     :modal="false"
     :close-on-click-modal="false"
     :modal-append-to-body="false"
-    size="600px"
+    size="42%"
     :visible.sync="previewDymVisible"
     @opened="opens"
     :before-close="previewDymClose"
   >
     <el-form>
-      <el-form-item label="选择日期" label-align="left" align="center">
+      <el-form-item label="选择日期" size="120px" >
         <el-date-picker
           v-model="value2"
           type="daterange"

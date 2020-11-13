@@ -95,7 +95,7 @@ export default {
             x: "center",
             text:
               this.tableData.wellCommonName +
-              " " +
+              "号井 " +
               this.tableData.dynaCreateTime,
             subtext:
               "最大载荷" +
@@ -191,7 +191,7 @@ export default {
           x: "center",
           text:
             this.tableData1.wellCommonName +
-            " " +
+            "号井 " +
             this.tableData1.dynaCreateTime,
           subtext:
             "最大载荷" +

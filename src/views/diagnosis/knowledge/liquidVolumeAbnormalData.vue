@@ -1,10 +1,10 @@
 <template>
   <!--  液量异常参数筛选界面  -->
   <div class="liqFilterCondition">
-    <div align="center">
-      <el-form :model="termForm" :inline="true">
+      <el-form class="liqFilterCondition_form" :model="termForm" :inline="true">
         <el-form-item label="采油站">
           <el-select
+          size="medium"
             v-model="termForm.orgName"
             filterable
             clearable
@@ -20,14 +20,17 @@
         </el-form-item>
         <el-form-item label="日期">
           <el-date-picker
+          size="medium"
             v-model="termForm.prodDate"
             type="date"
             placeholder="选择日期"
             format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd"
           >
           </el-date-picker>
         </el-form-item>
-        <el-button
+        <el-form-item>
+          <el-button
           type="primary"
           size="small"
           icon="el-icon-search"
@@ -44,9 +47,11 @@
         <el-button type="primary" size="small" @click="editYlYccs(ylYccsDate)"
           >异常参数设置</el-button
         >
+        </el-form-item>
+        
       </el-form>
-    </div>
     <el-table
+    class="liqFilterCondition_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -55,7 +60,7 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       border
-      height="480px"
+      height="93%"
       row-key="index"
       style="width:100%"
     >
@@ -108,7 +113,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="liqFilterCondition_page" align="center">
+    <div class="liqFilterCondition_page" >
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -139,9 +144,9 @@
   </div>
 </template>
 <script>
-import CommonAddLiqFilterCondition from "../../..//components/diagnosis/konwledge/liqfiltercondition/CommonAddLiqFilterCondition";
-import CommonEditLiqFilterCondition from "../../..//components/diagnosis/konwledge/liqfiltercondition/CommonEditLiqFilterCondition";
-import CommonEditYlYccs from "../../..//components/diagnosis/konwledge/liqfiltercondition/CommonEditYlYccs";
+import CommonAddLiqFilterCondition from "../../..//components/diagnosis/knowledge/liqfiltercondition/CommonAddLiqFilterCondition";
+import CommonEditLiqFilterCondition from "../../..//components/diagnosis/knowledge/liqfiltercondition/CommonEditLiqFilterCondition";
+import CommonEditYlYccs from "../../..//components/diagnosis/knowledge/liqfiltercondition/CommonEditYlYccs";
 export default {
   components: {
     CommonAddLiqFilterCondition,
@@ -233,25 +238,15 @@ export default {
     },
     //条件查询
     liqFilterConditionSearch() {
-      if (
-        this.termForm.orgName !== this.oldOrgName ||
-        this.termForm.prodDate !== this.oldProdDate
-      ) {
-        this.currentPage = 1;
-        this.pageSize = 10;
-      }
-      if (this.termForm.prodDate === null) {
-        this.liqFilterConditionInit();
-      } else {
         this.getRequest(
           "/knowledge/LiqFilterCondition/LiqFilterConditionListTerm?current=" +
-            parseInt(this.currentPage) +
+            this.currentPage +
             "&orgName=" +
             this.termForm.orgName +
             "&pageSize=" +
             this.pageSize +
             "&prodDate=" +
-            this.getTime(this.termForm.prodDate)
+            this.termForm.prodDate
         ).then(resp => {
           this.loading = false;
           if (resp) {
@@ -262,9 +257,6 @@ export default {
             this.getIndex();
           }
         });
-      }
-      this.oldOrgName = this.termForm.orgName;
-      this.oldProdDate = this.termForm.prodDate;
     },
     //液量异常筛选参数初始化
     ylYccsInit() {
@@ -334,18 +326,6 @@ export default {
     addLiqFilterConditionClose() {
       this.addLiqFilterConditionVisible = false;
     },
-    //时间格式化
-    getTime(val) {
-      if (val !== null) {
-        var year = val.getFullYear(); //年
-        var month = val.getMonth() + 1; //月
-        var date = val.getDate(); //日
-        month = month < 10 ? "0" + month : month;
-        date = date < 10 ? "0" + date : date;
-        var str = year + "-" + month + "-" + date;
-        return str;
-      }
-    },
     //设置序号
     getIndex() {
       this.liqFilterConditionDate.forEach((item, index) => {
@@ -357,4 +337,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+@import "../../../assets/css/diagnosis/knowledge/liquidVolumeAbnormalData.css";
+
 </style>

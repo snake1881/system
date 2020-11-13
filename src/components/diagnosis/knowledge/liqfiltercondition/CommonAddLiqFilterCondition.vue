@@ -1,0 +1,149 @@
+<template>
+  <el-dialog
+    title="液量异常筛选条件新增"
+    :visible.sync="addLiqFilterConditionVisible"
+    width="42%"
+    :before-close="addLiqFilterConditionClose"
+  >
+    <div class="dialogDiv">
+      <el-form :model="LiqFilterConditiontData" label-width="100px">
+        <el-form-item label="井号:">
+          <el-input v-model="LiqFilterConditiontData.wellName" />
+        </el-form-item>
+        <el-form-item label="检查日期:">
+          <el-date-picker
+            v-model="LiqFilterConditiontData.prodDate"
+            type="date"
+            placeholder="选择日期"
+            value-format="yyyy-MM-dd HH:mm:ss"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="条件:" >
+          <template>
+            <el-radio-group v-model="LiqFilterConditiontData.filter" size="medium"> 
+              <!-- <el-radio-button label="昨日" border></el-radio-button >
+              <el-radio-button  label="上月" border></el-radio-button >
+              <el-radio-button  label="前三月" border></el-radio-button >
+              <el-radio-button label="任意天" border></el-radio-button > -->
+              <!-- <el-row>
+                <el-col :span="24"><el-radio label="昨日" border></el-radio ><el-radio label="上月" border></el-radio >
+                </el-col>
+              <el-col :span="24"> </el-col>
+              </el-row> -->
+              
+               <el-radio label="昨日" border></el-radio >
+              <el-radio label="上月" border></el-radio >
+              <el-radio  label="前三月" border></el-radio >
+              <el-radio label="任意天" border></el-radio >
+            </el-radio-group>
+          </template>
+            
+        </el-form-item>
+        <el-form-item
+          v-if="LiqFilterConditiontData.filter === '任意天'"
+          label="指定日期:"
+        >
+          <el-date-picker
+            v-model="LiqFilterConditiontData.appointDate"
+            type="date"
+            placeholder="选择日期"
+            format="yyyy-MM-dd"
+            value-format="yyyy-MM-dd HH:mm:ss"
+          >
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <el-button
+      type="primary"
+      class="saveAddLiqFilterConditionButton"
+      @click="saveAddLiqFilterCondition(), addLiqFilterConditionClose()"
+      >提交</el-button
+    >
+    <el-button type="info" @click="addLiqFilterConditionClose()"
+      >取消</el-button
+    >
+  </el-dialog>
+</template>
+<script>
+export default {
+  props: {
+    addLiqFilterConditionVisible: {
+      type: Boolean
+    }
+  },
+  inject: ["reload"],
+  data() {
+    return {
+      LiqFilterConditiontData: {
+        wellName: "",
+        prodDate: "",
+        filter: "",
+        appointDate: ""
+      }
+    };
+  },
+  methods: {
+    // 对话框父子组件传值
+    addLiqFilterConditionClose() {
+      this.$emit("liqFilterConditionRowClose");
+    },
+    // 保存修改后的信息
+    saveAddLiqFilterCondition() {
+      this.postRequest(
+        "/knowledge/LiqFilterCondition/LiqFilterCondition",
+        this.LiqFilterConditiontData
+      ).then(resp => {
+        if (resp) {
+          this.$message({
+            message: "液量异常筛选条件新增成功!",
+            type: "success"
+          });
+          this.reload();
+        } else {
+          this.$message.error("液量异常筛选条件新增失败，请重新提交!");
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.dialogDiv {
+  height: 400px;
+  overflow: auto;
+}
+.dialogDiv .el-input {
+  width: 460px;
+  height: 2px;
+}
+.dialogDiv .el-select {
+  width: 460px;
+  height: 2px;
+}
+.dialogDiv .el-radio-group {
+  margin-top:-40px;
+  width: 460px;
+  height: 2px;
+}
+.dialogDiv .el-radio {
+  width: 85px;
+  // height: 2px;
+}
+.dialogDiv .el-date-picker {
+  width: 460px;
+  height: 2px;
+}
+.saveAddLiqFilterConditionButton {
+  margin: 0 0 0 240px;
+}
+.el-dialog__header {
+  background:#dadee6;
+  border-bottom: 2px solid #F2F6FC;
+  height: 15px;
+
+}
+</style>

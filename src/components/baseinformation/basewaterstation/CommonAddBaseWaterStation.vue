@@ -2,22 +2,18 @@
   <el-dialog
     title="注水站信息新增"
     :visible.sync="addBaseWaterStationVisible"
-    width="60%"
+    width="42%"
     @opened="opens"
     :before-close="addBaseWaterStationClose"
   >
     <div class="dialogDiv">
       <el-form
         :model="BaseWaterStation"
-        label-position="right"
         label-width="120px"
-        :inline="true"
       >
         <el-form-item label="注水站名称:">
           <el-input
-            size="small"
             v-model="BaseWaterStation.waterStationName"
-            style="width:150px"
           />
         </el-form-item>
         <el-form-item label="采油站名称:">
@@ -25,9 +21,7 @@
             v-model="BaseWaterStation.oilStationId"
             clearable
             filterable
-            style="width:150px"
             placeholder="全区"
-            size="small"
           >
             <el-option
               v-for="item in oilStationIdOptions"
@@ -38,14 +32,10 @@
             </el-option>
           </el-select>
         </el-form-item>
-      </el-form>
-      <el-form :inline="true">
         <el-form-item label="注水规模(M3)">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWaterStation.injectionScale"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="投用日期:">
@@ -54,61 +44,30 @@
             type="date"
             placeholder="投用日期"
             value-format="yyyy-MM-dd HH:mm:ss"
-            style="width: 150px"
-            size="small"
           >
           </el-date-picker>
         </el-form-item>
-        </el-form>
-      <el-form :inline="true">
         <el-form-item label="经度:">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWaterStation.longitude"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="纬度:">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWaterStation.latitude"
-            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="海拔高度(M):">
           <el-input
-            size="small"
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             v-model="BaseWaterStation.altitude"
-            style="width: 150px"
           />
         </el-form-item>
-        </el-form>
-      <el-form>
-        <!-- <el-form-item label="是否有效">
-          <el-select
-            v-model="BaseWaterStation.active"
-            clearable
-            style="width:250px"
-            placeholder="有效"
-            size="small"
-          >
-            <el-option
-              v-for="item in activeOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item> -->
         <el-form-item label="备注:">
           <el-input
-            size="small"
             v-model="BaseWaterStation.remark"
-            style="width:400px"
           />
         </el-form-item>
       </el-form>
@@ -116,10 +75,12 @@
     <span slot="footer">
       <el-button
         type="primary"
+        class="saveAddBaseWaterStationButton"
         @click="saveAddBaseWaterStation(), addBaseWaterStationClose()"
       >
         提交
       </el-button>
+         <el-button type="info" @click="addBaseWaterStationClose()">取消 </el-button>
     </span>
   </el-dialog>
 </template>
@@ -240,7 +201,6 @@ export default {
         }
       });
     },
-    
     opens() {
       this.oilStationInit();
     }
@@ -253,9 +213,25 @@ export default {
   height: 400px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.dialogDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-select {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-date-picker {
+  width: 420px;
+  height: 2px;
+}
+.saveAddBaseWaterStationButton {
+  margin: 0 0 0 240px;
+}
+.el-dialog__header {
+  background:#dadee6;
+  border-bottom: 2px solid #F2F6FC;
+  height: 15px;
+
 }
 </style>

@@ -69,8 +69,8 @@
   </div>
 </template>
 <script>
-import CommonAddDiagnosisData from "../../..//components/diagnosis/konwledge/diagnosisdata/CommonAddDiagnosisData";
-import CommonEditDiagnosisData from "../../..//components/diagnosis/konwledge/diagnosisdata/CommonEditDiagnosisData";
+import CommonAddDiagnosisData from "../../..//components/diagnosis/knowledge/diagnosisdata/CommonAddDiagnosisData";
+import CommonEditDiagnosisData from "../../..//components/diagnosis/knowledge/diagnosisdata/CommonEditDiagnosisData";
 export default {
   components: {
     CommonAddDiagnosisData,

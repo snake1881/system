@@ -2,20 +2,20 @@
   <el-dialog
     title="措施发布"
     :visible.sync="measuresReleaseVisible"
-    width="60%"
+    width="42%"
     :before-close="measuresReleaseClose"
     @opened="opens()"
   >
     <div class="dialogDiv">
-      <el-form :model="releaseData"  label-position="left" label-width="200px">
+      <el-form :model="releaseData"   label-width="120px">
         <el-form-item :inline="true">
           <span>井号： {{this.releaseData.wellCommonName}}</span>
           <span>日期： {{this.releaseData.prodDate}}</span>
           <span>措施： {{this.releaseData.measure}}</span>
         </el-form-item>
       </el-form>
-      <el-form :model="releaseData1" :rules="rules" label-position="left" label-width="200px" >
-        <el-form-item label="日期" size="medium">
+      <el-form :model="releaseData1" label-width="120px"  >
+        <el-form-item label="日期" >
           <el-date-picker
             v-model="termData.chooseDate"
             type="daterange"
@@ -32,9 +32,8 @@
           v-model="releaseData.designee"
           clearable
           filterable
-          style="width:300px"
           placeholder="请选择"
-          size="small"
+          size="medium"
         >
           <el-option
             v-for="item in designeeOptions"
@@ -47,14 +46,19 @@
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer">
       <el-button
         type="primary"
+        class="saveMeasureReleaseButton"
         @click="saveMeasureRelease(), measuresReleaseClose()"
       >
         提交
       </el-button>
-    </span>
+      <el-button
+        type="info"
+        @click="measuresReleaseClose()"
+      >
+        取消
+      </el-button>
   </el-dialog>
 </template>
 <script>
@@ -134,11 +138,28 @@ export default {
 <style lang="less" scoped>
 .dialogDiv {
   height: 400px;
+  width: 600px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.dialogDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-select {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-date-picker {
+  width: 420px;
+  height: 2px;
+}
+.saveMeasureReleaseButton {
+  margin: 0 0 0 240px;
+}
+.el-dialog__header {
+  background:#dadee6;
+  border-bottom: 2px solid #F2F6FC;
+  height: 15px;
+
 }
 </style>

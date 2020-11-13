@@ -2,9 +2,10 @@
   <div class="publish">
     
       <!-- 条件查询 -->
-      <el-form class="role_form" v-model="termData" :inline="true">
-        <el-form-item label="日期" size="medium">
+      <el-form class="publish_form" v-model="termData" :inline="true">
+        <el-form-item label="日期" >
           <el-date-picker
+          size="medium"
             v-model="termData.chooseDate"
             type="daterange"
             range-separator="至"
@@ -15,21 +16,24 @@
           >
           </el-date-picker>
         </el-form-item>
-        <el-button
+        <el-form-item>
+         <el-button
           type="primary"
           icon="el-icon-search"
           size="small"
           @click="searchMeasures()"
           >查询</el-button
-        >
+        > 
+        </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
+      class="publish_table"
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         :data="MeasuresData"
-        height="500px"
+        height="93%"
         border
         lazy
         style="width:100%;"
@@ -102,7 +106,7 @@
       </el-table>
 
       <!-- 分页 -->
-      <div class="Measures_page" align="center">
+      <div class="publish_page" >
         <el-pagination
           :current-page.sync="currentPage"
           :page-size="pageSize"
@@ -242,4 +246,6 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+@import "../../../assets/css/diagnosis/measures/publish.css";
+</style>

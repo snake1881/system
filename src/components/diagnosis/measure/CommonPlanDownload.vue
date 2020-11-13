@@ -1,25 +1,36 @@
 <template>
   <el-dialog
     title="作业设计模板下载"
-    size="600px"
+    size="42%"
     :visible.sync="planDownloadVisible"
     :before-close="planDownloadClose"
   >
-    <div>
-      <span>模板选择：</span>
-      <el-select clearable v-model="value" placeholder="请选择">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        >
-        </el-option>
-      </el-select>
-      <el-button @click="downloadExcel()" type="primary">
-        下载模板
-      </el-button>
+    <div  class="dialogDiv">
+      <el-form label-width="120px">
+        <el-from-item label="模板选择：">
+          <span>模板选择：</span>
+          <el-select clearable v-model="value" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-from-item>
+      </el-form>
     </div>
+    <el-button
+      class="downloadExcelButton"
+      @click="downloadExcel(), planDownloadClose()"
+      type="primary"
+    >
+      下载模板
+    </el-button>
+    <el-button @click="planDownloadClose()" type="info">
+      取消
+    </el-button>
   </el-dialog>
 </template>
 <script>
@@ -118,12 +129,27 @@ export default {
 
 <style lang="less" scoped>
 .dialogDiv {
-  height: 400px;
+  height: 200px;
   overflow: auto;
 }
-</style>
-<style lang="less" scoped>
-.el-input {
-  width: 700px;
+.dialogDiv .el-input {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-select {
+  width: 420px;
+  height: 2px;
+}
+.dialogDiv .el-date-picker {
+  width: 420px;
+  height: 2px;
+}
+.downloadExcelButton {
+  margin: 0 0 0 240px;
+}
+.el-dialog__header {
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
+  height: 15px;
 }
 </style>
