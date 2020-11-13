@@ -20,7 +20,6 @@
         element-loading-spinner="el-icon-loading"
         :data="templateData"
         border
-<<<<<<< HEAD
         style="width:100%;height:86%"
         :row-style="{height:'2px'}"
         :cell-style="{padding:'0px'}"
@@ -36,24 +35,6 @@
             <el-button type="text" size="small" @click="editTem(scope.row)" class="iconfont icon-bianji"/>
             <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu"/>
             <el-button type="text" size="small" @click="detailTem(scope.row)" class="iconfont icon-xiangqing" />
-=======
-        style="width:100%"
-        :row-style="{height:'2px'}"
-        :cell-style="{padding:'0px'}"
-        :header-cell-style="{background:'#eef1f6',color:'#606266'}"
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="90" />
-        <el-table-column prop="index" align="center" label="序号" width="80"/>
-        <el-table-column prop="templateName" label="模板名称" width="300" />
-        <el-table-column prop="formulationUnit" label="制定单位" width="280" />
-        <el-table-column prop="formulationDate" label="制定时间" width="280px" />
-        <el-table-column label="操作" width="200">
-          <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editTem(scope.row)" class="iconfont icon-bianji"/>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu"/>
-            <el-button type="text" size="small" @click="detailTem(scope.row)" class="iconfont icon-xiangqing"/>
->>>>>>> 50a9e3f1b5b121ead718ec3c4d421a1aa2f96f2a
           </template>
         </el-table-column>
       </el-table>

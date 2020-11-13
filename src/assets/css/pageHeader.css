@@ -11,12 +11,12 @@
   }
   .tags-li {
       float: left;
-      margin: -8px 4px 5px 4px;
-      padding:0px 5px;
-      border-radius: 3px;
+      margin: -0.5% 1% 0 0;
+      padding:0 0.5%;
+      border-radius: 5%;
       font-size: 8px;
       overflow: hidden;
-      line-height: 20px;
+      line-height: 160%;
       border: 1px solid #e9eaec;
       background: #fff;
       vertical-align: middle;
