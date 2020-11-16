@@ -29,48 +29,53 @@
       :cell-style="{padding:'0px'}"
       :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
-      <el-table-column prop="number" label="序号" width="120" />
-      <el-table-column prop="a" label="当前任务" width="210" />
-      <el-table-column prop="b" label="井号" width="180" />
-      <el-table-column prop="c" label="作业名称" width="210" />
-      <el-table-column prop="d" label="作业类型" width="210" />
-      <el-table-column prop="e" label="状态" width="140" />
-      <el-table-column prop="f" label="完成时间" width="200" />
+      <el-table-column prop="rownum" label="序号" width="120" />
+      <el-table-column prop="nodeName" label="当前任务" width="210" />
+      <el-table-column prop="wellId" label="井号" width="180" />
+      <el-table-column prop="operationName" label="作业名称" width="210" />
+      <el-table-column prop="operationType" label="作业类型" width="210" >
+        <template slot-scope="scope">
+          <p v-if="scope.row.operationType == '0'">常规检泵</p>
+          <p v-if="scope.row.operationType == '1'">技改井</p>
+        </template>
+      </el-table-column>
+      <el-table-column prop="operationState" label="状态" width="140" />
+      <el-table-column prop="finishDate" label="完成时间" width="200" />
       <el-table-column label="操作" width="260">
         <template slot-scope="scope">
           <!-- 编辑 -->
           <el-tooltip content="编辑" placement="top">
-          <el-button type="text" size="small" v-if="scope.row.a==='上报'" @click="editOperation(scope.row)" class="iconfont icon-bianji" />
+          <el-button type="text" size="small" v-if="scope.row.nodeName==='上报'" @click="editOperation(scope.row)" class="iconfont icon-bianji" />
           </el-tooltip>
           <!-- 提交 -->
           <el-tooltip content="提交" placement="top">
-          <el-button type="text" size="small" v-if="scope.row.a==='上报'" @click="submitOperation(scope.row)" class="el-icon-success" />
+          <el-button type="text" size="small" v-if="scope.row.nodeName==='上报'" @click="submitOperation(scope.row)" class="el-icon-success" />
           </el-tooltip>
           <!-- 查看 -->
           <el-tooltip content="查看" placement="top">
-          <el-button type="text" size="small" v-if="scope.row.a==='派工' || scope.row.a==='现场作业' || scope.row.a==='效果评价'" @click="checkOperation(scope.row)" class="el-icon-view" />
+          <el-button type="text" size="small" v-if="scope.row.nodeName==='派工' || scope.row.nodeName==='现场作业' || scope.row.nodeName==='效果评价'" @click="checkOperation(scope.row)" class="el-icon-view" />
           </el-tooltip>
           <!-- 派工 -->
           <el-tooltip content="派工" placement="top">
-          <el-button type="text" size="small" v-if="scope.row.a==='派工'" @click="sendOperation(scope.row)" class="el-icon-folder-remove" />
+          <el-button type="text" size="small" v-if="scope.row.nodeName==='派工'" @click="sendOperation(scope.row)" class="el-icon-folder-remove" />
           </el-tooltip>
           <!-- 完工 -->
           <el-tooltip content="完工" placement="top">
-          <el-button type="text" size="small" v-if="scope.row.a==='现场作业'" @click="completeOperation(scope.row)" class="el-icon-folder-checked" />
+          <el-button type="text" size="small" v-if="scope.row.nodeName==='现场作业'" @click="completeOperation(scope.row)" class="el-icon-folder-checked" />
           </el-tooltip>
           <!-- 进度 -->
           <el-tooltip content="进度" placement="top">
-          <el-button type="text" size="small" v-if="scope.row.a==='现场作业'" @click="scheduleOperation(scope.row)" class="el-icon-tickets" />
+          <el-button type="text" size="small" v-if="scope.row.nodeName==='现场作业'" @click="scheduleOperation(scope.row)" class="el-icon-tickets" />
           </el-tooltip>
           <!-- 终止 -->
           <el-tooltip content="终止" placement="top">
-          <el-button type="text" size="small" v-if="scope.row.a==='上报'" @click="cadenceOperation(scope.row)" class="el-icon-turn-off" />
+          <el-button type="text" size="small" v-if="scope.row.nodeName==='上报'" @click="cadenceOperation(scope.row)" class="el-icon-turn-off" />
           </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="role_page">
+    <div class="oper_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -102,8 +107,14 @@
     <!-- 进度 -->
     <common-schedule-operation 
       :scheduleOperVisible="scheduleOperVisible"
-      :scheduleData="schedulesendOperData"
+      :scheduleData="scheduleOperData"
       @scheduleRowClose="scheduleOperClose"
+    />
+    <!-- 终止 -->
+    <common-cadence-operation 
+      :cadenceOperVisible="cadenceOperVisible"
+      :cadenceData="cadenceOperData"
+      @cadenceRowClose="cadenceOperClose"
     />
   </div>
 </template>
@@ -112,12 +123,14 @@ import CommonEditOperation from "../../components/downholeOperations/CommonEditO
 import CommonCheckOperation from "../../components/downholeOperations/CommonCheckOperation";
 import CommonSendOperation from "../../components/downholeOperations/CommonSendOperation";
 import CommonScheduleOperation from "../../components/downholeOperations/CommonScheduleOperation";
+import CommonCadenceOperation from "../../components/downholeOperations/CommonCadenceOperation";
 export default {
   components: {
     CommonEditOperation,
     CommonCheckOperation,
     CommonSendOperation,
-    CommonScheduleOperation
+    CommonScheduleOperation,
+    CommonCadenceOperation
   },
   data(){
     return{
@@ -125,80 +138,8 @@ export default {
         number:"",
         name:"",
       },
-      operationData:[
-        {
-          number:1,
-          a:'上报',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        },
-        {
-          number:1,
-          a:'派工',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        },
-        {
-          number:1,
-          a:'派工',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        },
-        {
-          number:1,
-          a:'效果评价',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        },
-         {
-          number:1,
-          a:'现场作业',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        },
-        {
-          number:1,
-          a:'派工',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        },
-        {
-          number:1,
-          a:'派工',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        },
-        {
-          number:1,
-          a:'派工',
-          b:'定117-1',
-          c:'解断脱',
-          d:'常规检泵',
-          e:'完成',
-          f:'2020-06-17'
-        }
-      ],
+      //表格数据
+      operationData:[],
         // 分页
       currentPage: 1,
       pageSize: 10,
@@ -216,7 +157,10 @@ export default {
       sendOperData:{},
       // 进度
       scheduleOperVisible: false,
-      schedulesendOperData:{}
+      scheduleOperData:{},
+      // 终止
+      cadenceOperVisible: false,
+      cadenceOperData:{}
     }
   },
   created() {
@@ -228,14 +172,14 @@ export default {
     // 表格数据初始化
     operationInit(){
       this.getRequest(
-        "/system/sysRole/queryRoleAll?current=" +
+        "/operation/operationInfo/queryByPageAll?current=" +
           this.currentPage +
           "&pageSize=" +
           this.pageSize
       ).then(resp => {
         this.loading = false;
         if (resp) {
-          // /this.operationData = resp.data.records;
+          this.operationData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
@@ -252,7 +196,19 @@ export default {
       this.editOperVisible = false;
     },
     // 提交
-    submitOperation(){},
+    submitOperation(val){
+      this.putRequest("/operation/operationNode/updateOperationNode", val).then(resp => {
+        if (resp) {
+          this.$message({
+            message: "提交成功!",
+            type: "success"
+          });
+          this.operationInit();
+        } else {
+          this.$message.error("提交失败，请重新提交!");
+        }
+      });
+    },
     // 查看
     checkOperation(val){
       this.checkOperVisible = true;
@@ -276,14 +232,21 @@ export default {
     // 进度
     scheduleOperation(val){
       this.scheduleOperVisible = true;
-      this.schedulesendOperData = val;
+      this.scheduleOperData = val;
     },
     // 关闭进度对话框
     scheduleOperClose(){
       this.scheduleOperVisible = false;
     },
     // 终止
-    cadenceOperation(){},
+    cadenceOperation(val){
+      this.cadenceOperVisible = true;
+      this.cadenceOperData = val;
+    },
+    //关闭终止对话框
+    cadenceOperClose(){
+      this.cadenceOperVisible = false;
+    },
      // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
