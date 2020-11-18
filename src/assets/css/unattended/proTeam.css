@@ -88,7 +88,7 @@
     flex-direction: column;
 }
 .proTeam_container_details_left_span {
-    font-size: 16px;
+    font-size: 12px;
     margin: 5% 15%;
     height: 10%;
 }
@@ -110,7 +110,7 @@
     flex-direction: column;
 }
 .proTeam_container_details_right_dec {
-    font-size: 14px;
+    font-size: 12px;
     margin: 5% 5%;
     color: #697080;
 }

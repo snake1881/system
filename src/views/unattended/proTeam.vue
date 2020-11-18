@@ -11,8 +11,8 @@
       <span class="proTeam_left_oilWell_dec">异常：<span style="color:red">0</span> 口</span>
       <span class="proTeam_left_oilWell_dec">产液：<span style="color:green">{{this.oilData.teamInfoList[0].drLiquidProd}}</span> m<sup>3</sup></span>
       <span class="proTeam_left_oilWell_dec">产油：<span style="color:green">{{this.oilData.teamInfoList[0].drOilProd}}</span> m<sup>3</sup></span>
-      <span class="proTeam_left_oilWell_dec">产液较昨日： <span style="color:green">{{this.LiquidProdIncrease}}</span> m<sup>3</sup></span>
-      <!-- <span class="proTeam_left_oilWell_dec">产油较昨日： <span style="color:green">{{this.oilIncrease}}</span> m<sup>3</sup></span> -->
+      <span class="proTeam_left_oilWell_dec">产液较昨日<span style="color:red" class="el-icon-bottom">{{this.LiquidProdIncrease}}</span> m<sup>3</sup></span>
+      <span class="proTeam_left_oilWell_dec">产油较昨日<span style="color:red" class="el-icon-bottom">{{this.oilIncrease}}</span> m<sup>3</sup></span>
     </div>
     <div class="proTeam_left_waterWell">
       <span class="proTeam_left_oilWell_title">
@@ -35,15 +35,15 @@
     </div>
   </div>
   <div class="proTeam_container">
-    <div v-for="(item,index) in 16" :key="index" class="proTeam_container_details" @mouseenter="enter()" @mouseleave="leave()">
+    <div v-for="(item,index) in this.oilStationData" :key="index" class="proTeam_container_details" @mouseenter="enter()" @mouseleave="leave()">
       <div class="proTeam_container_details_left">
-        <span class="proTeam_container_details_left_span">****采油站</span>
+        <span class="proTeam_container_details_left_span">{{item.oilStationName}}</span>
         <i class="iconfont icon-yujing_gaoliang proTeam_container_details_left_icon" />
         <img src="../../assets/images/teamStation.png" class="proTeam_container_details_left_img">
       </div>
       <div class="proTeam_container_details_right">
-        <span class="proTeam_container_details_right_dec">产液：<span style="color:green">462</span> m<sup>3</sup></span>
-        <span class="proTeam_container_details_right_dec">注水：<span style="color:green">462</span> m<sup>3</sup></span>
+        <span class="proTeam_container_details_right_dec">产液：<span style="color:green">{{item.drLiquidProd}}</span> m<sup>3</sup></span>
+        <span class="proTeam_container_details_right_dec">注水：<span style="color:green">0</span> m<sup>3</sup></span>
         <span class="proTeam_container_details_right_dec">异常：<span style="color:red">0</span> 处</span>
         <span class="proTeam_container_details_right_dec">预警：<span style="color:orange">0</span> 处</span>
       </div>
@@ -110,8 +110,10 @@ export default {
       LiquidProdIncrease:'',
       // 水井汇总
       waterData:{},
-      // 视频
-      videoData:""
+      // 视频汇总
+      videoData:"",
+      // 采油站汇总
+      oilStationData:[]
     }
   },
   created() {
@@ -123,7 +125,7 @@ export default {
   methods: {
     // 油井汇总
     oilInit(){
-      this.getRequest('/teams/team/listPage?productionTeamName=%E4%B8%9C%E4%BB%81%E6%B2%9F%E9%87%87%E6%B2%B9%E9%98%9F&sTime=2020-11-09').then(resp =>{
+      this.getRequest('/teams/team/listTeamPage?productionTeamName=%E4%B8%9C%E4%BB%81%E6%B2%9F%E9%87%87%E6%B2%B9%E9%98%9F&sTime=2020-11-09').then(resp =>{
         if(resp){
           this.oilData = resp.data;
           this.LiquidProdIncrease=(resp.data.teamInfoList[0].drLiquidProd-resp.data.teamInfoList[0].drYesterdayLiquidProd).toFixed(3);
@@ -149,11 +151,28 @@ export default {
     },
     // 所有采油站信息
     stationInit(){
-
+      this.getRequest('/teams/team/listSitPage?productionTeamName=%E4%B8%9C%E4%BB%81%E6%B2%9F%E9%87%87%E6%B2%B9%E9%98%9F&sTime=2020-11-09').then(resp =>{
+        if(resp){
+          this.oilStationData = resp.data.teamInfoList;
+        }
+      });
     },
     // 点击跳转到采油站
     gotoStation() {
-      this.$router.replace("/unattended/oilStation");
+      // this.$router.replace({
+      //   path:"/unattended/oilStation",
+      //   query:{}
+      // });
+      // 跳转
+      this.$router.push(
+        { 
+          name: '采油队',
+          params: { 
+            name: this.oilStationData[0].oilStationName,
+          } 
+        }
+      );
+      // 接收this.$route.params.name
     },
     // 鼠标移入
     enter() {

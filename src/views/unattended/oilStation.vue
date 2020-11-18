@@ -6,9 +6,9 @@
       <span class="proTeam_left_oilWell_title ">
         <i class="iconfont icon-ziyuan48ldpi" style="color:rgb(32, 55, 78);font-size:18px;margin:0 2%" />
         油井</span>
-      <span class="proTeam_left_oilWell_dec">总：<span style="color:green">462</span> 口</span>
-      <span class="proTeam_left_oilWell_dec">开：<span style="color:green">462</span> 口</span>
-      <span class="proTeam_left_oilWell_dec">异常：<span style="color:red">462</span> 口</span>
+      <span class="proTeam_left_oilWell_dec">总井：<span style="color:green">462</span> 口</span>
+      <span class="proTeam_left_oilWell_dec">开井：<span style="color:green">462</span> 口</span>
+      <span class="proTeam_left_oilWell_dec">异常：<span style="color:red">0</span> 口</span>
       <span class="proTeam_left_oilWell_dec">产液：<span style="color:green">462</span> m<sup>3</sup></span>
       <span class="proTeam_left_oilWell_dec">产油：<span style="color:green">462</span> m<sup>3</sup></span>
       <span class="proTeam_left_oilWell_dec">较昨日增加 <span style="color:green">462</span> m<sup>3</sup></span>
@@ -18,9 +18,9 @@
         <i class="iconfont icon-ziyuan50ldpi" style="color:rgb(32, 55, 78);font-size:18px;margin:0 2%" />
         水井
       </span>
-      <span class="proTeam_left_oilWell_dec">总：<span style="color:green">462</span> 口</span>
-      <span class="proTeam_left_oilWell_dec">开：<span style="color:green">462</span> 口</span>
-      <span class="proTeam_left_oilWell_dec">异常：<span style="color:red">462</span> 口</span>
+      <span class="proTeam_left_oilWell_dec">总井：<span style="color:green">462</span> 口</span>
+      <span class="proTeam_left_oilWell_dec">开井：<span style="color:green">462</span> 口</span>
+      <span class="proTeam_left_oilWell_dec">异常：<span style="color:red">0</span> 口</span>
       <span class="proTeam_left_oilWell_dec">配注：<span style="color:green">462</span> m<sup>3</sup></span>
       <span class="proTeam_left_oilWell_dec">注水：<span style="color:green">462</span> m<sup>3</sup></span>
     </div>
@@ -29,8 +29,8 @@
         <i class=" iconfont icon-shipin" style="color:rgb(32, 55, 78);font-size:21px;margin:0 2%" />
         视频</span>
       <span class="proTeam_left_oilWell_dec">正常：<span style="color:green">462</span> 处</span>
-      <span class="proTeam_left_oilWell_dec">异常：<span style="color:orange">462</span> 处</span>
-      <span class="proTeam_left_oilWell_dec">损坏：<span style="color:red">462</span> 处</span>
+      <span class="proTeam_left_oilWell_dec">异常：<span style="color:orange">0</span> 处</span>
+      <span class="proTeam_left_oilWell_dec">损坏：<span style="color:red">0</span> 处</span>
     </div>
   </div>
   <div class="proTeam_container">
@@ -40,12 +40,12 @@
         <img src="../../assets/images/station.png" class="proTeam_container_details_top_img"  @click="gotoWellsite()"/>
       </div>
       <div class="proTeam_container_details_container">
-        <span class="proTeam_container_details_container_dec">开井：<span style="color:green">462</span> 口</span>
-        <span class="proTeam_container_details_container_dec">停井：<span style="color:red">462</span> 口</span><br>
-        <span class="proTeam_container_details_container_dec">产液：<span style="color:green">462</span> m<sup>3</sup></span>
+        <span class="proTeam_container_details_container_dec">开井：<span style="color:green">462</span> 口 </span>
+        <span class="proTeam_container_details_container_dec">停井：<span style="color:red">462</span> 口 </span><br>
+        <span class="proTeam_container_details_container_dec">产液：<span style="color:green">462</span>m<sup>3</sup></span>
         <span class="proTeam_container_details_container_dec">产液：<span style="color:green">462</span> m<sup>3</sup></span><br>
-        <span class="proTeam_container_details_container_dec">异常：<span style="color:red">462</span> 口</span>
-        <span class="proTeam_container_details_container_dec">预警：<span style="color:orange">462</span> 处</span>
+        <span class="proTeam_container_details_container_dec">异常：<span style="color:red">462</span> 口 </span>
+        <span class="proTeam_container_details_container_dec">预警：<span style="color:orange">462</span> 处 </span>
       </div>
     </div>
   </div>
@@ -56,6 +56,9 @@
 export default {
   data() {
     return {}
+  },
+  created(){
+    console.log(this.$route.params.name);
   },
   methods: {
     // 点击跳转到采油站

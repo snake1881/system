@@ -25,13 +25,13 @@ body {
   margin: 0;
   width: 100%;
   height: 100%;
-  background-color: #1a2a3a;
+  background-color: #0a1e42;
 }
 .el-header {
   height: 8% !important;
   width: 100%;
   padding: 0 0;
-  background-color: #20374e;
+  background-color: #0a1e42;
 }
 .el-main {
   height: 92%;

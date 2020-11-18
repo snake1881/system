@@ -2,7 +2,7 @@
   <div class="header_container">
     <div class="container_left">
       <img class="container_left_img" src="../../assets/images/logo2.png" />
-      <span class="container_left_text">定边采油厂智能油田一体化平台</span>
+      <span class="container_left_text">定边采油厂一体化信息平台</span>
     </div>
     <!-- 导航栏 -->
     <div class="container_middle">
@@ -10,7 +10,7 @@
         router
         mode="horizontal"
         default-active="/Index"
-        background-color="#20374e"
+        background-color="#0a1e42"
         text-color="#fff"
         active-text-color="#fff"
         v-if="this.$store.state.routes[0]"
@@ -184,9 +184,11 @@ export default {
   height: 100%;
 }
 .container_right .el-button {
-  border-color: #20374e;
-  background-color:#20374e;
+  color:white;
+  border-color:  #0a1e42;
+  background-color:  #0a1e42;
   padding: 0 0;
+  font-size: 20px;
 }
 .container_middle .el-menu {
   border: 0;
@@ -198,9 +200,6 @@ export default {
 }
 .container_right_notice_scrollbar .el-scrollbar__wrap {
   overflow-x: hidden;
-}
-.container_right .el-button {
-  font-size: 20px;
 }
 .el-menu-item.is-active {
   background-color: rgb(68, 73, 87) !important;;

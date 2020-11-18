@@ -23,18 +23,15 @@
         <el-input type="textarea" />
       </el-form-item>
       <el-form-item label="现场照片:">
-         <el-upload action="#" list-type="picture-card" :auto-upload="false">
-          <i slot="default" class="el-icon-plus" />
-          <div slot="file" slot-scope="{file}">
-            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="加载失败">
-            <span class="el-upload-list__item-actions">
-              <span class="el-upload-list__item-preview el-icon-zoom-in"  @click="handlePictureCardPreview(file)" />
-              <span v-if="!disabled" class="el-upload-list__item-delete el-icon-delete" @click="handleRemove(file)" />
-            </span>
-          </div>
-         </el-upload>
+         <el-upload
+          action="https://jsonplaceholder.typicode.com/posts/"
+          list-type="picture-card"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
         <el-dialog :visible.sync="dialogVisible" append-to-body>
-          <img width="100%" :src="dialogImageUrl" alt="加载失败">
+          <img width="100%" :src="dialogImageUrl" alt="正在加载">
         </el-dialog>
       </el-form-item>
       <el-form-item label="附件:">
@@ -63,8 +60,7 @@ export default {
   data(){
     return{
       dialogImageUrl: '',
-      dialogVisible: false,
-      disabled: false
+      dialogVisible: false
     }
   },
   methods: {
@@ -87,9 +83,9 @@ export default {
     },
     // 图片预览
     handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+    }
   }
 };
 </script>
@@ -99,12 +95,10 @@ export default {
   height: 400px;
   overflow: auto;
 }
-
 .scheduleOpereDiv .el-input {
   width: 150px;
   height: 2px;
 }
-
 .sendOpereButton {
   margin-left: 35%;
 }
