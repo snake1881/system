@@ -7,7 +7,7 @@
         <el-input
           v-model="termData.wellName"
           clearable
-          style="width:150px"
+          style="width: 150px"
           size="medium"
           placeholder="井号"
         ></el-input>
@@ -17,7 +17,7 @@
           v-model="termData.wellCategory"
           clearable
           placeholder="请选择井类别"
-          style="width:150px"
+          style="width: 150px"
           size="medium"
         >
           <el-option
@@ -33,7 +33,7 @@
         <el-select
           v-model="termData.oilStationName"
           clearable
-          style="width:150px"
+          style="width: 150px"
           placeholder="全区"
           size="medium"
         >
@@ -64,7 +64,7 @@
           >新增</el-button
         >
       </el-form-item>
-      <el-form-item>
+      <!-- <el-form-item>
         <el-button
           type="primary"
           icon="el-icon-download"
@@ -72,7 +72,34 @@
           @click="fileOpen()"
           >导出</el-button
         >
+      </el-form-item> -->
+      <el-form-item>
+        <el-button
+          size="small"
+          type="primary"
+          icon="el-icon-download"
+          @click="handleExport()"
+          >导出</el-button
+        >
       </el-form-item>
+      <!-- <el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-download"
+          size="small"
+          @click="download3()"
+          >导出</el-button
+        >
+      </el-form-item> -->
+      <!-- <el-item-form>
+        <el-button
+          size="small"
+          type="primary"
+          icon="el-icon-download"
+          @click="handleExport()"
+          >导出</el-button
+        >
+      </el-item-form> -->
       <el-form-item>
         <el-upload
           action="/demo/basWellInfor/import"
@@ -93,7 +120,7 @@
       </el-form-item>
     </el-form>
     <el-table
-    class="basewellinfor_table"
+      class="basewellinfor_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -101,7 +128,7 @@
       height="85%"
       border
       lazy
-      style="width:100%;"
+      style="width: 100%"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
@@ -126,12 +153,17 @@
         label="采油站"
         width="150"
       />
-      <el-table-column prop="wellDepth" align="center" label="井深" width="100" />
+      <el-table-column
+        prop="wellDepth"
+        align="center"
+        label="井深"
+        width="100"
+      />
       <el-table-column
         prop="productionDate"
         align="center"
         label="投产日期"
-        width="180"
+        width="140"
       />
       <el-table-column
         prop="wellCategory"
@@ -142,6 +174,9 @@
         <template slot-scope="scope">
           <p v-if="scope.row.wellCategory == '0'">注水井</p>
           <p v-if="scope.row.wellCategory == '1'">油井</p>
+          <p v-if="scope.row.wellCategory == '2'">回注井</p>
+          <p v-if="scope.row.wellCategory == '3'">勘探井</p>
+          <p v-if="scope.row.wellCategory == '4'">水源井</p>
         </template>
       </el-table-column>
 
@@ -162,13 +197,13 @@
         prop="longitude"
         align="center"
         label="经度"
-        width="100"
+        width="120"
       />
       <el-table-column
         prop="latitude"
         align="center"
         label="纬度"
-        width="100"
+        width="120"
       />
       <el-table-column align="center" label="操作" width="150">
         <template slot-scope="scope">
@@ -188,7 +223,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="baseWellInfor_page" >
+    <div class="baseWellInfor_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -218,14 +253,14 @@ import CommonEditBaseWellInfor from "../..//components/baseinformation/basewell/
 export default {
   components: {
     CommonAddBaseWellInfor,
-    CommonEditBaseWellInfor
+    CommonEditBaseWellInfor,
   },
   data() {
     return {
       termData: {
         wellName: "",
         wellCategory: "",
-        oilStationName: ""
+        oilStationName: "",
       },
       file: [],
       fileList: [],
@@ -233,12 +268,24 @@ export default {
       wellCategoryOptions: [
         {
           value: "0",
-          label: "注水井"
+          label: "注水井",
         },
         {
           value: "1",
-          label: "油井"
-        }
+          label: "油井",
+        },
+        {
+          value: "2",
+          label: "回注井",
+        },
+        {
+          value: "3",
+          label: "勘探井",
+        },
+        {
+          value: "4",
+          label: "水源井",
+        },
       ],
 
       BaseWellInforData: [],
@@ -251,7 +298,7 @@ export default {
       editBaseWellInforVisible: false,
       editBaseWellInforData: {},
       //新增
-      addBaseWellInforVisible: false
+      addBaseWellInforVisible: false,
     };
   },
   created() {
@@ -272,7 +319,7 @@ export default {
           this.termData.wellCategory +
           "&wellName=" +
           this.termData.wellName
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.BaseWellInforData = resp.data.records;
           this.total = resp.data.total;
@@ -290,7 +337,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.BaseWellInforData = resp.data.records;
@@ -339,7 +386,7 @@ export default {
     //采油站下拉框数据查询
     orgNameInit() {
       this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
-        resp => {
+        (resp) => {
           this.loading = false;
           if (resp) {
             this.orgNameData = resp.data;
@@ -352,15 +399,15 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/basWellInfor/delete?wellId=" + val.wellId).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.searchBaseWellInfor();
@@ -370,7 +417,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -386,6 +433,78 @@ export default {
           this.termData.wellName
       );
     },
+    //
+    // download2() {
+    //   var url =
+    //     "http://localhost:8692/demo/basWellInfor/export" +
+    //     "?oilStationName=" +
+    //     this.termData.oilStationName +
+    //     "&wellCategory=" +
+    //     this.termData.wellCategory +
+    //     "&wellName=" +
+    //     this.termData.wellName;
+    //   var form = '<form method="GET"></form>';
+    //   form.attr("action", url);
+    //   form.appendTo(form);
+    //   form.submit();
+    // },
+    // download3: function () {
+    //   this.$axios({
+    //     method: "get",
+    //     url:
+    //       "http://localhost:8692/demo/basWellInfor/export" +
+    //       "?oilStationName=" +
+    //       this.termData.oilStationName +
+    //       "&wellCategory=" +
+    //       this.termData.wellCategory +
+    //       "&wellName=" +
+    //       this.termData.wellName,
+    //     // headers里面设置token
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       // "token":window.sessionStorage.getItem('token')
+    //     },
+    //     data: {
+    //       department_id: parseInt(
+    //         window.sessionStorage.getItem("departmentId")
+    //       ),
+    //       startTime: this.date + "-1",
+    //       endTime: this.date + "-31",
+    //     },
+    //     // 二进制流文件，一定要设置成blob，默认是json
+    //     responseType: "blob",
+    //   }).then((res) => {
+    //     console.log(res);
+    //     if (!res.data) {
+    //       return;
+    //     }
+    //     var name = this.date + "月" + this.departmentName + "销售分析统计.xls";
+    //     var blob = new Blob([res.data]);
+    //     var url = window.URL.createObjectURL(blob);
+    //     var aLink = document.createElement("a");
+    //     aLink.style.display = "none";
+    //     aLink.href = url;
+    //     aLink.setAttribute("download", name);
+    //     document.body.appendChild(aLink);
+    //     aLink.click();
+    //     document.body.removeChild(aLink); //下载完成移除元素
+    //     window.URL.revokeObjectURL(url); //释放掉blob对象
+    //   });
+    // },
+    //文件下载
+    handleExport() {
+      var elemIF = document.createElement('iframe')
+      elemIF.src = "http://localhost:8692/demo/basWellInfor/export" +
+        "?oilStationName=" +
+        this.termData.oilStationName +
+        "&wellCategory=" +
+        this.termData.wellCategory +
+        "&wellName=" +
+        this.termData.wellName;
+        elemIF.style.display = "none";
+      document.body.appendChild(elemIF)
+    },
+
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
@@ -400,9 +519,9 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
       );
     },
     beforeRemove(file, fileList) {
@@ -412,16 +531,16 @@ export default {
       if (response.code === 200) {
         this.$message({
           type: "success",
-          message: response.message + "，上传了" + response.data + "条数据"
+          message: response.message + "，上传了" + response.data + "条数据",
         });
       } else {
         this.$message({
           type: "info",
-          message: response.message + "，" + response.data
+          message: response.message + "，" + response.data,
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

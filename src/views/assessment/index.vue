@@ -55,13 +55,13 @@
         :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="90" />
-        <el-table-column prop="indexName" label="指标名称" width="240" />
-        <el-table-column prop="scoreWeight" label="权重" width="150" />
-        <el-table-column prop="sequence" label="排列顺序" width="155" />
-        <el-table-column prop="templateName" label="考核模板" width="300" />
-        <el-table-column prop="remark" label="备注" width="280" />
-        <el-table-column label="操作" width="120">
+        <el-table-column type="selection" align="center" width="90" />
+        <el-table-column prop="indexName" align="center" label="指标名称" width="240" />
+        <el-table-column prop="scoreWeight" align="center" label="权重" width="150" />
+        <el-table-column prop="sequence" align="center" label="排列顺序" width="155" />
+        <el-table-column prop="templateName" align="center" label="考核模板" width="300" />
+        <el-table-column prop="remark" align="center" label="备注" width="280" />
+        <el-table-column label="操作" align="center" width="120">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editIndex(scope.row)" class="iconfont icon-bianji" />
             <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu" />
@@ -134,11 +134,13 @@
         <el-table 
           :data="this.detailData.indexDetails"
           border
-          style="width: 100%;height:90%"
+          style="width: 100%"
+          height="90%"
+          :header-cell-style="{'text-align':'center'}"
         >
-          <el-table-column prop="examineContent" label="考核内容" width="515" />
-          <el-table-column prop="requirement" label="考核标准" width="510" />
-          <el-table-column prop="score" label="分值" width="310" />
+          <el-table-column prop="examineContent" align="center" label="考核内容" width="515" />
+          <el-table-column prop="requirement" align="center" label="考核标准" width="510" />
+          <el-table-column prop="score" align="center" label="分值" width="310" />
         </el-table>
       </div>
     </div>

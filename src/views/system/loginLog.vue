@@ -182,13 +182,24 @@ export default {
       this.selectData = val;
     },
     fileOpen() {
-      window.open("http://localhost:8692/demo/loginLog/excelexport?endTime="+
+      // window.open("http://localhost:8692/demo/loginLog/excelexport?endTime="+
+      // this.logingLogForm.endTime+
+      // "&moduleName="+
+      // this.logingLogForm.moduleName+
+      // "&startTime="+
+      // this.logingLogForm.startTime
+      // );
+      var elemIF = document.createElement('iframe')
+      elemIF.src = "http://localhost:8692/demo/loginLog/excelexport?endTime="+
       this.logingLogForm.endTime+
       "&moduleName="+
       this.logingLogForm.moduleName+
       "&startTime="+
-      this.logingLogForm.startTime
-      );
+      this.logingLogForm.startTime;
+      //隐藏iframe
+      elemIF.style.display = "none";
+      document.body.appendChild(elemIF)
+      this.searchLog();
     },
   }
 };

@@ -40,19 +40,20 @@
       element-loading-spinner="el-icon-loading"
       :data="detailData"
       border
-      style="width:100%;height:86%"
+      style="width:100%"
+      height="86%"
       :row-style="{height:'2px'}"
       :cell-style="{padding:'0px'}"
       :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="90" />
-      <el-table-column prop="examineContent" label="考核内容" width="300" />
-      <el-table-column prop="requirement" label="工作要求" width="280" />
-      <el-table-column prop="examineStandard" label="考核标准" width="280" />
-      <el-table-column prop="score" label="分值" width="140" />
-      <el-table-column prop="sequence" label="排列顺序" width="120" />
-      <el-table-column label="操作" width="125">
+      <el-table-column type="selection" align="center" width="90" />
+      <el-table-column prop="examineContent" align="center" label="考核内容" width="300" />
+      <el-table-column prop="requirement" align="center" label="工作要求" width="280" />
+      <el-table-column prop="examineStandard" align="center" label="考核标准" width="280" />
+      <el-table-column prop="score" label="分值" align="center" width="140" />
+      <el-table-column prop="sequence" align="center" label="排列顺序" width="120" />
+      <el-table-column label="操作" align="center" width="125">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editDetail(scope.row)" class="iconfont icon-bianji" />
           <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu" />

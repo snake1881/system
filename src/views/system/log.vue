@@ -21,12 +21,12 @@
         <el-form-item>
       <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
       </el-form-item>
-        <el-form-item>
+      <el-form-item>
       <el-button
           type="primary"
           icon="el-icon-download"
           size="small"
-          @click="fileOpen()"
+          @click="handleExport()"
           >导出</el-button
         >
       </el-form-item>
@@ -180,15 +180,19 @@ export default {
     handleSelectionChange(val) {
       this.selectData = val;
     },
-    fileOpen() {
-      console.log(this.logForm);
-      window.open("http://localhost:8692/demo/operationLog/excelexport?endTime="+
+    //操作日志条件导出
+    handleExport() {
+      var elemIF = document.createElement('iframe')
+      elemIF.src = "http://localhost:8692/demo/operationLog/excelexport?endTime="+
       this.logForm.endTime+
       "&moduleName="+
       this.logForm.moduleName+
       "&startTime="+
-      this.logForm.startTime
-      );
+      this.logForm.startTime;
+      //隐藏iframe
+      elemIF.style.display = "none";
+      document.body.appendChild(elemIF);
+      this.searchLog();
     },
   }
 };

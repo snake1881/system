@@ -190,7 +190,7 @@
       </el-form>
       <el-form  label-position="right" label-width="120px" :inline="true">
         <el-form-item
-          v-if="BaseWellInfor.wellCategory === '0'"
+          v-if="BaseWellInfor.wellCategory === '0' || BaseWellInfor.wellCategory === '2'"  
           label="注水站:"
         >
           <el-select
@@ -211,7 +211,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          v-if="BaseWellInfor.wellCategory === '0'"
+          v-if="BaseWellInfor.wellCategory === '0' || BaseWellInfor.wellCategory === '2'" 
           label="配水间:"
         >
           <el-select
@@ -321,7 +321,19 @@ export default {
         {
           value: "1",
           label: "油井"
-        }
+        },
+        {
+          value: "2",
+          label: "回注井"
+        },
+        {
+          value: "3",
+          label: "勘探井"
+        },
+        {
+          value: "4",
+          label: "水源井"
+        },
       ],
       //井类型(0:旧井)
       wellTypeOptions: [
@@ -347,7 +359,27 @@ export default {
         {
           value: "1",
           label: "转注"
-        }
+        },
+        {
+          value: "2",
+          label: "投产"
+        },
+        {
+          value: "3",
+          label: "报废井复活"
+        },
+        {
+          value: "4",
+          label: "长停井恢复"
+        },
+        {
+          value: "5",
+          label: "转产"
+        },
+        {
+          value: "6",
+          label: "不详"
+        },
       ],
       //区队ID
       oilStationIdOptions: [],
