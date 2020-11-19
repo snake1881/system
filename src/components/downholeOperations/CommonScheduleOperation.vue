@@ -59,6 +59,7 @@ export default {
   },
   data(){
     return{
+      handleRemove: '',
       dialogImageUrl: '',
       dialogVisible: false
     }
