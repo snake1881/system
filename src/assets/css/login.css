@@ -4,43 +4,57 @@
     background-image: url("../images/login.png");
     background-size: 100% 100%;
     background-repeat: no-repeat;
+  }
+  .login-container {
+    border-radius: 3%;
+    width: 48%;
+    height: 45%;
+    margin: 12% 30% 0 27%;
+    position: absolute;
+    background:rgb(242,242,242,0.1);
     display: flex;
-    flex-direction: row;
-  }
-  /* 顶部标志及标题 */
-  .login-top{
-    display: flex;
-    flex-direction: row;
-    width: 40%;
-    height: 20%;
-    margin: 0 5%;
-  }
-  .login-top-image{
-    height: 30%;
-    width: 15%;
-    margin: 7% 2%;
-  }
-  .login-top-title{
-    color: white;
-    margin: 8% 0 0 0;
-    font-size: 30px;
-  }
-  .login-form {
-    width: 60%;
-    height: 100%;
+    flex-direction: column;
 
   }
-  .loginContainer {
-    border-radius: 8px;
-    width: 30%;
-    height: 40%;
-    margin: 26%  30% 0 35%;
-    padding: 5% 2%;
-    background: rgb(50, 59, 92);
+  .login-container-title {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: row;
   }
-  .loginContainer-h3 {
-    text-align: center;
-    color: white
+  .login-container-title-image {
+    height: 80%;
+    width: 10%;
+    margin: 1% 1% 1% 19%;
+  }
+  .login-container-title-text {
+    color: #e6e6e6;
+    margin: 2% 2% 1% 0;
+    font-size: 30px;
+    font-family:"Microsoft Yahei";
+  }
+  .login-container-form {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+  }
+  .login-container-form-left {
+    width: 60%;
+    height: 100%;
+  }
+  .login-container-form-left-image {
+    width: 100%;
+    height: 100%;
+    margin: -3% 5%;
+  }
+  .login-container-form-right {
+    width: 40%;
+    height: 100%;
+  }
+  .login-container-form-right-form {
+    width: 80%;
+    margin: 5% 0;
   }
   .loginContainer-button{
     width: 98%;

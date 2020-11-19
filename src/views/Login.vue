@@ -1,27 +1,33 @@
 <template>
 <div class="login">
-  <div class="login-top">
-    <img class="login-top-image" src="../assets/images/logo2.png" />
-    <h3 class="login-top-title">定边采油厂智能油田一体化平台</h3>
-  </div>
-  <div class="login-form">
-    <el-form :model="sysUserLogin" :rules="rules" ref="loginForm" class="loginContainer">
-      <h4 class="loginContainer-h3">用户登录</h4>
-      <el-form-item prop="username">
-        <el-input v-model="sysUserLogin.username" type="text" placeholder="输入用户名" id="username">
-          <i slot="prefix" class="el-input__icon el-icon-user" style="font-size:20px;margin:0 2px" />
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input v-model="sysUserLogin.password" type="password" placeholder="输入密码" id="password">
-          <i slot="prefix" class="el-input__icon el-icon-key" style="font-size:20px;margin:0 2px" />
-        </el-input>
-      </el-form-item>
-      <el-button type="primary" class="loginContainer-button" @click.native.prevent="submitLogin()" @keyup.enter.native="submitLogin()">
-        登录
-      </el-button>
-      <el-checkbox v-model="checked" class="loginContainer-checkbox" @change="savePwd()">记住密码</el-checkbox>
-    </el-form>
+  <div class="login-container">
+    <div class="login-container-title">
+      <img class="login-container-title-image" src="../assets/images/logo2.png" />
+      <h3 class="login-container-title-text">定边采油厂一体化信息平台</h3>
+    </div>
+    <div class="login-container-form">
+      <div class="login-container-form-left">
+         <img class="login-container-form-left-image" src="../assets/images/login_img.png" />
+      </div>
+      <div class="login-container-form-right">
+        <el-form :model="sysUserLogin" :rules="rules" ref="loginForm" class="login-container-form-right-form">
+          <el-form-item prop="username">
+            <el-input v-model="sysUserLogin.username" type="text" placeholder="输入用户名" id="username">
+              <i slot="prefix" class="el-input__icon el-icon-user" style="font-size:20px;margin:0 2px" />
+            </el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input v-model="sysUserLogin.password" type="password" placeholder="输入密码" id="password">
+              <i slot="prefix" class="el-input__icon el-icon-key" style="font-size:20px;margin:0 2px" />
+            </el-input>
+          </el-form-item>
+          <el-button type="primary" class="loginContainer-button" @click.native.prevent="submitLogin()" @keyup.enter.native="submitLogin()">
+            登录
+          </el-button>
+          <el-checkbox v-model="checked" class="loginContainer-checkbox" @change="savePwd()">记住密码</el-checkbox>
+        </el-form>
+      </div>
+    </div>
   </div>
 </div>
 </template>
@@ -110,7 +116,10 @@ export default {
 <style lang="less" scoped>
 @import "../assets/css/login.css";
 </style><style>
-.el-checkbox .el-checkbox__label {
+.login .el-checkbox .el-checkbox__label {
   color: white;
+}
+.login .el-input__inner {
+  background-color: coral !important;
 }
 </style>
