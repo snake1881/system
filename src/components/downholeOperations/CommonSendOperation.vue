@@ -87,9 +87,6 @@ export default {
     sendLastData: {
       type: Object,
     },
-    submitOperation:{
-      type: Function,
-    }
   },
   inject: ["reload"],
   data() {
@@ -124,12 +121,14 @@ export default {
         this.dispathchInfoData
       ).then((resp) => {
         if (resp) {
+          //派工成功后更新节点状态
+          this.updateOperNode(this.sendData);
+
           this.$message({
             message: "派工成功!",
             type: "success",
           });
-          //派工成功后更新节点状态
-          this.submitOperation(this.sendData);
+          this.reload();
         } else {
           this.$message.error("派工失败，请重新提交!");
         }
@@ -144,6 +143,17 @@ export default {
           this.teamNameoptions = resp.data;
         }
       });
+    },
+    //更新井下作业新节点信息
+    updateOperNode(val) {
+      this.putRequest("/operation/operationNode/submitOperation", val).then(
+        (resp) => {
+          if (resp) {
+          } else {
+            this.$message.error("提交失败，请重新提交!");
+          }
+        }
+      );
     },
   },
 };

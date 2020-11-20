@@ -160,7 +160,6 @@
       :sendOperVisible="sendOperVisible"
       :sendData="sendOperData"
       :sendLastData="sendLastOperData"
-      :submitOperation="submitOperation"
       @sendRowClose="sendOperClose"
     />
     <!-- 进度 -->
@@ -213,7 +212,6 @@ export default {
       checkOperVisible: false,
       checkOperData: {},
       // 派工
-      submitOperation:this.submitOperation,
       sendOperVisible: false,
       sendOperData: {},
       sendLastOperData: {},
@@ -279,7 +277,6 @@ export default {
       this.checkOperVisible = true;
       this.checkOperData = val;
       this.nodalPoint = val.nodeSequence;
-      console.log(val);
     },
     // 关闭查看对话框
     checkOperClose() {
@@ -307,7 +304,22 @@ export default {
       this.sendOperVisible = false;
     },
     // 完工
-    completeOperation() {},
+    completeOperation(val) {
+      this.postRequest("/operation/operationNode/completeOperation", val).then(
+        (resp) => {
+          if (resp) {
+            this.$message({
+              message: "完工提交成功!",
+              type: "success",
+            });
+            this.operationInit();
+          } else {
+            this.$message.error("完工提交失败，请重新提交!");
+          }
+        }
+      );
+      
+    },
     // 进度
     scheduleOperation(val) {
       this.scheduleOperVisible = true;
