@@ -22,6 +22,7 @@ export default {
       type: Object
     }
   },
+  inject: ["reload"],
   data(){
     return{}
   },
@@ -32,13 +33,15 @@ export default {
     },
     // 保存修改后的信息
     saveCaCdenceOper() {
-      this.putRequest("/", val).then(resp => {
+      //设置状态为终止状态
+      this.cadenceData.operationState='2';
+      this.putRequest("/operation/operationInfo/updateOperation", this.cadenceData).then(resp => {
         if (resp) {
           this.$message({
             message: "终止成功!",
             type: "success"
           });
-          this.operationInit();
+          this.reload();
         } else {
           this.$message.error("终止失败，请重新提交!");
         }

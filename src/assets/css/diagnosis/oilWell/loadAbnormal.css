@@ -21,3 +21,17 @@
     height: 7%;
     background-color: white;
 }
+
+
+.load_abnormal_item_detail {
+    width: 80%;
+    height: 150px;
+    margin-left: 16%;
+    overflow: auto;
+    text-align: center;
+}
+
+.load_abnormal_item_detail_table {
+    padding:0px;
+    line-height:0px;
+}
