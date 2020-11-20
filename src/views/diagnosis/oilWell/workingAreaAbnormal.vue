@@ -7,20 +7,21 @@
         <el-select
           v-model="termData.orgName"
           clearable
+          filterable
           placeholder="全区"
           size="medium"
         >
           <el-option
             v-for="item in orgNameData"
             size="medium"
-            :key="item.orgName"
-            :label="item.orgName"
-            :value="item.orgName"
+            :key="item.oilStationID"
+            :label="item.oilStationName"
+            :value="item.oilStationName"
           >
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="日期" >
+      <el-form-item label="日期">
         <el-date-picker
           v-model="termData.checkDate"
           size="medium"
@@ -33,12 +34,12 @@
       </el-form-item>
       <el-form-item>
         <el-button
-        type="primary"
-        icon="el-icon-search"
-        size="small"
-        @click="searchPost()"
-        >查询</el-button
-      >
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+          @click="searchPost()"
+          >查询</el-button
+        >
       </el-form-item>
     </el-form>
 
@@ -52,16 +53,41 @@
       height="93%"
       border
       lazy
-      row-key="checkDate"
+      @expand-change="rowCollectInit"
+      :expand-row-keys="expands"
+      :row-key="getRowKeys"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-      :tree-props="{
-        children: 'children',
-        hasChildren: 'hasChildren'
-      }"
-      style="width:100%;"
+      style="width: 100%"
     >
+      <template slot="empty"
+        ><br />
+        今日无功图面积异常数据<br />
+      </template>
+      <el-table-column type="expand">
+        <template slot-scope="scope">
+          <div
+            class="work_area_item_detail"
+            :key="scope.row.checkDate"
+            v-loading="loadCollectLoad"
+            element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading"
+          >
+            <div style="padding:0px;line-height:0px;" v-for="(item, index) in loadCollect" :key="index">
+              <span style=" width:100px;text-align:center; display: inline-block; ">{{ item.wellCommonName }}</span>
+              <span style=" width:180px;text-align:center; display: inline-block; margin-left: 10px">{{ item.checkDate }}</span>
+              <span style=" width:300px;text-align:center; display: inline-block; margin-left: 10px">{{ item.abnormalProblem }}</span>
+              <el-button
+                type="text"
+                @click="previewGtmj(item)"
+                style="margin-left: 10px"
+                >查看功图</el-button
+              >
+            </div>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="index" align="center" label="序号" width="80">
       </el-table-column>
       <el-table-column
@@ -80,13 +106,13 @@
         prop="orgName"
         align="center"
         label="采油站"
-        width="220"
+        width="200"
       />
       <el-table-column
         prop="abnormalProblem"
         align="center"
         label="诊断结果"
-        width="360"
+        width="340"
       />
       <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
@@ -120,19 +146,25 @@
 import CommonPreviewGtmj from "../../../components/diagnosis/oilwell/gtmjyc/GtmjycScanLine";
 export default {
   components: {
-    CommonPreviewGtmj
+    CommonPreviewGtmj,
   },
   data() {
     return {
       termData: {
         checkDate: "",
-        orgName: ""
+        orgName: "",
       },
       wellCommonName: "",
       testData: [],
       filterData: [],
       filterDataCopy: [],
       rowData: [[]],
+      // 当前展开行数据
+      loadCollect: [],
+      // 展开行加载动画
+      loadCollectLoad: true,
+      // 设置row-key只展示一行
+      expands: [],
       // 表格数据
       gtmjData: [],
       // 采油站下拉框数据
@@ -145,7 +177,7 @@ export default {
       loading: true,
       //
       previewGtmjVisible: false,
-      previewGtmjData: {}
+      previewGtmjData: {},
     };
   },
   created() {
@@ -155,6 +187,9 @@ export default {
   methods: {
     // 根据输入信息查询
     searchPost() {
+      if (this.termData.checkDate == null) {
+        this.termData.checkDate = "";
+      }
       this.getRequest(
         "/oilWell/abnormalGtmj/abnormalGtmjPage?checkDate=" +
           this.termData.checkDate +
@@ -164,7 +199,7 @@ export default {
           this.termData.orgName +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.gtmjData = resp.data.records;
           this.total = resp.data.total;
@@ -179,15 +214,19 @@ export default {
     //表格数据初始化
     postInit() {
       this.getRequest(
-        "/oilWell/abnormalGtmj/abnormalGtmjPage?current=" +
+        "/oilWell/abnormalGtmj/abnormalGtmjPage?checkDate=" +
+          this.termData.checkDate +
+          "&current=" +
           this.currentPage +
+          "&orgName=" +
+          this.termData.orgName +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
-        this.loading = false;
+      ).then((resp) => {
         if (resp) {
           this.gtmjData = resp.data.records;
           this.total = resp.data.total;
+          this.filterData = resp.data.records;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
           this.getIndex();
@@ -196,14 +235,46 @@ export default {
     },
     //采油站下拉框数据初始化
     selectInit() {
-      this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
-        resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then(
+        (resp) => {
           this.loading = false;
           if (resp) {
             this.orgNameData = resp.data;
           }
         }
       );
+    },
+    // 只展开一行放入当前行id
+    getRowKeys(row) {
+      return row.primaryId;
+    },
+    // 控制展开与关闭行
+    rowCollectInit(row, expandedRows) {
+      //只展开一行
+      if (expandedRows.length) {
+        //说明展开了
+        this.expands = [];
+        if (row) {
+          //只展开当前行wellCommonName
+          this.expands.push(row.primaryId);
+          this.loadCollect = [];
+          this.loadCollectLoad = true;
+          this.getRequest(
+            "/oilWell/abnormalGtmj/abnormalGtAreas?checkDate=" +
+              row.checkDate +
+              "&wellName=" +
+              row.wellCommonName
+          ).then((resp) => {
+            this.loadCollectLoad = false;
+            if (resp) {
+              this.loadCollect = resp.data;
+            }
+          });
+        }
+      } else {
+        //说明收起了
+        this.expands = [];
+      }
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
@@ -229,8 +300,8 @@ export default {
         item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         return item;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -12,9 +12,9 @@
           >
             <el-option
               v-for="item in orgNameData"
-              :key="item.orgName"
-              :label="item.orgName"
-              :value="item.orgName"
+              :key="item.oilStationId"
+              :label="item.oilStationName"
+              :value="item.oilStationName"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -269,9 +269,9 @@ export default {
         }
       );
     },
-    //加油站下拉框初始化
+    //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
+      this.getRequest("/basOilStationInfor/oilStationOptions").then(
         resp => {
           this.loading = false;
           if (resp) {

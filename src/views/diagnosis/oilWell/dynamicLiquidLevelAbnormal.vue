@@ -7,14 +7,15 @@
         <el-select
           v-model="termForm.orgName"
           clearable
+          filterable
           placeholder="全区"
           size="medium"
         >
           <el-option
             v-for="item in orgNameData"
-            :key="item.orgName"
-            :label="item.orgName"
-            :value="item.orgName"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationName"
           >
           </el-option>
         </el-select>
@@ -49,15 +50,31 @@
       :data="dymData"
       height="93%"
       border
-      row-key="index"
-      style="width:100%;"
+      @expand-change="rowCollectInit"
+      :expand-row-keys="expands"
+      :row-key="getRowKeys"
+      style="width: 100%"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-      <el-table-column type="expand" width="60" look="index">
+
+    
+      <el-table-column type="expand">
         <template slot-scope="scope">
-          <div align="center" v-html="scope.row.dymDataList"></div>
+          <div
+            class="dym_abnormal_item_detail"
+            :key="scope.row.prodDate"
+            v-loading="loadCollectLoad"
+            element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading"
+          >
+            <div   v-for="(item, index) in loadCollect" :key="index">
+              <span style=" width:100px;text-align:center; display: inline-block; ">{{ item.wellName }}</span>
+              <span style=" width:180px;text-align:center; display: inline-block; margin-left: 10px">{{ item.prodDate }}</span>
+              <span style=" width:100px;text-align:center; display: inline-block; margin-left: 10px">{{ item.dym }}</span>
+            </div>
+          </div>
         </template>
       </el-table-column>
       <el-table-column prop="index" align="center" label="序号" width="60" />
@@ -75,7 +92,7 @@
         width="290"
       />
       <el-table-column
-        prop="orgName"
+        prop="oilStationName"
         align="center"
         label="采油站"
         width="140"
@@ -123,13 +140,13 @@
 import CommonPreviewDym from "../../../components/diagnosis/oilwell/dymyc/DymycScanLine";
 export default {
   components: {
-    CommonPreviewDym
+    CommonPreviewDym,
   },
   data() {
     return {
       termForm: {
         prodDate: "",
-        orgName: ""
+        orgName: "",
       },
       // 表格数据
       dymData: [],
@@ -140,12 +157,18 @@ export default {
       previewDymVisible: false,
       // 采油站下拉框数据
       orgNameData: [],
+       // 当前展开行数据
+      loadCollect: [],
+      // 展开行加载动画
+      loadCollectLoad: true,
+      // 设置row-key只展示一行
+      expands: [],
       // 分页数据
       currentPage: 1,
       pageSize: 10,
       total: 0,
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -168,7 +191,7 @@ export default {
             this.pageSize +
             "&prodDate=" +
             this.termForm.prodDate
-        ).then(resp => {
+        ).then((resp) => {
           if (resp) {
             this.dymData = resp.data.records;
             this.total = resp.data.total;
@@ -188,7 +211,7 @@ export default {
             this.termForm.orgName +
             "&pageSize=" +
             this.pageSize
-        ).then(resp => {
+        ).then((resp) => {
           if (resp) {
             this.dymData = resp.data.records;
             this.total = resp.data.total;
@@ -207,7 +230,7 @@ export default {
             this.pageSize +
             "&prodDate=" +
             this.termForm.prodDate
-        ).then(resp => {
+        ).then((resp) => {
           if (resp) {
             this.dymData = resp.data.records;
             this.total = resp.data.total;
@@ -234,7 +257,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.dymData = resp.data.records;
@@ -247,14 +270,44 @@ export default {
     },
     //采油站下拉框数据查询
     orgNameInit() {
-      this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
-        resp => {
-          this.loading = false;
-          if (resp) {
-            this.orgNameData = resp.data;
-          }
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
-      );
+      });
+    },
+    // 只展开一行放入当前行id
+    getRowKeys(row) {
+      return row.primaryId;
+    },
+    // 控制展开与关闭行
+    rowCollectInit(row, expandedRows) {
+      //只展开一行
+      if (expandedRows.length) {
+        //说明展开了
+        this.expands = [];
+        if (row) {
+          //只展开当前行wellCommonName
+          this.expands.push(row.primaryId);
+          this.loadCollect = [];
+          this.loadCollectLoad = true;
+          this.getRequest(
+            "/oilWell/dym/dymDataDate?prodDate=" +
+              row.prodDate +
+              "&wellName=" +
+              row.wellName
+          ).then((resp) => {
+            this.loadCollectLoad = false;
+            if (resp) {
+              this.loadCollect = resp.data;
+            }
+          });
+        }
+      } else {
+        //说明收起了
+        this.expands = [];
+      }
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
@@ -272,8 +325,8 @@ export default {
         item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         return item;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
