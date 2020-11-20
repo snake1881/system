@@ -9,11 +9,22 @@
     @opened="opens"
     :before-close="priviewAbnormalGtClose"
   >
-    <div
+  <el-form >
+    <el-form-item v-if="isChart">
+      <div
       class="chart"
       id="myChart"
       :style="{ width: '100%', height: '400px' }"
     ></div>
+    </el-form-item>
+    <!-- <el-form-item v-if="isSpan">
+    <div
+      :style="{ width: '100%', height: '400px' }"
+    >
+    <span>无功图数据</span>
+    </div>
+    </el-form-item> -->
+  </el-form>
   </el-dialog>
 </template>
 
@@ -35,7 +46,13 @@ export default {
       yAxis: [],
       coordinates: [[]],
       coordinates1: [[]],
-      isColor: true
+      isColor: true,
+      isChart:{
+        type: Boolean
+      },
+      isSpan:{
+        type: Boolean
+      },
     };
   },
   methods: {
@@ -56,10 +73,14 @@ export default {
           this.tableData1={};
           this.tableData1 = resp.data;
           this.coordinate();
-          if(this.tableData1 === null){
-            this.tableData1.dynaCreateTime="功图数据缺失";
-          };
-          this.drawLine();
+          if(resp.data != null){
+            this.isChart=true;
+            this.isSpan=false;
+            this.drawLine();
+          }else{
+            this.isChart=false;
+            this.isSpan=true;
+          }
         }
       });
     },
@@ -158,7 +179,10 @@ export default {
       return this.coordinates;
     },
     opens() {
+      this.coordinates=[[]];
+      this.tableData1={};
       this.gtDataInit();
+      console.log(this.isChart);
     }
   }
 };

@@ -33,15 +33,16 @@
         <el-select
           v-model="termData.oilStationName"
           clearable
+          filterable
           style="width: 150px"
           placeholder="全区"
           size="medium"
         >
           <el-option
             v-for="item in orgNameData"
-            :key="item.orgName"
-            :label="item.orgName"
-            :value="item.orgName"
+            :key="item.oilStationId"
+              :label="item.oilStationName"
+              :value="item.oilStationName"
           >
           </el-option>
         </el-select>
@@ -385,7 +386,7 @@ export default {
     },
     //采油站下拉框数据查询
     orgNameInit() {
-      this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
+      this.getRequest("/basOilStationInfor/oilStationOptions").then(
         (resp) => {
           this.loading = false;
           if (resp) {
@@ -393,6 +394,15 @@ export default {
           }
         }
       );
+    },
+    //区队（采油站）ID下拉框数据查询
+    oilStationInit() {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+        this.loading = false;
+        if (resp) {
+          this.oilStationIdOptions = resp.data;
+        }
+      });
     },
     //删除某行数据（逻辑删除）
     BaseWellInforDelete(val) {

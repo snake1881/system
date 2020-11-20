@@ -10,7 +10,7 @@
     :before-close="previewDymClose"
   >
     <el-form>
-      <el-form-item label="选择日期" size="120px" >
+      <el-form-item label="选择日期" size="120px">
         <el-date-picker
           v-model="value2"
           type="daterange"
@@ -23,7 +23,7 @@
           :picker-options="pickerOptions"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-          @change="this.gtDataInit()"
+          @change="gtDataInit()"
         >
         </el-date-picker>
       </el-form-item>
@@ -41,11 +41,11 @@ let echarts = require("echarts/lib/echarts");
 export default {
   props: {
     previewDymVisible: {
-      type: Boolean
+      type: Boolean,
     },
     previewData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -63,7 +63,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近一个月",
@@ -72,7 +72,7 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit("pick", [start, end]);
-            }
+            },
           },
           {
             text: "最近三个月",
@@ -81,11 +81,11 @@ export default {
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               picker.$emit("pick", [start, end]);
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
-      value2: []
+      value2: [],
     };
   },
   methods: {
@@ -97,24 +97,27 @@ export default {
       this.drawLine();
     },
     gtDataInit() {
-      this.getRequest(
-        "/oilWell/dym/dymDataTerm?beginDate=" +
-          this.value2[0] +
-          "&endDate=" +
-          this.value2[1] +
-          "&wellName=" +
-          this.previewData.wellId
-      ).then(resp => {
-        // this.loading = false;
-        if (resp) {
-          this.tableData = [];
-          this.tableData = resp.data;
-          this.coordinate();
-          this.$nextTick(function() {
-            this.drawLine();
-          });
-        }
-      });
+      if (this.value2 !== null) {
+        this.getRequest(
+          "/oilWell/dym/dymDataTerm?beginDate=" +
+            this.value2[0] +
+            "&endDate=" +
+            this.value2[1] +
+            "&wellName=" +
+            this.previewData.wellId
+        ).then((resp) => {
+          // this.loading = false;
+          if (resp) {
+            this.tableData = [];
+            this.tableData = resp.data;
+            this.coordinate();
+            this.$nextTick(()=>{
+              this.drawLine();
+            });
+            
+          }
+        });
+      }
     },
     drawLine() {
       // 基于准备好的dom，初始化echarts实例
@@ -134,17 +137,17 @@ export default {
           textStyle: {
             fontSize: 13,
             fontStyle: "normal",
-            fontWeight: "bolder"
+            fontWeight: "bolder",
           },
-          subtext: ""
+          subtext: "",
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function(params) {
+          formatter: function (params) {
             return (
               "<div><p>时间：" +
               params[0].value[0] +
@@ -154,36 +157,36 @@ export default {
               "m</p>" +
               "</div>"
             );
-          }
+          },
         },
         toolbox: {
           left: "right",
           feature: {
             dataZoom: {
-              yAxisIndex: "none"
+              yAxisIndex: "none",
             },
             restore: {},
-            saveAsImage: {}
-          }
+            saveAsImage: {},
+          },
         },
         dataZoom: [
           {
-            startValue: "2014-06-01"
+            startValue: "2014-06-01",
           },
           {
-            type: "inside"
-          }
+            type: "inside",
+          },
         ],
         grid: {
           left: "3%",
           right: "3%",
           bottom: "15%",
           top: "20%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           nameLocation: "middle",
-          type: "time"
+          type: "time",
         },
         yAxis: {
           name: "动液面(m)",
@@ -193,8 +196,8 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         series: [
           {
@@ -202,16 +205,16 @@ export default {
             smooth: true,
             lineStyle: {
               color: "green",
-              width: 1
+              width: 1,
             },
-            data: this.data
+            data: this.data,
             // type: "line",
             // smooth: true,
             // lineStyle: {
             //   width: 1.5
             // }
-          }
-        ]
+          },
+        ],
       });
     },
     //将坐标数据串处理为坐标点
@@ -224,7 +227,7 @@ export default {
       }
       return this.data;
     },
-
+    //初始化时间
     dateInit() {
       console.log(this.value2);
       if (this.value2.length == 0) {
@@ -232,29 +235,30 @@ export default {
         var year = date.getFullYear();
         var mouth = date.getMonth();
         var day = date.getDate();
-        var beginDate = year + "-" + mouth + "-" + day;
-        this.value2[0] = beginDate;
+        var endDate = year + "-" + mouth + "-" + day;
+        this.value2[1] = endDate;
         var date1 = new Date();
         date1.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
         var year1 = date1.getFullYear();
         var mouth1 = date1.getMonth();
         var day1 = date1.getDate();
-        var endDate = year1 + "-" + mouth1 + "-" + day1;
-        this.value2[1] = endDate;
+        var beginDate = year1 + "-" + mouth1 + "-" + day1;
+        this.value2[0] = beginDate;
       }
       console.log(this.value2);
     },
     opens() {
+      this.value2=[];
       this.dateInit();
       console.log(this.value2);
       this.gtDataInit();
-    }
+    },
   },
   watch: {
     value2() {
       this.gtDataInit();
-    }
-  }
+    },
+  },
 };
 </script>
 

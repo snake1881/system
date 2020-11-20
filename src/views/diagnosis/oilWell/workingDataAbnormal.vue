@@ -12,9 +12,9 @@
         >
           <el-option
             v-for="item in orgNameData"
-            :key="item.orgName"
-            :label="item.orgName"
-            :value="item.orgName"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationName"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -48,16 +48,41 @@
       :data="abnormalGtData"
       height="86%"
       border
-      row-key="checkDate"
-      :tree-props="{
-        children: 'children',
-        hasChildren: 'hasChildren'
-      }"
-      style="width:100%"
+      @expand-change="rowCollectInit"
+      :expand-row-keys="expands"
+      :row-key="getRowKeys"
+      style="width: 100%"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
+      <template slot="empty"
+        ><br />
+        今日无功图数据异常数据<br />
+      </template>
+      <el-table-column type="expand">
+        <template slot-scope="scope">
+          <div
+            class="work_data_item_detail"
+            :key="scope.row.checkDate"
+            v-loading="loadCollectLoad"
+            element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading"
+          >
+            <div style="padding:0px;line-height:0px;" v-for="(item, index) in loadCollect" :key="index">
+              <span style="width:100px;text-align:center; display: inline-block;" >{{ item.wellCommonName }}</span>
+              <span style="width:150px;text-align:center; display: inline-block; ">{{ item.checkDate }}</span>
+              <span style="width:220px;text-align:center; display: inline-block;">{{ item.abnormalProblem }}</span>
+              <el-button
+                type="text"
+                @click="previewAbnormalGt(item)"
+                style="width:100px;text-align:center; display: inline-block;"
+                >查看功图</el-button
+              >
+            </div>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="rn" label="序号" align="center" width="100" />
       <el-table-column prop="wellId" label="井号" align="center" width="160" />
       <el-table-column
@@ -77,7 +102,7 @@
         prop="orgName"
         label="采油站"
         align="center"
-        width="320"
+        width="300"
       />
       <el-table-column label="操作" align="center" width="160">
         <template slot-scope="scope">
@@ -115,13 +140,13 @@
 import CommonPreviewAbnormalGt from "../../..//components/diagnosis/oilwell/abnormalGt/CommonPreviewAbnormalGT";
 export default {
   components: {
-    CommonPreviewAbnormalGt
+    CommonPreviewAbnormalGt,
   },
   data() {
     return {
       GtForm: {
         orgName: "",
-        checkDate: ""
+        checkDate: "",
       },
       //用于判断查询条件是否发生改变
       oldOrgName: "",
@@ -130,6 +155,12 @@ export default {
       orgNameData: [],
       //表格数据
       abnormalGtData: [],
+       // 当前展开行数据
+      loadCollect: [],
+      // 展开行加载动画
+      loadCollectLoad: true,
+      // 设置row-key只展示一行
+      expands: [],
       loading: true,
       //分页
       currentPage: 1,
@@ -139,7 +170,7 @@ export default {
       previewAbnormalGtVisible: false,
       previewAbnormalGtData: {},
       tableData: {},
-      coordinates: [{}]
+      coordinates: [{}],
     };
   },
   created() {
@@ -149,11 +180,15 @@ export default {
   methods: {
     abnormalGtInit() {
       this.getRequest(
-        "/oilWell/abnormalGt/abnormalGtAllPage?checkDate=0000-00-00&current=" +
+        "/oilWell/abnormalGt/abnormalGtAllPage?checkDate=" +
+          this.GtForm.checkDate +
+          "&current=" +
           this.currentPage +
-          "&orgName=%E5%85%A8%E7%AB%99&pageSize=" +
+          "&orgName=" +
+          this.GtForm.orgName +
+          "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.abnormalGtData = resp.data.records;
@@ -181,7 +216,7 @@ export default {
           this.GtForm.orgName +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.abnormalGtData = resp.data.records;
@@ -193,16 +228,48 @@ export default {
       this.oldOrgName = this.GtForm.orgName;
       this.OldCheckDate = this.GtForm.checkDate;
     },
-    //加油站下拉框初始化
+    //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
-        resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then(
+        (resp) => {
           this.loading = false;
           if (resp) {
             this.orgNameData = resp.data;
           }
         }
       );
+    },
+    // 只展开一行放入当前行id
+    getRowKeys(row) {
+      return row.primaryId;
+    },
+    // 控制展开与关闭行
+    rowCollectInit(row, expandedRows) {
+      //只展开一行
+      if (expandedRows.length) {
+        //说明展开了
+        this.expands = [];
+        if (row) {
+          //只展开当前行wellCommonName
+          this.expands.push(row.primaryId);
+          this.loadCollect = [];
+          this.loadCollectLoad = true;
+          this.getRequest(
+            "/oilWell/abnormalGt/abnormalGtList?checkDate=" +
+              row.checkDate +
+              "&wellId=" +
+              row.wellId
+          ).then((resp) => {
+            this.loadCollectLoad = false;
+            if (resp) {
+              this.loadCollect = resp.data;
+            }
+          });
+        }
+      } else {
+        //说明收起了
+        this.expands = [];
+      }
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
@@ -234,7 +301,7 @@ export default {
           this.val.checkDate +
           "&wellId=" +
           this.val.wellId
-      ).then(resp => {
+      ).then((resp) => {
         // this.loading = false;
         if (resp) {
           this.tableData = resp.data;
@@ -244,8 +311,8 @@ export default {
     // 关闭功图
     previewAbnormalGtClose() {
       this.previewAbnormalGtVisible = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

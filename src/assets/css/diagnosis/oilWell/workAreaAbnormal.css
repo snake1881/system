@@ -21,3 +21,11 @@
     height: 7%;
     background-color: white;
 }
+
+.work_area_item_detail {
+    width: 60%;
+    height: 150px;
+    margin-left: 16%;
+    overflow: auto;
+    text-align: center;
+}
