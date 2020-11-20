@@ -1,65 +1,76 @@
 .login {
-    width: 100%;
-    height: 100%;
-    background-image: url("../images/login.png");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-  }
-  .login-container {
-    border-radius: 3%;
-    width: 48%;
-    height: 45%;
-    margin: 12% 30% 0 27%;
-    position: absolute;
-    background:rgb(242,242,242,0.1);
-    display: flex;
-    flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/login.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
 
-  }
-  .login-container-title {
-    width: 100%;
-    height: 20%;
-    display: flex;
-    flex-direction: row;
-  }
-  .login-container-title-image {
-    height: 80%;
-    width: 10%;
-    margin: 1% 1% 1% 19%;
-  }
-  .login-container-title-text {
-    color: #e6e6e6;
-    margin: 2% 2% 1% 0;
-    font-size: 30px;
-    font-family:"Microsoft Yahei";
-  }
-  .login-container-form {
-    width: 100%;
-    height: 80%;
-    display: flex;
-    flex-direction: row;
-  }
-  .login-container-form-left {
-    width: 60%;
-    height: 100%;
-  }
-  .login-container-form-left-image {
-    width: 100%;
-    height: 100%;
-    margin: -3% 5%;
-  }
-  .login-container-form-right {
-    width: 40%;
-    height: 100%;
-  }
-  .login-container-form-right-form {
-    width: 80%;
-    margin: 5% 0;
-  }
-  .loginContainer-button{
-    width: 98%;
-    margin: 0 1%;
-  }
-  .loginContainer-checkbox{
-    margin: 10px 0;
-  }
+.login-container {
+  border-radius: 3%;
+  width: 48%;
+  height: 45%;
+  margin: 12% 30% 0 27%;
+  position: absolute;
+  background: rgb(242, 242, 242, 0.1);
+  display: flex;
+  flex-direction: column;
+
+}
+
+.login-container-title {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: row;
+}
+
+.login-container-title-image {
+  height: 80%;
+  width: 10%;
+  margin: 1% 1% 1% 19%;
+}
+
+.login-container-title-text {
+  color: #e6e6e6;
+  margin: 2% 2% 1% 0;
+  font-size: 30px;
+  font-family: "Microsoft Yahei";
+}
+
+.login-container-form {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+}
+
+.login-container-form-left {
+  width: 60%;
+  height: 100%;
+}
+
+.login-container-form-left-image {
+  width: 100%;
+  height: 100%;
+  margin: -3% 5%;
+}
+
+.login-container-form-right {
+  width: 40%;
+  height: 100%;
+}
+
+.login-container-form-right-form {
+  width: 80%;
+  margin: 5% 0;
+}
+
+.loginContainer-button {
+  width: 98%;
+  margin: 0 1%;
+}
+
+.loginContainer-checkbox {
+  margin: 10px 0;
+}

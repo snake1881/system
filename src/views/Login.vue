@@ -1,35 +1,75 @@
 <template>
-<div class="login">
-  <div class="login-container">
-    <div class="login-container-title">
-      <img class="login-container-title-image" src="../assets/images/logo2.png" />
-      <h3 class="login-container-title-text">定边采油厂一体化信息平台</h3>
-    </div>
-    <div class="login-container-form">
-      <div class="login-container-form-left">
-         <img class="login-container-form-left-image" src="../assets/images/login_img.png" />
+  <div class="login">
+    <div class="login-container">
+      <div class="login-container-title">
+        <img
+          class="login-container-title-image"
+          src="../assets/images/logo2.png"
+        />
+        <h3 class="login-container-title-text">定边采油厂一体化信息平台</h3>
       </div>
-      <div class="login-container-form-right">
-        <el-form :model="sysUserLogin" :rules="rules" ref="loginForm" class="login-container-form-right-form">
-          <el-form-item prop="username">
-            <el-input v-model="sysUserLogin.username" type="text" placeholder="输入用户名" id="username">
-              <i slot="prefix" class="el-input__icon el-icon-user" style="font-size:20px;margin:0 2px" />
-            </el-input>
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input v-model="sysUserLogin.password" type="password" placeholder="输入密码" id="password">
-              <i slot="prefix" class="el-input__icon el-icon-key" style="font-size:20px;margin:0 2px" />
-            </el-input>
-          </el-form-item>
-          <el-button type="primary" class="loginContainer-button" @click.native.prevent="submitLogin()" @keyup.enter.native="submitLogin()">
-            登录
-          </el-button>
-          <el-checkbox v-model="checked" class="loginContainer-checkbox" @change="savePwd()">记住密码</el-checkbox>
-        </el-form>
+      <div class="login-container-form">
+        <div class="login-container-form-left">
+          <img
+            class="login-container-form-left-image"
+            src="../assets/images/login_img.png"
+          />
+        </div>
+        <div class="login-container-form-right">
+          <el-form
+            :model="sysUserLogin"
+            :rules="rules"
+            ref="loginForm"
+            class="login-container-form-right-form"
+          >
+            <el-form-item prop="username">
+              <el-input
+                v-model="sysUserLogin.username"
+                type="text"
+                placeholder="输入用户名"
+                id="username"
+              >
+                <i
+                  slot="prefix"
+                  class="el-input__icon el-icon-user"
+                  style="font-size: 20px; margin: 0 2px"
+                />
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                v-model="sysUserLogin.password"
+                type="password"
+                placeholder="输入密码"
+                id="password"
+              >
+                <i
+                  slot="prefix"
+                  class="el-input__icon el-icon-key"
+                  style="font-size: 20px; margin: 0 2px"
+                />
+              </el-input>
+            </el-form-item>
+            <el-button
+              type="primary"
+              round
+              class="loginContainer-button"
+              @click.native.prevent="submitLogin()"
+              @keyup.enter.native="submitLogin()"
+            >
+              登录
+            </el-button>
+            <el-checkbox
+              v-model="checked"
+              class="loginContainer-checkbox"
+              @change="savePwd()"
+              >记住密码</el-checkbox
+            >
+          </el-form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 <script>
 export default {
@@ -37,33 +77,35 @@ export default {
     return {
       sysUserLogin: {
         username: "",
-        password: ""
+        password: "",
       },
       rules: {
-        username: [{
+        username: [
+          {
             required: true,
             message: "请输入用户名",
-            trigger: "blur"
+            trigger: "blur",
           },
           {
             min: 3,
             max: 10,
             message: "长度在 3 到 10 个字符",
-            trigger: "blur"
-          }
+            trigger: "blur",
+          },
         ],
-        password: [{
+        password: [
+          {
             required: true,
             message: "请输入密码",
-            trigger: "blur"
+            trigger: "blur",
           },
           {
             min: 3,
             max: 10,
             message: "长度在 3 到 10 个字符",
-            trigger: "blur"
-          }
-        ]
+            trigger: "blur",
+          },
+        ],
       },
       // 复选框状态
       checked: false,
@@ -73,7 +115,7 @@ export default {
     var _self = this;
     document.onkeydown = function (e) {
       e = window.event || e;
-      if (e.code == 'Enter' || e.code == 'enter') {
+      if (e.code == "Enter" || e.code == "enter") {
         _self.submitLogin();
       }
     };
@@ -81,16 +123,19 @@ export default {
   methods: {
     // 提交信息，登录后进入首页
     submitLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          this.postKeyValueRequest("/login", this.sysUserLogin).then(resp => {
+          this.postKeyValueRequest("/login", this.sysUserLogin).then((resp) => {
             if (resp) {
               if (resp.code === 200) {
                 this.$store.commit("INIT_CURRENTHR", resp.data);
-                window.sessionStorage.setItem("user", JSON.stringify(resp.data));
+                window.sessionStorage.setItem(
+                  "user",
+                  JSON.stringify(resp.data)
+                );
                 this.$router.replace("/Home");
               } else {
-                this.$message('密码错误，请重新输入');
+                this.$message("密码错误，请重新输入");
               }
             }
           });
@@ -100,17 +145,16 @@ export default {
       });
     },
     // 记住密码
-    savePwd(){
+    savePwd() {
       var username = document.getElementById("username").value;
       var password = document.getElementById("password").value;
-      if(this.checked === true){
-        sessionStorage.setItem(username,password);
-      }
-      else{
+      if (this.checked === true) {
+        sessionStorage.setItem(username, password);
+      } else {
         sessionStorage.removeItem(username);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -120,6 +164,7 @@ export default {
   color: white;
 }
 .login .el-input__inner {
-  background-color: coral !important;
+  background-color: transparent;
+  border: 1px solid rgb(109, 107, 107);
 }
 </style>
