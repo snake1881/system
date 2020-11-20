@@ -59,6 +59,7 @@ const routes = [{
 
 const router = new VueRouter({
     mode: "history",
+    // base:"/zhyt/"
     base: process.env.BASE_URL,
     routes
 });

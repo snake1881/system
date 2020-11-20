@@ -167,4 +167,7 @@ export default {
   background-color: transparent;
   border: 1px solid rgb(109, 107, 107);
 }
+.login .el-checkbox__inner {
+  background-color: transparent;
+}
 </style>

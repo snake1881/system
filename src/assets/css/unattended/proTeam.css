@@ -4,11 +4,13 @@
     display: flex;
     flex-direction: row;
 }
+
 .proTeam_left {
     width: 15%;
     height: 100%;
-    
+
 }
+
 .proTeam_left_title {
     width: 60%;
     height: 8%;
@@ -17,7 +19,8 @@
     margin: 1% 20%;
     text-align: center;
 }
-.proTeam_left_oilWell{
+
+.proTeam_left_oilWell {
     width: 90%;
     height: 35%;
     border: 1px solid #dfe0e2;
@@ -27,7 +30,8 @@
     flex-direction: column;
     font-size: 16px;
 }
-.proTeam_left_waterWell{
+
+.proTeam_left_waterWell {
     width: 90%;
     height: 28%;
     border: 1px solid #dfe0e2;
@@ -37,8 +41,8 @@
     flex-direction: column;
     font-size: 16px;
 }
-.proTeam_left_video
- {
+
+.proTeam_left_video {
     width: 90%;
     height: 20%;
     border: 1px solid #dfe0e2;
@@ -48,16 +52,19 @@
     flex-direction: column;
     font-size: 16px;
 }
+
 .proTeam_left_oilWell_title {
     font-size: 19px;
     margin: 4% 20%;
 
 }
+
 .proTeam_left_oilWell_dec {
     margin: 1% 8%;
-    font-size: 12px;
+    font-size: 13px;
 
 }
+
 .proTeam_top_table {
     position: absolute;
     width: 20%;
@@ -66,13 +73,15 @@
     color: #8dbeb0;
     background-color: #E4E7ED;
 }
+
 .proTeam_container {
     width: 85%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
 }
-.proTeam_container_details{
+
+.proTeam_container_details {
     width: 20%;
     height: 20%;
     margin: 1% 2%;
@@ -81,39 +90,46 @@
     display: flex;
     flex-direction: row;
 }
+
 .proTeam_container_details_left {
     width: 45%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
+
 .proTeam_container_details_left_span {
     font-size: 12px;
     margin: 5% 15%;
     height: 10%;
 }
+
 .proTeam_container_details_left_icon {
     font-size: 20px;
     color: green;
     margin: 5% 5% 0 5%;
     height: 10%;
 }
+
 .proTeam_container_details_left_img {
     width: 90%;
     height: 50%;
     margin: 0 5%;
 }
+
 .proTeam_container_details_right {
     width: 45%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
+
 .proTeam_container_details_right_dec {
     font-size: 12px;
     margin: 5% 5%;
     color: #697080;
 }
+
 .proTeam_container_details_icon {
     font-size: 25px;
     margin: 25% 0;
