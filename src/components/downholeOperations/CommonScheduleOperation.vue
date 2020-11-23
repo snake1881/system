@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="scheduleData.wellId + '井 进度填报'"
+    :title="scheduleData.wellId + '井进度填报'"
     :visible.sync="scheduleOperVisible"
     width="55%"
     :before-close="scheduleOperClose"
@@ -34,12 +34,12 @@
         </el-form-item>
         <el-form-item label="现场照片:">
           <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            action="#"
             list-type="picture-card"
             :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
+            :auto-upload="false"
           >
-            <i class="el-icon-plus"></i>
+            <i class="el-icon-plus" />
           </el-upload>
           <el-dialog :visible.sync="dialogVisible" append-to-body>
             <img width="100%" :src="dialogImageUrl" alt="正在加载" />
@@ -52,7 +52,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
           </el-upload>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
     </div>
     <el-button
