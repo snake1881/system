@@ -11,12 +11,14 @@
           油井</span
         >
         <span class="proTeam_left_oilWell_dec"
-          >总井：<span style="color: green"> {{ this.oilData.wellCount }}</span>
+          >总井：<span style="color: green">
+            {{ this.oilData.wellTeamCount }}</span
+          >
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >开井：<span style="color: green">
-            {{ this.oilData.wellOpenCount }}</span
+            {{ this.oilData.wellTeamOpenCount }}</span
           >
           口</span
         >
@@ -33,15 +35,31 @@
           >产油：<span style="color: green">{{ this.oilData.drOilProd }}</span>
           m<sup>3</sup></span
         >
-        <span class="proTeam_left_oilWell_dec"
+        <span
+          class="proTeam_left_oilWell_dec"
+          v-if="this.LiquidProdIncrease > 0"
           >产液较昨日<span style="color: green" class="el-icon-top">{{
-            this.oilData.compareYesterdayLiquidProd
+            this.LiquidProdIncrease
           }}</span>
           m<sup>3</sup></span
         >
-        <span class="proTeam_left_oilWell_dec"
+        <span
+          class="proTeam_left_oilWell_dec"
+          v-if="this.LiquidProdIncrease < 0"
+          >产液较昨日<span style="color: red" class="el-icon-bottom">{{
+            this.LiquidProdIncrease
+          }}</span>
+          m<sup>3</sup></span
+        >
+        <span class="proTeam_left_oilWell_dec" v-if="this.oilIncrease > 0"
           >产油较昨日<span style="color: green" class="el-icon-top">{{
-            this.oilData.compareYesterdayOilProd
+            this.oilIncrease
+          }}</span>
+          m<sup>3</sup></span
+        >
+        <span class="proTeam_left_oilWell_dec" v-if="this.oilIncrease < 0"
+          >产油较昨日<span style="color: red" class="el-icon-bottom">{{
+            this.oilIncrease
           }}</span>
           m<sup>3</sup></span
         >
@@ -56,13 +74,13 @@
         </span>
         <span class="proTeam_left_oilWell_dec"
           >总井：<span style="color: green">{{
-            this.waterData.waterCount
+            this.waterData.waterTeamCount
           }}</span>
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >开井：<span style="color: green">{{
-            this.waterData.waterCount
+            this.waterData.waterTeamOpenCount
           }}</span>
           口</span
         >
@@ -120,7 +138,7 @@
               class="proTeam_container_details_left_img"
             />
             <div slot="content">
-              <table style="width: 100%; height: 100%">
+              <table class="proTeam_table">
                 <tr>
                   <td rowspan="3">油井</td>
                   <td colspan="3">
@@ -141,14 +159,43 @@
                   </td>
                 </tr>
                 <tr>
-                  <td colspan="3">较昨日**m<sup>3</sup></td>
+                  <td colspan="2">
+                    <div v-if="item.drYesterdayLiquidProd > 0">
+                      产液较昨日
+                      <span style="color: green" class="el-icon-top">{{
+                        item.drYesterdayLiquidProd
+                      }}</span
+                      >m<sup>3</sup>
+                    </div>
+                    <div v-if="item.drYesterdayLiquidProd < 0">
+                      产液较昨日<span
+                        style="color: red"
+                        class="el-icon-bottom"
+                        >{{ item.drYesterdayLiquidProd }}</span
+                      >m<sup>3</sup>
+                    </div>
+                    <div v-if="item.drYesterdayOilProd > 0">
+                      产油较昨日
+                      <span style="color: green" class="el-icon-top">{{
+                        item.drYesterdayOilProd
+                      }}</span
+                      >m<sup>3</sup>
+                    </div>
+                    <div v-if="item.drYesterdayOilProd < 0">
+                      产油较昨日
+                      <span style="color: red" class="el-icon-bottom">{{
+                        item.drYesterdayOilProd
+                      }}</span
+                      >m<sup>3</sup>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <td rowspan="3">水井</td>
                   <td colspan="3">
                     总: <span style="color: green">{{ item.waterCount }}</span
                     >口 开:
-                    <span style="color: green">{{ item.waterCount }}</span
+                    <span style="color: green">{{ item.waterOpenCount }}</span
                     >口 异常: <span style="color: red">0</span>口
                   </td>
                 </tr>
@@ -169,11 +216,12 @@
                 <tr>
                   <td>视频</td>
                   <td colspan="3">
-                    正常<span style="color: green">{{ item.videoCount }}</span
-                    >处 损坏<span style="color: #f90">0</span>处 预警<span
-                      style="color: red"
-                      >0</span
-                    >处
+                    正常:
+                    <span style="color: green">{{
+                      item.videoStationCount
+                    }}</span
+                    >处 损坏: <span style="color: #f90">0</span>处 预警:
+                    <span style="color: red">0</span>处
                   </td>
                 </tr>
               </table>
@@ -186,7 +234,8 @@
             m<sup>3</sup></span
           >
           <span class="proTeam_container_details_right_dec"
-            >注水：<span style="color: green">0</span> m<sup>3</sup></span
+            >注水：<span style="color: green">{{ item.drWaterInjection }}</span>
+            m<sup>3</sup></span
           >
           <span class="proTeam_container_details_right_dec"
             >异常：<span style="color: red">0</span> 处</span
@@ -197,7 +246,7 @@
         </div>
         <i
           class="iconfont icon-icon-- proTeam_container_details_icon"
-          @click="gotoStation(item.oilStationName)"
+          @click="gotoStation(item.oilStationId, item.oilStationName)"
         />
       </div>
     </div>
@@ -209,10 +258,6 @@ export default {
   data() {
     return {
       tableFlag: false,
-      positionStyle: {
-        top: "20%",
-        left: "20%",
-      },
       // 油井汇总
       oilData: {},
       // 水井汇总
@@ -234,30 +279,30 @@ export default {
     // 油井汇总
     teamInit() {
       this.getRequest(
-        "/teams/team/listTeamSource?productionTeamName=%E4%B8%9C%E4%BB%81%E6%B2%9F%E9%87%87%E6%B2%B9%E9%98%9F&sTime=2020-11-19"
+        "/teams/team/listTeamCount?productionTeamId=1&sTime=2020-11-18"
       ).then((resp) => {
         if (resp) {
-          this.oilData = resp.data.teamOilCollectVo;
-          this.waterData = resp.data.teamWaterCollectVo;
-          // this.LiquidProdIncrease = (
-          //   resp.data.teamOilCollectVo.drLiquidProd -
-          //   resp.data.teamOilCollectVo.drYesterdayLiquidProd
-          // ).toFixed(3);
-          // this.oilIncrease = (
-          //   resp.data.teamOilCollectVo.drOilProd -
-          //   resp.data.teamOilCollectVo.drYesterdayOilProd
-          // ).toFixed(3);
-          this.stationData = resp.data.oilWaterVideoCollectVos;
-          // this.videoData = videoCount;
+          this.oilData = resp.data.teamInfo;
+          this.waterData = resp.data.teamWater;
+          this.LiquidProdIncrease = (
+            resp.data.teamInfo.drLiquidProd -
+            resp.data.teamInfo.drYesterdayLiquidProd
+          ).toFixed(3);
+          this.oilIncrease = (
+            resp.data.teamInfo.drOilProd - resp.data.teamInfo.drYesterdayOilProd
+          ).toFixed(3);
+          this.stationData = resp.data.teamInfoList;
+          this.videoData = resp.data.videoTeamCount;
         }
       });
     },
     // 点击跳转到采油站
-    gotoStation(val) {
+    gotoStation(val1, val2) {
       this.$router.push({
         path: "/unattended/oilStation",
         query: {
-          name: val,
+          id: val1,
+          name: val2,
         },
       });
     },
@@ -269,12 +314,11 @@ export default {
 @import "../../assets/css/unattended/proTeam.css";
 </style>
 <style>
-/* .proTeam tr,
-td {
+.proTeam_table td {
   border: 1px solid #8dbeb0;
   border-style: dashed;
   white-space: nowrap;
-} */
+}
 .el-tooltip__popper {
   width: 15% !important;
   border: none;

@@ -1,16 +1,22 @@
 <template>
   <div class="wellsite">
     <div class="wellsite_left">
-      <sapn class="wellsite_left_title">{{ this.$route.query.name }}井场</sapn>
+      <span class="wellsite_left_title">{{ this.$route.query.name }}井场</span>
       <div class="wellsite_left_dailyData">
         <p class="wellsite_left_dailyData_p">
-          日产液量: <span style="color: orange">6543</span> m<sup>3</sup>
+          日产液量:
+          <span style="color: orange">{{ this.wellSite1.drLiquidProd }}</span>
+          m<sup>3</sup>
         </p>
         <p class="wellsite_left_dailyData_p">
-          日注水量: <span style="color: orange">1341</span> m<sup>3</sup>
+          日注水量:
+          <span style="color: orange">{{
+            this.wellSite2.drWaterInjection
+          }}</span>
+          m<sup>3</sup>
         </p>
         <p class="wellsite_left_dailyData_p">
-          电子巡检次数: <span style="color: orange">15</span> 次
+          电子巡检次数: <span style="color: orange">0</span> 次
         </p>
       </div>
       <span class="wellsite_left_condition">
@@ -66,7 +72,7 @@
       <div class="wellsite_left_video">
         <div
           class="wellsite_left_video_container"
-          v-for="(item, index) in this.wellSiteVideo"
+          v-for="(item, index) in this.wellSiteNumber"
           :key="index"
         >
           <div>
@@ -94,7 +100,7 @@
       <div class="wellsite_right_oilWell">
         <div
           class="wellsite_right_oilWell_details"
-          v-for="(item, index) in this.allOilWell"
+          v-for="(item, index) in this.wellSiteOilData"
           :key="index"
         >
           <div class="wellsite_right_oilWell_details_title">
@@ -103,17 +109,20 @@
           <img
             src="../../assets/images/oilWell.gif"
             class="wellsite_right_oilWell_details_img"
-            @click="gotoSingleWell()"
+            @click="gotoSingleWell(item.wellName)"
           />
           <div class="wellsite_right_oilWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
               >当日产液:
-              <span style="color: #06c">{{ item.drOilProd }}</span> m<sup
+              <span style="color: #06c">{{ item.drLiquidProd }}</span> m<sup
                 >3</sup
               ></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
-              >动液面: <span style="color: #06c">0</span> m<sup>3</sup></span
+              >动液面:
+              <span style="color: #06c">{{ item.fluidLevel }}</span> m<sup
+                >3</sup
+              ></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
               >工况诊断: <span style="color: #06c">XXXXXX</span></span
@@ -127,7 +136,7 @@
       <div class="wellsite_right_waterWell">
         <div
           class="wellsite_right_waterWell_details"
-          v-for="(item, index) in this.allWaterWell"
+          v-for="(item, index) in this.wellSiteWaterData"
           :key="index"
         >
           <div class="wellsite_right_waterWell_details_title">
@@ -136,6 +145,7 @@
           <img
             src="../../assets/images/waterWell.png"
             class="wellsite_right_waterWell_details_img"
+            @click="gotoSingleWell(item.wellName)"
           />
           <div class="wellsite_right_waterWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
@@ -165,14 +175,9 @@
 export default {
   data() {
     return {
-      // 井场汇总数据
-      wellSiteData: [],
-      // 油井汇总
-      allOilWell: [],
-      // 水井汇总
-      allWaterWell: [],
-      // 视频信息
-      wellSiteVideo: [],
+      // 井场汇总
+      wellSite1: {},
+      wellSite2: {},
       // 工况预警
       conditionData: [
         {
@@ -191,6 +196,14 @@ export default {
           name: "XXXX出现XXXX预警情况",
         },
       ],
+      // 监控预警
+      wellSiteVideoData: [],
+      // 油井汇总
+      wellSiteOilData: [],
+      // 水井汇总
+      wellSiteWaterData: [],
+      // 视频数量
+      wellSiteNumber: [],
       marginTop: 0,
       timer: "", // 定时器
     };
@@ -204,13 +217,14 @@ export default {
     // 井场汇总信息
     wellSiteInit() {
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime=2020-11-19&wellSitName=" +
+        "/wellSits/wellSit/WellSitList?sTime=2020-11-18&wellSitName=" +
           this.$route.query.name
       ).then((resp) => {
         if (resp) {
-          this.wellSiteData = resp.data;
-          this.allOilWell = resp.data.wellSitInfoList;
-          this.allWaterWell = resp.data.waterSitInfoList;
+          this.wellSiteOilData = resp.data.wellSitInfoList;
+          this.wellSiteWaterData = resp.data.waterSitInfoList;
+          this.wellSite1 = resp.data.wellSitInfo;
+          this.wellSite2 = resp.data.waterSitInfo;
         }
       });
     },
@@ -221,7 +235,7 @@ export default {
           this.$route.query.name
       ).then((resp) => {
         if (resp) {
-          this.wellSiteVideo = resp.data;
+          this.wellSiteNumber = resp.data;
         }
       });
     },
@@ -239,8 +253,13 @@ export default {
       this.$router.replace("/unattended/oilStation");
     },
     // 跳转到单井页面
-    gotoSingleWell() {
-      this.$router.replace("/unattended/singleWell");
+    gotoSingleWell(val) {
+      this.$router.push({
+        path: "/unattended/singleWell",
+        query: {
+          name: val,
+        },
+      });
     },
   },
 };

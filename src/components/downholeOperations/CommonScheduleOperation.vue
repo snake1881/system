@@ -102,7 +102,6 @@ export default {
       // 进度井号、节点进行赋值
       this.constructionData.operationNodeId = this.scheduleData.operationNodeId;
       this.constructionData.wellId = this.scheduleData.wellId;
-      console.log(this.constructionData);
       this.postRequest(
         "/operation/constructionProcess/insert",
         this.constructionData

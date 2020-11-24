@@ -12,13 +12,13 @@
         >
         <span class="proTeam_left_oilWell_dec"
           >总井：<span style="color: green">{{
-            this.stationData.wellCount
+            this.oilStationData.wellStationCount
           }}</span>
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >开井：<span style="color: green">{{
-            this.stationData.wellOpenCount
+            this.oilStationData.wellStationOpenCount
           }}</span>
           口</span
         >
@@ -27,27 +27,45 @@
         >
         <span class="proTeam_left_oilWell_dec"
           >产液：<span style="color: green">{{
-            this.stationData.stationWellInfoList1[0].drLiquidProd
+            this.oilStationData.drLiquidProd
           }}</span>
           m<sup>3</sup></span
         >
         <span class="proTeam_left_oilWell_dec"
           >产油：<span style="color: green">{{
-            this.stationData.stationWellInfoList1[0].drOilProd
+            this.oilStationData.drOilProd
           }}</span>
           m<sup>3</sup></span
         >
-        <span class="proTeam_left_oilWell_dec"
-          >产液较昨日
-          <span style="color: green" class="el-icon-top">{{
-            this.LiquidProdIncrease
+        <span
+          class="proTeam_left_oilWell_dec"
+          v-if="this.LiqStationIncrease > 0"
+          >产液较昨日<span style="color: green" class="el-icon-top">{{
+            this.LiqStationIncrease
           }}</span>
           m<sup>3</sup></span
         >
-        <span class="proTeam_left_oilWell_dec"
-          >产油较昨日
-          <span style="color: green" class="el-icon-top">{{
-            this.oilIncrease
+        <span
+          class="proTeam_left_oilWell_dec"
+          v-if="this.LiqStationIncrease < 0"
+          >产液较昨日<span style="color: red" class="el-icon-bottom">{{
+            this.LiqStationIncrease
+          }}</span>
+          m<sup>3</sup></span
+        >
+        <span
+          class="proTeam_left_oilWell_dec"
+          v-if="this.oilStationIncrease > 0"
+          >产油较昨日<span style="color: green" class="el-icon-top">{{
+            this.oilStationIncrease
+          }}</span>
+          m<sup>3</sup></span
+        >
+        <span
+          class="proTeam_left_oilWell_dec"
+          v-if="this.oilStationIncrease < 0"
+          >产油较昨日<span style="color: red" class="el-icon-bottom">{{
+            this.oilStationIncrease
           }}</span>
           m<sup>3</sup></span
         >
@@ -62,13 +80,13 @@
         </span>
         <span class="proTeam_left_oilWell_dec"
           >总井：<span style="color: green">{{
-            this.stationData.waterCount
+            this.waterStationData.waterStationCount
           }}</span>
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >开井：<span style="color: green">{{
-            this.stationData.waterOpenCount
+            this.waterStationData.waterStationOpenCount
           }}</span>
           口</span
         >
@@ -77,13 +95,13 @@
         >
         <span class="proTeam_left_oilWell_dec"
           >配注：<span style="color: green">{{
-            this.stationData.stationWaterWellInfoList1[0].drInjectionAllocation
+            this.waterStationData.drInjectionAllocation
           }}</span>
           m<sup>3</sup></span
         >
         <span class="proTeam_left_oilWell_dec"
           >注水：<span style="color: green">{{
-            this.stationData.stationWaterWellInfoList1[0].drWaterInjection
+            this.waterStationData.drWaterInjection
           }}</span>
           m<sup>3</sup></span
         >
@@ -110,60 +128,133 @@
     </div>
     <div class="proTeam_container">
       <div
-        v-for="(item, index) in this.allStation"
+        v-for="(item, index) in this.wellSiteData"
         :key="index"
-        class="oilStation_container_details"
+        class="proTeam_container_details"
       >
-        <div class="proTeam_container_details_top">
-          <span class="proTeam_container_details_top_span">{{
-            item.wellSitName
-          }}</span>
-          <img
-            src="../../assets/images/station.png"
-            class="proTeam_container_details_top_img"
-            @click="gotoWellsite(item.wellSitName)"
+        <div class="proTeam_container_details_left">
+          <span class="proTeam_container_details_left_span"
+            >{{ item.wellSitName }}井场</span
+          >
+          <i
+            class="iconfont icon-yujing_gaoliang proTeam_container_details_left_icon"
           />
+          <el-tooltip class="item" effect="light">
+            <img
+              src="../../assets/images/station.png"
+              class="proTeam_container_details_left_img"
+            />
+            <div slot="content">
+              <table class="proTeam_table">
+                <tr>
+                  <td rowspan="3">油井</td>
+                  <td colspan="3">
+                    总:
+                    <span style="color: green">{{ item.wellCount }}</span
+                    >口 开:
+                    <span style="color: green">{{ item.wellOpenCount }}</span
+                    >口 异常: <span style="color: red">0</span>口
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    产液:
+                    <span style="color: green">{{ item.drLiquidProd }}</span
+                    >m<sup>3</sup> 产油:
+                    <span style="color: green">{{ item.drOilProd }}</span
+                    >m<sup>3</sup>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div v-if="item.drYesterdayLiquidProd > 0">
+                      产液较昨日
+                      <span style="color: green" class="el-icon-top">{{
+                        item.drYesterdayLiquidProd
+                      }}</span
+                      >m<sup>3</sup>
+                    </div>
+                    <div v-if="item.drYesterdayLiquidProd < 0">
+                      产液较昨日<span
+                        style="color: red"
+                        class="el-icon-bottom"
+                        >{{ item.drYesterdayLiquidProd }}</span
+                      >m<sup>3</sup>
+                    </div>
+                    <div v-if="item.drYesterdayOilProd > 0">
+                      产油较昨日
+                      <span style="color: green" class="el-icon-top">{{
+                        item.drYesterdayOilProd
+                      }}</span
+                      >m<sup>3</sup>
+                    </div>
+                    <div v-if="item.drYesterdayOilProd < 0">
+                      产油较昨日
+                      <span style="color: red" class="el-icon-bottom">{{
+                        item.drYesterdayOilProd
+                      }}</span
+                      >m<sup>3</sup>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td rowspan="3">水井</td>
+                  <td colspan="3">
+                    总: <span style="color: green">{{ item.waterCount }}</span
+                    >口 开:
+                    <span style="color: green">{{ item.waterOpenCount }}</span
+                    >口 异常: <span style="color: red">0</span>口
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">
+                    配注:
+                    <span style="color: green">{{
+                      item.drInjectionAllocation
+                    }}</span
+                    >m<sup>3</sup> 注水:
+                    <span style="color: green">{{ item.drWaterInjection }}</span
+                    >m<sup>3</sup>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3">较昨日**m<sup>3</sup></td>
+                </tr>
+                <tr>
+                  <td>视频</td>
+                  <td colspan="3">
+                    正常:
+                    <span style="color: green">{{
+                      item.videoStationCount
+                    }}</span
+                    >处 损坏: <span style="color: #f90">0</span>处 预警:
+                    <span style="color: red">0</span>处
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </el-tooltip>
         </div>
-        <div class="proTeam_container_details_container">
-          <el-row>
-            <el-col :span="12">
-              <span class="proTeam_container_details_container_dec"
-                >开井：<span style="color: green">{{ item.wellCount }}</span> 口
-              </span>
-            </el-col>
-            <el-col :span="12">
-              <span class="proTeam_container_details_container_dec"
-                >停井：<span style="color: red">0</span> 口
-              </span>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <span class="proTeam_container_details_container_dec"
-                >产油：<span style="color: green">{{ item.drOilProd }}</span
-                >m<sup>3</sup></span
-              >
-            </el-col>
-            <el-col :span="12">
-              <span class="proTeam_container_details_container_dec"
-                >产液：<span style="color: green">{{ item.drLiquidProd }}</span>
-                m<sup>3</sup></span
-              >
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <span class="proTeam_container_details_container_dec"
-                >异常：<span style="color: red">0</span> 口
-              </span>
-            </el-col>
-            <el-col :span="12">
-              <span class="proTeam_container_details_container_dec"
-                >预警：<span style="color: orange">0</span> 处
-              </span>
-            </el-col>
-          </el-row>
+        <div class="proTeam_container_details_right">
+          <span class="proTeam_container_details_right_dec"
+            >产液：<span style="color: green">{{ item.drLiquidProd }}</span>
+            m<sup>3</sup></span
+          >
+          <span class="proTeam_container_details_right_dec"
+            >注水：<span style="color: green">{{ item.drWaterInjection }}</span>
+            m<sup>3</sup></span
+          >
+          <span class="proTeam_container_details_right_dec"
+            >异常：<span style="color: red">0</span> 处</span
+          >
+          <span class="proTeam_container_details_right_dec"
+            >预警：<span style="color: orange">0</span> 处</span
+          >
         </div>
+        <i
+          class="iconfont icon-icon-- proTeam_container_details_icon"
+          @click="gotoWellsite(item.wellSitName)"
+        />
       </div>
     </div>
   </div>
@@ -173,51 +264,45 @@
 export default {
   data() {
     return {
-      // 站组汇总数据
-      stationData: [],
-      // 产液变化量
-      LiquidProdIncrease: "",
-      // 产油变化量
-      oilIncrease: "",
+      // 油井
+      oilStationData: {},
+      // 水井
+      waterStationData: {},
       // 视频
       stationVideo: "",
+      // 产液变化量
+      LiqStationIncrease: "",
+      // 产油变化量
+      oilStationIncrease: "",
       // 井场汇总
-      allStation: [],
+      wellSiteData: [],
     };
   },
   created() {
     this.stationInit();
-    this.stationVideoInit();
   },
   methods: {
     // 站组汇总信息
     stationInit() {
       this.getRequest(
-        "/stations/station/listSitPage?oilStationName=" +
-          this.$route.query.name +
-          "&sTime=2020-11-19"
+        "/stations/station/listSitPage?oilStationId=" +
+          this.$route.query.id +
+          "&sTime=2020-11-18"
       ).then((resp) => {
         if (resp) {
-          this.stationData = resp.data;
-          this.allStation = resp.data.stationWellInfoList;
-          this.LiquidProdIncrease = (
-            resp.data.stationWellInfoList1[0].drLiquidProd -
-            resp.data.stationWellInfoList1[0].drYesterdayLiquidProd
+          this.oilStationData = resp.data.stationOilWellInfo;
+          this.waterStationData = resp.data.stationWaterWellInfo;
+          this.stationVideo = resp.data.voidCount;
+          this.stationData = resp.data.stationWellInfoList;
+          this.LiqStationIncrease = (
+            resp.data.stationOilWellInfo.drLiquidProd -
+            resp.data.stationOilWellInfo.drYesterdayLiquidProd
           ).toFixed(3);
-          this.oilIncrease = (
-            resp.data.stationWellInfoList1[0].drOilProd -
-            resp.data.stationWellInfoList1[0].drYesterdayOilProd
+          this.oilStationIncrease = (
+            resp.data.stationOilWellInfo.drOilProd -
+            resp.data.stationOilWellInfo.drYesterdayOilProd
           ).toFixed(3);
-        }
-      });
-    },
-    // 视频
-    stationVideoInit() {
-      this.getRequest(
-        "/unattended/monitoring/getStationVideoCount?stationId=202010270004"
-      ).then((resp) => {
-        if (resp) {
-          this.stationVideo = resp.data;
+          this.wellSiteData = resp.data.stationWellInfoList;
         }
       });
     },

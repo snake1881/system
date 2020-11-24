@@ -1,23 +1,43 @@
 <template>
-<div class="unattended">
-  <el-container>
-    <el-header class="unattended_header">
-      <el-link class="unattended_header_span" :underline="false" @click="gotoProTeam()">采油队信息</el-link>
-      <el-link class="unattended_header_span" :underline="false" @click="gotoOilStation()">采油站信息</el-link>
-      <el-link class="unattended_header_span" :underline="false" @click="gotoWellsite()">井场信息</el-link>
-      <el-link class="unattended_header_span" :underline="false" @click="gotoSingleWell()">单井信息</el-link>
-    </el-header>
-    <el-main class="unattended_container">
-      <router-view />
-    </el-main>
-  </el-container>
-</div>
+  <div class="unattended">
+    <el-container>
+      <el-header class="unattended_header">
+        <el-link
+          class="unattended_header_span"
+          :underline="false"
+          @click="gotoProTeam()"
+          >采油队信息</el-link
+        >
+        <el-link
+          class="unattended_header_span"
+          :underline="false"
+          @click="gotoOilStation()"
+          >采油站信息</el-link
+        >
+        <el-link
+          class="unattended_header_span"
+          :underline="false"
+          @click="gotoWellsite()"
+          >井场信息</el-link
+        >
+        <el-link
+          class="unattended_header_span"
+          :underline="false"
+          @click="gotoSingleWell()"
+          >单井信息</el-link
+        >
+      </el-header>
+      <el-main class="unattended_container">
+        <router-view />
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {}
+    return {};
   },
   methods: {
     gotoProTeam() {
@@ -31,9 +51,9 @@ export default {
     },
     gotoSingleWell() {
       this.$router.replace("/unattended/singleWell");
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
