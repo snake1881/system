@@ -32,7 +32,7 @@
       <el-table-column prop="ylycs" label="液量异常数" min-width="10%" />
       <el-table-column prop="hsycs" label="含水异常数" min-width="10%" />
       <el-table-column prop="gkycs" label="工况异常数" min-width="10%" />
-      <el-table-column prop="sbycs" label="设备异常数" min-width="10%" />
+      <el-table-column prop="dymycs" label="动液面异常数" min-width="10%" />
     </el-table>
     <div id="wellChart" :style="{width: '98%', height: '300px'}"></div>
     <div id="waterWellChart" :style="{width: '98%', height: '300px'}"></div>
@@ -59,7 +59,7 @@ export default {
           ylycs: "0",
           hsycs: "0",
           gkycs: "1",
-          sbycs: "2"
+          dymycs: "2"
         },
         {
           cyz: "一号采油站",
@@ -70,7 +70,7 @@ export default {
           ylycs: "0",
           hsycs: "0",
           gkycs: "23",
-          sbycs: "3"
+          dymycs: "3"
         },
         {
           cyz: "上菜渠采油站",
@@ -81,7 +81,7 @@ export default {
           ylycs: "14",
           hsycs: "0",
           gkycs: "0",
-          sbycs: "1"
+          dymycs: "1"
         },
         {
           cyz: "下菜渠采油站",
@@ -92,7 +92,7 @@ export default {
           ylycs: "14",
           hsycs: "0",
           gkycs: "0",
-          sbycs: "1"
+          dymycs: "1"
         },
         {
           cyz: "东关增压站",
@@ -103,7 +103,7 @@ export default {
           ylycs: "11",
           hsycs: "0",
           gkycs: "0",
-          sbycs: "2"
+          dymycs: "2"
         },
         {
           cyz: "东关采油站",
@@ -114,7 +114,7 @@ export default {
           ylycs: "18",
           hsycs: "3",
           gkycs: "0",
-          sbycs: "1"
+          dymycs: "1"
         },
         {
           cyz: "庙沟采油站",
@@ -125,7 +125,7 @@ export default {
           ylycs: "17",
           hsycs: "0",
           gkycs: "0",
-          sbycs: "1"
+          dymycs: "1"
         },
         {
           cyz: "张天渠采油站",
@@ -136,7 +136,7 @@ export default {
           ylycs: "14",
           hsycs: "0",
           gkycs: "0",
-          sbycs: "1"
+          dymycs: "1"
         }
       ]
     };

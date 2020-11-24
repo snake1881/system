@@ -282,6 +282,7 @@ export default {
         "/teams/team/listTeamCount?productionTeamId=1&sTime=2020-11-18"
       ).then((resp) => {
         if (resp) {
+<<<<<<< HEAD
           this.oilData = resp.data.teamInfo;
           this.waterData = resp.data.teamWater;
           this.LiquidProdIncrease = (
@@ -293,6 +294,20 @@ export default {
           ).toFixed(3);
           this.stationData = resp.data.teamInfoList;
           this.videoData = resp.data.videoTeamCount;
+=======
+          this.oilData = resp.data.teamOilCollectVo;
+          this.waterData = resp.data.teamWaterCollectVo;
+          // this.LiquidProdIncrease = (
+          //   resp.data.teamOilCollectVo.drLiquidProd -
+          //   resp.data.teamOilCollectVo.drYesterdayLiquidProd
+          // ).toFixed(3);
+          // this.oilIncrease = (
+          //   resp.data.teamOilCollectVo.drOilProd -
+          //   resp.data.teamOilCollectVo.drYesterdayOilProd
+          // ).toFixed(3);
+          this.stationData = resp.data.oilWaterVideoCollectVos;
+          this.videoData = resp.data.teamVideoCollectVo.videoCount;
+>>>>>>> a270814856e5cc87d9df5c32c2937ec6c057af6f
         }
       });
     },

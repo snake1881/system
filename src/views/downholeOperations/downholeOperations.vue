@@ -3,14 +3,14 @@
     <!-- 条件查询 -->
     <el-form class="dow_form" :model="dowForm" :inline="true">
       <el-form-item>
-        <el-input v-model="dowForm.number" placeholder="井号" size="medium" />
+        <el-input v-model="dowForm.wellId" placeholder="井号" size="medium" />
       </el-form-item>
       <el-form-item label="任务名称">
-        <el-select v-model="dowForm.name" size="medium">
-          <el-option label="上报" value="0" />
-          <el-option label="派工" value="1" />
-          <el-option label="现场作业" value="2" />
-          <el-option label="效果评价" value="3" />
+        <el-select v-model="dowForm.nodeName" size="medium">
+          <el-option label="上报" value="上报" />
+          <el-option label="派工" value="派工" />
+          <el-option label="现场作业" value="现场作业" />
+          <el-option label="效果评价" value="效果评价" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -193,8 +193,8 @@ export default {
   data() {
     return {
       dowForm: {
-        number: "",
-        name: "",
+        wellId: "",
+        nodeName: "",
       },
       //表格数据
       operationData: [],
@@ -228,7 +228,32 @@ export default {
   },
   methods: {
     // 查询
-    searchOperation() {},
+    searchOperation() {
+      this.getRequest(
+        "/operation/operationInfo/queryPageByWellIdOrNodeName?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize +
+          "&nodeName=" +
+          this.dowForm.nodeName +
+          "&wellId=" +
+          this.dowForm.wellId
+      ).then((resp) => {
+        if (resp) {
+          this.operationData = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+          this.$message({
+            message: "查询成功!",
+            type: "success",
+          });
+        
+        } else {
+          this.$message.error("查询失败，请重新查询!");
+        }
+      });
+    },
     // 表格数据初始化
     operationInit() {
       this.getRequest(
