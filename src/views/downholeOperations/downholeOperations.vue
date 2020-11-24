@@ -228,7 +228,32 @@ export default {
   },
   methods: {
     // 查询
-    searchOperation() {},
+    searchOperation() {
+      this.getRequest(
+        "/operation/operationInfo/queryPageByWellIdOrNodeName?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize +
+          "&nodeName=" +
+          this.dowForm.nodeName +
+          "&wellId=" +
+          this.dowForm.wellId
+      ).then((resp) => {
+        if (resp) {
+          this.operationData = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+          this.$message({
+            message: "查询成功!",
+            type: "success",
+          });
+        
+        } else {
+          this.$message.error("查询失败，请重新查询!");
+        }
+      });
+    },
     // 表格数据初始化
     operationInit() {
       this.getRequest(
