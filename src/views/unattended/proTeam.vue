@@ -248,7 +248,7 @@ export default {
           //   resp.data.teamOilCollectVo.drYesterdayOilProd
           // ).toFixed(3);
           this.stationData = resp.data.oilWaterVideoCollectVos;
-          this.videoData = videoCount;
+          this.videoData = resp.data.teamVideoCollectVo.videoCount;
         }
       });
     },
