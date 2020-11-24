@@ -239,7 +239,6 @@ export default {
       ).then((resp) => {
         this.loading = false;
         if (resp) {
-          console.log(resp.data.records);
           this.operationData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
@@ -293,7 +292,6 @@ export default {
           val.wellId
       ).then((resp) => {
         if (resp) {
-          console.log(resp);
           //上次作业信息数据
           this.sendLastOperData = resp.data;
         }
@@ -318,7 +316,6 @@ export default {
           }
         }
       );
-      
     },
     // 进度
     scheduleOperation(val) {

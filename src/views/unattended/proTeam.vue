@@ -269,12 +269,12 @@ export default {
 @import "../../assets/css/unattended/proTeam.css";
 </style>
 <style>
-.proTeam_top tr,
+/* .proTeam tr,
 td {
   border: 1px solid #8dbeb0;
   border-style: dashed;
   white-space: nowrap;
-}
+} */
 .el-tooltip__popper {
   width: 15% !important;
   border: none;
