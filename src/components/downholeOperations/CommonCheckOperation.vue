@@ -2,135 +2,153 @@
   <el-dialog
     title="查看"
     :visible.sync="checkOperVisible"
-    width="43%"
+    width="50%"
     :before-close="checkOperClose"
   >
     <div class="checkOperDiv" :data="checkData">
       <el-steps
-        direction="vertical"
         :active="checkData.nodeSequence"
         finish-status="success"
-        class="checkOperDiv_left"
+        class="checkOperDiv_top"
       >
-        <el-step title="上报" @click.native="submit()" description="aaa" />
+        <el-step
+          title="上报"
+          @click.native="submit()"
+          description="2020-11-19，刘队"
+        />
         <el-step
           title="派工"
           @click.native="send()"
-          description="**时间，**人"
+          description="2020-11-19，刘队"
         />
         <el-step
           title="现场作业"
           @click.native="scene()"
-          description="**时间，**人"
+          description="2020-11-19，刘队"
         />
         <el-step
           title="效果评价"
           @click.native="effect()"
-          description="**时间，**人"
+          description="2020-11-19，刘队"
         />
       </el-steps>
-      <div class="checkOperDiv_right">
+      <div class="checkOperDiv_bottom">
         <div v-if="nodalPoint === 0" class="checkOperDiv_submit_table">
-          <el-row>
-            <el-col :span="6"><div class="grid-content">作业名称:</div></el-col>
-            <el-col :span="6"
-              ><div class="grid-content">
-                {{ checkData.operationName }}
-              </div></el-col
-            >
-            <el-col :span="6"><div class="grid-content">作业类型:</div></el-col>
-            <el-col :span="6"
-              ><div class="grid-content">
-                {{ checkData.operationType == 0 ? "常规检泵" : "技改井" }}
-              </div></el-col
-            >
-          </el-row>
-          <el-row>
-            <el-col :span="6"><div class="grid-content">上报人:</div></el-col>
-            <el-col :span="6"
-              ><div class="grid-content">
-                {{ checkData.dealUserName }}
-              </div></el-col
-            >
-            <el-col :span="6"><div class="grid-content">上报时间:</div></el-col>
-            <el-col :span="6"
-              ><div class="grid-content">{{ checkData.dealDate }}</div></el-col
-            >
-          </el-row>
-          <el-row>
-            <el-col :span="6"><div class="grid-content">备注:</div></el-col>
-            <el-col :span="6"
-              ><div class="grid-content">{{ checkData.remark }}</div></el-col
-            >
-            <el-col :span="6"><div class="grid-content">附件:</div></el-col>
-            <el-col :span="6"><div class="grid-content"></div></el-col>
-          </el-row>
+          <table
+            class="Reporting"
+            cellspacing="0"
+            border="1"
+            bordercolor="#bcc0bf"
+          >
+            <tr>
+              <td colspan="4" style="text-align: center">上报</td>
+            </tr>
+            <tr>
+              <td>作业名称: {{ checkData.operationName }}</td>
+              <td>
+                作业类型：{{
+                  checkData.operationType == 0 ? "常规检泵" : "技改井"
+                }}
+              </td>
+            </tr>
+            <tr>
+              <td>上报人: {{ checkData.dealUserName }}</td>
+              <td>上报时间: {{ checkData.dealDate }}</td>
+            </tr>
+            <tr>
+              <td colspan="4">备注: {{ checkData.remark }}</td>
+            </tr>
+            <tr>
+              <td colspan="4">附件(下载、预览):</td>
+            </tr>
+          </table>
         </div>
-        <el-table
-          v-if="nodalPoint === 1"
-          :data="tableData"
-          border
-          class="checkOperDiv_send_table"
-        >
-          <el-table-column prop="number" label="派工" width="80" />
-          <el-table-column prop="name" label="填报人" width="100" />
-          <el-table-column prop="time" label="时间" width="100" />
-          <el-table-column label="详情" width="78">
-            <el-button
-              type="text"
-              size="small"
-              @click="check()"
-              class="el-icon-view"
-            />
-          </el-table-column>
-        </el-table>
-        <el-table
-          v-if="nodalPoint === 2"
-          :data="tableData"
-          border
-          class="checkOperDiv_scene_table"
-        >
-          <el-table-column prop="number" label="现场作业" width="80" />
-          <el-table-column prop="name" label="填报人" width="100" />
-          <el-table-column prop="time" label="时间" width="100" />
-          <el-table-column label="详情" width="78">
-            <el-button
-              type="text"
-              size="small"
-              @click="check()"
-              class="el-icon-view"
-            />
-          </el-table-column>
-        </el-table>
-        <el-table
-          v-if="nodalPoint === 3"
-          :data="tableData"
-          border
-          class="checkOperDiv_scene_table"
-        >
-          <el-table-column prop="number" label="效果评价" width="80" />
-          <el-table-column prop="name" label="填报人" width="100" />
-          <el-table-column prop="time" label="时间" width="100" />
-          <el-table-column label="详情" width="78">
-            <el-button
-              type="text"
-              size="small"
-              @click="check()"
-              class="el-icon-view"
-            />
-          </el-table-column>
-        </el-table>
+        <div v-if="nodalPoint === 1" class="checkOperDiv_submit_table">
+          <table
+            class="Reporting"
+            cellspacing="0"
+            border="1"
+            bordercolor="#bcc0bf"
+          >
+            <tr>
+              <td colspan="4" style="text-align: center">派工</td>
+            </tr>
+            <tr>
+              <td rowspan="2">上次</td>
+              <td>作业名称:</td>
+              <td>作业队伍：</td>
+            </tr>
+            <tr>
+              <td>作业时间:</td>
+              <td>距现在:</td>
+            </tr>
+            <tr>
+              <td rowspan="4">本次</td>
+              <td>作业名称:</td>
+              <td>作业队伍：</td>
+            </tr>
+            <tr>
+              <td colspan="2">派工单编号:</td>
+            </tr>
+            <tr>
+              <td colspan="2">备注:</td>
+            </tr>
+            <tr>
+              <td colspan="2" style="height: 30%">附件:</td>
+            </tr>
+          </table>
+        </div>
+        <div v-if="nodalPoint === 2" class="checkOperDiv_submit_table">
+          <table class="scene" cellspacing="0" border="1" bordercolor="#bcc0bf">
+            <tr>
+              <td colspan="4" style="text-align: center">现场作业</td>
+            </tr>
+            <tr>
+              <td>上报次数</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>上报日期</td>
+              <td>上报人:</td>
+            </tr>
+            <tr>
+              <td>进度描述</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>现场照片</td>
+              <td style="height: 25%"></td>
+            </tr>
+            <tr>
+              <td>附件</td>
+              <td style="height: 30%"></td>
+            </tr>
+          </table>
+        </div>
+        <div v-if="nodalPoint === 3" class="checkOperDiv_submit_table">
+          <table class="scene" cellspacing="0" border="1" bordercolor="#bcc0bf">
+            <tr>
+              <td colspan="2" style="text-align: center">效果评价</td>
+            </tr>
+            <tr>
+              <td>评价结果</td>
+              <td>基本满足要求</td>
+            </tr>
+            <tr>
+              <td>评价日期</td>
+              <td>2020-11-19</td>
+            </tr>
+            <tr>
+              <td>评价结论</td>
+              <td>挺好的</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
     <el-button type="info" @click="checkOperClose()" class="checkOperButton"
       >关闭</el-button
     >
-    <el-dialog :visible.sync="dialogVisible" width="30%" append-to-body>
-      <span>每次修改的详细信息</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">关 闭</el-button>
-      </span>
-    </el-dialog>
   </el-dialog>
 </template>
 
@@ -152,39 +170,12 @@ export default {
   data() {
     return {
       checkNode: this.checkData.nodeSequence,
-      tableData: [
-        {
-          number: 5,
-          name: "张三",
-          time: "2020-09-14",
-        },
-        {
-          number: 1,
-          name: "李四",
-          time: "2020-10-18",
-        },
-        {
-          number: 2,
-          name: "lisa",
-          time: "2020-11-01",
-        },
-        {
-          number: 4,
-          name: "nini",
-          time: "2020-11-23",
-        },
-      ],
-      dialogVisible: false,
     };
   },
   methods: {
     // 对话框父子组件传值
     checkOperClose() {
       this.$emit("checkRowClose");
-    },
-    // 详情
-    check() {
-      this.dialogVisible = true;
     },
     // 查看上报节点
     submit() {
@@ -237,22 +228,20 @@ export default {
 
 <style lang="less" scoped>
 .checkOperDiv {
-  height: 320px;
+  height: 340px;
   width: 100%;
-  overflow: auto;
   display: flex;
-  flex-direction: row;
-  border: 1px solid rgb(136, 132, 127);
+  flex-direction: column;
 }
-.checkOperDiv_left {
-  width: 30%;
-  height: 100%;
-  border-right: 1px solid rgb(136, 132, 127);
-  padding: 0 5%;
+.checkOperDiv_top {
+  width: 88%;
+  height: 20%;
+  padding: 0 6%;
 }
-.checkOperDiv_right {
-  width: 58%;
-  height: 100%;
+.checkOperDiv_bottom {
+  width: 98%;
+  height: 80%;
+  padding: 0 1%;
 }
 .checkOperDiv_submit_table {
   width: 100%;
@@ -262,31 +251,15 @@ export default {
 .checkOperButton {
   margin: 2% 0 0 40%;
 }
-.checkOperDiv_submit_table .el-row {
-  margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
+
+.Reporting {
+  width: 100%;
+  height: 100%;
 }
-.checkOperDiv_submit_table .el-col {
-  border-radius: 4px;
-}
-.checkOperDiv_submit_table .bg-purple-dark {
-  background: #99a9bf;
-}
-.checkOperDiv_submit_table .bg-purple {
-  background: #d3dce6;
-}
-.checkOperDiv_submit_table .bg-purple-light {
-  background: #e5e9f2;
-}
-.checkOperDiv_submit_table .grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-}
-.checkOperDiv_submit_table .row-bg {
-  padding: 10px 0;
-  background-color: #f9fafc;
+.scene {
+  width: 60%;
+  height: 100%;
+  margin: 0 20%;
 }
 </style>
 
