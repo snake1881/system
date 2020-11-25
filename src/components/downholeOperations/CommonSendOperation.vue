@@ -47,7 +47,7 @@
               v-for="item in teamNameoptions"
               :key="item.teamName"
               :label="item.teamName"
-              :value="item.teamName"
+              :value="item.teamId"
             ></el-option>
           </el-select>
         </el-form-item>

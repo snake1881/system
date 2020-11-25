@@ -153,6 +153,12 @@
       :checkOperVisible="checkOperVisible"
       :checkData="checkOperData"
       :nodalPoint="nodalPoint"
+      :sendLastData="sendLastOperData"
+      :sendNowData="sendNowOperData"
+      :constructionData="constructionData"
+      :constNumData="constNumData"
+      :measureEffectData="measureEffectData"
+      :operAllNodeSource="operAllNodeSource"
       @checkRowClose="checkOperClose"
     />
     <!-- 派工 -->
@@ -211,10 +217,15 @@ export default {
       nodalPoint: null,
       checkOperVisible: false,
       checkOperData: {},
+      sendLastOperData: {},
+      sendNowOperData: {},
+      constructionData: {},
+      constNumData: {},
+      measureEffectData: {},
+      operAllNodeSource: {},
       // 派工
       sendOperVisible: false,
       sendOperData: {},
-      sendLastOperData: {},
       // 进度
       scheduleOperVisible: false,
       scheduleOperData: {},
@@ -248,7 +259,6 @@ export default {
             message: "查询成功!",
             type: "success",
           });
-        
         } else {
           this.$message.error("查询失败，请重新查询!");
         }
@@ -301,6 +311,80 @@ export default {
       this.checkOperVisible = true;
       this.checkOperData = val;
       this.nodalPoint = val.nodeSequence;
+      // 获取个节点填报信息
+      this.getRequest(
+        "/operation/operationNode/queryOperAllNodeSource?wellOperationId=" +
+          val.wellOperationId
+      ).then((resp) => {
+        if (resp) {
+          //各节点信息数据
+          if(resp.data.submitTime==null) resp.data.submitTime="";          
+          if(resp.data.submitUserName==null) resp.data.submitUserName=""; 
+          if(resp.data.sendTime==null) resp.data.sendTime="";          
+          if(resp.data.sendUserName==null) resp.data.sendUserName=""; 
+          if(resp.data.dispatchTime==null) resp.data.dispatchTime="";          
+          if(resp.data.dispatchUserName==null) resp.data.dispatchUserName=""; 
+          if(resp.data.measureTime==null) resp.data.measureTime="";          
+          if(resp.data.measureUserName==null) resp.data.measureUserName=""; 
+          this.operAllNodeSource = resp.data;
+        }
+      });
+      // 获取本次派工信息
+      this.getRequest(
+        "/operation/dispatchInfo/selectNowDispatchByWellName?wellId=" +
+          val.wellId
+      ).then((resp) => {
+        if (resp) {
+          //上次作业信息数据
+          this.sendNowOperData = resp.data;
+        }
+      });
+      // 获取上次派工信息
+      this.getRequest(
+        "/operation/dispatchInfo/selectLastDispatchByWellName?wellId=" +
+          val.wellId
+      ).then((resp) => {
+        if (resp) {
+          //上次作业信息数据
+          this.sendLastOperData = resp.data;
+        }
+      });
+      // 获取本次派工信息
+      this.getRequest(
+        "/operation/dispatchInfo/selectNowDispatchByWellName?wellId=" +
+          val.wellId
+      ).then((resp) => {
+        if (resp) {
+          //上次作业信息数据
+          this.sendNowOperData = resp.data;
+        }
+      });
+      // 获取施工过程信息
+      this.getRequest(
+        "/operation/constructionProcess/selectConstructionByNodeId?nodeId=" +
+          val.operationNodeId +
+          "&wellId=" +
+          val.operationName
+      ).then((resp) => {
+        if (resp) {
+          //施工过程信息信息数据
+          this.constructionData = resp.data.constructionProcessList;
+          //默认显示第一次上报信息
+          this.constNumData = resp.data.constructionProcessList[0];
+          console.log(this.constNumData);
+          console.log(this.constructionData);
+        }
+      });
+      // 获取效果评价信息
+      this.getRequest(
+        "/operation/measureEffectEvaluation/selectEffectById?operationNodeId=" +
+          val.operationNodeId
+      ).then((resp) => {
+        if (resp) {
+          //上次作业信息数据
+          this.measureEffectData = resp.data;
+        }
+      });
     },
     // 关闭查看对话框
     checkOperClose() {
