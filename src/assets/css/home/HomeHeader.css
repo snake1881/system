@@ -12,14 +12,16 @@
     display: flex;
     flex-direction: row;
 }
+
 .container_left .container_left_text {
     margin-top: 2.5%;
     color: #f2f6fc;
     font-size: 24px;
-    font-family:"Microsoft Yahei";
+    font-family: "Microsoft Yahei";
 }
+
 .container_left .container_left_img {
-    width: 10%;
+    width: 7%;
     height: 70%;
     margin: 1.5% 1%;
 }
@@ -35,35 +37,39 @@
     flex-direction: row;
 }
 
-.container_right_notice{
+.container_right_notice {
     width: 40px;
     height: 40px;
     margin: 32px 0 5px 0;
 }
-.container_right_notice_scrollbar{
-    height:180px;
-    width:300px
+
+.container_right_notice_scrollbar {
+    height: 180px;
+    width: 300px
 }
-.container_right_notice_content{
+
+.container_right_notice_content {
     display: flex;
     justify-content: space-between;
     flex-direction: row;
     font-size: 13px;
-    height:40px;
+    height: 40px;
     border-bottom: solid 1px rgb(218, 215, 215);
-    margin:5px 0;
+    margin: 5px 0;
 }
-.container_right_notice_button{
+
+.container_right_notice_button {
     width: 90%;
     height: 10px;
-    margin-top:2px;
+    margin-top: 2px;
     font-size: 12px;
     font-weight: bold;
     color: red;
     border-top: solid 1px rgb(218, 215, 215);
 
 }
-.container_right .container_right_badge{
+
+.container_right .container_right_badge {
     margin: -10px 0px 10px 10px;
 }
 
@@ -72,7 +78,7 @@
     height: 30px;
     border-radius: 50%;
     margin: 20px 0px 0px 10px;
-   
+
 }
 
 .container_right .container_right_username {

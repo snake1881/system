@@ -2,30 +2,29 @@
   <div class="unattended">
     <el-container>
       <el-header class="unattended_header">
-        <el-link
-          class="unattended_header_span"
-          :underline="false"
-          @click="gotoProTeam()"
-          >采油队信息</el-link
+        <el-breadcrumb
+          separator-class="el-icon-arrow-right"
+          class="unattended_header_crumb"
         >
-        <el-link
-          class="unattended_header_span"
-          :underline="false"
-          @click="gotoOilStation()"
-          >采油站信息</el-link
-        >
-        <el-link
-          class="unattended_header_span"
-          :underline="false"
-          @click="gotoWellsite()"
-          >井场信息</el-link
-        >
-        <el-link
-          class="unattended_header_span"
-          :underline="false"
-          @click="gotoSingleWell()"
-          >单井信息</el-link
-        >
+          <el-breadcrumb-item :to="{ path: '/unattended/proTeam' }"
+            >采油队信息(东仁沟采油队)</el-breadcrumb-item
+          >
+          <el-breadcrumb-item
+            :to="{ path: '/unattended/oilStation' }"
+            v-if="this.$route.name === '采油站'"
+            >采油站信息({{ this.$route.query.name }}采油站)</el-breadcrumb-item
+          >
+          <el-breadcrumb-item
+            :to="{ path: '/unattended/wellsite' }"
+            v-if="this.$route.name === '井场'"
+            >井场信息({{ this.$route.query.name }}井场)</el-breadcrumb-item
+          >
+          <el-breadcrumb-item
+            :to="{ path: '/unattended/singleWell' }"
+            v-if="this.$route.name === '单井'"
+            >单井信息({{ this.$route.query.name }})</el-breadcrumb-item
+          >
+        </el-breadcrumb>
       </el-header>
       <el-main class="unattended_container">
         <router-view />
@@ -39,20 +38,10 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    gotoProTeam() {
-      this.$router.replace("/unattended/proTeam");
-    },
-    gotoOilStation() {
-      this.$router.replace("/unattended/oilStation");
-    },
-    gotoWellsite() {
-      this.$router.replace("/unattended/wellsite");
-    },
-    gotoSingleWell() {
-      this.$router.replace("/unattended/singleWell");
-    },
+  created() {
+    console.log(this.$route);
   },
+  methods: {},
 };
 </script>
 
@@ -60,24 +49,38 @@ export default {
 .unattended {
   height: 100%;
   width: 100%;
-  background-color: #f2f6fc;
   margin: 0;
+  background-image: url("../../assets/images/unatten_backImage.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .unattended_header {
   width: 100%;
   height: 4% !important;
-  background-color: #eeeff1;
+  background-color: #0a2146;
+  border: 1px solid #253e69;
   display: flex;
   flex-direction: row;
-}
-
-.unattended_header_span {
-  width: 5%;
 }
 
 .unattended_container {
   width: 100%;
   height: 96%;
+}
+</style>
+<style>
+.el-breadcrumb {
+  margin: 0.2% 0;
+  width: 100%;
+  height: 100%;
+}
+.el-breadcrumb__separator[class*="icon"] {
+  margin: 0.2% 0;
+}
+.el-breadcrumb_item,
+.el-breadcrumb__inner {
+  font-size: 12px;
+  color: rgb(196, 194, 194) !important;
 }
 </style>

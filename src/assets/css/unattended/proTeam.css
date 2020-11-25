@@ -8,23 +8,12 @@
 .proTeam_left {
     width: 15%;
     height: 100%;
-
-}
-
-.proTeam_left_title {
-    width: 60%;
-    height: 8%;
-    font-size: 20px;
-    font-weight: 700;
-    margin: 1% 20%;
-    text-align: center;
+    background-color: #101f3f;
 }
 
 .proTeam_left_oilWell {
-    width: 90%;
+    width: 99%;
     height: 35%;
-    border: 1px solid #dfe0e2;
-    margin: 6% 5%;
     border-radius: 10%;
     display: flex;
     flex-direction: column;
@@ -32,10 +21,9 @@
 }
 
 .proTeam_left_waterWell {
-    width: 90%;
-    height: 28%;
-    border: 1px solid #dfe0e2;
-    margin: 6% 5%;
+    width: 99%;
+    height: 30%;
+    margin: 10% 0%;
     border-radius: 10%;
     display: flex;
     flex-direction: column;
@@ -43,10 +31,9 @@
 }
 
 .proTeam_left_video {
-    width: 90%;
-    height: 20%;
-    border: 1px solid #dfe0e2;
-    margin: 6% 5%;
+    width: 99%;
+    height: 28%;
+    margin: 6% 0%;
     border-radius: 10%;
     display: flex;
     flex-direction: column;
@@ -55,14 +42,17 @@
 
 .proTeam_left_oilWell_title {
     font-size: 19px;
-    margin: 4% 20%;
-
+    width: 100%;
+    height: 15%;
+    padding: 3% 0;
+    color: #fff;
+    border: 1px solid #223c66;
 }
 
 .proTeam_left_oilWell_dec {
-    margin: 1% 8%;
+    margin: 2% 12%;
     font-size: 13px;
-
+    color: #969aa5;
 }
 
 .proTeam_top_table {
@@ -77,63 +67,114 @@
 .proTeam_container {
     width: 85%;
     height: 100%;
-    overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
 }
 
-.proTeam_container_details {
+.proTeam_container_top {
+    width: 80%;
+    height: 8%;
+    margin: 0 10%;
+}
+
+.proTeam_container_top_title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    padding: 2% 0;
+
+}
+
+.proTeam_container_station {
+    width: 100%;
+    height: 92%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.proTeam_container_station_details {
     width: 20%;
-    height: 20%;
-    margin: 1% 2%;
-    border-radius: 5%;
-    border: 2px solid #62917b;
+    height: 25%;
+    margin: 1% 2% 1% 2%;
+    background-color: #101f3f;
+    border: 1px solid #223c66;
+    display: flex;
+    flex-direction: column;
+    background: rgb(16, 31, 60, 0.1);
+
+}
+
+.proTeam_container_station_details_top {
+    width: 100%;
+    height: 15%;
+
+}
+
+.proTeam_container_station_details_top_title {
+    font-size: 13px;
+    height: 90%;
+    width: 100%;
+    padding: 2% 0;
+    text-align: center;
+    background-color: #203664;
+    border: 1px solid #223c66;
+    color: rgb(224, 220, 220);
+}
+
+.proTeam_container_station_details_container {
+    width: 100%;
+    height: 85%;
     display: flex;
     flex-direction: row;
 }
 
-.proTeam_container_details_left {
-    width: 45%;
+.proTeam_container_station_details_container_left {
+    width: 40%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.proTeam_container_details_left_span {
-    font-size: 12px;
-    margin: 5% 15%;
-    height: 10%;
-}
-
-.proTeam_container_details_left_icon {
+.proTeam_container_station_details_container_left_icon {
     font-size: 20px;
     color: green;
-    margin: 5% 5% 0 5%;
-    height: 10%;
+    height: 20%;
+    width: 80%;
+    margin: 20% 0 0 40%;
 }
 
-.proTeam_container_details_left_img {
-    width: 90%;
-    height: 50%;
-    margin: 0 5%;
+.proTeam_container_station_details_container_left_img {
+    width: 80%;
+    height: 40%;
+    margin: 0 8%;
 }
 
-.proTeam_container_details_right {
-    width: 45%;
+.proTeam_container_station_details_container_right {
+    width: 60%;
     height: 100%;
+    display: flex;
+    flex: row;
+}
+
+.proTeam_container_station_details_container_right_dec {
+    width: 90%;
+    height: 100%;
+    margin: 5% 0;
     display: flex;
     flex-direction: column;
 }
 
-.proTeam_container_details_right_dec {
+.proTeam_container_station_details_container_right_dec_span {
     font-size: 12px;
-    margin: 5% 5%;
-    color: #697080;
+    margin: 5% 0 1% 8%;
+    color: #969aa5;
 }
 
-.proTeam_container_details_icon {
+.proTeam_container_station_details_container_right_icon {
     font-size: 25px;
-    margin: 25% 0;
+    margin: 30% 0;
+    color: #17489c;
 }
 
 .proTeam_table {

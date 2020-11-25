@@ -1,111 +1,141 @@
 .singleWell {
-    height: 98.2%;
-    width: 99.6%;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
 }
+
 .unattended_singleWell_top {
-    height: 45%;
-    width: 100%;   
+    height: 40%;
+    width: 100%;
     display: flex;
     flex-direction: row;
 }
+
 /* 视频信息 */
 .unattended_singleWell_top_information {
-    width: 35%;
-    height: 100%;
+    width: 30%;
+    height: 98%;
     border: 1px solid #dfe0e2;
 }
+
 .unattended_singleWell_top_information_span {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     margin: 0 1%;
 }
+
 .unattended_singleWell_top_information_container {
     width: 100%;
     height: 90%;
     display: flex;
     flex-direction: row;
 }
+
 .unattended_singleWell_top_information_container_video {
-    width: 65%;
-    border: 2px solid #535353;
+    width: 60%;
+    border: 1px solid #dfe0e2;
     margin: 2% 1%;
 }
+
 .unattended_singleWell_top_information_container_dec {
     font-size: 14px;
-    width: 30%;
+    width: 35%;
     height: 100%;
-    color:#666;
-    margin: 2% 2%;
+    color: #4d4d4d;
+    margin: 1% 1% 0 1%;
 }
+
 /* 生产数据 */
-.unattended_singleWell_top_data{
+.unattended_singleWell_top_data {
     width: 25%;
-    height: 100%;
-    border: 1px solid #dfe0e2;
+    height: 98%;
+    border-bottom: 1px solid #dfe0e2;
+    border-top: 1px solid #dfe0e2;
 }
-.unattended_singleWell_container_proDaily{
+
+.unattended_singleWell_container_proDaily {
     width: 100%;
     height: 60%;
     color: #666;
     display: flex;
     flex-direction: column;
 }
+
 .unattended_singleWell_container_proDaily_title {
     width: 100%;
-    height: 10%;
+    height: 6%;
     font-size: 16px;
-    margin: 4% 35%;
-    color: rgb(36, 65, 145);
+    margin: 2% 0 1% 35%;
+    color: #3161a5;
 }
+
 .unattended_singleWell_container_proDaily_dec {
     width: 100%;
-    height: 90%;
+    height: 94%;
+    color: #4d4d4d;
     font-size: 14px;
-    margin: 0 5%;
+    margin: 1% 5%;
 }
-.unattended_singleWell_container_proMonth{
+
+.unattended_singleWell_container_proMonth {
     width: 100%;
     height: 35%;
-    color: #666;
+    color: #4d4d4d;
     display: flex;
     flex-direction: column;
 }
 
 /* 功图曲线 */
 .unattended_singleWell_top_line {
-    width: 40%;
-    height: 100%;
+    width: 45%;
+    height: 98%;
     border: 1px solid #dfe0e2;
 }
+
 .unattended_singleWell_container {
-    height: 55%;
+    height: 58%;
     width: 100%;
     display: flex;
     flex-direction: row;
 }
+
 .unattended_singleWell_container_left {
-    width: 60%;
+    width: 55%;
     height: 100%;
-    border: 1px solid #dfe0e2;
+    border-bottom: 1px solid #dfe0e2;
 }
-.unattended_singleWell_container_left_zh,
+
+.unattended_singleWell_container_right {
+    width: 45%;
+    height: 100%;
+    border-left: 1px solid #dfe0e2;
+    border-bottom: 1px solid #dfe0e2;
+}
+
+.unattended_singleWell_container_left_zh {
+    width: 100%;
+    height: 50%;
+}
+
 .unattended_singleWell_container_left_gt {
     width: 100%;
     height: 50%;
-    border: 1px solid #dfe0e2;
+    border-bottom: 1px solid #dfe0e2;
 }
+
 .unattended_singleWell_container_proLine {
     width: 100%;
     height: 92%;
 }
+
 .proLine {
     width: 100%;
     height: 30%;
     margin: 1% 1%;
 }
+
 .zhLine {
     width: 100%;
     height: 100%;
 }
-
-

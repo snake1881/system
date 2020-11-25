@@ -57,7 +57,7 @@
         :data="workingCollect"
         height="84%"
         border
-        style="width:100%;"
+        style="width: 100%"
         @expand-change="rowCollectInit"
         :expand-row-keys="expands"
         :row-key="getRowKeys"
@@ -73,11 +73,11 @@
             >
               <div v-for="(item, index) in loadCollect" :key="index">
                 <span>{{ item.checkDate }}</span>
-                <span style="margin-left:20px">{{ item.thirdResult }}</span>
+                <span style="margin-left: 20px">{{ item.thirdResult }}</span>
                 <el-button
                   type="text"
                   @click="details(item)"
-                  style="margin-left:20px"
+                  style="margin-left: 20px"
                   >详情</el-button
                 >
               </div>
@@ -159,7 +159,7 @@
         <el-button icon="el-icon-arrow-left" type="text" @click="back()"
           >返回</el-button
         >
-        <el-button type="primary" size="small" style="margin-left:25%"
+        <el-button type="primary" size="small" style="margin-left: 25%"
           >液量曲线</el-button
         >
         <el-button type="primary" size="small">载荷曲线</el-button>
@@ -203,7 +203,7 @@
       <table
         cellspacing="0"
         class="work_collect_item_detail_table"
-        style="margin-top:-1%"
+        style="margin-top: -1%"
       >
         <tr>
           <th>诊断结论(系统)</th>
@@ -226,7 +226,7 @@
           :data="measure"
           height="100%"
           border
-          style="width:85%;"
+          style="width: 85%"
         >
           <el-table-column
             label="序号"
@@ -324,7 +324,7 @@ export default {
         // 日期选择
         formDate: "",
         // 报警级别
-        alarmLevel: null
+        alarmLevel: null,
       },
       // 分页数据
       currentPage: 1,
@@ -351,8 +351,8 @@ export default {
       // 功图叠加对话框搜索框
       dialogForm: {
         // 日期段
-        startDate: ""
-      }
+        startDate: "",
+      },
     };
   },
   created() {
@@ -373,7 +373,7 @@ export default {
       ) {
         url += "&date=" + this.abnormalForm.formDate;
       }
-      this.getRequest(url).then(resp => {
+      this.getRequest(url).then((resp) => {
         this.loading = false;
         if (resp) {
           this.workingCollect = resp.data.records;
@@ -403,7 +403,7 @@ export default {
               row.wellCommonName +
               "?date=" +
               row.checkDate
-          ).then(resp => {
+          ).then((resp) => {
             this.loadCollectLoad = false;
             if (resp) {
               this.loadCollect = resp.data;
@@ -438,7 +438,7 @@ export default {
         if (this.abnormalForm.alarmLevel !== null) {
           url += "&alarmLevel=" + this.abnormalForm.alarmLevel;
         }
-        this.getRequest(url).then(resp => {
+        this.getRequest(url).then((resp) => {
           this.loading = false;
           if (resp) {
             this.workingCollect = resp.data.records;
@@ -461,7 +461,7 @@ export default {
     // 查询该井的历史措施
     measureInit(wellCommonName) {
       this.getRequest("/oilWell/workCollect/measure/" + wellCommonName).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.measure = resp.data;
           }
@@ -478,7 +478,7 @@ export default {
           this.detailsCollect.standardGtId +
           "&featureGtId=" +
           this.detailsCollect.featureGtId
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           for (var i = 0; i < 3; i++) {
             let gt, name, dom;
@@ -500,10 +500,10 @@ export default {
               title: {
                 subtext: name,
                 x: "center",
-                top: "4%"
+                top: "4%",
               },
               tooltip: {
-                trigger: "axis"
+                trigger: "axis",
               },
               xAxis: {
                 min: 0,
@@ -512,15 +512,15 @@ export default {
                 axisLine: { onZero: false },
                 name: "位移(m)",
                 nameTextStyle: {
-                  padding: [58, 0, 0, -190]
-                }
+                  padding: [58, 0, 0, -190],
+                },
               },
               yAxis: {
                 min: 0,
                 max: 80,
                 type: "value",
                 axisLine: { onZero: false },
-                name: "载荷(kN)"
+                name: "载荷(kN)",
               },
               series: [
                 {
@@ -528,9 +528,9 @@ export default {
                   name: "载荷",
                   smooth: true,
                   symbol: "none",
-                  data: gt
-                }
-              ]
+                  data: gt,
+                },
+              ],
             });
           }
         }
@@ -550,7 +550,7 @@ export default {
             this.dialogForm.startDate[0] +
             "&endDate=" +
             this.dialogForm.startDate[1]
-        ).then(resp => {
+        ).then((resp) => {
           this.dialogLoading = false;
           if (resp) {
             this.dialogGt = "";
@@ -563,7 +563,7 @@ export default {
                 name: resp.data[i].date,
                 smooth: true,
                 symbol: "none",
-                data: resp.data[i].gt
+                data: resp.data[i].gt,
               });
             }
             let myChart = echarts.init(
@@ -573,18 +573,18 @@ export default {
               {
                 title: {
                   subtext: "功图叠加",
-                  x: "center"
+                  x: "center",
                 },
                 legend: {
                   data: legendData,
                   orient: "vertical",
                   x: "right",
                   width: 150,
-                  orient: "textVerticalAlign"
+                  orient: "textVerticalAlign",
                 },
                 grid: {
                   left: "3%",
-                  right: 180
+                  right: 180,
                 },
                 xAxis: {
                   min: 0,
@@ -593,17 +593,17 @@ export default {
                   axisLine: { onZero: false },
                   name: "位移(m)",
                   nameTextStyle: {
-                    padding: [70, 0, 0, -450]
-                  }
+                    padding: [70, 0, 0, -450],
+                  },
                 },
                 yAxis: {
                   min: 0,
                   max: 80,
                   type: "value",
                   axisLine: { onZero: false },
-                  name: "载荷(kN)"
+                  name: "载荷(kN)",
                 },
-                series: seriesData
+                series: seriesData,
               },
               true
             );
@@ -612,7 +612,7 @@ export default {
       } else {
         this.$message({
           message: "请先输入开始-结束日期再查询",
-          type: "warning"
+          type: "warning",
         });
       }
     },
@@ -622,7 +622,7 @@ export default {
     },
     // 查询所有采油站信息
     selectOrgName() {
-      this.getRequest("/oilWell/liquidVolumeAbnormal/orgNames").then(resp => {
+      this.getRequest("/oilWell/liquidVolumeAbnormal/orgNames").then((resp) => {
         if (resp) {
           this.orgNames = resp.data;
         }
@@ -637,8 +637,8 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.workingCollectInit();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

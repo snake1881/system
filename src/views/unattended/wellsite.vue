@@ -5,27 +5,24 @@
       <div class="wellsite_left_dailyData">
         <p class="wellsite_left_dailyData_p">
           日产液量:
-          <span style="color: orange">{{ this.wellSite1.drLiquidProd }}</span>
+          <span style="color: #ec8e25">{{ this.wellSite1.drLiquidProd }}</span>
           m<sup>3</sup>
         </p>
         <p class="wellsite_left_dailyData_p">
           日注水量:
-          <span style="color: orange">{{
+          <span style="color: #ec8e25">{{
             this.wellSite2.drWaterInjection
           }}</span>
           m<sup>3</sup>
         </p>
         <p class="wellsite_left_dailyData_p">
-          电子巡检次数: <span style="color: orange">0</span> 次
+          电子巡检次数: <span style="color: #ec8e25">0</span> 次
         </p>
       </div>
-      <span class="wellsite_left_condition">
-        <i
-          class="iconfont icon-yujing_gaoliang"
-          style="color: rgb(214, 117, 117); font-size: 20px"
-        />
-        工况预警
-      </span>
+      <div class="wellsite_left_condition">
+        <i class="iconfont icon-yujing_gaoliang wellsite_left_condition_icon" />
+        <span class="wellsite_left_condition_title"> 工况预警 </span>
+      </div>
       <div class="wellsite_left_condition_details">
         <ul :style="{ marginTop: marginTop + 'px' }">
           <li
@@ -37,13 +34,10 @@
           </li>
         </ul>
       </div>
-      <span class="wellsite_left_condition">
-        <i
-          class="iconfont icon-yujing_gaoliang"
-          style="color: rgb(214, 117, 117); font-size: 20px"
-        />
-        监控预警
-      </span>
+      <div class="wellsite_left_condition">
+        <i class="iconfont icon-yujing_gaoliang wellsite_left_condition_icon" />
+        <span class="wellsite_left_condition_title"> 监控预警 </span>
+      </div>
       <div class="wellsite_left_condition_details">
         <ul :style="{ marginTop: marginTop + 'px' }">
           <li
@@ -75,10 +69,10 @@
           v-for="(item, index) in this.wellSiteNumber"
           :key="index"
         >
-          <div>
+          <div class="wellsite_left_video_container_text">
             <i
               class="iconfont icon-shexiangtou"
-              style="color: green; font-size: 30px"
+              style="color: green; font-size: 28px"
             />正常
           </div>
         </div>
@@ -114,21 +108,21 @@
           <div class="wellsite_right_oilWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
               >当日产液:
-              <span style="color: #06c">{{ item.drLiquidProd }}</span> m<sup
+              <span style="color: #2cab6f">{{ item.drLiquidProd }}</span> m<sup
                 >3</sup
               ></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
               >动液面:
-              <span style="color: #06c">{{ item.fluidLevel }}</span> m<sup
+              <span style="color: #2cab6f">{{ item.fluidLevel }}</span> m<sup
                 >3</sup
               ></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
-              >工况诊断: <span style="color: #06c">XXXXXX</span></span
+              >工况诊断: <span style="color: #2cab6f">XXXXXX</span></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
-              >异常情况: <span style="color: red"> 供液不足</span></span
+              >异常情况: <span style="color: #e62c2c"> 供液不足</span></span
             >
           </div>
         </div>
@@ -150,19 +144,20 @@
           <div class="wellsite_right_waterWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
               >瞬时注量:
-              <span style="color: #06c">0</span> m<sup>3</sup>/h</span
+              <span style="color: #2cab6f">0</span> m<sup>3</sup>/h</span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
               >当日注水:
-              <span style="color: #06c">{{ item.drWaterInjection }}</span> m<sup
+              <span style="color: #2cab6f">{{ item.drWaterInjection }}</span>
+              m<sup>3</sup></span
+            >
+            <span class="wellsite_right_waterWell_details_dec_span"
+              >累计注水: <span style="color: #2cab6f">0</span> m<sup
                 >3</sup
               ></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
-              >累计注水: <span style="color: #06c">0</span> m<sup>3</sup></span
-            >
-            <span class="wellsite_right_waterWell_details_dec_span"
-              >异常情况: <span style="color: red"> 超注</span></span
+              >异常情况: <span style="color: #e62c2c"> 超注</span></span
             >
           </div>
         </div>
@@ -212,6 +207,7 @@ export default {
     // this.timer = setInterval(this.showNotice, 200); //100表示间隔时间，数字越大滚得越快
     this.wellSiteInit();
     this.wellSiteVideoInit();
+    console.log(this.$route);
   },
   methods: {
     // 井场汇总信息
@@ -273,7 +269,7 @@ export default {
   display: inline-block;
   content: "●";
   padding-right: 10px;
-  color: rgb(214, 117, 117);
+  color: rgb(202, 137, 137);
   font-size: 20px;
 }
 </style>

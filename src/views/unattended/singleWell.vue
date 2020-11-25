@@ -70,17 +70,83 @@
           >
           <div class="unattended_singleWell_container_proDaily_dec">
             <el-row>
-              <el-col :span="8">
-                <p>累计产液: {{ this.basicData.drLiquidProdMonth }}</p>
+              <el-col :span="12">
+                <p>
+                  累计产液: {{ this.basicData.drLiquidProdMonth }}m<sup>3</sup>
+                </p>
               </el-col>
-              <el-col :span="8">
-                <p>累计产油: {{ this.basicData.drOilProdMonth }}</p>
+              <el-col :span="12">
+                <p>
+                  累计产油: {{ this.basicData.drOilProdMonth }}m<sup>3</sup>
+                </p>
               </el-col>
             </el-row>
           </div>
         </div>
       </div>
       <div class="unattended_singleWell_top_line">
+        <span class="unattended_singleWell_top_information_span">措施作业</span>
+        <el-table
+          :data="measureData"
+          style="width: 96%; height: 85%; margin: 2% 2%"
+        >
+          <el-table-column prop="number" label="序号" width="50" />
+          <el-table-column prop="date" label="措施日期" width="100" />
+          <el-table-column prop="result" label="诊断结果" width="100" />
+          <el-table-column prop="container" label="措施内容" width="180" />
+          <el-table-column prop="team" label="措施队伍" width="120" />
+          <el-table-column prop="measureData" label="措施结果" width="100" />
+        </el-table>
+      </div>
+    </div>
+    <div class="unattended_singleWell_container">
+      <div class="unattended_singleWell_container_left">
+        <div class="unattended_singleWell_container_left_gt">
+          <span class="unattended_singleWell_top_information_span"
+            >功图数据</span
+          >
+          <el-date-picker
+            v-model="zhDate1"
+            type="date"
+            placeholder="选择日期"
+            size="mini"
+            style="width: 120px; margin-right: 10px"
+          />
+          至
+          <el-date-picker
+            v-model="zhDate2"
+            type="date"
+            placeholder="选择日期"
+            size="mini"
+            style="width: 120px; margin-left: 10px"
+          />
+          <div id="gt" />
+        </div>
+        <div class="unattended_singleWell_container_left_zh">
+          <span class="unattended_singleWell_top_information_span"
+            >载荷曲线</span
+          >
+          <el-date-picker
+            v-model="gtDate1"
+            type="date"
+            placeholder="选择日期"
+            size="mini"
+            style="width: 120px; margin-right: 10px"
+          />
+          至
+          <el-date-picker
+            v-model="gtDate2"
+            type="date"
+            placeholder="选择日期"
+            size="mini"
+            style="width: 120px; margin-left: 10px"
+          />
+          <div style="width: 100%; height: 100%">
+            <div id="zh" class="zhLine" />
+          </div>
+        </div>
+      </div>
+      <div class="unattended_singleWell_container_right">
         <span class="unattended_singleWell_top_information_span">生产曲线</span>
         <el-date-picker
           v-model="proDate1"
@@ -102,69 +168,6 @@
           <div id="proWaterLine" class="proLine" />
           <div id="proFluidLine" class="proLine" />
         </div>
-      </div>
-    </div>
-    <div class="unattended_singleWell_container">
-      <div class="unattended_singleWell_container_left">
-        <div class="unattended_singleWell_container_left_zh">
-          <span class="unattended_singleWell_top_information_span"
-            >载荷曲线</span
-          >
-          <el-date-picker
-            v-model="zhDate1"
-            type="date"
-            placeholder="选择日期"
-            size="mini"
-            style="width: 120px; margin-right: 10px"
-          />
-          至
-          <el-date-picker
-            v-model="zhDate2"
-            type="date"
-            placeholder="选择日期"
-            size="mini"
-            style="width: 120px; margin-left: 10px"
-          />
-          <div style="width: 100%; height: 100%">
-            <div id="zh" class="zhLine" />
-          </div>
-        </div>
-        <div class="unattended_singleWell_container_left_gt">
-          <span class="unattended_singleWell_top_information_span"
-            >功图曲线</span
-          >
-          <el-date-picker
-            v-model="gtDate1"
-            type="date"
-            placeholder="选择日期"
-            size="mini"
-            style="width: 120px; margin-right: 10px"
-          />
-          至
-          <el-date-picker
-            v-model="gtDate2"
-            type="date"
-            placeholder="选择日期"
-            size="mini"
-            style="width: 120px; margin-left: 10px"
-          />
-          <div id="gt" />
-        </div>
-      </div>
-      <div class="unattended_singleWell_top_line">
-        <span class="unattended_singleWell_top_information_span">措施作业</span>
-        <el-table
-          :data="measureData"
-          style="width: 96%; height: 90%; margin: 2% 2%"
-          border
-        >
-          <el-table-column prop="number" label="序号" width="50" />
-          <el-table-column prop="date" label="措施日期" width="100" />
-          <el-table-column prop="result" label="诊断结果" width="100" />
-          <el-table-column prop="container" label="措施内容" width="140" />
-          <el-table-column prop="team" label="措施队伍" width="100" />
-          <el-table-column prop="measureData" label="措施结果" width="90" />
-        </el-table>
       </div>
     </div>
   </div>
@@ -199,7 +202,7 @@ export default {
           measureData: "好",
         },
         {
-          number: 1,
+          number: 2,
           date: "2020-05-13",
           result: "供液不足",
           container: "措施内容措施内容",
@@ -207,7 +210,7 @@ export default {
           measureData: "好",
         },
         {
-          number: 1,
+          number: 3,
           date: "2020-05-13",
           result: "供液不足",
           container: "措施内容措施内容",
@@ -225,6 +228,7 @@ export default {
     this.proLineInit();
     //载荷曲线
     this.zhLineInit();
+    console.log(this.$route);
   },
   methods: {
     // 单井信息汇总
@@ -250,21 +254,29 @@ export default {
       let dom1 = document.getElementById("proLiquidLine");
       let myChart1 = echarts.init(dom1);
       myChart1.setOption({
-        legend: {
-          data: ["产油", "产液"],
-          orient: "vertical",
+        title: {
+          text: "产油产液曲线",
           textStyle: {
             fontSize: 10,
             color: "#666",
+            fontWeight: 400,
           },
-          left: 0,
-          top: 20,
+          top: 25,
+          left: -5,
         },
+        legend: {
+          data: ["产油", "产液"],
+          textStyle: {
+            fontSize: 9,
+            color: "#666",
+          },
+        },
+        color: ["#2485e0", "#ec8e25"],
         grid: {
           width: "80%",
           height: "45%",
-          top: 20,
-          left: 90,
+          top: 30,
+          left: 95,
         },
         tooltip: {
           trigger: "axis",
@@ -307,7 +319,7 @@ export default {
           },
           max: 200,
           min: 0,
-          splitNumber: 4,
+          splitNumber: 3,
           // 文字大小与颜色
           axisLabel: {
             textStyle: {
@@ -320,12 +332,12 @@ export default {
           {
             name: "产液",
             type: "line",
-            data: [120, 132, 101, 134, 190, 130, 110],
+            data: [120, 102, 180, 134, 90, 130, 55],
           },
           {
             name: "产油",
             type: "line",
-            data: [160, 182, 191, 134, 190, 150, 140],
+            data: [90, 182, 151, 64, 160, 178, 120],
           },
         ],
       });
@@ -334,24 +346,32 @@ export default {
       let dom2 = document.getElementById("proWaterLine");
       let myChart2 = echarts.init(dom2);
       myChart2.setOption({
+        title: {
+          text: "含水曲线",
+          textStyle: {
+            fontSize: 10,
+            color: "#666",
+            fontWeight: 400,
+          },
+          top: 25,
+          left: 5,
+        },
         tooltip: {
           trigger: "axis",
         },
         legend: {
           data: ["含水"],
-          orient: "vertical",
           textStyle: {
-            fontSize: 10,
+            fontSize: 9,
             color: "#666",
           },
-          left: 0,
-          top: 30,
         },
+        color: ["#2485e0"],
         grid: {
           width: "80%",
           height: "45%",
-          top: 20,
-          left: 90,
+          top: 30,
+          left: 95,
         },
         xAxis: {
           data: [
@@ -391,7 +411,7 @@ export default {
           },
           max: 200,
           min: 0,
-          splitNumber: 4,
+          splitNumber: 3,
           // 文字大小与颜色
           axisLabel: {
             textStyle: {
@@ -412,24 +432,32 @@ export default {
       let dom3 = document.getElementById("proFluidLine");
       let myChart3 = echarts.init(dom3);
       myChart3.setOption({
+        title: {
+          text: "动液面曲线",
+          textStyle: {
+            fontSize: 10,
+            color: "#666",
+            fontWeight: 400,
+          },
+          top: 35,
+          left: -5,
+        },
         tooltip: {
           trigger: "axis",
         },
         legend: {
           data: ["动液面"],
-          orient: "vertical",
           textStyle: {
-            fontSize: 10,
+            fontSize: 9,
             color: "#666",
           },
-          left: -8,
-          top: 30,
         },
+        color: ["#ec8e25"],
         grid: {
           width: "80%",
           height: "45%",
-          top: 20,
-          left: 90,
+          top: 30,
+          left: 95,
         },
         xAxis: {
           data: [
@@ -469,7 +497,7 @@ export default {
           },
           max: 100,
           min: 0,
-          splitNumber: 4,
+          splitNumber: 3,
           // 文字大小与颜色
           axisLabel: {
             textStyle: {
@@ -483,7 +511,7 @@ export default {
           {
             name: "动液面",
             type: "line",
-            data: [20, 82, 91, 34, 90, 30, 78],
+            data: [20, 64, 86, 34, 91, 46, 58],
           },
         ],
       });
@@ -499,6 +527,13 @@ export default {
         tooltip: {
           trigger: "axis",
         },
+        grid: {
+          width: "85%",
+          height: "55%",
+          top: 30,
+          left: 70,
+        },
+        color: ["#2485e0", "#ec8e25"],
         xAxis: {
           data: [
             "2020-10-02",
