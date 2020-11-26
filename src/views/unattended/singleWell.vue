@@ -43,10 +43,10 @@
                 <span>油压：{{ this.basicData.drOilPressure }}</span>
               </el-col>
               <el-col :span="8">
-                <span>套压：****</span>
+                <span>套压：{{ this.basicData.casingPressure }}</span>
               </el-col>
               <el-col :span="8">
-                <span>泵效：****</span>
+                <span>泵效：0</span>
               </el-col>
             </el-row>
             <el-row>
@@ -54,7 +54,7 @@
                 <p>动液面：{{ this.basicData.fluidLevel }}</p>
               </el-col>
               <el-col :span="8">
-                <p>单井状态：****</p>
+                <p>单井状态：{{ this.basicData.drWorkState }}</p>
               </el-col>
             </el-row>
             <el-row>
@@ -91,11 +91,19 @@
           style="width: 96%; height: 85%; margin: 2% 2%"
         >
           <el-table-column prop="number" label="序号" width="50" />
-          <el-table-column prop="date" label="措施日期" width="100" />
-          <el-table-column prop="result" label="诊断结果" width="100" />
-          <el-table-column prop="container" label="措施内容" width="180" />
-          <el-table-column prop="team" label="措施队伍" width="120" />
-          <el-table-column prop="measureData" label="措施结果" width="100" />
+          <el-table-column prop="initiateDate" label="措施日期" width="100" />
+          <el-table-column
+            prop="diagnosisResult"
+            label="诊断结果"
+            width="100"
+          />
+          <el-table-column prop="measureContent" label="措施内容" width="180" />
+          <el-table-column prop="teamName" label="措施队伍" width="120" />
+          <el-table-column
+            prop="evaluationResult"
+            label="措施结果"
+            width="100"
+          />
         </el-table>
       </div>
     </div>
@@ -192,32 +200,7 @@ export default {
       proDate1: "",
       proDate2: "",
       // 措施作业
-      measureData: [
-        {
-          number: 1,
-          date: "2020-05-13",
-          result: "供液不足",
-          container: "措施内容措施内容",
-          team: "第一施工队",
-          measureData: "好",
-        },
-        {
-          number: 2,
-          date: "2020-05-13",
-          result: "供液不足",
-          container: "措施内容措施内容",
-          team: "第一施工队",
-          measureData: "好",
-        },
-        {
-          number: 3,
-          date: "2020-05-13",
-          result: "供液不足",
-          container: "措施内容措施内容",
-          team: "第一施工队",
-          measureData: "好",
-        },
-      ],
+      measureData: [],
     };
   },
   mounted() {
@@ -234,11 +217,12 @@ export default {
     // 单井信息汇总
     singleWellInit() {
       this.getRequest(
-        "/wells/well/listPage?sTime=2020-11-18&wellName=" +
+        "/wells/well/listPage?sTime=2020-11-18&sTime1=2020-11-23&wellName=" +
           this.$route.query.name
       ).then((resp) => {
         if (resp) {
           this.basicData = resp.data.wellInfo;
+          this.measureData = resp.data.wellInfoMeasures;
         }
       });
     },
@@ -261,7 +245,7 @@ export default {
             color: "#666",
             fontWeight: 400,
           },
-          top: 25,
+          top: "center",
           left: -5,
         },
         legend: {
@@ -428,6 +412,7 @@ export default {
           },
         ],
       });
+
       // 动液面曲线
       let dom3 = document.getElementById("proFluidLine");
       let myChart3 = echarts.init(dom3);

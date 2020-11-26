@@ -8,14 +8,13 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="less" scoped>
 .waterWell {
-  height: 90%;
+  height: 94.5%;
   width: 100%;
-  margin-top: 10px;
   background-color: white;
 }
 </style>

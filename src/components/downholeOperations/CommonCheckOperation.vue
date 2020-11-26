@@ -15,22 +15,38 @@
         <el-step
           title="上报"
           @click.native="submit()"
-          :description="operAllNodeSource.submitTime + ' ' + operAllNodeSource.submitUserName"
-        />
+          :description="
+            operAllNodeSource.submitTime +
+            ' ' +
+            operAllNodeSource.submitUserName
+          "
+        >
+          <i class="el-icon-edit" slot="icon"></i>
+        </el-step>
         <el-step
           title="派工"
           @click.native="send()"
-          :description="operAllNodeSource.sendTime + ' ' +operAllNodeSource.sendUserName"
+          :description="
+            operAllNodeSource.sendTime + ' ' + operAllNodeSource.sendUserName
+          "
         />
         <el-step
           title="现场作业"
           @click.native="scene()"
-          :description="operAllNodeSource.dispatchTime + ' ' +operAllNodeSource.dispatchUserName"
+          :description="
+            operAllNodeSource.dispatchTime +
+            ' ' +
+            operAllNodeSource.dispatchUserName
+          "
         />
         <el-step
           title="效果评价"
           @click.native="effect()"
-          :description="operAllNodeSource.measureTime + ' ' +operAllNodeSource.measureUserName"
+          :description="
+            operAllNodeSource.measureTime +
+            ' ' +
+            operAllNodeSource.measureUserName
+          "
         />
       </el-steps>
       <div class="checkOperDiv_bottom">

@@ -1,8 +1,9 @@
 .downholeOperations {
   width: 100%;
-  height:100%;
+  height: 100%;
   background-color: #f2f6fc;
 }
+
 .dow_form {
   width: 99%;
   height: 8%;
@@ -10,7 +11,13 @@
   padding-left: 1%;
   background-color: white;
 }
-.oper_page {
+
+.dow_table {
+  width: 100%;
+  height: 85%
+}
+
+.dow_page {
   width: 100%;
   height: 6%;
   background-color: white;

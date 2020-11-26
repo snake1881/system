@@ -30,7 +30,7 @@
       element-loading-spinner="el-icon-loading"
       :data="operationData"
       border
-      style="width: 100%; height: 85%"
+      class="dow_table"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{
@@ -131,7 +131,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="oper_page">
+    <div class="dow_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -318,14 +318,15 @@ export default {
       ).then((resp) => {
         if (resp) {
           //各节点信息数据
-          if(resp.data.submitTime==null) resp.data.submitTime="";          
-          if(resp.data.submitUserName==null) resp.data.submitUserName=""; 
-          if(resp.data.sendTime==null) resp.data.sendTime="";          
-          if(resp.data.sendUserName==null) resp.data.sendUserName=""; 
-          if(resp.data.dispatchTime==null) resp.data.dispatchTime="";          
-          if(resp.data.dispatchUserName==null) resp.data.dispatchUserName=""; 
-          if(resp.data.measureTime==null) resp.data.measureTime="";          
-          if(resp.data.measureUserName==null) resp.data.measureUserName=""; 
+          if (resp.data.submitTime == null) resp.data.submitTime = "";
+          if (resp.data.submitUserName == null) resp.data.submitUserName = "";
+          if (resp.data.sendTime == null) resp.data.sendTime = "";
+          if (resp.data.sendUserName == null) resp.data.sendUserName = "";
+          if (resp.data.dispatchTime == null) resp.data.dispatchTime = "";
+          if (resp.data.dispatchUserName == null)
+            resp.data.dispatchUserName = "";
+          if (resp.data.measureTime == null) resp.data.measureTime = "";
+          if (resp.data.measureUserName == null) resp.data.measureUserName = "";
           this.operAllNodeSource = resp.data;
         }
       });
