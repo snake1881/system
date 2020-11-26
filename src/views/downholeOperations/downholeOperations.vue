@@ -361,8 +361,8 @@ export default {
       });
       // 获取施工过程信息
       this.getRequest(
-        "/operation/constructionProcess/selectConstructionByNodeId?nodeId=" +
-          "daebc517c2dc415d8b16eb603f844dd3" +
+        "/operation/constructionProcess/selectConstructionByNodeId?operationId=" +
+          val.wellOperationId +
           "&wellId=" +
           val.wellId
       ).then((resp) => {
