@@ -219,7 +219,7 @@ export default {
       checkOperData: {},
       sendLastOperData: {},
       sendNowOperData: {},
-      constructionData: {},
+      constructionData: [],
       constNumData: {},
       measureEffectData: {},
       operAllNodeSource: {},
@@ -362,17 +362,15 @@ export default {
       // 获取施工过程信息
       this.getRequest(
         "/operation/constructionProcess/selectConstructionByNodeId?nodeId=" +
-          val.operationNodeId +
+          "daebc517c2dc415d8b16eb603f844dd3" +
           "&wellId=" +
-          val.operationName
+          val.wellId
       ).then((resp) => {
         if (resp) {
           //施工过程信息信息数据
           this.constructionData = resp.data.constructionProcessList;
           //默认显示第一次上报信息
           this.constNumData = resp.data.constructionProcessList[0];
-          console.log(this.constNumData);
-          console.log(this.constructionData);
         }
       });
       // 获取效果评价信息
@@ -383,6 +381,7 @@ export default {
         if (resp) {
           //上次作业信息数据
           this.measureEffectData = resp.data;
+          console.log(this.measureEffectData);
         }
       });
     },

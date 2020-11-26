@@ -198,7 +198,7 @@ export default {
     },
     //施工过程信息
     constructionData: {
-      type: Object,
+      type: Array,
     },
     //某次施工信息
     constNumData: {
