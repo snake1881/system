@@ -8,20 +8,20 @@
     <div class="dialogDiv">
       <el-form :model="editData" label-width="100px" >
         <el-form-item label="井号:">
-          <el-input :disabled="true" v-model="editData.wellName" />
+          <el-input :disabled="true" v-model="editData.wellId" />
         </el-form-item>
         <el-form-item label="检查日期:">
-          <el-input :disabled="true" v-model="editData.prodDate" />
+          <el-input :disabled="true" v-model="editData.setDate" />
         </el-form-item>
         <el-form-item label="条件:">
             <el-radio-group v-model="editData.filter">
-              <el-radio  label="昨日" border></el-radio >
-              <el-radio  label="上月" border></el-radio>
-              <el-radio label="前三月" border></el-radio >
-              <el-radio label="任意天" border></el-radio >
+             <el-radio value="0" label="0" border>昨日</el-radio>
+              <el-radio value="1" label="1" border>上月</el-radio>
+              <el-radio value="2" label="2" border>前三月</el-radio>
+              <el-radio value="3" label="3" border>任意天</el-radio>
             </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="editData.filter === '任意天'" label="指定日期:">
+        <el-form-item v-if="editData.filter === '3'" label="指定日期:">
           <el-date-picker
             v-model="editData.appointDate"
             type="date"
@@ -59,15 +59,6 @@ export default {
     return {};
   },
   methods: {
-    //判断是否为任意天
-    editAppointDate() {
-      if (editData.filter === "任意天") {
-        this.saveEditLiqFilterCondition(), this.editLiqFilterConditionClose();
-      } else {
-        editData.appointDate = null;
-        this.saveEditLiqFilterCondition(), this.editLiqFilterConditionClose();
-      }
-    },
     // 对话框父子组件传值
     editLiqFilterConditionClose() {
       this.$emit("liqFilterConditionRowClose");
@@ -75,7 +66,7 @@ export default {
     // 保存修改后的信息
     saveEditLiqFilterCondition() {
       this.putRequest(
-        "/knowledge/LiqFilterCondition/LiqFilterCondition",
+        "/liquidFilterCondition/update",
         this.editData
       ).then(resp => {
         if (resp) {

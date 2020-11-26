@@ -1,36 +1,36 @@
 <template>
   <!--  液量异常参数筛选界面  -->
   <div class="liqFilterCondition">
-      <el-form class="liqFilterCondition_form" :model="termForm" :inline="true">
-        <el-form-item label="采油站">
-          <el-select
+    <el-form class="liqFilterCondition_form"  :model="termForm" :inline="true">
+      <el-form-item >
+        <el-select
           size="medium"
-            v-model="termForm.orgName"
-            filterable
-            clearable
-            placeholder="全区"
-          >
-            <el-option
-              v-for="item in orgNameData"
-              :key="item.oilStationId"
-              :label="item.oilStationName"
-              :value="item.oilStationName"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="日期">
-          <el-date-picker
+          v-model="termForm.orgName"
+          filterable
+          clearable
+          placeholder="采油站"
+        >
+          <el-option
+            v-for="item in orgNameData"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationId"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item >
+        <el-date-picker
           size="medium"
-            v-model="termForm.prodDate"
-            type="date"
-            placeholder="选择日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
-          <el-button
+          v-model="termForm.prodDate"
+          type="date"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button
           type="primary"
           size="small"
           icon="el-icon-search"
@@ -47,11 +47,10 @@
         <el-button type="primary" size="small" @click="editYlYccs(ylYccsDate)"
           >异常参数设置</el-button
         >
-        </el-form-item>
-        
-      </el-form>
+      </el-form-item>
+    </el-form>
     <el-table
-    class="liqFilterCondition_table"
+      class="liqFilterCondition_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -61,14 +60,15 @@
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       border
       height="93%"
-      row-key="index"
-      style="width:100%"
+      style="width: 100%"
     >
       <el-table-column
-        prop="index"
+        
         label="序号"
         width="100"
         align="center"
+        type="index"
+          :index="(index)=>{return (index+1) + (this.currentPage-1)*this.pageSize }"
       ></el-table-column>
       <el-table-column
         prop="wellName"
@@ -84,10 +84,10 @@
       >
         <template scope="scope">
           <el-radio-group v-model="scope.row.filter">
-            <el-radio label="昨日"></el-radio>
-            <el-radio label="上月"></el-radio>
-            <el-radio label="前三月"></el-radio>
-            <el-radio label="任意天"></el-radio>
+            <el-radio label="0">昨日</el-radio>
+            <el-radio label="1">上月</el-radio>
+            <el-radio label="2">前三月</el-radio>
+            <el-radio label="3">任意天</el-radio>
           </el-radio-group>
         </template>
       </el-table-column>
@@ -103,20 +103,22 @@
             type="text"
             size="small"
             @click.prevent="editLiqFilterCondition(scope.row)"
-            class="iconfont icon-bianji"/>
+            class="iconfont icon-bianji"
+          />
           <el-button
             type="text"
             size="small"
             @click.prevent="deleteLiqFilterCondition(scope.row)"
-            class="iconfont icon-shanchu"/>
+            class="iconfont icon-shanchu"
+          />
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="liqFilterCondition_page" >
+    <div class="liqFilterCondition_page">
       <el-pagination
         :current-page.sync="currentPage"
-        :page-size="pageSize"
+        :page-size.sync="pageSize"
         :total="total"
         :page-sizes="[10, 20, 30, 40, 50]"
         layout="total, prev, pager, next, jumper, sizes"
@@ -151,15 +153,21 @@ export default {
   components: {
     CommonAddLiqFilterCondition,
     CommonEditLiqFilterCondition,
-    CommonEditYlYccs
+    CommonEditYlYccs,
   },
   data() {
     return {
       //搜索框数据
       termForm: {
         orgName: "",
-        prodDate: ""
+        prodDate: "",
       },
+      isCreateNewUser: [
+        { label: "昨日", value: 0 },
+        { label: "上月", value: 1 },
+        { label: "三个月", value: 2 },
+        { label: "任意天", value: 3 },
+      ],
       //用于判断查询条件是否改变
       oldOrgName: "",
       oldProdDate: "",
@@ -181,7 +189,7 @@ export default {
       editLiqFilterConditionVisible: false,
       editLiqFilterConditionData: {},
       //新增
-      addLiqFilterConditionVisible: false
+      addLiqFilterConditionVisible: false,
     };
   },
   created() {
@@ -195,17 +203,19 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest(
-            "/knowledge/LiqFilterCondition/LiqFilterCondition",
-            val
-          ).then(resp => {
+            "/liquidFilterCondition/delete?setDate=" +
+              val.setDate +
+              "&wellId=" +
+              val.wellId
+          ).then((resp) => {
             if (resp) {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "删除成功!",
               });
             }
             this.liqFilterConditionInit();
@@ -214,89 +224,84 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
     //表格数据初始化
     liqFilterConditionInit() {
+      
       this.getRequest(
-        "/knowledge/LiqFilterCondition/LiqFilterConditionList?current=" +
+        "/liquidFilterCondition/select?current=" +
           this.currentPage +
+          "&oilStationId=" +
+          this.termForm.orgName +
           "&pageSize=" +
-          this.pageSize
-      ).then(resp => {
+          this.pageSize +
+          "&setDate=" +
+          this.termForm.prodDate
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.liqFilterConditionDate = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          this.getIndex();
+          // this.getIndex();
         }
       });
     },
     //条件查询
     liqFilterConditionSearch() {
-        this.getRequest(
-          "/knowledge/LiqFilterCondition/LiqFilterConditionListTerm?current=" +
-            this.currentPage +
-            "&orgName=" +
-            this.termForm.orgName +
-            "&pageSize=" +
-            this.pageSize +
-            "&prodDate=" +
-            this.termForm.prodDate
-        ).then(resp => {
-          this.loading = false;
-          if (resp) {
-            this.liqFilterConditionDate = resp.data.records;
-            this.total = resp.data.total;
-            this.currentPage = resp.data.current;
-            this.pageSize = resp.data.size;
-            this.getIndex();
-          }
-        });
+      this.getRequest(
+        "/liquidFilterCondition/select?current=" +
+          this.currentPage +
+          "&oilStationId=" +
+          this.termForm.orgName +
+          "&pageSize=" +
+          this.pageSize +
+          "&setDate=" +
+          this.termForm.prodDate
+      ).then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.liqFilterConditionDate = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+          // this.getIndex();
+        }
+      });
     },
     //液量异常筛选参数初始化
     ylYccsInit() {
-      this.getRequest("/knowledge/ylYcss/ylYccs?wellName=default").then(
-        resp => {
-          this.loading = false;
-          if (resp) {
-            this.ylYccsDate = resp.data;
-          }
+      this.getRequest(
+        "/abnormalParam/selectByType?typeDesc=%E4%BA%A7%E6%B6%B2%E9%87%8F"
+      ).then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.ylYccsDate = resp.data;
         }
-      );
+      });
     },
     //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(
-        resp => {
-          this.loading = false;
-          if (resp) {
-            this.orgNameData = resp.data;
-          }
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
-      );
+      });
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = parseInt(val);
-      if (this.termForm.prodDate === "") {
-        this.liqFilterConditionInit();
-      } else {
-        this.liqFilterConditionSearch();
-      }
+      this.liqFilterConditionSearch();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = parseInt(val);
-      if (this.termForm.prodDate === "") {
-        this.liqFilterConditionInit();
-      } else {
-        this.liqFilterConditionSearch();
-      }
+      this.liqFilterConditionSearch();
     },
     // 异常参数筛选设置编辑
     editYlYccs(val) {
@@ -332,11 +337,10 @@ export default {
         item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         return item;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 @import "../../../assets/css/diagnosis/knowledge/liquidVolumeAbnormalData.css";
-
 </style>

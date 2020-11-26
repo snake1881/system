@@ -1,9 +1,9 @@
-.liqFilterCondition {
+.diagnosisData {
     width: 100%;
-    height: 93%;
+    height:100%;
 }
 
-.liqFilterCondition_form {
+.diagnosisData_form {
     width: 99%;
     height: 9%;
     padding-left: 1%;
@@ -11,12 +11,12 @@
     background-color: white;
 }
 
-.liqFilterCondition_table {
+.diagnosisData_table {
     width: 100%;
     height: 84%;
 }
 
-.liqFilterCondition_page {
+.diagnosisData_page {
     width: 100%;
     height: 7%;
     background-color:  white;

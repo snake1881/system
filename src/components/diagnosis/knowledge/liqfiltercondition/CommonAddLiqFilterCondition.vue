@@ -8,11 +8,11 @@
     <div class="dialogDiv">
       <el-form :model="LiqFilterConditiontData" label-width="100px">
         <el-form-item label="井号:">
-          <el-input v-model="LiqFilterConditiontData.wellName" />
+          <el-input v-model="LiqFilterConditiontData.wellId" />
         </el-form-item>
         <el-form-item label="检查日期:">
           <el-date-picker
-            v-model="LiqFilterConditiontData.prodDate"
+            v-model="LiqFilterConditiontData.setDate"
             type="date"
             placeholder="选择日期"
             value-format="yyyy-MM-dd HH:mm:ss"
@@ -31,17 +31,17 @@
                 </el-col>
               <el-col :span="24"> </el-col>
               </el-row> -->
-              
-               <el-radio label="昨日" border></el-radio >
-              <el-radio label="上月" border></el-radio >
-              <el-radio  label="前三月" border></el-radio >
-              <el-radio label="任意天" border></el-radio >
+          
+              <el-radio value="0" label="0" border>昨日</el-radio>
+              <el-radio value="1" label="1" border>上月</el-radio>
+              <el-radio value="2" label="2" border>前三月</el-radio>
+              <el-radio value="3" label="3" border>任意天</el-radio>
             </el-radio-group>
           </template>
             
         </el-form-item>
         <el-form-item
-          v-if="LiqFilterConditiontData.filter === '任意天'"
+          v-if="LiqFilterConditiontData.filter === '3'"
           label="指定日期:"
         >
           <el-date-picker
@@ -78,8 +78,8 @@ export default {
   data() {
     return {
       LiqFilterConditiontData: {
-        wellName: "",
-        prodDate: "",
+        wellId: "",
+        setDate: "",
         filter: "",
         appointDate: ""
       }
@@ -93,7 +93,7 @@ export default {
     // 保存修改后的信息
     saveAddLiqFilterCondition() {
       this.postRequest(
-        "/knowledge/LiqFilterCondition/LiqFilterCondition",
+        "/liquidFilterCondition/liquidFilter",
         this.LiqFilterConditiontData
       ).then(resp => {
         if (resp) {

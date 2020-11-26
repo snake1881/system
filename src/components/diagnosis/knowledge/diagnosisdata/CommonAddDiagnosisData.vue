@@ -7,20 +7,23 @@
   >
     <div class="dialogDiv">
       <el-form :model="DiagnosisData" label-width="120px">
+        <el-form-item label="模块名称:">
+          <el-input v-model="DiagnosisData.modelName" />
+        </el-form-item>
         <el-form-item label="诊断步骤:">
-          <el-input v-model="DiagnosisData.diagnosticStep" />
+          <el-input v-model="DiagnosisData.diagnosisStep" />
         </el-form-item>
         <el-form-item label="序号(数字):">
-          <el-input v-model="DiagnosisData.orderNumber" />
+          <el-input v-model="DiagnosisData.sequence" />
         </el-form-item>
         <el-form-item label="诊断结果:">
-          <el-input v-model="DiagnosisData.abnormalProblem" />
+          <el-input v-model="DiagnosisData.diagnosisResult" />
         </el-form-item>
         <el-form-item label="诊断依据（符号;换行）:">
           <el-input
             type="textarea"
             autosize
-            v-model="DiagnosisData.diagnosticBasis"
+            v-model="DiagnosisData.diagnosisBasis"
           />
         </el-form-item>
       </el-form>
@@ -63,7 +66,7 @@ export default {
     // 保存修改后的信息
     saveAddDiagnosisData() {
       this.postRequest(
-        "/knowledge/DiagnosticParametersGt/DiagnosticParametersGt",
+        "/modelPrinciple/modelPrinciple",
         this.DiagnosisData
       ).then(resp => {
         if (resp) {

@@ -109,7 +109,6 @@
           :on-change="handleChange"
           :on-remove="handleRemove"
           :on-success="handleSuccess"
-          :before-remove="beforeRemove"
           multiple
           :on-exceed="handleExceed"
           :file-list="fileList"
