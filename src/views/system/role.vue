@@ -3,10 +3,18 @@
     <!-- 条件查询 -->
     <el-form class="role_form" :model="roleForm" :inline="true">
       <el-form-item>
-        <el-input v-model="roleForm.roleName" placeholder="角色名称" size="medium" />
+        <el-input
+          v-model="roleForm.roleName"
+          placeholder="角色名称"
+          size="medium"
+        />
       </el-form-item>
       <el-form-item>
-        <el-input v-model="roleForm.roleKey" placeholder="权限字符" size="medium" />
+        <el-input
+          v-model="roleForm.roleKey"
+          placeholder="权限字符"
+          size="medium"
+        />
       </el-form-item>
       <el-form-item label="角色状态">
         <el-select v-model="roleForm.status" size="medium">
@@ -15,9 +23,27 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="small" @click="searchRole()">查询</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="small" @click="addRole()">新增</el-button>
-        <el-button type="primary" icon="el-icon-delete" size="small" @click="deleteRole()">批量删除</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+          @click="searchRole()"
+          >查询</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="addRole()"
+          >新增</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-delete"
+          size="small"
+          @click="deleteRole()"
+          >批量删除</el-button
+        >
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
@@ -28,10 +54,14 @@
       :data="roleData"
       height="86%"
       border
-      style="width:100%"
-      :row-style="{height:'2px'}"
-      :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
+      style="width: 100%"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{
+        background: '#eef1f6',
+        color: '#606266',
+        'text-align': 'center',
+      }"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="75" />
@@ -47,8 +77,18 @@
       <el-table-column prop="createTime" label="创建时间" width="240" />
       <el-table-column label="操作" width="80">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editRole(scope.row)" class="iconfont icon-bianji" />
-          <el-button type="text" size="small" @click="dlete(scope.row)" class="iconfont icon-shanchu" />
+          <el-button
+            type="text"
+            size="small"
+            @click="editRole(scope.row)"
+            class="iconfont icon-bianji"
+          />
+          <el-button
+            type="text"
+            size="small"
+            @click="dlete(scope.row)"
+            class="iconfont icon-shanchu"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -65,7 +105,10 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-role :addRoleVisible="addRoleVisible" @roleRowClose="addRoleClose" />
+    <common-add-role
+      :addRoleVisible="addRoleVisible"
+      @roleRowClose="addRoleClose"
+    />
     <!-- 编辑 -->
     <common-edit-role
       :editRoleVisible="editRoleVisible"
@@ -80,7 +123,7 @@ import CommonEditRole from "../../components/system/role/CommonEditRole";
 export default {
   components: {
     CommonAddRole,
-    CommonEditRole
+    CommonEditRole,
   },
   data() {
     return {
@@ -88,7 +131,7 @@ export default {
       roleForm: {
         roleName: "",
         roleKey: "",
-        status: ""
+        status: "",
       },
       // 选中要删除的数据
       selectData: [],
@@ -104,7 +147,7 @@ export default {
       pageSize: 10,
       total: 0,
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -124,7 +167,7 @@ export default {
           this.roleForm.roleName +
           "&status=" +
           this.roleForm.status
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.roleData = resp.data.records;
           this.total = resp.data.total;
@@ -140,7 +183,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.roleData = resp.data.records;
@@ -164,16 +207,16 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest(
             "/system/sysRole/deleteByPk?roleId=" + val.roleId
-          ).then(resp => {
+          ).then((resp) => {
             if (resp) {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "删除成功!",
               });
             }
             this.roleInit();
@@ -182,7 +225,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -195,21 +238,21 @@ export default {
     deleteRole() {
       var checkArray = this.selectData;
       var idArray = [];
-      checkArray.forEach(function(item) {
+      checkArray.forEach(function (item) {
         idArray.push(item.roleId);
       });
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/system/sysRole/deleteBatch", idArray).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.roleInit();
@@ -219,7 +262,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -242,15 +285,15 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.roleInit();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/role.css";
 </style>
 <style>
-.role .iconfont{
+.role .iconfont {
   font-size: 20px;
 }
 </style>

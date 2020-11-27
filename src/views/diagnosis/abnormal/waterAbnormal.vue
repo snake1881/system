@@ -208,14 +208,6 @@ export default {
           containLabel: true,
         },
         dataset: {
-          // source: [
-          //   ["1766采油站", 23, 28, 168.5, 175.5, 0, 0, 1, 2],
-          //   ["一号采油站", 15, 11, 99.5, 109.9, 12, 7, 0, 1],
-          //   ["上菜渠采油站", 20, 16, 154.5, 198.8, 19, 0, 0, 1],
-          //   ["下菜渠采油站", 13, 8, 202.5, 217.8, 16, 0, 2, 1],
-          //   ["庙沟采油站", 53, 11, 162.5, 165.4, 17, 0, 0, 1],
-          //   ["张天渠采油站", 54, 11, 134.5, 145.43, 14, 0, 0, 1]
-          // ]
           source: this.coordinates
         },
         xAxis: {
@@ -325,17 +317,7 @@ export default {
               },
             },
           },
-          // {
-          //   name: "异常井数",
-          //   type: "bar",
-          //   barWidth: 6, //柱体宽度
-          //   itemStyle: {
-          //     normal: {
-          //       //柱体圆角
-          //       barBorderRadius: [10, 10, 0, 0],
-          //     },
-          //   },
-          // },
+         
           {
             name: "欠注井数",
             type: "bar",
@@ -363,10 +345,6 @@ export default {
     },
     // 画图
     drawLine() {
-      // let myChart = this.$echarts.init(document.getElementById("myChart"));
-      // let dom = document.getElementById("myChart");
-      // console.log(dom);
-      // let chart = echarts.init(dom);
       let chart = this.$echarts.init(this.$refs.myChart);
       console.log(chart);
       console.log(this.coordinates);
@@ -382,15 +360,6 @@ export default {
     coordinate() {
       this.coordinates = [[]];
       for (var i = 0; i < this.waterAbnormal.length; i++) {
-        // this.coordinates[0][i]=this.waterAbnormal[i].waterTotal;
-        // this.coordinates[1][i]=this.waterAbnormal[i].openNumber;
-        // this.coordinates[2][i]=this.waterAbnormal[i].totalAllocation;
-        // this.coordinates[3][i]=this.waterAbnormal[i].totalWaterInjection;
-        // this.coordinates[4][i]=this.waterAbnormal[i].normalNumber;
-        // this.coordinates[5][i]=this.waterAbnormal[i].abnormalNumber;
-        // this.coordinates[6][i]=this.waterAbnormal[i].shortNumber;
-        // this.coordinates[7][i]=this.waterAbnormal[i].exceedNumber;
-
         var array = [];
         array[0] = this.waterAbnormal[i].oilStationName;
         array[1] = this.waterAbnormal[i].waterTotal;
@@ -403,14 +372,6 @@ export default {
         array[7] = this.waterAbnormal[i].exceedNumber;
         this.coordinates[i] = array;
       }
-      // var displacementArray = this.tableData.displacement.split(";");
-      // var disploadArray = this.tableData.dispLoad.split(";");
-      // for (var i = 0; i < displacementArray.length; i++) {
-      //   this.coordinates[i] = [];
-      //   this.coordinates[i][0] = parseFloat(displacementArray[i]);
-      //   this.coordinates[i][1] = parseFloat(disploadArray[i]);
-      // }
-      // return this.coordinates;
     },
   },
 };
