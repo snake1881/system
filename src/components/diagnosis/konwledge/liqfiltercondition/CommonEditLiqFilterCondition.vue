@@ -8,24 +8,23 @@
     <div class="dialogDiv">
       <el-form :model="editData" label-width="300px" label-position="right">
         <el-form-item label="井号:" >
-          <el-input :disabled="true" v-model="editData.wellName" style="width: 300px" />
+          <el-input :disabled="true" v-model="editData.wellId" style="width: 300px" />
         </el-form-item>
         <el-form-item label="检查日期(格式：yyyy-mm-dd):" >
-          <el-input :disabled="true" v-model="editData.prodDate" style="width: 300px"/>
+          <el-input :disabled="true" v-model="editData.setDate" style="width: 300px"/>
         </el-form-item>
         <el-form-item label="条件（选择任意天可选择日期）:" >
           <template>
             <el-radio-group v-model="editData.filter">
-              <el-radio label="昨日" border></el-radio>
-              <el-radio label="上月" border></el-radio>
-              <el-radio label="前三月" border></el-radio>
-              <el-radio label="任意天" border></el-radio>
+              <el-radio label="0" border>昨日</el-radio>
+              <el-radio label="1" border>上月</el-radio>
+              <el-radio label="2" border>前三月</el-radio>
+              <el-radio label="3" border>任意天</el-radio>
             </el-radio-group>
           </template>
         </el-form-item>
         <el-form-item v-if="editData.filter==='任意天'"
         label="指定日期:" >
-          <!-- <el-input v-model="editData.appointDate" style="width: 300px"/> -->
           <el-date-picker
           v-model="editData.appointDate"
           type="date"
@@ -76,7 +75,7 @@ export default {
     },
     // 保存修改后的信息
     saveEditLiqFilterCondition() {
-      this.putRequest("/knowledge/LiqFilterCondition/LiqFilterCondition",this.editData).then(resp => {
+      this.putRequest("/liquidFilterCondition/update",this.editData).then(resp => {
         if (resp) {
           this.$message({
             message: "液量异常筛选条件信息修改成功!",

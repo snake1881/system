@@ -1,12 +1,13 @@
 .tile {
-    height: 90%;
+    height: 100%;
     width: 100%;
     margin-top: 10px;
 }
 .tile_form {
     width: 90%;
     height: 7%;
-    margin: 0px 80px;
+    /* margin: 0px 40px; */
+    padding-left: 1%;
     padding-top: 5px;
     background-color: white;
 }
@@ -25,11 +26,22 @@
     padding: 9px 15px;
     margin: 4px 0px;
 }
+.tile_page{
+    width: 100%;
+    height: 7%;
+    background-color: white;
+    position: fixed;
+    bottom:0
+}
 .tile_echarts {
+    padding-top: 5px;
+    height:86%;
+    overflow-x:auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     margin: 0px 15px;
+    bottom:20px;
 }
 
 .tile_echarts_child{

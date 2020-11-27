@@ -2,18 +2,20 @@
   <div class="tile">
     <!-- 条件查询 -->
     <el-form class="tile_form" :model="logForm" :inline="true">
-      <el-form-item label="采油站:">
-        <el-select @change="queryWellNameByOrgName" v-model="logForm.oilStation" placeholder="全区">
+      <el-form-item >
+        <el-select filterable
+            clearable @change="queryWellNameByOrgName" v-model="logForm.oilStation" placeholder="采油站">
           <el-option
             v-for="item in oilStationOptions"
-            :key="item.orgName"
-            :label="item.orgName"
-            :value="item.orgName"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationName"
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="井号:">
-        <el-select v-model="logForm.wellId" placeholder>
+      <el-form-item >
+        <el-select filterable
+            clearable v-model="logForm.wellId" placeholder="井号">
           <el-option
             v-for="item in wellNameoptions"
             :key="item.wellName"
@@ -22,8 +24,11 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="日期:">
+      <el-form-item >
         <el-date-picker
+        type="date"
+        filterable
+            clearable
           placeholder="开始时间"
           v-model="logForm.startTime"
           value-format="yyyy-MM-dd"
@@ -32,6 +37,9 @@
       </el-form-item>
       <el-form-item>
         <el-date-picker
+        type="date"
+        filterable
+            clearable
           placeholder="结束时间"
           v-model="logForm.endTime"
           value-format="yyyy-MM-dd"
@@ -46,24 +54,21 @@
         >查询</el-button
       >
     </el-form>
-    <div class="tile_echarts">
+    
+      <div class="tile_echarts">
       <div
         v-for="item in tableData"
-        :key="item.dynaId"
+        :key="item.inddsId"
         :style="{ width: '25%', height: '260px' }"
       >
         <div
           class="tile_echarts_child"
-          :key="item.dynaId"
-          :id="item.dynaId"
+          :key="item.inddsId"
+          :id="item.inddsId"
         ></div>
-        <div class="tile_echarts_button">
-          <el-button type="primary" size="mini" @click="addTile(item)"
-            >添加</el-button
-          >
-        </div>
       </div>
     </div>
+   
     <!-- 分页 -->
     <div class="tile_page">
       <el-pagination
@@ -77,11 +82,7 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-tile
-      :addTileVisible="addTileVisible"
-      :tileData="addTileData"
-      @tileRowClose="addTileClose"
-    />
+    
   </div>
 </template>
 <script>
@@ -99,9 +100,9 @@ export default {
         pageSize: 8,
         total: 0,
         oilStation: "",
-        wellId: "定1155",
-        startTime: "2020-01-31",
-        endTime: "2020-01-31"
+        wellId: "",
+        startTime: "",
+        endTime: ""
       },
       addTileVisible: false,
       wellNameoptions: [],
@@ -121,9 +122,18 @@ export default {
   methods: {
     //根据输入信息查询
     searchTile() {
-      this.postRequest(
-        "/diagnosis/knowledge/tile/queryByterm",
-        this.logForm
+      this.getRequest(
+        "/diagnosis/knowledge/gttile/selectByTerm?current="+
+        this.logForm.currentPage+
+        "&endTime="+
+        this.logForm.endTime+
+        "&pageSize="+
+        this.logForm.pageSize+
+        "&startTime="+
+        this.logForm.startTime+
+        "&wellId="+
+        this.logForm.wellId
+        
       ).then(resp => {
         if (resp) {
           console.log(resp);
@@ -147,7 +157,7 @@ export default {
     },
     //获取采油站信息
     queryOrgName() {
-      this.getRequest("/diagnosis/knowledge/tile/queryorgName").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
         if (resp) {
           this.oilStationOptions = resp.data;
         }
@@ -180,13 +190,13 @@ export default {
     //实例化图表
     drawLine(val) {
       // 基于准备好的dom，初始化echarts实例
-      let dom = document.getElementById(val.dynaId);
+      let dom = document.getElementById(val.inddsId);
       let myChart = echarts.init(dom);
       // 绘制图表
       myChart.setOption({
         title: {
           x: "center",
-          text: val.dynaCreateTime,
+          text: "井号："+val.wellId + "  时间："+val.acquisitionTime,
           top: "7%",
           textStyle: {
             fontSize: 13,
@@ -260,8 +270,8 @@ export default {
     coordinate(val) {
       //每次处理之前保证坐标数组集合为空
       this.coordinates = [[]];
-      var displacementArray = val.displacement.split(";");
-      var disploadArray = val.dispLoad.split(";");
+      var displacementArray = val.displacementSet.split(",");
+      var disploadArray = val.loadSet.split(",");
       for (var i = 0; i < displacementArray.length; i++) {
         this.coordinates[i] = [];
         this.coordinates[i][0] = parseFloat(displacementArray[i]);
@@ -279,16 +289,16 @@ export default {
       this.logForm.currentPage = val;
       this.searchTile();
     },
-    //添加功图至知识库
-    addTile(val) {
-      this.addTileData = val;
-      this.addTileVisible = true;
-      console.log(this.addTileData);
-    },
+    // //添加功图至知识库
+    // addTile(val) {
+    //   this.addTileData = val;
+    //   this.addTileVisible = true;
+    //   console.log(this.addTileData);
+    // },
     // 关闭新增对话框
-    addTileClose() {
-      this.addTileVisible = false;
-    }
+    // addTileClose() {
+    //   this.addTileVisible = false;
+    // }
   }
 };
 </script>

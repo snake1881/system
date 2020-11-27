@@ -1,0 +1,9 @@
+.el-dialog__header{
+    height:8%;
+}
+.el-dialog__body {
+    padding: 10px;
+    color: #606266;
+    font-size: 14px;
+    word-break: break-all;
+}

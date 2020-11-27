@@ -280,7 +280,6 @@ export default {
     //将坐标数据串处理为坐标点
     coordinate() {
       this.coordinates = [[]];
-
       var displacementArray = this.tableData.displacement.split(";");
       var disploadArray = this.tableData.dispLoad.split(";");
       for (var i = 0; i < displacementArray.length; i++) {
@@ -288,7 +287,6 @@ export default {
         this.coordinates[i][0] = parseFloat(displacementArray[i]);
         this.coordinates[i][1] = parseFloat(disploadArray[i]);
       }
-
       return this.coordinates;
     },
     coordinate1() {
