@@ -62,7 +62,16 @@
           </el-col>
         </el-row>
         <el-form-item label="附件:">
-          <el-upload class="upload-demo" drag action="" multiple>
+          <el-upload
+            action="#"
+            multiple
+            drag
+            :show-file-list="true"
+            :on-preview="handlePreview"
+            :http-request="handleUpload"
+            :file-list="fileLists"
+            class="upload-demo"
+          >
             <i class="el-icon-upload" />
             <div class="el-upload__text">
               将文件拖到此处，或<em>点击上传</em>
@@ -106,6 +115,8 @@ export default {
         formNum: "",
         remark: "",
       },
+      // 文件列表
+      fileLists: [],
     };
   },
   created() {
@@ -160,6 +171,25 @@ export default {
           }
         }
       );
+    },
+    // 文件上传前的判断
+    handlePreview() {},
+    // 上传文件
+    handleUpload(params) {
+      // 获取要上传的file对象
+      let fileObj = params.file;
+      let fd = new FormData();
+      // 将文件对象添加到fd对象中
+      fd.append("file", fileObj);
+      console.log(fileObj);
+      this.postRequest("/", fd).then((resp) => {
+        if (resp) {
+          this.$message({
+            message: "上传成功",
+            type: "success",
+          });
+        }
+      });
     },
   },
 };
