@@ -8,7 +8,6 @@
     <div class="checkOperDiv" :data="checkData">
       <el-steps
         :active="checkData.nodeSequence"
-        finish-status="success"
         class="checkOperDiv_top"
         align-center
       >
@@ -21,7 +20,7 @@
             operAllNodeSource.submitUserName
           "
         >
-          <i class="el-icon-edit" slot="icon"></i>
+          <i class="step01" slot="icon"></i>
         </el-step>
         <el-step
           title="派工"
@@ -29,7 +28,9 @@
           :description="
             operAllNodeSource.sendTime + ' ' + operAllNodeSource.sendUserName
           "
-        />
+        >
+          <i class="step02" slot="icon"></i>
+        </el-step>
         <el-step
           title="现场作业"
           @click.native="scene()"
@@ -38,7 +39,9 @@
             ' ' +
             operAllNodeSource.dispatchUserName
           "
-        />
+        >
+          <i class="step03" slot="icon"></i>
+        </el-step>
         <el-step
           title="效果评价"
           @click.native="effect()"
@@ -47,7 +50,9 @@
             ' ' +
             operAllNodeSource.measureUserName
           "
-        />
+        >
+          <i class="step04" slot="icon"></i>
+        </el-step>
       </el-steps>
       <div class="checkOperDiv_bottom">
         <div v-if="nodalPoint === 0" class="checkOperDiv_submit_table">
@@ -58,105 +63,139 @@
             bordercolor="#bcc0bf"
           >
             <tr>
-              <td colspan="4" style="text-align: center">上报</td>
-            </tr>
-            <tr>
-              <td>作业名称: {{ checkData.operationName }}</td>
-              <td>
-                作业类型：{{
-                  checkData.operationType == 0 ? "常规检泵" : "技改井"
-                }}
+              <td class="Reporting_td">作业名称</td>
+              <td class="Reporting_td">作业类型</td>
+              <td class="Reporting_td">上报人</td>
+              <td class="Reporting_td_time">上报时间</td>
+              <td class="Reporting_td">备注</td>
+              <td class="Reporting_td">
+                附件<i class="el-icon-paperclip" style="font-size: 15px" />
               </td>
             </tr>
             <tr>
-              <td>上报人: {{ checkData.dealUserName }}</td>
-              <td>上报时间: {{ checkData.dealDate }}</td>
-            </tr>
-            <tr>
-              <td colspan="4">备注: {{ checkData.remark }}</td>
-            </tr>
-            <tr>
-              <td colspan="4">附件(下载、预览):</td>
+              <td class="Reporting_td">{{ checkData.operationName }}</td>
+              <td class="Reporting_td">
+                {{ checkData.operationType == 0 ? "常规检泵" : "技改井" }}
+              </td>
+              <td class="Reporting_td">{{ checkData.dealUserName }}</td>
+              <td class="Reporting_td_time">{{ checkData.dealDate }}</td>
+              <td class="Reporting_td_time">{{ checkData.remark }}</td>
+              <td class="Reporting_td">
+                <span
+                  class="el-icon-bottom"
+                  style="font-size: 15px; color: #2485e0"
+                />
+              </td>
             </tr>
           </table>
         </div>
         <div v-if="nodalPoint === 1" class="checkOperDiv_submit_table">
+          <table class="work" cellspacing="0" border="1" bordercolor="#bcc0bf">
+            <tr>
+              <td colspan="4" class="Reporting_td">上次</td>
+            </tr>
+            <tr>
+              <td class="Reporting_td">作业名称</td>
+              <td class="Reporting_td">作业队伍</td>
+              <td class="Reporting_td_time">作业时间</td>
+              <td class="Reporting_td">距现在(天)</td>
+            </tr>
+            <tr>
+              <td class="Reporting_td">{{ sendLastData.lastOperationName }}</td>
+              <td class="Reporting_td">{{ sendLastData.lastTeamName }}</td>
+              <td class="Reporting_td_time">
+                {{ sendLastData.lastFinishDate }}
+              </td>
+              <td class="Reporting_td">{{ sendLastData.dateCount }}</td>
+            </tr>
+          </table>
+          <table class="work" cellspacing="0" border="1" bordercolor="#bcc0bf">
+            <tr>
+              <td colspan="5" class="Reporting_td">本次</td>
+            </tr>
+            <tr>
+              <td class="Reporting_td">作业名称</td>
+              <td class="Reporting_td">作业队伍</td>
+              <td class="Reporting_td">派工单编号</td>
+              <td class="Reporting_td">备注</td>
+              <td class="Reporting_td">
+                附件<i class="el-icon-paperclip" style="font-size: 15px" />
+              </td>
+            </tr>
+            <tr>
+              <td class="Reporting_td">{{ sendNowData.lastOperationName }}</td>
+              <td class="Reporting_td">{{ sendNowData.lastTeamName }}</td>
+              <td class="Reporting_td">{{ sendNowData.formNum }}</td>
+              <td class="Reporting_td">{{ sendNowData.remark }}</td>
+              <td class="Reporting_td">
+                <span
+                  class="el-icon-bottom"
+                  style="font-size: 15px; color: #2485e0"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div v-if="nodalPoint === 2" class="checkOperDiv_submit_table">
+          <table class="tool" cellspacing="0" border="1" bordercolor="#bcc0bf">
+            <tr>
+              <td class="tool_td_left">上报次数</td>
+              <td class="tool_td_right">
+                <span
+                  v-for="item in constructionData"
+                  :key="item.conspId"
+                  @click="constNum(item)"
+                  class="tool_td_right_a"
+                >
+                  {{ item.rownum }}
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="tool_td_left">上报日期</td>
+              <td class="tool_td_right">{{ constNumData.recordDate }}</td>
+            </tr>
+            <tr>
+              <td class="tool_td_left">上报人</td>
+              <td class="tool_td_right">{{ constNumData.recorder }}</td>
+            </tr>
+            <tr>
+              <td class="tool_td_left">进度描述</td>
+              <td class="tool_td_right">{{ constNumData.progressDesc }}</td>
+            </tr>
+            <tr>
+              <td class="tool_td_left">现场照片</td>
+              <td class="tool_td_right">
+                <el-image
+                  style="width: 45px; height: 45px; margin: 0.5% %"
+                  :src="url"
+                  :preview-src-list="srcList"
+                >
+                </el-image>
+              </td>
+            </tr>
+            <tr>
+              <td class="tool_td_left">
+                附件<i class="el-icon-paperclip" style="font-size: 15px" />
+              </td>
+              <td class="tool_td_right"></td>
+            </tr>
+          </table>
+        </div>
+        <div v-if="nodalPoint === 3" class="checkOperDiv_submit_table">
           <table
-            class="Reporting"
+            class="measure"
             cellspacing="0"
             border="1"
             bordercolor="#bcc0bf"
           >
             <tr>
-              <td colspan="4" style="text-align: center">派工</td>
+              <td class="Reporting_td">评价结果</td>
+              <td class="Reporting_td_time">评价日期</td>
+              <td class="Reporting_td">评价结论</td>
             </tr>
             <tr>
-              <td rowspan="2">上次</td>
-              <td>作业名称: {{ sendLastData.lastOperationName }}</td>
-              <td>作业队伍：{{ sendLastData.lastTeamName }}</td>
-            </tr>
-            <tr>
-              <td>作业时间: {{ sendLastData.lastFinishDate }}</td>
-              <td>距现在: {{ sendLastData.dateCount }} 天</td>
-            </tr>
-            <tr>
-              <td rowspan="4">本次</td>
-              <td>作业名称: {{ sendNowData.lastOperationName }}</td>
-              <td>作业队伍：{{ sendNowData.lastTeamName }}</td>
-            </tr>
-            <tr>
-              <td colspan="2">派工单编号: {{ sendNowData.formNum }}</td>
-            </tr>
-            <tr>
-              <td colspan="2">备注: {{ sendNowData.remark }}</td>
-            </tr>
-            <tr>
-              <td colspan="2" style="height: 30%">附件:</td>
-            </tr>
-          </table>
-        </div>
-        <div v-if="nodalPoint === 2" class="checkOperDiv_submit_table">
-          <table class="scene" cellspacing="0" border="1" bordercolor="#bcc0bf">
-            <tr>
-              <td colspan="4" style="text-align: center">现场作业</td>
-            </tr>
-            <tr>
-              <td>上报次数:</td>
-              <td>
-                <a
-                  v-for="item in constructionData"
-                  :key="item.conspId"
-                  @click="constNum(item)"
-                  >{{ item.rownum }}
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td>上报日期: {{ constNumData.recordDate }}</td>
-              <td>上报人: {{ constNumData.recorder }}</td>
-            </tr>
-            <tr>
-              <td>进度描述: {{ constNumData.progressDesc }}</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>现场照片</td>
-              <td style="height: 25%"></td>
-            </tr>
-            <tr>
-              <td>附件</td>
-              <td style="height: 30%"></td>
-            </tr>
-          </table>
-        </div>
-        <div v-if="nodalPoint === 3" class="checkOperDiv_submit_table">
-          <table class="scene" cellspacing="0" border="1" bordercolor="#bcc0bf">
-            <tr>
-              <td colspan="2" style="text-align: center">效果评价</td>
-            </tr>
-            <tr>
-              <td>评价结果:</td>
-              <td>
+              <td class="Reporting_td">
                 {{
                   measureEffectData.evaluationResult == 0
                     ? "失败"
@@ -165,14 +204,10 @@
                     : "较差"
                 }}
               </td>
-            </tr>
-            <tr>
-              <td>评价日期:</td>
-              <td>{{ measureEffectData.evaluationDate }}</td>
-            </tr>
-            <tr>
-              <td>评价结论:</td>
-              <td>{{ measureEffectData.resultDesc }}</td>
+              <td class="Reporting_td_time">
+                {{ measureEffectData.evaluationDate }}
+              </td>
+              <td class="Reporting_td">{{ measureEffectData.resultDesc }}</td>
             </tr>
           </table>
         </div>
@@ -231,6 +266,12 @@ export default {
   data() {
     return {
       checkNode: this.checkData.nodeSequence,
+      url:
+        "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+      srcList: [
+        "https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg",
+        "https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg",
+      ],
     };
   },
   methods: {
@@ -315,20 +356,20 @@ export default {
 
 <style lang="less" scoped>
 .checkOperDiv {
-  height: 340px;
+  height: 370px;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 .checkOperDiv_top {
-  width: 88%;
-  height: 20%;
-  padding: 0 6%;
+  width: 98%;
+  height: 28%;
+  padding: 0 1%;
 }
 .checkOperDiv_bottom {
   width: 98%;
-  height: 80%;
-  padding: 0 1%;
+  height: 72%;
+  padding: 2% 1%;
 }
 .checkOperDiv_submit_table {
   width: 100%;
@@ -343,10 +384,124 @@ export default {
   width: 100%;
   height: 100%;
 }
-.scene {
-  width: 60%;
+.Reporting_td {
+  width: 10%;
+  height: 8%;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+}
+.Reporting_td_time {
+  width: 22%;
+  height: 8%;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+}
+.measure {
+  width: 90%;
+  height: 80%;
+  margin: 5% 5%;
+}
+.tool {
+  width: 90%;
   height: 100%;
-  margin: 0 20%;
+  margin: 0 5%;
+}
+.tool_td_left {
+  width: 5%;
+  height: 15%;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+.tool_td_right {
+  width: 20%;
+  height: 15%;
+  font-size: 14px;
+  font-weight: 600;
+}
+.tool_td_right_a {
+  margin: 0 3%;
+}
+.work {
+  width: 90%;
+  height: 45%;
+  margin: 4% 5% 0 5%;
 }
 </style>
+<style>
+.step01,
+.step02,
+.step03,
+.step04 {
+  width: 40%;
+  height: 40%;
+  background-size: 100% 100%;
+}
+.step01 {
+  background-image: url("../../assets/images/reporte.png");
+  width: 70%;
+  height: 70%;
+}
+.step02 {
+  background-image: url("../../assets/images/work.png");
+  width: 70%;
+  height: 70%;
+}
+.step03 {
+  background-image: url("../../assets/images/tool.png");
+  width: 70%;
+  height: 70%;
+}
+.step04 {
+  background-image: url("../../assets/images/evaluate.png");
+  width: 70%;
+  height: 70%;
+}
+.el-steps {
+  width: 90%;
+}
+.el-step.is-horizontal .el-step__line {
+  top: 50%;
+  width: 95%;
+}
+.el-step__head.is-process {
+  border-color: #dedede !important;
+}
+.el-step__head.is-finish {
+  border-color: #2485e0 !important;
+}
+.el-step__title.is-process {
+  color: #dedede !important;
+}
+.el-step__title.is-finish {
+  color: #2485e0 !important;
+}
 
+.el-step__icon {
+  width: 56px;
+  height: 56px;
+  /* background-color: #2485e0; */
+}
+.is-finish .step01 {
+  background-image: url("../../assets/images/reporte_finish.png");
+  width: 70%;
+  height: 70%;
+}
+.is-finish .step02 {
+  background-image: url("../../assets/images/work_finish.png");
+  width: 70%;
+  height: 70%;
+}
+.is-finish .step03 {
+  background-image: url("../../assets/images/tool_finish.png");
+  width: 70%;
+  height: 70%;
+}
+.is-finish .step04 {
+  background-image: url("../../assets/images/evaluate_finish.png");
+  width: 70%;
+  height: 70%;
+}
+</style>
