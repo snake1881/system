@@ -27,13 +27,13 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="oilAbnormalData"
-      height="84%"
+      height="46%"
       border
       style="width: 100%"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-      @cell-click="oilAbnormalCollect"
+      @cell-click="AbnormalCollect"
     >
       <el-table-column prop="oilStationName" label="采油站" min-width="15%" />
       <el-table-column prop="sumWellCount" label="总井数" min-width="10%" />
@@ -55,7 +55,7 @@
         min-width="10%"
       />
       <el-table-column
-        prop="liquidWaterAbnormal"
+        prop="diagnosisAbnormal"
         label="工况异常数"
         min-width="10%"
       />
@@ -65,13 +65,52 @@
         min-width="10%"
       />
     </el-table>
+    <!-- 分页 -->
+    <div class="oil_abnormal_page">
+      <el-pagination
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        :total="total"
+        :page-sizes="[9, 20, 30, 40, 50]"
+        layout="total, prev, pager, next, jumper, sizes"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
     <div id="wellChart" :style="{ width: '98%', height: '300px' }"></div>
     <!-- <div id="waterWellChart" :style="{ width: '98%', height: '300px' }"></div> -->
+
+    <!-- 液量含水异常查看 -->
+    <common-liquid-water-collect
+      :liquidAbnormalVisible="checkLiquidAbnormalVisible"
+      :liquidData="checkLiquidData"
+      @liquidRowlClose="checkLiquidClose"
+    />
+    <!-- 工况异常查看 -->
+    <common-diagnosis-collect
+      :diagnosisAbnormalVisible="checkDiagnosisAbnormalVisible"
+      :diagndosisData="checkDiagnosisData"
+      @diagnosidsRowClose="checkDiagnosisClose"
+    />
+    <!-- 动液面异常查看 -->
+    <common-fluid-collect
+      :fluidAbnormalVisible="checkFluidAbnormalVisible"
+      :fluidData="checkFluidData"
+      @fluidRowClose="checkFluidClose"
+    />
   </div>
 </template>
 <script>
 let echarts = require("echarts/lib/echarts");
+import CommonLiquidWaterCollect from "../../../components/diagnosis/abnormal/oilabnormalcollect/CommonLiquidWaterCollect";
+import CommonFluidCollect from "../../../components/diagnosis/abnormal/oilabnormalcollect/CommonFluidCollect";
+import CommonDiagnosisCollect from "../../../components/diagnosis/abnormal/oilabnormalcollect/CommonDiagnosisCollect";
 export default {
+  components: {
+    CommonLiquidWaterCollect,
+    CommonFluidCollect,
+    CommonDiagnosisCollect,
+  },
   data() {
     return {
       //搜索框
@@ -82,8 +121,21 @@ export default {
       oilAbnormalData: [],
       // 表格数据
       wellChartData: [[]],
+      // 分页
+      currentPage: 1,
+      pageSize: 9,
+      total: 0,
       // 表格加载动画
       loading: true,
+      //液量含水异常查看
+      checkLiquidAbnormalVisible: false,
+      checkLiquidData: {},
+      //工况异常查看
+      checkDiagnosisAbnormalVisible: false,
+      checkDiagnosisData: {},
+      //动液面异常查看
+      checkFluidAbnormalVisible: false,
+      checkFluidData: {},
     };
   },
   mounted() {
@@ -273,15 +325,22 @@ export default {
     //表格数据初始化
     postInit() {
       this.getRequest(
-        "/diagnosis/abnormal/queryOilProductionAbnormal?createTime=" +
+        "/diagnosis/abnormal/queryOilProductionAbnormal?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize +
+          "&createTime=" +
           this.postForm.postDate
       ).then((resp) => {
         this.loading = false;
         if (resp) {
-          this.oilAbnormalData = resp.data;
-           console.log(this.oilAbnormalData);
+          this.oilAbnormalData = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+          console.log(this.oilAbnormalData);
           //处理数据为坐标
-          this.coordinate(resp.data);
+          this.coordinate(resp.data.records);
           //延迟到DOM更新之后再执行绘制图形
           this.$nextTick(function () {
             //实例化echarts
@@ -303,17 +362,60 @@ export default {
         array[4] = val[i].sumLiquidYesterday;
         array[5] = val[i].liquidAbnormal;
         array[6] = val[i].waterAbnormal;
-        array[7] = val[i].liquidWaterAbnormal;
+        array[7] = val[i].diagnosisAbnormal;
         array[8] = val[i].fluidAbnormal;
         this.coordinates[i] = array;
       }
       console.log(this.coordinates);
       return this.coordinates;
     },
-    //液量异常详情
-    oilAbnormalCollect(row, column) {
+    AbnormalCollect(row, column) {
       console.log(row);
       console.log(column);
+      if (column.property == "liquidAbnormal" || column.property == "waterAbnormal"){
+        this.liquidAbnormal(row);
+      }else if(column.property == "diagnosisAbnormal"){
+        this.diagndosisAbnormal(row);
+      }else if(column.property == "fluidAbnormal"){
+        this.fluidAbnormal(row);
+      }    
+    },
+    //液量异常详情
+    liquidAbnormal(val){
+      this.checkLiquidAbnormalVisible = true;
+      this.checkLiquidData = val;
+    },
+    // 液量关闭查看详情对话框
+    checkLiquidClose() {
+      this.checkLiquidAbnormalVisible = false;
+    },
+    //工况异常详情
+    diagndosisAbnormal(val) {
+      this.checkDiagnosisAbnormalVisible = true;
+      this.checkDiagnosisData = val;
+    },
+    //工况关闭查看详情对话框
+    checkDiagnosisClose() {
+      this.checkDiagnosisAbnormalVisible = false;
+    },
+    //动液面异常详情f
+    fluidAbnormal(val) {
+      this.checkFluidAbnormalVisible = true;
+      this.checkFluidData = val;
+    },
+    //动液面关闭查看详情对话框
+    checkFluidClose() {
+      this.checkFluidAbnormalVisible = false;
+    },
+    // 分页，页码大小改变
+    handleSizeChange(val) {
+      this.pageSize = val;
+      this.postInit();
+    },
+    // 分页，当前页改变
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.postInit();
     },
   },
 };
