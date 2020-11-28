@@ -3,7 +3,7 @@
     title="液量含水异常数据详情"
     height="5%"
     :visible.sync="liquidAbnormalVisible"
-    width="76%"
+    width="90%"
     :before-close="liquidAbnormalClose"
   >
     <template>
@@ -93,15 +93,21 @@
           >
           </el-table-column>
           <el-table-column
-            prop="wellId"
-            label="油井ID"
+            prop="wellName"
+            label="井号"
+            width="120"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="oilStationName"
+            label="采油站"
             width="120"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="oilProdDate"
             label="产油日期"
-            width="120"
+            width="180"
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
@@ -139,7 +145,7 @@
           <el-table-column
             prop="abnormalResult"
             label="异常结论"
-            width="140"
+            width="180"
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>

@@ -3,18 +3,17 @@
     title="动液面异常数据详情"
     height="5%"
     :visible.sync="fluidAbnormalVisible"
-     width="90%"
+     width="76%"
     :before-close="fluidAbnormalClose"
-    @opened="opened"
   >
   <template>
     <div class="dialogDiv">
       <div class="waterAbnormal_top">
-        <el-form style="height:42px;" :model="fluidData" :inline="true">
+        <el-form style="height:42px;" :model="termForm" :inline="true">
           <el-form-item label="采油站">
             <el-select
               size="medium"
-              v-model="fluidData.oilStationId"
+              v-model="termForm.oilStationId"
               style="width: 150px"
               filterable
               clearable
@@ -31,7 +30,7 @@
           <el-form-item label="日期">
             <el-date-picker
               size="medium"
-              v-model="fluidData.createTime"
+              v-model="termForm.analysisDate"
               style="width: 150px"
               type="date"
               placeholder="选择日期"
@@ -40,30 +39,12 @@
             >
             </el-date-picker>
           </el-form-item>
-          <el-form-item label="异常条件">
-            <el-select
-              size="medium"
-              style="width: 150px"
-              filterable
-              clearable
-              v-model="fluidData.abnormalType"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item>
             <el-button
               type="primary"
               size="small"
               icon="el-icon-search"
-              @click="waterAbnormalSearch()"
+              @click="fluidAbnormalInit()"
               >查询</el-button
             >
           </el-form-item>
@@ -73,7 +54,7 @@
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
-        :data="waterAbnormal.records"
+        :data="fluidAbnormal"
         border
         height="83%"
         style="width: 100%"
@@ -97,81 +78,46 @@
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="waterInjectionDate"
-          label="日期"
-          width="120"
+            prop="oilStationName"
+            label="采油站"
+            width="120"
+            align="center"
+          ></el-table-column>
+        <el-table-column
+          prop="analysisDate"
+          label="分析日期"
+          width="180"
           align="center"
           :show-overflow-tooltip="true"
         ></el-table-column>
         <el-table-column
-          prop="drInjectionTime"
-          label="生产时间"
-          width="80"
+          prop="fluidLevel"
+          label="动液面(M)"
+          width="100"
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="abnormalType"
-          label="诊断结果"
-          width="80"
+          prop="fluidLevelStandard"
+          label="标准动液面(M)"
+          width="100"
           align="center"
-          ><template slot-scope="scope">
-            <p v-if="scope.row.abnormalType == '0'">正常</p>
-            <p v-if="scope.row.abnormalType == '1'">欠注</p>
-            <p v-if="scope.row.abnormalType == '2'">超注</p>
-          </template>
+          >
         </el-table-column>
         <el-table-column
-          prop="oilStationName"
-          label="采油站"
-          width="120"
+          prop="abnormalResult"
+          label="异常结论"
+          width="240"
           align="center"
           :show-overflow-tooltip="true"
-        ></el-table-column>
-        <el-table-column
-          prop="drInjectionAllocation"
-          label="配注量"
-          width="80"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="drWaterInjection"
-          label="注入量"
-          width="80"
-          align="center"
         ></el-table-column>
         <el-table-column
           prop="abnormalReason"
-          label="详细诊断"
-          width="140"
-          align="center"
-          :show-overflow-tooltip="true"
-        ></el-table-column>
-        <el-table-column
-          prop="drWellheadPressure"
-          label="油压"
-          width="80"
+          label="异常原因"
+          width="120"
           align="center"
         ></el-table-column>
         <el-table-column
-          prop="drPipePressure"
-          label="管压"
-          width="80"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="drCasingPressure"
-          label="套压"
-          width="80"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="drPumpPressure"
-          label="泵压"
-          width="80"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="drRemark"
+          prop="remark"
           label="备注"
           width="100"
           align="center"
@@ -207,15 +153,14 @@ export default {
     return {
       termForm: {
         oilStationId: "",
-        createTime: "",
-        abnormalType: "",
+        analysisDate: "",
       },
       orgNameData: [],
       loading: true,
       currentPage: 1,
       pageSize: 10,
       total: 0,
-      waterAbnormal: [],
+      fluidAbnormal: [],
       options: [
         {
           value: "0",
@@ -232,56 +177,30 @@ export default {
       ],
     };
   },
+  created() {
+    //初始化表格数据
+    this.fluidAbnormalInit();
+  },
   methods: {
-    //
-    opened() {
-      
-      this.waterAbnormalInit();
-      this.orgNameInit();
-    },
     // 对话框父子组件传值
     fluidAbnormalClose() {
       this.$emit("fluidRowClose");
     },
-    waterAbnormalInit() {
+    fluidAbnormalInit() {
       console.log(this.editData);
       this.getRequest(
-        "/waterAbnormalCollect/waterList?abnormalType=" +
-          this.editData.abnormalType +
-          "&createTime=" +
-          this.editData.createTime +
-          "&current=" +
+        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?current=" +
           this.currentPage +
-          "&oilStationId=" +
-          this.editData.oilStationId +
           "&pageSize=" +
-          this.pageSize
+          this.pageSize+
+          "&analysisDate"+
+          this.termForm.analysisDate +
+          "&oilStationId=" +
+          this.termForm.oilStationId 
       ).then((resp) => {
         this.loading = false;
         if (resp) {
-          this.waterAbnormal = resp.data;
-          this.total = resp.data.total;
-          this.currentPage = resp.data.current;
-          this.pageSize = resp.data.size;
-        }
-      });
-    },
-    waterAbnormalSearch() {
-      this.getRequest(
-        "/waterAbnormalCollect/waterList?abnormalType=" +
-          this.editData.abnormalType +
-          "&createTime=" +
-          this.editData.createTime +
-          "&current=" +
-          this.currentPage +
-          "&oilStationId=" +
-          this.editData.oilStationId +
-          "&pageSize=" +
-          this.pageSize
-      ).then((resp) => {
-        this.loading = false;
-        if (resp) {
-          this.waterAbnormal = resp.data;
+          this.fluidAbnormal = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
@@ -307,14 +226,6 @@ export default {
       this.currentPage = parseInt(val);
       this.waterAbnormalSearch();
     },
-    //设置序号
-    // getIndex() {
-    //   // this.waterAbnormal.forEach((item, index) => {
-    //   //   item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
-    //   //   return item;
-    //   // });
-    //   return(this.currentPage-1)*this.pageSize +index+1;
-    // },
   },
 };
 </script>

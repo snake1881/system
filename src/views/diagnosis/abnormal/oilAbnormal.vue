@@ -338,7 +338,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          console.log(this.oilAbnormalData);
           //处理数据为坐标
           this.coordinate(resp.data.records);
           //延迟到DOM更新之后再执行绘制图形
@@ -366,12 +365,9 @@ export default {
         array[8] = val[i].fluidAbnormal;
         this.coordinates[i] = array;
       }
-      console.log(this.coordinates);
       return this.coordinates;
     },
     AbnormalCollect(row, column) {
-      console.log(row);
-      console.log(column);
       if (column.property == "liquidAbnormal" || column.property == "waterAbnormal"){
         this.liquidAbnormal(row);
       }else if(column.property == "diagnosisAbnormal"){
