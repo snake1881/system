@@ -5,6 +5,7 @@
     :visible.sync="fluidAbnormalVisible"
      width="76%"
     :before-close="fluidAbnormalClose"
+    @opened="opened"
   >
   <template>
     <div class="dialogDiv">
@@ -44,7 +45,7 @@
               type="primary"
               size="small"
               icon="el-icon-search"
-              @click="fluidAbnormalInit()"
+              @click="fluidAbnormalSearch()"
               >查询</el-button
             >
           </el-form-item>
@@ -177,23 +178,46 @@ export default {
       ],
     };
   },
-  created() {
-    //初始化表格数据
-    this.fluidAbnormalInit();
-  },
   methods: {
+     opened() {
+      //初始化表格数据
+      this.fluidAbnormalInit();
+      this.orgNameInit();
+    },
     // 对话框父子组件传值
     fluidAbnormalClose() {
       this.$emit("fluidRowClose");
     },
+    //表格初始化
     fluidAbnormalInit() {
-      console.log(this.editData);
+      this.termForm.oilStationId=this.fluidData.oilStationId;
       this.getRequest(
         "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?current=" +
           this.currentPage +
           "&pageSize=" +
           this.pageSize+
-          "&analysisDate"+
+          "&analysisDate="+
+          this.termForm.analysisDate +
+          "&oilStationId=" +
+          this.termForm.oilStationId 
+      ).then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.fluidAbnormal = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+        }
+      });
+    },
+    //查询数据初始化
+    fluidAbnormalSearch(){
+      this.getRequest(
+        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize+
+          "&analysisDate="+
           this.termForm.analysisDate +
           "&oilStationId=" +
           this.termForm.oilStationId 
@@ -209,7 +233,7 @@ export default {
     },
     //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/waterAbnormalCollect/oilStation").then((resp) => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;

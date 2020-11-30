@@ -5,6 +5,7 @@
     :visible.sync="liquidAbnormalVisible"
     width="90%"
     :before-close="liquidAbnormalClose"
+    @opened="opened"
   >
     <template>
       <div class="dialogDiv">
@@ -62,7 +63,7 @@
                 type="primary"
                 size="small"
                 icon="el-icon-search"
-                @click="waterAbnormalSearch()"
+                @click="liquidAbnormalSearch()"
                 >查询</el-button
               >
             </el-form-item>
@@ -157,7 +158,6 @@
             ><template slot-scope="scope">
               <p v-if="scope.row.abnormalType == '0'">液量异常</p>
               <p v-if="scope.row.abnormalType == '1'">含水异常</p>
-              <p v-if="scope.row.abnormalType == '2'">液量含水异常</p>
             </template>
           </el-table-column>
           <el-table-column
@@ -197,6 +197,9 @@ export default {
     liquidData: {
       type: Object,
     },
+    abnormalType: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -220,24 +223,23 @@ export default {
           value: "1",
           label: "含水异常",
         },
-        {
-          value: "2",
-          label: "液量含水异常",
-        },
       ],
     };
   },
-  created() {
-    //初始化表格数据
-    this.liquidAbnormalInit();
-  },
   methods: {
+    opened() {
+      //初始化表格数据
+      this.liquidAbnormalInit();
+      this.orgNameInit();
+    },
     // 对话框父子组件传值
     liquidAbnormalClose() {
       this.$emit("liquidRowlClose");
     },
     liquidAbnormalInit() {
-      console.log(this.liquidData);
+      //传递参数值
+      this.termForm.oilStationId = this.liquidData.oilStationId;
+      this.termForm.abnormalType = this.abnormalType;
       this.getRequest(
         "/diagnosis/abnormal/queryLiquidWaterAbnormalByStationId?current=" +
           this.currentPage +
@@ -256,6 +258,37 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+        }
+      });
+    },
+    liquidAbnormalSearch() {
+      this.getRequest(
+        "/diagnosis/abnormal/queryLiquidWaterAbnormalByStationId?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize +
+          "&oilStationId=" +
+          this.termForm.oilStationId +
+          "&oilProdDate=" +
+          this.termForm.oilProdDate +
+          "&abnormalType=" +
+          this.termForm.abnormalType
+      ).then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.liquidAbnormal = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+        }
+      });
+    },
+    //采油站下拉框初始化
+    orgNameInit() {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
       });
     },

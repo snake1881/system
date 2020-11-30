@@ -84,6 +84,7 @@
     <common-liquid-water-collect
       :liquidAbnormalVisible="checkLiquidAbnormalVisible"
       :liquidData="checkLiquidData"
+      :abnormalType="abnormalType"
       @liquidRowlClose="checkLiquidClose"
     />
     <!-- 工况异常查看 -->
@@ -130,6 +131,7 @@ export default {
       //液量含水异常查看
       checkLiquidAbnormalVisible: false,
       checkLiquidData: {},
+      abnormalType: "",
       //工况异常查看
       checkDiagnosisAbnormalVisible: false,
       checkDiagnosisData: {},
@@ -368,7 +370,11 @@ export default {
       return this.coordinates;
     },
     AbnormalCollect(row, column) {
-      if (column.property == "liquidAbnormal" || column.property == "waterAbnormal"){
+      if (column.property == "liquidAbnormal"){
+        this.abnormalType='0';
+        this.liquidAbnormal(row);
+      }else if(column.property == "waterAbnormal"){
+        this.abnormalType='1';
         this.liquidAbnormal(row);
       }else if(column.property == "diagnosisAbnormal"){
         this.diagndosisAbnormal(row);
