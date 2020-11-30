@@ -10,9 +10,9 @@
         </p>
         <p class="wellsite_left_dailyData_p">
           日注水量:
-          <span style="color: #ec8e25">{{
-            this.wellSite2.drWaterInjection
-          }}</span>
+          <span style="color: #ec8e25" v-if="this.wellSite2">
+            {{ this.wellSite2.drWaterInjection }}
+          </span>
           m<sup>3</sup>
         </p>
         <p class="wellsite_left_dailyData_p">
@@ -103,7 +103,7 @@
           <img
             src="../../assets/images/oilWell.gif"
             class="wellsite_right_oilWell_details_img"
-            @click="gotoSingleWell(item.wellName)"
+            @click="gotoSingleWell(item.wellName, item.wellId)"
           />
           <div class="wellsite_right_oilWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
@@ -139,7 +139,7 @@
           <img
             src="../../assets/images/waterWell.png"
             class="wellsite_right_waterWell_details_img"
-            @click="gotoSingleWell(item.wellName)"
+            @click="gotoSingleWell(item.wellName, item.wellId)"
           />
           <div class="wellsite_right_waterWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
@@ -148,7 +148,9 @@
             >
             <span class="wellsite_right_waterWell_details_dec_span"
               >当日注水:
-              <span style="color: #2cab6f">{{ item.drWaterInjection }}</span>
+              <span style="color: #2cab6f" v-if="item">
+                {{ item.drWaterInjection }}
+              </span>
               m<sup>3</sup></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
@@ -217,10 +219,12 @@ export default {
           this.$route.query.name
       ).then((resp) => {
         if (resp) {
-          this.wellSiteOilData = resp.data.wellSitInfoList;
-          this.wellSiteWaterData = resp.data.waterSitInfoList;
+          // 左侧井场汇总信息
           this.wellSite1 = resp.data.wellSitInfo;
           this.wellSite2 = resp.data.waterSitInfo;
+          // 右侧详细信息
+          this.wellSiteOilData = resp.data.wellSitInfoList;
+          this.wellSiteWaterData = resp.data.waterSitInfoList;
         }
       });
     },
@@ -249,11 +253,12 @@ export default {
       this.$router.replace("/unattended/oilStation");
     },
     // 跳转到单井页面
-    gotoSingleWell(val) {
+    gotoSingleWell(val1, val2) {
       this.$router.push({
         path: "/unattended/singleWell",
         query: {
-          name: val,
+          name: val1,
+          id: val2,
         },
       });
     },

@@ -8,7 +8,7 @@
 .main_between {
     width: 25%;
     height: 100%;
-  
+
 }
 
 .main_middle {
@@ -21,7 +21,7 @@
     width: 98%;
     height: 47%;
     margin: 4% 1% 0 1%;
-    border:1px solid #253e69;
+    border: 1px solid #253e69;
     background-color: #061432;
 }
 
@@ -30,14 +30,16 @@
     width: 100%;
     height: 100%;
 }
+
 /* 油井情况 */
 .main_between_1_item_well {
     height: 95%;
     width: 100%;
     display: flex;
     flex-direction: column;
-    
+
 }
+
 .main_between_1_item_well_line {
     width: 100%;
     height: 60%;
@@ -45,37 +47,43 @@
     flex-direction: row;
 
 }
+
 .main_between_1_item_well_dec {
     width: 100%;
     height: 40%;
     display: flex;
     flex-direction: row;
 }
+
 .main_between_1_item_well_dec_container {
     width: 30%;
     height: 100%;
-    margin:0 1%;
+    margin: 0 1%;
     display: flex;
     flex-direction: column;
 }
+
 .main_between_1_item_well_line {
     height: 81%;
     width: 86%;
 }
+
 .main_between_1_item_desc {
     height: 20%;
     width: 100%;
     display: flex;
     flex-direction: row;
 }
+
 .main_between_1_item_desc_span {
     color: white;
     font-size: 6px;
     margin: 3% 1%;
 }
+
 /* 水井情况 */
 
-.main_between_1_item_water{
+.main_between_1_item_water {
     height: 300px;
     width: 100%;
     display: flex;
@@ -83,22 +91,25 @@
     justify-content: space-between;
 
 }
+
 .water1,
-.water2{
+.water2 {
     height: 300px;
     width: 50%;
     display: flex;
     flex-direction: column;
 }
+
 .main_between_1_item_water1,
-.main_between_1_item_water2{
+.main_between_1_item_water2 {
     height: 200px;
     width: 50%;
-    margin:-1% 3%;
+    margin: -1% 3%;
 }
-.main_between_1_item_water1_span{
+
+.main_between_1_item_water1_span {
     color: #e6e6e6;
-    font-family:"Microsoft Yahei";
+    font-family: "Microsoft Yahei";
     font-size: 10px;
     margin: -0.5% 1%;
 }
@@ -108,15 +119,17 @@
     height: 300px;
     width: 100%;
 }
+
 /* 措施情况*/
-.main_between_2_item_measure{
+.main_between_2_item_measure {
     height: 300px;
     width: 100%;
 }
+
 .main_middle_1,
 .main_middle_2 {
     width: 96%;
-    border:1px solid #253e69;
+    border: 1px solid #253e69;
     background-color: #061432;
 }
 
@@ -135,14 +148,15 @@
     width: 100%;
     height: 100%;
 }
-.main_middle_1_item_span{
+
+.main_middle_1_item_span {
     color: #e6e6e6;
-    font-family:"Microsoft Yahei";
+    font-family: "Microsoft Yahei";
     width: 100%;
     height: 5%;
     padding-left: 3%;
     background-color: #0a2146;
-    border-bottom:1px solid #253e69;
+    border-bottom: 1px solid #253e69;
 }
 
 .amap-demo {

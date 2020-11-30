@@ -124,6 +124,19 @@
     border-bottom: 1px solid #dfe0e2;
 }
 
+.unattended_singleWell_container_left_gt_container {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1%;
+}
+
+.unattended_singleWell_container_left_gt_container_item {
+    width: 100%;
+    height: 100%;
+}
+
 .unattended_singleWell_container_proLine {
     width: 100%;
     height: 92%;
