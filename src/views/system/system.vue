@@ -19,15 +19,15 @@ import PageHeader from "../../components/PageHeader";
 export default {
   components: {
     CommonAside,
-    PageHeader
+    PageHeader,
   },
   data() {
     return {
       // 侧边栏显示
-      router1: 4
+      router1: 4,
     };
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="less" scoped>

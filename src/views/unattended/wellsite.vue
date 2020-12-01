@@ -5,7 +5,9 @@
       <div class="wellsite_left_dailyData">
         <p class="wellsite_left_dailyData_p">
           日产液量:
-          <span style="color: #ec8e25">{{ this.wellSite1.drLiquidProd }}</span>
+          <span style="color: #ec8e25" v-if="this.wellSite1">{{
+            this.wellSite1.drLiquidProd
+          }}</span>
           m<sup>3</sup>
         </p>
         <p class="wellsite_left_dailyData_p">
@@ -276,5 +278,25 @@ export default {
   padding-right: 10px;
   color: rgb(202, 137, 137);
   font-size: 20px;
+}
+/* 定义滚动条样式 */
+.wellsite ::-webkit-scrollbar {
+  width: 2px;
+  height: 7px;
+  background-color: #223c66;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+.wellsite ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px rgba(83, 82, 82, 0.5);
+  border-radius: 10px;
+  /* background-color: rgba(240, 240, 240, 0.5); */
+}
+
+/*定义滑块 内阴影+圆角*/
+.wellsite ::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0px rgba(240, 240, 240, 0.5);
+  background-color: rgba(240, 240, 240, 0.5);
 }
 </style>

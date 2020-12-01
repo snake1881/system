@@ -341,3 +341,25 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/unattended/oilStation.css";
 </style>
+<style>
+/* 定义滚动条样式 */
+.oilStation ::-webkit-scrollbar {
+  width: 2px;
+  height: 7px;
+  background-color: #223c66;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+.oilStation ::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0px rgba(83, 82, 82, 0.5);
+  border-radius: 10px;
+  /* background-color: rgba(240, 240, 240, 0.5); */
+}
+
+/*定义滑块 内阴影+圆角*/
+.oilStation ::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0px rgba(240, 240, 240, 0.5);
+  background-color: rgba(240, 240, 240, 0.5);
+}
+</style>

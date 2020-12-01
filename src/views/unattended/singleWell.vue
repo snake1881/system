@@ -140,16 +140,33 @@
             <div
               v-for="item in tableData"
               :key="item.inddsId"
-              style="width: 100%; height: 100%"
+              class="unattended_singleWell_container_left_gt_container_frame"
             >
               <div
-                class="unattended_singleWell_container_left_gt_container_item"
+                class="unattended_singleWell_container_left_gt_container_frame_item"
                 :key="item.inddsId"
                 :id="item.inddsId"
               />
+              <div
+                class="unattended_singleWell_container_left_gt_container_frame_dec"
+              >
+                <span
+                  class="unattended_singleWell_container_left_gt_container_frame_dec_span"
+                  >时间: {{ item.acquisitionTime }}</span
+                >
+                <span
+                  class="unattended_singleWell_container_left_gt_container_frame_dec_span"
+                  >工况: {{ item.diagnosisResult }}</span
+                >
+
+                <span
+                  class="unattended_singleWell_container_left_gt_container_frame_dec_span"
+                  >最大载荷: {{ item.maxLoad }} 最小载荷:
+                  {{ item.minLoad }}</span
+                >
+              </div>
             </div>
           </div>
-          <!-- <div id="gt" /> -->
         </div>
         <div class="unattended_singleWell_container_left_zh">
           <span class="unattended_singleWell_top_information_span"
@@ -339,14 +356,13 @@ export default {
           },
         },
         grid: {
-          width: "88%",
-          height: "80%",
-          top: "10%",
+          width: "93%",
+          height: "84%",
+          top: "12%",
+          left: "6%",
           containLabel: true,
         },
         xAxis: {
-          // name: "位移(M)",
-          // nameLocation: "middle",
           min: 0,
           max: 4,
           type: "value",
@@ -354,13 +370,12 @@ export default {
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
-          // splitNumber: 4,
           type: "value",
-          axisLine: { onZero: false },
+          max: 80,
+          min: 0,
+          splitNumber: 3,
           nameTextStyle: {
-            padding: [0, 0, 6, 0],
+            padding: [0, 0, 7, 0],
             fontSize: 10,
           },
         },
@@ -673,6 +688,10 @@ export default {
           myChart.setOption({
             legend: {
               data: ["最大载荷", "最小载荷"],
+              // orient: "vertical",
+              x: "right",
+              // y: "center",
+              fontSize: "7px",
             },
             tooltip: {
               trigger: "axis",
@@ -680,8 +699,8 @@ export default {
             grid: {
               width: "85%",
               height: "55%",
-              top: 28,
-              left: 60,
+              top: 20,
+              left: 40,
             },
             color: ["#2485e0", "#ec8e25"],
             xAxis: {
@@ -696,6 +715,9 @@ export default {
             },
             yAxis: {
               type: "value",
+              max: 200,
+              min: 0,
+              splitNumber: 3,
               // 文字大小与颜色
               axisLabel: {
                 textStyle: {

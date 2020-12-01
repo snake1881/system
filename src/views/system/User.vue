@@ -11,23 +11,50 @@
         node-key="deparmentData.departmentId"
         @node-click="getCheckedKeys"
       >
-       <span class="custom-tree-node" slot-scope="{node}">
-          <span class="el-icon-folder-opened" style="font-size:12px">
+        <span class="custom-tree-node" slot-scope="{ node }">
+          <span class="el-icon-folder-opened" style="font-size: 12px">
             {{ node.label }}
-          </span>              
+          </span>
         </span>
       </el-tree>
     </div>
     <div class="user_right">
       <!--顶部搜索框-->
-      <el-form :inline="true" :model="searchForm" :rules="rules" class="user_right_form">
+      <el-form
+        :inline="true"
+        :model="searchForm"
+        :rules="rules"
+        class="user_right_form"
+      >
         <el-form-item>
-          <el-input v-model="searchForm.loginName" placeholder="登录名称" size="medium" />
+          <el-input
+            v-model="searchForm.loginName"
+            placeholder="登录名称"
+            size="medium"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="small" @click="getUserByName()">查询</el-button>
-          <el-button type="primary" icon="el-icon-plus" size="small" @click="addUser()">新增</el-button>
-          <el-button type="primary" icon="el-icon-delete" size="small" @click="dleteUser()">批量删除</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="small"
+            @click="getUserByName()"
+            >查询</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
+            size="small"
+            @click="addUser()"
+            >新增</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            size="small"
+            @click="dleteUser()"
+            >批量删除</el-button
+          >
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
@@ -39,9 +66,13 @@
         :data="tableData"
         height="85%"
         border
-        :row-style="{height:'2px'}"
-        :cell-style="{padding:'0px'}"
-        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
+        :row-style="{ height: '2px' }"
+        :cell-style="{ padding: '0px' }"
+        :header-cell-style="{
+          background: '#eef1f6',
+          color: '#606266',
+          'text-align': 'center',
+        }"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" />
@@ -60,8 +91,18 @@
         <el-table-column prop="createTime" label="创建时间" width="170" />
         <el-table-column label="操作" width="80">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editUser(scope.row)" class="iconfont icon-bianji"/>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu"/>
+            <el-button
+              type="text"
+              size="small"
+              @click="editUser(scope.row)"
+              class="iconfont icon-bianji"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="sinDelete(scope.row)"
+              class="iconfont icon-shanchu"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -85,7 +126,10 @@
       @orderRowClose="editUserClose"
     />
     <!-- 新增用户信息 -->
-    <common-add-user :addUserVisible="addUserVisible" @addClose="addUserClose" />
+    <common-add-user
+      :addUserVisible="addUserVisible"
+      @addClose="addUserClose"
+    />
   </div>
 </template>
 <script>
@@ -94,7 +138,7 @@ import CommonAddUser from "../../components/system/user/CommonAddUser";
 export default {
   components: {
     CommonEditUser,
-    CommonAddUser
+    CommonAddUser,
   },
   inject: ["reload"],
   data() {
@@ -103,20 +147,20 @@ export default {
       deparmentData: [],
       defaultProps: {
         children: "children",
-        label: "departmentName"
+        label: "departmentName",
       },
       // 选中要删除的数据
       selectData: [],
       // 表格数据
       tableData: [],
       searchForm: {
-        loginName: ""
+        loginName: "",
       },
       // 规则
       rules: {
         loginName: [
-          { required: true, message: "登录名称不能为空", trigger: "blur" }
-        ]
+          { required: true, message: "登录名称不能为空", trigger: "blur" },
+        ],
       },
       // 编辑信息
       editUserVisible: false,
@@ -128,7 +172,7 @@ export default {
       pageSize: 10,
       total: 0,
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -138,7 +182,7 @@ export default {
   methods: {
     // 部门菜单树
     treeInIt() {
-      this.getRequest("/system/department/getDepartmentTree").then(resp => {
+      this.getRequest("/system/department/getDepartmentTree").then((resp) => {
         if (resp) {
           this.deparmentData = resp.data;
         }
@@ -151,7 +195,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.tableData = resp.data.records;
@@ -170,7 +214,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.tableData = resp.data.records;
           this.total = resp.data.total;
@@ -188,7 +232,7 @@ export default {
           this.searchForm.loginName +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.tableData = resp.data.records;
           this.total = resp.data.total;
@@ -205,21 +249,21 @@ export default {
     dleteUser() {
       var checkArray = this.selectData;
       var idArray = [];
-      checkArray.forEach(function(item) {
+      checkArray.forEach(function (item) {
         idArray.push(item.userId);
       });
       console.log(idArray);
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
-          this.deleteRequest("/system/sysUser/users", idArray).then(resp => {
+          this.deleteRequest("/system/sysUser/users", idArray).then((resp) => {
             if (resp) {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "删除成功!",
               });
             }
             this.userInIt();
@@ -228,7 +272,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -237,15 +281,15 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/system/sysUser/user/" + val.userId).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.userInIt();
@@ -255,7 +299,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -285,41 +329,43 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.userInIt();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/user.css";
 </style>
 <style>
-.el-table td,.el-table th {
+.el-table td,
+.el-table th {
   text-align: center;
   padding: 5x 0;
 }
-.el-tree-node{
+.el-tree-node {
   position: relative;
 }
-.el-tree-node__children{
+.el-tree-node__children {
   padding-left: 16px;
 }
 .el-tree-node :last-child:before {
   height: 38px;
 }
-.el-tree>.el-tree-node:before{
+.el-tree > .el-tree-node:before {
   border-left: none;
 }
-.el-tree>.el-tree-node:after{
+.el-tree > .el-tree-node:after {
   border-top: none;
 }
-.el-tree-node:before,.el-tree-node:after{
+.el-tree-node:before,
+.el-tree-node:after {
   content: "";
   left: -4px;
   position: absolute;
   right: auto;
   border-width: 1px;
 }
-.tree :first-child .el-tree-node:before{
+.tree :first-child .el-tree-node:before {
   border-left: none;
 }
 .el-tree-node:before {
@@ -330,7 +376,7 @@ export default {
   width: 1px;
 }
 .el-tree-node:after {
-  border-top: 1px dashed  #a1a7ad;
+  border-top: 1px dashed #a1a7ad;
   height: 20px;
   top: 17px;
   width: 20px;

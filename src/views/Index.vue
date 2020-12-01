@@ -78,7 +78,6 @@
             :zoom="zoom"
             :center="center"
             :plugin="plugin"
-            :events="events"
             class="amap-demo"
           />
         </div>
@@ -160,24 +159,13 @@ export default {
     return {
       // 地图数据
       amapManager,
-      zoom: 12,
+      zoom: 14,
       center: [107.596401, 37.574277],
-      events: {
-        init: (o) => {
-          o.setMapStyle("amap://styles/macaron");
-        },
-        moveend: () => {},
-        zoomchange: () => {},
-        click: () => {},
-      },
       plugin: [
         "ToolBar",
         {
           pName: "MapType",
           defaultType: 0,
-          events: {
-            init() {},
-          },
         },
       ],
     };
@@ -194,7 +182,7 @@ export default {
     this.measureInit();
   },
   methods: {
-    // 油井情况
+    // 排采曲线
     wellInit1() {
       let dom = document.getElementById("paicai");
       let myChart = echarts.init(dom);

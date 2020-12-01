@@ -161,10 +161,11 @@ export default {
 @import "../assets/css/login.css";
 </style><style>
 .login .el-checkbox .el-checkbox__label {
-  color: white;
+  color: #e6e6e6;
 }
 .login .el-input__inner {
   background-color: transparent;
+  color: #e6e6e6;
   border: 1px solid rgb(109, 107, 107);
 }
 .login .el-checkbox__inner {
