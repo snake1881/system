@@ -5,6 +5,7 @@
     :visible.sync="diagnosisAbnormalVisible"
     width="90%"
     :before-close="diagnosidsAbnormalClose"
+    @opened="opened"
   >
     <template>
       <div class="dialogDiv">
@@ -62,7 +63,7 @@
                 type="primary"
                 size="small"
                 icon="el-icon-search"
-                @click="diagnosisAbnormalInit()"
+                @click="diagnosisAbnormalSearch()"
                 >查询</el-button
               >
             </el-form-item>
@@ -230,17 +231,19 @@ export default {
       ],
     };
   },
-  created() {
-    //初始化表格数据
-    this.diagnosisAbnormalInit();
-  },
   methods: {
+    opened() {
+      //初始化表格数据
+      this.diagnosisAbnormalInit();
+      this.orgNameInit();
+    },
     // 对话框父子组件传值
     diagnosidsAbnormalClose() {
       this.$emit("diagnosidsRowClose");
     },
+    //表格数据
     diagnosisAbnormalInit() {
-      console.log(this.diagndosisData);
+      this.termForm.oilStationId=this.diagndosisData.oilStationId;
       this.getRequest(
         "/diagnosis/abnormal/queryDiagramSourceByStationId?current=" +
           this.currentPage +
@@ -261,9 +264,30 @@ export default {
         }
       });
     },
+    //查询数据
+    diagnosisAbnormalSearch(){
+      this.getRequest(
+        "/diagnosis/abnormal/queryDiagramSourceByStationId?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize +
+          "&acquisitionTime=" +
+          this.termForm.acquisitionTime +
+          "&oilStationId=" +
+          this.termForm.oilStationId
+      ).then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.diagndosisAbnormal = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+        }
+      });
+    },
     //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/waterAbnormalCollect/oilStation").then((resp) => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
@@ -309,14 +333,5 @@ export default {
   background: #dadee6;
   border-bottom: 2px solid #f2f6fc;
   height: 15px;
-}
-// .dialogDiv .el-table .el-table__row .cell {
-//   max-height: 40px !important;
-//   height: 30px !important;
-//   overflow: auto !important;
-// }
-.el-table .cell, .el-table--border td:first-child .cell, .el-table--border th:first-child .cell {
-    padding-left: 10px;
-    height: 28 !important;
 }
 </style>
