@@ -16,7 +16,7 @@
           @click.native="submit()"
           :description="
             operAllNodeSource.submitTime +
-            ' ' +
+            '      ' +
             operAllNodeSource.submitUserName
           "
         >
@@ -435,8 +435,8 @@ export default {
 .step02,
 .step03,
 .step04 {
-  width: 40%;
-  height: 40%;
+  width: 30%;
+  height: 30%;
   background-size: 100% 100%;
 }
 .step01 {
@@ -480,9 +480,8 @@ export default {
 }
 
 .el-step__icon {
-  width: 56px;
-  height: 56px;
-  /* background-color: #2485e0; */
+  width: 48px;
+  height: 48px;
 }
 .is-finish .step01 {
   background-image: url("../../assets/images/reporte_finish.png");

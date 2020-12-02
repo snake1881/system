@@ -193,7 +193,7 @@ export default {
         // 折线颜色
         color: ["#2670f7", "#ed6741", "#57c5d9", "#fbe268"],
         legend: {
-          data: ["AAAAA", "FFFFF", "BBBBB", "CCCCC"],
+          data: ["产油", "产液", "含水", "载荷"],
           textStyle: {
             color: "#ffffff",
             fontSize: 10,
@@ -263,25 +263,25 @@ export default {
         },
         series: [
           {
-            name: "AAAAA",
+            name: "产油",
             type: "line",
             data: [50, 102, 75, 104, 80, 100, 43, 56, 104, 74, 94],
             yAxisIndex: 0,
           },
           {
-            name: "FFFFF",
+            name: "产液",
             type: "line",
             data: [60, 82, 86, 74, 86, 90, 63, 76, 83, 74, 84],
             yAxisIndex: 1,
           },
           {
-            name: "BBBBB",
+            name: "含水",
             type: "line",
             data: [65, 102, 88, 104, 102, 170, 88, 56, 104, 30, 76],
             yAxisIndex: 0,
           },
           {
-            name: "CCCCC",
+            name: "载荷",
             type: "line",
             data: [70, 90, 70, 94, 80, 70, 90, 74, 81, 82],
             yAxisIndex: 1,
@@ -362,29 +362,144 @@ export default {
     wellAbnormalInit() {
       let dom = document.getElementById("wellAbnormal");
       let myChart = echarts.init(dom);
-      myChart.setOption({
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b}: {c} ({d}%)",
+      var BorderWidth = "10";
+      var placeHolderStyle = {
+        normal: {
+          color: "rgba(0,0,0,0)",
+          borderWidth: 0,
         },
-        // 颜色
+      };
+      myChart.setOption({
         color: ["#2670f7", "#57c5d9", "#ed6741", "#Fbe268", "#Cabbe9"],
+        legend: {
+          orient: "vertical",
+          left: "left",
+          data: ["设备异常", "液量异常", "含水异常", "工况异常", "正常井"],
+          textStyle: {
+            color: "#e6e6e6",
+            fontSize: 10,
+          },
+        },
         series: [
           {
-            name: "所占比例",
+            name: "设备异常",
             type: "pie",
-            radius: ["40%", "55%"],
-            labelLine: {
+            radius: [100, 101],
+            hoverAnimation: false,
+            itemStyle: {
               normal: {
-                length: 25,
+                labelLine: {
+                  show: false,
+                },
+                borderWidth: BorderWidth,
+                borderColor: "#2670f7",
               },
             },
             data: [
-              { value: 335, name: "正常井" },
-              { value: 210, name: "液量异常" },
-              { value: 234, name: "含水异常" },
-              { value: 335, name: "工况异常" },
-              { value: 448, name: "设备异常" },
+              {
+                value: 4,
+              },
+              {
+                value: 6,
+                itemStyle: placeHolderStyle,
+              },
+            ],
+          },
+          {
+            name: "液量异常",
+            type: "pie",
+            radius: [80, 81],
+            hoverAnimation: false,
+            itemStyle: {
+              normal: {
+                labelLine: {
+                  show: false,
+                },
+                borderWidth: BorderWidth,
+                borderColor: "#57c5d9",
+              },
+            },
+            data: [
+              {
+                value: 7,
+              },
+              {
+                value: 3,
+                itemStyle: placeHolderStyle,
+              },
+            ],
+          },
+          {
+            name: "含水异常",
+            type: "pie",
+            radius: [60, 61],
+            hoverAnimation: false,
+            itemStyle: {
+              normal: {
+                labelLine: {
+                  show: false,
+                },
+                borderWidth: BorderWidth,
+                borderColor: "#ed6741",
+              },
+            },
+            data: [
+              {
+                value: 5,
+              },
+              {
+                value: 5,
+                itemStyle: placeHolderStyle,
+              },
+            ],
+          },
+          {
+            name: "工况异常",
+            type: "pie",
+            hoverAnimation: false,
+            radius: [40, 41],
+            itemStyle: {
+              normal: {
+                labelLine: {
+                  show: false,
+                },
+                borderWidth: BorderWidth,
+                borderColor: "#Fbe268",
+              },
+            },
+            data: [
+              {
+                value: 5,
+              },
+              {
+                value: 5,
+                itemStyle: placeHolderStyle,
+              },
+            ],
+          },
+          {
+            name: "正常井",
+            type: "pie",
+            hoverAnimation: false,
+            radius: [20, 21],
+            itemStyle: {
+              normal: {
+                labelLine: {
+                  show: false,
+                },
+                borderWidth: BorderWidth,
+                borderColor: "#Cabbe9",
+              },
+            },
+            data: [
+              {
+                value: 8,
+                // name: "总井数",
+              },
+              {
+                value: 2,
+                itemStyle: placeHolderStyle,
+              },
             ],
           },
         ],
