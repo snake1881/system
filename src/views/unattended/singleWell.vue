@@ -123,19 +123,22 @@
           >
           <el-date-picker
             v-model="gtDate1"
-            type="date"
             placeholder="选择日期"
             size="mini"
+            value-format="yyyy-MM-dd"
             style="width: 120px; margin-right: 10px"
           />
           至
           <el-date-picker
             v-model="gtDate2"
-            type="date"
             placeholder="选择日期"
+            value-format="yyyy-MM-dd"
             size="mini"
-            style="width: 120px; margin-left: 10px"
+            style="width: 120px; margin: 0 10px"
           />
+          <el-button size="mini" type="primary" plain @click="gtInit()"
+            >查询</el-button
+          >
           <div class="unattended_singleWell_container_left_gt_container">
             <div
               v-for="item in tableData"
@@ -174,19 +177,22 @@
           >
           <el-date-picker
             v-model="zhDate1"
-            type="date"
             placeholder="选择日期"
+            value-format="yyyy-MM-dd"
             size="mini"
             style="width: 120px; margin-right: 10px"
           />
           至
           <el-date-picker
-            v-model="zhDate1"
-            type="date"
+            v-model="zhDate2"
             placeholder="选择日期"
+            value-format="yyyy-MM-dd"
             size="mini"
-            style="width: 120px; margin-left: 10px"
+            style="width: 120px; margin: 0 10px"
           />
+          <el-button size="mini" type="primary" plain @click="zhLineInit()"
+            >查询</el-button
+          >
           <div style="width: 100%; height: 100%">
             <div id="zh" class="zhLine" />
           </div>
@@ -196,19 +202,22 @@
         <span class="unattended_singleWell_top_information_span">生产曲线</span>
         <el-date-picker
           v-model="proDate1"
-          type="date"
           placeholder="选择日期"
+          value-format="yyyy-MM-dd"
           size="mini"
           style="width: 120px; margin-right: 10px"
         />
         至
         <el-date-picker
           v-model="proDate2"
-          type="date"
           placeholder="选择日期"
+          value-format="yyyy-MM-dd"
           size="mini"
-          style="width: 120px; margin-left: 10px"
+          style="width: 120px; margin: 0 10px"
         />
+        <el-button size="mini" type="primary" plain @click="proLineInit()"
+          >查询</el-button
+        >
         <div class="unattended_singleWell_container_proLine">
           <div id="proLiquidLine" class="proLine" />
           <div id="proWaterLine" class="proLine" />
@@ -408,6 +417,7 @@ export default {
     },
     // 生产曲线
     proLineInit() {
+      this.productProdDate = [];
       this.getRequest(
         "/wells/well/setWellInfoProducts?sTime=" +
           this.proDate1 +
@@ -422,29 +432,20 @@ export default {
           let dom1 = document.getElementById("proLiquidLine");
           let myChart1 = echarts.init(dom1);
           myChart1.setOption({
-            title: {
-              text: "产油产液曲线",
-              textStyle: {
-                fontSize: 10,
-                color: "#666",
-                fontWeight: 400,
-              },
-              top: "center",
-              left: -5,
-            },
             legend: {
               data: ["产油", "产液"],
               textStyle: {
                 fontSize: 9,
                 color: "#666",
               },
+              x: "right",
             },
             color: ["#2485e0", "#ec8e25"],
             grid: {
-              width: "80%",
-              height: "45%",
-              top: 30,
-              left: 95,
+              width: "92%",
+              height: "63%",
+              top: 16,
+              left: 40,
             },
             tooltip: {
               trigger: "axis",
@@ -468,6 +469,13 @@ export default {
               },
             },
             yAxis: {
+              name: "产油产液曲线",
+              nameLocation: "middle",
+              nameTextStyle: {
+                padding: [0, 0, 10, 0],
+                fontSize: 12,
+                color: "#666",
+              },
               type: "value",
               axisLine: {
                 //y轴
@@ -505,16 +513,6 @@ export default {
           let dom2 = document.getElementById("proWaterLine");
           let myChart2 = echarts.init(dom2);
           myChart2.setOption({
-            title: {
-              text: "含水曲线",
-              textStyle: {
-                fontSize: 10,
-                color: "#666",
-                fontWeight: 400,
-              },
-              top: 25,
-              left: 5,
-            },
             tooltip: {
               trigger: "axis",
             },
@@ -524,13 +522,14 @@ export default {
                 fontSize: 9,
                 color: "#666",
               },
+              x: "right",
             },
             color: ["#2485e0"],
             grid: {
-              width: "80%",
-              height: "45%",
-              top: 30,
-              left: 95,
+              width: "92%",
+              height: "63%",
+              top: 20,
+              left: 40,
             },
             xAxis: {
               data: this.productProdDate,
@@ -551,6 +550,13 @@ export default {
               },
             },
             yAxis: {
+              name: "含水曲线",
+              nameLocation: "middle",
+              nameTextStyle: {
+                padding: [0, 0, 10, 0],
+                fontSize: 12,
+                color: "#666",
+              },
               type: "value",
               axisLine: {
                 //y轴
@@ -583,16 +589,6 @@ export default {
           let dom3 = document.getElementById("proFluidLine");
           let myChart3 = echarts.init(dom3);
           myChart3.setOption({
-            title: {
-              text: "动液面曲线",
-              textStyle: {
-                fontSize: 10,
-                color: "#666",
-                fontWeight: 400,
-              },
-              top: 35,
-              left: -5,
-            },
             tooltip: {
               trigger: "axis",
             },
@@ -602,13 +598,14 @@ export default {
                 fontSize: 9,
                 color: "#666",
               },
+              x: "right",
             },
             color: ["#ec8e25"],
             grid: {
-              width: "80%",
-              height: "45%",
-              top: 30,
-              left: 95,
+              width: "90%",
+              height: "62%",
+              top: 23,
+              left: 55,
             },
             xAxis: {
               data: this.productProdDate,
@@ -629,6 +626,13 @@ export default {
               },
             },
             yAxis: {
+              name: "动液面曲线",
+              nameLocation: "middle",
+              nameTextStyle: {
+                padding: [0, 0, 25, 0],
+                fontSize: 12,
+                color: "#666",
+              },
               type: "value",
               axisLine: {
                 //y轴
@@ -673,6 +677,7 @@ export default {
     },
     // 载荷曲线
     zhLineInit() {
+      this.zhLineDate = [];
       this.getRequest(
         "/wells/well/selectZh?sTime=" +
           this.zhDate1 +
@@ -688,9 +693,7 @@ export default {
           myChart.setOption({
             legend: {
               data: ["最大载荷", "最小载荷"],
-              // orient: "vertical",
               x: "right",
-              // y: "center",
               fontSize: "7px",
             },
             tooltip: {
