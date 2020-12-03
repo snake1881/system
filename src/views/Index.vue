@@ -396,7 +396,7 @@ export default {
           axisLabel: {
             textStyle: {
               color: "#c3dbff", //更改坐标轴文字颜色
-              fontSize: 14, //更改坐标轴文字大小
+              fontSize: 12, //更改坐标轴文字大小
             },
           },
           // 轴线颜色
@@ -423,17 +423,47 @@ export default {
           // 网格线
           splitLine: { show: false },
         },
+        dataset: {
+          source: [
+            ["score", "number", "wellName"],
+            [1, 500, "正常井"],
+            [31, 265, "液量异常"],
+            [57, 330, "含水异常"],
+            [77, 127, "工况异常"],
+            [99, 245, "设备异常"],
+          ],
+        },
+        visualMap: {
+          orient: "horizontal",
+          show: false,
+          left: "center",
+          min: 10,
+          max: 100,
+          dimension: 0,
+          inRange: {
+            color: ["#2670f7", "#ed6741", "#fbe268", "#57c5d9", "#cabbe9"],
+          },
+        },
         series: [
           {
             type: "bar",
-            data: [49, 65, 28, 59, 100],
-            barWidth: 28,
+            encode: {
+              x: "number",
+              y: "wellName",
+            },
+            barWidth: 25,
             itemStyle: {
+              //上方显示数值
               normal: {
-                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                  { offset: 0, color: "#2670f7" },
-                  { offset: 1, color: "#57c5d9" },
-                ]),
+                label: {
+                  show: true, //开启显示
+                  position: "top", //在右方显示
+                  textStyle: {
+                    //数值样式
+                    color: "#c3dbff",
+                    fontSize: 12,
+                  },
+                },
               },
             },
           },

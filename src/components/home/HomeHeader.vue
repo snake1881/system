@@ -147,7 +147,9 @@ export default {
       username: this.$store.state.currentUser.username,
     };
   },
-  created() {},
+  created() {
+    console.log(this.$store.state.routes);
+  },
   methods: {
     // 跳转到所有通知页面
     gotoReceiveNotice() {
