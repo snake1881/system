@@ -217,7 +217,7 @@ export default {
     // 井场汇总信息
     wellSiteInit() {
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime=2020-11-18&wellSitName=" +
+        "/wellSits/wellSit/WellSitList?sTime=2020-12-02&wellSitName=" +
           this.$route.query.name
       ).then((resp) => {
         if (resp) {
