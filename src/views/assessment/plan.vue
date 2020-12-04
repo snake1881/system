@@ -28,11 +28,11 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" align="center" width="90" />
-        <el-table-column prop="planName" align="center" label="计划名称" width="300" />
-        <el-table-column prop="startDate" align="center" label="开始时间" width="270" />
-        <el-table-column prop="endDate" align="center" label="结束时间" width="270" />
-        <el-table-column prop="remark" align="center" label="备注" width="285" />
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column prop="planName" align="center" label="计划名称" width="320" />
+        <el-table-column prop="startDate" align="center" label="开始时间" width="200" />
+        <el-table-column prop="endDate" align="center" label="结束时间" width="200" />
+        <el-table-column prop="remark" align="center" label="备注" width="265" />
+        <el-table-column label="操作" align="center" width="240">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editPlan(scope.row)" class="iconfont icon-bianji" />
             <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu" />
