@@ -1,6 +1,6 @@
 <template>
   <div class="work_collect">
-    <div v-if="isShow" class="work_collect_item">
+    <div v-if="isShow == 1" class="work_collect_item">
       <!-- 条件查询 -->
       <el-form class="work_collect_form" :model="abnormalForm" :inline="true">
         <el-form-item>
@@ -29,17 +29,6 @@
             size="medium"
           />
         </el-form-item>
-        <!-- <el-form-item label="报警级别">
-          <el-select
-            v-model="abnormalForm.liqOrWater"
-            placeholder="全部"
-            size="medium"
-          >
-            <el-option label="一级" value="1"></el-option>
-            <el-option label="二级" value="2"></el-option>
-            <el-option label="三级" value="3"></el-option>
-          </el-select>
-        </el-form-item> -->
         <el-form-item>
           <el-button
             type="primary"
@@ -52,6 +41,7 @@
       </el-form>
       <!-- 表格数据 -->
       <el-table
+        class="work_collect_table"
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
@@ -76,10 +66,23 @@
               element-loading-spinner="el-icon-loading"
             >
               <div v-for="(item, index) in loadCollect" :key="index">
-                <span style=" width:200px;text-align:center; display: inline-block; " >{{ item.acquisitionTime }}</span>
-                <span style=" width:200px;text-align:center; display: inline-block; margin-left: 20px">{{
-                  item.diagnosisResult
-                }}</span>
+                <span
+                  style="
+                    width: 200px;
+                    text-align: center;
+                    display: inline-block;
+                  "
+                  >{{ item.acquisitionTime }}</span
+                >
+                <span
+                  style="
+                    width: 200px;
+                    text-align: center;
+                    display: inline-block;
+                    margin-left: 20px;
+                  "
+                  >{{ item.diagnosisResult }}</span
+                >
                 <el-button
                   type="text"
                   @click="details(item)"
@@ -127,7 +130,7 @@
         />
         <el-table-column
           prop="frequency"
-          label="冲刺"
+          label="冲次"
           width="100"
           align="center"
         />
@@ -144,7 +147,7 @@
           align="center"
         />
         <el-table-column
-          prop="thirdResult"
+          prop="diagnosisResult"
           label="诊断结果"
           width="150"
           align="center"
@@ -170,29 +173,30 @@
       </div>
     </div>
     <!-- 详情 -->
-    <div class="work_collect_item" v-if="!isShow">
-      <div class="work_collect_item_detail_btn">
+    <div class="work_collect_item" v-if="isShow == 2">
+      <div v-if="isShow == 2" style="margin-top: 20px"></div>
+      <div class="details">
         <el-button icon="el-icon-arrow-left" type="text" @click="back()"
           >返回</el-button
         >
-        <el-button type="primary" size="small" style="margin-left: 25%"
-          >液量曲线</el-button
-        >
-        <el-button type="primary" size="small">载荷曲线</el-button>
-        <!-- <el-button
-          type="primary"
+        <el-radio-group
+          v-model="radio"
           size="small"
-          @click="dialogTableVisible = true"
-          >功图叠加</el-button
-        > -->
-        <el-button type="primary" size="small">功图平铺</el-button>
-        <el-button type="primary" size="small">重新诊断</el-button>
+          style="margin-left: 25%"
+          @change="radioChange"
+        >
+          <el-radio-button label="详情"></el-radio-button>
+          <el-radio-button label="液量曲线"></el-radio-button>
+          <el-radio-button label="载荷曲线"></el-radio-button>
+          <el-radio-button label="功图平铺"></el-radio-button>
+          <el-radio-button label="重新诊断"></el-radio-button>
+        </el-radio-group>
       </div>
       <table cellspacing="0" class="work_collect_item_detail_table">
         <tr>
           <th>当前数据</th>
           <th>冲程</th>
-          <th>冲刺</th>
+          <th>冲次</th>
           <th>最大载荷</th>
           <th>最小载荷</th>
           <th>泵径</th>
@@ -207,7 +211,7 @@
           <td>{{ this.detailsCollect.minLoad }}</td>
           <td>0</td>
           <td>0</td>
-          <td>0</td>
+          <td>{{ this.detailsCollect.liquidProd }}</td>
         </tr>
       </table>
 
@@ -215,6 +219,7 @@
         <div class="work_collect_item_gt_g" id="gt1" ref="dom1" />
         <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
         <div class="work_collect_item_gt_g" id="gt3" ref="dom3" />
+        <div class="work_collect_item_gt_g" id="gt4" ref="dom4" />
       </div>
       <table
         cellspacing="0"
@@ -223,7 +228,7 @@
       >
         <tr>
           <th>诊断结论(系统)</th>
-          <th>{{ this.detailsCollect.thirdResult }}</th>
+          <th>{{ this.detailsCollect.diagnosisResult }}</th>
           <th>AI诊断结论(参考)</th>
           <th>{{ this.detailsCollect.aiResult }}</th>
         </tr>
@@ -251,13 +256,13 @@
             align="center"
           />
           <el-table-column
-            prop="prodDate"
+            prop="finishDate"
             label="日期"
             width="360"
             align="center"
           />
           <el-table-column
-            prop="measure"
+            prop="operationName"
             label="措施"
             width="558"
             align="center"
@@ -265,61 +270,196 @@
         </el-table>
       </div>
     </div>
-    <el-dialog
-      title="功图叠加"
-      :visible.sync="dialogTableVisible"
-      width="70%"
-      class="work_collect_item_appent_gt_dialog"
-    >
-      <!-- 搜索框 -->
-      <el-form
-        :model="dialogForm"
-        :inline="true"
-        class="work_collect_item_appent_gt_dialog_form"
-      >
-        <el-form-item v-if="detailsCollect">
-          <el-input
-            :placeholder="detailsCollect.orgName"
-            size="medium"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item v-if="detailsCollect">
-          <el-input
-            :placeholder="detailsCollect.wellCommonName"
-            size="medium"
-            :disabled="true"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-date-picker
-            v-model="dialogForm.startDate"
-            type="daterange"
-            value-format="yyyy-MM-dd"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-button type="primary" size="medium" @click="appendGt()"
-          >查询</el-button
+    <div class="work_collect_item" v-if="isShow == 3">
+      <div v-if="isShow == 3" style="margin-top: 20px"></div>
+      <div v-if="isShow == 3" class="gtTile">
+        <el-button icon="el-icon-arrow-left" type="text" @click="back()"
+          >返回</el-button
         >
-      </el-form>
-      <!-- 功图叠加 -->
-      <!-- <div
-        id="gt4"
-        ref="dom4"
-        class="work_collect_item_appent_gt_dialog_gt"
-        v-loading="dialogLoading"
-        element-loading-text="拼命加载中"
-        element-loading-spinner="el-icon-loading"
-      >
-        <span class="work_collect_item_appent_gt_dialog_gt_text">{{
-          this.dialogGt
-        }}</span>
-      </div> -->
-    </el-dialog>
+        <el-radio-group
+          v-model="radio"
+          size="small"
+          style="margin-left: 25%"
+          @change="radioChange"
+        >
+          <el-radio-button label="详情"></el-radio-button>
+          <el-radio-button label="液量曲线"></el-radio-button>
+          <el-radio-button label="载荷曲线"></el-radio-button>
+          <el-radio-button label="功图平铺"></el-radio-button>
+          <el-radio-button label="重新诊断"></el-radio-button>
+        </el-radio-group>
+      </div>
+      <div v-if="isShow == 3" class="tile_echarts">
+        <div
+          v-if="this.tableData.length > 0"
+          class="chart"
+          id="myChart0"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.tableData.length > 1"
+          class="chart"
+          id="myChart1"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.tableData.length > 2"
+          class="chart"
+          id="myChart2"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.tableData.length > 3"
+          class="chart"
+          id="myChart3"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <br />
+        <div
+          v-if="this.tableData.length > 4"
+          class="chart"
+          id="myChart4"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.tableData.length > 5"
+          class="chart"
+          id="myChart5"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.tableData.length > 6"
+          class="chart"
+          id="myChart6"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.tableData.length > 7"
+          class="chart"
+          id="myChart7"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 8"
+          class="chart"
+          id="myChart8"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 9"
+          class="chart"
+          id="myChart9"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 10"
+          class="chart"
+          id="myChart10"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 11"
+          class="chart"
+          id="myChart11"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 12"
+          class="chart"
+          id="myChart12"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 13"
+          class="chart"
+          id="myChart13"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 14"
+          class="chart"
+          id="myChart14"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+        <div
+          v-if="this.logForm.pageSize === 16 && this.tableData.length > 15"
+          class="chart"
+          id="myChart15"
+          :style="{ width: '24.5%', height: '250px' }"
+        ></div>
+      </div>
+      <!-- 分页 -->
+      <div class="tile_page">
+        <el-pagination
+          :current-page.sync="logForm.currentPage"
+          :page-size="logForm.pageSize"
+          :total="logForm.total"
+          :page-sizes="[8, 16]"
+          layout="total, prev, pager, next, jumper, sizes"
+          @size-change="handleSizeChangeGt"
+          @current-change="handleCurrentChangeGt"
+        />
+      </div>
+    </div>
+    <div class="work_collect_item" v-if="isShow == 4">
+      <div v-if="isShow == 4" style="margin-top: 20px"></div>
+      <div v-if="isShow == 4" class="amountLiquid">
+        <el-button icon="el-icon-arrow-left" type="text" @click="back()"
+          >返回</el-button
+        >
+        <el-radio-group
+          v-model="radio"
+          size="small"
+          style="margin-left: 25%"
+          @change="radioChange"
+        >
+          <el-radio-button label="详情"></el-radio-button>
+          <el-radio-button label="液量曲线"></el-radio-button>
+          <el-radio-button label="载荷曲线"></el-radio-button>
+          <el-radio-button label="功图平铺"></el-radio-button>
+          <el-radio-button label="重新诊断"></el-radio-button>
+        </el-radio-group>
+      </div>
+      <div :style="{ height: '100px' }"></div>
+      <div>
+        <div
+          v-if="isShow == 4"
+          class="amountLiquidChart"
+          id="amountLiquidChart"
+          :style="{ width: '100%', height: '400px' }"
+        ></div>
+      </div>
+    </div>
+    <div class="work_collect_item" v-if="isShow == 5">
+      <div v-if="isShow == 5" style="margin-top: 20px"></div>
+      <div v-if="isShow == 5" class="loadLine">
+        <el-button icon="el-icon-arrow-left" type="text" @click="back()"
+          >返回</el-button
+        >
+        <el-radio-group
+          margin:center
+          v-model="radio"
+          size="small"
+          style="margin-left: 25%"
+          @change="radioChange"
+        >
+          <el-radio-button label="详情"></el-radio-button>
+          <el-radio-button label="液量曲线"></el-radio-button>
+          <el-radio-button label="载荷曲线"></el-radio-button>
+          <el-radio-button label="功图平铺"></el-radio-button>
+          <el-radio-button label="重新诊断"></el-radio-button>
+        </el-radio-group>
+      </div>
+      <div :style="{ height: '100px' }"></div>
+      <div>
+        <div
+          v-if="isShow == 5"
+          class="loadChart"
+          id="loadChart"
+          :style="{ width: '100%', height: '400px' }"
+        ></div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -327,6 +467,8 @@ let echarts = require("echarts/lib/echarts");
 export default {
   data() {
     return {
+      //选择框
+      radio: "详情",
       // 工况汇总数据
       workingCollect: [],
       // 当前展开行数据
@@ -353,21 +495,43 @@ export default {
       // 采油站数据
       orgNames: [],
       // 默认展示内容
-      isShow: true,
+      isShow: 1,
       // 工况详情数据
-      detailsCollect: null,
+      detailsCollect: [],
       // 设置row-key只展示一行
       expands: [],
       // 功图叠加对话框标记
       dialogTableVisible: false,
       // 功图叠加加载动画
-      // dialogLoading: false,
+      dialogLoading: false,
       // 功图叠加默认显示内容
-      // dialogGt: "暂无数据",
+      dialogGt: "暂无数据",
       // 功图叠加对话框搜索框
       dialogForm: {
         // 日期段
         startDate: "",
+      },
+      //
+      tableData: [],
+      //液量曲线页面初始化数据
+      amountLiquidData: [],
+      //液量曲线页面处理后数据
+      amountArray1: [[]],
+      amountArray2: [[]],
+      amountArray3: [[]],
+      //载荷曲线页面初始化数据
+      loadData: [],
+      loadArray1: [[]],
+      loadArray2: [[]],
+      loadArray3: [[]],
+      // tableData1: [],
+      coordinates: [[]],
+      previewGtmjVisible: false,
+      previewGtmjData: {},
+      logForm: {
+        currentPage: 1,
+        pageSize: 8,
+        total: 0,
       },
     };
   },
@@ -401,26 +565,6 @@ export default {
           // this.getIndex();
         }
       });
-      // let url =
-      //   "/oilWell/workCollect/page?current=" +
-      //   this.currentPage +
-      //   "&pageSize=" +
-      //   this.pageSize;
-      // if (
-      //   this.abnormalForm.formDate !== "" &&
-      //   this.abnormalForm.formDate !== null
-      // ) {
-      //   url += "&date=" + this.abnormalForm.formDate;
-      // }
-      // this.getRequest(url).then((resp) => {
-      //   this.loading = false;
-      //   if (resp) {
-      //     this.workingCollect = resp.data.records;
-      //     this.total = resp.data.total;
-      //     this.currentPage = resp.data.current;
-      //     this.pageSize = resp.data.size;
-      //   }
-      // });
     },
     // 只展开一行放入当前行id
     getRowKeys(row) {
@@ -477,208 +621,722 @@ export default {
           // this.getIndex();
         }
       });
-      // if (this.abnormalForm.orgName === "全区") {
-      //   this.workingCollectInit();
-      // } else {
-      //   this.loading = true;
-      //   let url =
-      //     "/oilWell/workCollect/dgnsResult?current=" +
-      //     this.currentPage +
-      //     "&pageSize=" +
-      //     this.pageSize;
-      //   if (this.abnormalForm.orgName !== null) {
-      //     url += "&orgName=" + this.abnormalForm.orgName;
-      //   }
-      //   if (
-      //     this.abnormalForm.formDate !== null &&
-      //     this.abnormalForm.formDate !== ""
-      //   ) {
-      //     url += "&date=" + this.abnormalForm.formDate;
-      //   }
-      //   if (this.abnormalForm.alarmLevel !== null) {
-      //     url += "&alarmLevel=" + this.abnormalForm.alarmLevel;
-      //   }
-      //   this.getRequest(url).then((resp) => {
-      //     this.loading = false;
-      //     if (resp) {
-      //       this.workingCollect = resp.data.records;
-      //       this.total = resp.data.total;
-      //       this.currentPage = resp.data.current;
-      //       this.pageSize = resp.data.size;
-      //     }
-      //   });
-      // }
     },
     // 跳转至详情页面
-    details(row) {
-      this.isShow = false;
-      this.detailsCollect = row;
-      this.measureInit(row.wellCommonName);
-      // setTimeout(() => {
-      //   this.showGT();
-      // }, 10);
+    details(val) {
+      this.isShow = 2;
+      if (val == 1) {
+        this.detailsCollect = this.detailsCollect;
+      } else {
+        this.detailsCollect = val;
+      }
+      setTimeout(() => {
+        this.showGT();
+      }, 10);
+      // 查询该井的历史措施
+      this.getRequest(
+        "/operation/operationInfo/listOperation?state=1&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        if (resp) {
+          console.log(resp);
+          this.measure = resp.data;
+        }
+      }); 
     },
     // 查询该井的历史措施
-    measureInit(wellCommonName) {
-      this.getRequest("/oilWell/workCollect/measure/" + wellCommonName).then(
-        (resp) => {
-          if (resp) {
-            this.measure = resp.data;
-          }
-        }
-      );
-    },
-    // 画图
-    // showGT() {
-    //   // 获取三个功图的坐标数据
+    // measureInit() {
     //   this.getRequest(
-    //     "/oilWell/workCollect/gt?dynaId=" +
-    //       this.detailsCollect.dynaId +
-    //       "&standardGtId=" +
-    //       this.detailsCollect.standardGtId +
-    //       "&featureGtId=" +
-    //       this.detailsCollect.featureGtId
+    //     "/operation/operationInfo/listOperation?state=1&wellId=" +
+    //       detailsCollect.wellId
     //   ).then((resp) => {
     //     if (resp) {
-    //       for (var i = 0; i < 3; i++) {
-    //         let gt, name, dom;
-    //         if (i === 0) {
-    //           dom = document.getElementById(this.$refs.dom1.id);
-    //           name = "当前功图";
-    //           gt = resp.data.current;
-    //         } else if (i === 1) {
-    //           dom = document.getElementById(this.$refs.dom2.id);
-    //           name = "标准功图";
-    //           gt = resp.data.standard;
-    //         } else if (i === 2) {
-    //           dom = document.getElementById(this.$refs.dom3.id);
-    //           name = "特征功图";
-    //           gt = resp.data.feature;
-    //         }
-    //         let myChart = echarts.init(dom);
-    //         myChart.setOption({
-    //           title: {
-    //             subtext: name,
-    //             x: "center",
-    //             top: "4%",
-    //           },
-    //           tooltip: {
-    //             trigger: "axis",
-    //           },
-    //           xAxis: {
-    //             min: 0,
-    //             max: 4,
-    //             type: "value",
-    //             axisLine: { onZero: false },
-    //             name: "位移(m)",
-    //             nameTextStyle: {
-    //               padding: [58, 0, 0, -190],
-    //             },
-    //           },
-    //           yAxis: {
-    //             min: 0,
-    //             max: 80,
-    //             type: "value",
-    //             axisLine: { onZero: false },
-    //             name: "载荷(kN)",
-    //           },
-    //           series: [
-    //             {
-    //               type: "line",
-    //               name: "载荷",
-    //               smooth: true,
-    //               symbol: "none",
-    //               data: gt,
-    //             },
-    //           ],
-    //         });
-    //       }
+    //       console.log(resp);
+    //       this.measure = resp.data;
     //     }
     //   });
     // },
-    // 功图叠加
-    // appendGt() {
-    //   if (
-    //     this.dialogForm.startDate !== null &&
-    //     this.dialogForm.startDate !== ""
-    //   ) {
-    //     this.dialogLoading = true;
-    //     this.getRequest(
-    //       "/oilWell/workCollect/gt/" +
-    //         this.detailsCollect.wellCommonName +
-    //         "?startDate=" +
-    //         this.dialogForm.startDate[0] +
-    //         "&endDate=" +
-    //         this.dialogForm.startDate[1]
-    //     ).then((resp) => {
-    //       this.dialogLoading = false;
-    //       if (resp) {
-    //         this.dialogGt = "";
-    //         let legendData = [];
-    //         let seriesData = [];
-    //         for (var i = 0; i < resp.data.length; i++) {
-    //           legendData.push(resp.data[i].date);
-    //           seriesData.push({
-    //             type: "line",
-    //             name: resp.data[i].date,
-    //             smooth: true,
-    //             symbol: "none",
-    //             data: resp.data[i].gt,
-    //           });
-    //         }
-    //         let myChart = echarts.init(
-    //           document.getElementById(this.$refs.dom4.id)
-    //         );
-    //         myChart.setOption(
-    //           {
-    //             title: {
-    //               subtext: "功图叠加",
-    //               x: "center",
-    //             },
-    //             legend: {
-    //               data: legendData,
-    //               orient: "vertical",
-    //               x: "right",
-    //               width: 150,
-    //               orient: "textVerticalAlign",
-    //             },
-    //             grid: {
-    //               left: "3%",
-    //               right: 180,
-    //             },
-    //             xAxis: {
-    //               min: 0,
-    //               max: 4,
-    //               type: "value",
-    //               axisLine: { onZero: false },
-    //               name: "位移(m)",
-    //               nameTextStyle: {
-    //                 padding: [70, 0, 0, -450],
-    //               },
-    //             },
-    //             yAxis: {
-    //               min: 0,
-    //               max: 80,
-    //               type: "value",
-    //               axisLine: { onZero: false },
-    //               name: "载荷(kN)",
-    //             },
-    //             series: seriesData,
-    //           },
-    //           true
-    //         );
-    //       }
-    //     });
-    //   } else {
-    //     this.$message({
-    //       message: "请先输入开始-结束日期再查询",
-    //       type: "warning",
-    //     });
-    //   }
-    // },
+    //功图平铺页面数据初始化
+    gtDataInit() {
+      this.getRequest(
+        "/diagnosis/knowledge/gttile/selectByTerm?current=" +
+          this.logForm.currentPage +
+          "&pageSize=" +
+          this.logForm.pageSize +
+          "&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        // this.loading = false;
+        if (resp) {
+          this.tableData = [];
+          this.tableData = resp.data.records;
+          this.logForm.total = resp.data.total;
+          this.logForm.currentPage = resp.data.current;
+          this.logForm.pageSize = resp.data.size;
+          for (var i = 0; i < this.tableData.length; i++) {
+            this.coordinates = [[]];
+            var displacementArray = this.tableData[i].displacementSet.split(
+              ";"
+            );
+            var disploadArray = this.tableData[i].loadSet.split(";");
+            for (var j = 0; j < displacementArray.length; j++) {
+              this.coordinates[j] = [];
+              this.coordinates[j][0] = parseFloat(displacementArray[j]);
+              this.coordinates[j][1] = parseFloat(disploadArray[j]);
+            }
+            this.drawLine2(i);
+          }
+        }
+      });
+    },
+    //功图平铺页面绘制一个图像
+    drawLine2(val) {
+      // 基于准备好的dom，初始化echarts实例
+      let dom = document.getElementById("myChart" + val);
+      let myChart = this.$echarts.init(dom);
+      // 绘制图表
+      myChart.setOption(
+        {
+          title: [
+            {
+              x: "center",
+              text: this.tableData[val].acquisitionTime,
+              top: "7%",
+              textStyle: {
+                fontSize: 13,
+                fontStyle: "normal",
+                fontWeight: "bolder",
+              },
+            },
+          ],
+
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: function (params) {
+              return (
+                "<div><p>位移：" +
+                params[0].value[0] +
+                "M</p>" +
+                "<p>载荷：" +
+                params[0].value[1] +
+                "KN</p>" +
+                "</div>"
+              );
+            },
+          },
+          grid: {
+            left: "6%",
+            right: "3%",
+            bottom: "15%",
+            top: "20%",
+            containLabel: true,
+          },
+          xAxis: {
+            name: "位移(M)",
+            nameLocation: "middle",
+            min: 0,
+            max: 4,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [8, 0, 0, 0],
+              fontSize: 10,
+            },
+          },
+          yAxis: {
+            name: "载荷(KN)",
+            nameLocation: "middle",
+            // min: 0,
+            // max: 100,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 8, 0],
+              fontSize: 10,
+            },
+          },
+          series: [
+            {
+              symbol: "none",
+              data: this.coordinates,
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+              },
+            },
+          ],
+        },
+        true
+      );
+    },
+    //详情页面将坐标数据串处理为坐标点
+    coordinate1(val) {
+      this.coordinates = [[]];
+      var displacementArray = this.tableData[val].displacementSet.split(";");
+      var disploadArray = this.tableData[val].loadSet.split(";");
+      for (var i = 0; i < displacementArray.length; i++) {
+        this.coordinates[i] = [];
+        this.coordinates[i][0] = parseFloat(displacementArray[i]);
+        this.coordinates[i][1] = parseFloat(disploadArray[i]);
+      }
+      return this.coordinates;
+    },
+    //功图平铺绘制多个图
+    step() {
+      for (var i = 0; i < this.tableData.length; i++) {
+        this.coordinates = [[]];
+        var displacementArray = this.tableData[i].displacementSet.split(";");
+        var disploadArray = this.tableData[i].loadSet.split(";");
+        for (var j = 0; j < displacementArray.length; j++) {
+          this.coordinates[j] = [];
+          this.coordinates[j][0] = parseFloat(displacementArray[j]);
+          this.coordinates[j][1] = parseFloat(disploadArray[j]);
+        }
+        this.drawLine2(i);
+      }
+    },
+    // 详情页面绘制一个图像
+    showGT() {
+      // 获取三个功图的坐标数据
+      // 
+      this.getRequest(
+        "/mountLiquid/liquidList?endTime=" +
+          this.detailsCollect.acquisitionTime +
+          "&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        if (resp) {
+          this.tableData = resp.data;
+          this.coordinate(this.tableData[0]);
+          this.drawLine(0);
+          this.coordinate(this.tableData[1]);
+          this.drawLine(1);
+          this.coordinate(this.tableData[2]);
+          this.drawLine(2);
+          this.coordinate(this.tableData[3]);
+          this.drawLine(3);
+        }
+      });
+      this.getRequest(
+        "/operation/operationInfo/listOperation?state=1&wellId=" +
+          detailsCollect.wellId
+      ).then((resp) => {
+        if (resp) {
+          // this.measure = resp.data;
+          console.log(resp);
+        }
+      });
+    },
+    //详情页面绘制四个图像
+    drawLine(val) {
+      // 基于准备好的dom，初始化echarts实例
+      let dom = "";
+      if (val === 0) {
+        dom = document.getElementById(this.$refs.dom1.id);
+      } else if (val === 1) {
+        dom = document.getElementById(this.$refs.dom2.id);
+      } else if (val === 2) {
+        dom = document.getElementById(this.$refs.dom3.id);
+      } else if (val === 3) {
+        dom = document.getElementById(this.$refs.dom4.id);
+      }
+      let myChart = echarts.init(dom);
+      // 绘制图表
+      myChart.setOption({
+        title: {
+          x: "center",
+          text:
+            "井号：" +
+            this.tableData[val].wellName +
+            "  时间：" +
+            this.tableData[val].acquisitionTime,
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          left: "6%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          nameLocation: "middle",
+          // min: 0,
+          // max: 100,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 8, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: this.coordinates,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+    },
+    //详情页面将坐标数据串处理为坐标点
+    coordinate(val) {
+      //每次处理之前保证坐标数组集合为空
+      this.coordinates = [[]];
+      var displacementArray = val.displacementSet.split(";");
+      var disploadArray = val.loadSet.split(";");
+      for (var i = 0; i < displacementArray.length; i++) {
+        this.coordinates[i] = [];
+        this.coordinates[i][0] = parseFloat(displacementArray[i]);
+        this.coordinates[i][1] = parseFloat(disploadArray[i]);
+      }
+      return this.coordinates;
+    },
     // 返回工况汇总
     back() {
-      this.isShow = true;
+      this.isShow = 1;
+    },
+    //单选框改变方法
+    radioChange() {
+      if (this.radio === "详情") {
+        this.details(1);
+      } else if (this.radio === "功图平铺") {
+        this.previewGtmj();
+      } else if (this.radio === "液量曲线") {
+        console.log("进入液量曲线页面");
+        this.amountLiquid();
+      } else if (this.radio === "载荷曲线") {
+        this.intoLoad();
+      }
+    },
+    //跳转液量曲线页面调用方法
+    amountLiquid() {
+      this.isShow = 4;
+      console.log("进入液量曲线页面");
+      this.amountLiquidInit();
+    },
+    //液量曲线数据初始化
+    amountLiquidInit() {
+      this.getRequest(
+        "/OilDaily/getDailyList?endTime=" +
+          this.detailsCollect.acquisitionTime +
+          "&startTime=" +
+          "&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        // this.loading = false;
+        if (resp) {
+          this.amountLiquidData = [];
+          this.amountLiquidData = resp.data;
+          this.amountLiquidDraw();
+        }
+      });
+    },
+    //液量曲线页面处理数据
+    amountLiquidCoordinatiate() {
+      // console.log("开始处理数据");
+      // console.log(this.amountLiquidData);
+      // var array1=[[]];
+      // var array2=[[]];
+      // var array3=[[]];
+      // this.amountArray1 = [[]];
+      // this.amountArray2 = [[]];
+      // this.amountArray3 = [[]];
+      // for (var i = 0; i < this.amountLiquidData.length; i++) {
+      //   this.amountArray1[i] = [];
+      //   this.amountArray2[i] = [];
+      //   this.amountArray3[i] = [];
+      //   this.amountArray1[i][0] = this.amountLiquidData[i].oilProdDate;
+      //   this.amountArray2[i][0] = this.amountLiquidData[i].oilProdDate;
+      //   this.amountArray3[i][0] = this.amountLiquidData[i].oilProdDate;
+      //   this.amountArray1[i][1] = this.amountLiquidData[i].drLiquidProd;
+      //   this.amountArray2[i][1] = this.amountLiquidData[i].drWaterCut;
+      //   this.amountArray3[i][1] = this.amountLiquidData[i].drOilProd;
+      //   console.log(this.amountArray1);
+      //   console.log(this.amountArray2);
+      //   console.log(this.amountArray3);
+      // }
+      // console.log(this.amountArray1);
+      // console.log(this.amountArray2);
+      // console.log(this.amountArray3);
+      // console.log("液量曲线数据处理完成");
+    },
+    //液量曲线页面绘制图像
+    amountLiquidDraw() {
+      // 基于准备好的dom，初始化echarts实例
+      var array1 = [[]];
+      var array2 = [[]];
+      var array3 = [[]];
+      this.amountArray1 = [[]];
+      this.amountArray2 = [[]];
+      this.amountArray3 = [[]];
+      for (var i = 0; i < this.amountLiquidData.length; i++) {
+        this.amountArray1[i] = [];
+        this.amountArray2[i] = [];
+        this.amountArray3[i] = [];
+        this.amountArray1[i][0] = this.amountLiquidData[i].oilProdDate;
+        this.amountArray2[i][0] = this.amountLiquidData[i].oilProdDate;
+        this.amountArray3[i][0] = this.amountLiquidData[i].oilProdDate;
+        this.amountArray1[i][1] = this.amountLiquidData[i].drLiquidProd;
+        this.amountArray2[i][1] = this.amountLiquidData[i].drWaterCut / 100;
+        this.amountArray3[i][1] = this.amountLiquidData[i].drOilProd;
+      }
+      console.log("液量曲线数据处理完成");
+      let myChart = this.$echarts.init(
+        document.getElementById("amountLiquidChart")
+      );
+      // 绘制图表
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: this.detailsCollect.wellName + "号井  " + "液量曲线",
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+          subtext: "",
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>时间：" +
+              params[0].value[0] +
+              "</p>" +
+              "<p>产液量：" +
+              params[0].value[1] +
+              "M<sup>3</sup><p>含水率：" +
+              params[1].value[1] * 100 +
+              "%<p>产油：" +
+              params[2].value[1] +
+              "M<sup>3</sup></p>" +
+              "</div>"
+            );
+          },
+        },
+        // toolbox: {
+        //   left: "right",
+        //   feature: {
+        //     dataZoom: {
+        //       yAxisIndex: "none",
+        //     },
+        //     restore: {},
+        //     saveAsImage: {},
+        //   },
+        // },
+        // dataZoom: [
+        //   {
+        //     startValue: "2014-06-01",
+        //   },
+        //   {
+        //     type: "inside",
+        //   },
+        // ],
+        legend: {
+          data: ["产液量", "含水率", "产油"],
+          orient: "vertical",
+          left: "80%",
+        },
+        grid: {
+          left: "3%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          nameLocation: "middle",
+          type: "time",
+        },
+        yAxis: {
+          name: "动液面(M)",
+          nameLocation: "middle",
+          nameGap: 30,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 6, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            name: "产液量",
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              color: "#ed6741",
+              width: 2,
+            },
+            data: this.amountArray1,
+          },
+          {
+            name: "含水率",
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              color: "#57c5d9",
+              width: 2,
+            },
+            data: this.amountArray2,
+          },
+          {
+            name: "产油",
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              color: "#2670f7",
+              width: 2,
+            },
+            data: this.amountArray3,
+          },
+        ],
+      });
+    },
+    //跳转至载荷曲线页面
+    intoLoad() {
+      this.isShow = 5;
+      this.loadInit();
+    },
+    //载荷曲线数据初始化
+    loadInit() {
+      this.getRequest(
+        "/diagnosis/knowledge/gttile/loadList?endTime=" +
+          this.detailsCollect.acquisitionTime +
+          "&startTime=" +
+          "&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        // this.loading = false;
+        if (resp) {
+          this.loadData = [];
+          console.log(resp.data);
+          this.loadData = resp.data;
+          console.log(this.loadData);
+          this.loadDraw();
+        }
+      });
+    },
+    // laodCoordinates() {
+    //   this.amountArray = [[[]]];
+    //   this.amountArray[0] = [[]];
+    //   this.amountArray[1] = [[]];
+    //   this.amountArray[2] = [[]];
+    //   for (var i = 0; i < this.amountLiquidData.length; i++) {
+    //     this.amountArray[0][i] = [];
+    //     this.amountArray[1][i] = [];
+    //     this.amountArray[2][i] = [];
+    //     this.data[0][i][0] = this.amountLiquidData[i].prodDate;
+    //     this.data[1][i][0] = this.amountLiquidData[i].prodDate;
+    //     this.data[2][i][0] = this.amountLiquidData[i].prodDate;
+    //     this.data[0][i][1] = this.amountLiquidData[i].dym;
+    //     this.data[1][i][1] = this.amountLiquidData[i].dym;
+    //     this.data[2][i][1] = this.amountLiquidData[i].dym;
+    //   }
+    //   return this.amountArray;
+    // },
+    //载荷曲线数据处理并绘图
+    loadDraw() {
+      this.loadArray1 = [[]];
+      this.loadArray2 = [[]];
+      this.loadArray3 = [[]];
+      for (var i = 0; i < this.loadData.length; i++) {
+        this.loadArray1[i] = [];
+        this.loadArray2[i] = [];
+        this.loadArray3[i] = [];
+        this.loadArray1[i][0] = this.loadData[i].time;
+        this.loadArray2[i][0] = this.loadData[i].time;
+        this.loadArray3[i][0] = this.loadData[i].time;
+        this.loadArray1[i][1] = this.loadData[i].avgMaxLoad;
+        this.loadArray2[i][1] = this.loadData[i].avgMinLoad;
+        this.loadArray3[i][1] = this.loadData[i].loadDiffer;
+        // console.log(this.loadArray1);
+        // console.log(this.loadArray1);
+        // console.log(this.loadArray1);
+        let myChart = this.$echarts.init(document.getElementById("loadChart"));
+        // 绘制图表
+        myChart.setOption({
+          title: {
+            x: "center",
+            text: this.detailsCollect.wellName + "号井  " + "载荷曲线",
+            top: "7%",
+            textStyle: {
+              fontSize: 13,
+              fontStyle: "normal",
+              fontWeight: "bolder",
+            },
+            subtext: "",
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: function (params) {
+              return (
+                "<div><p>时间：" +
+                params[0].value[0] +
+                "</p>" +
+                "<p>最大载荷：" +
+                params[0].value[1] +
+                "KN<p>最小载荷：" +
+                params[1].value[1] +
+                "KN<p>载荷差载荷：" +
+                params[2].value[1] +
+                "KN</p>" +
+                "</div>"
+              );
+            },
+          },
+          // toolbox: {
+          //   left: "right",
+          //   feature: {
+          //     dataZoom: {
+          //       yAxisIndex: "none",
+          //     },
+          //     restore: {},
+          //     saveAsImage: {},
+          //   },
+          // },
+          // dataZoom: [
+          //   {
+          //     startValue: "2014-06-01",
+          //   },
+          //   {
+          //     type: "inside",
+          //   },
+          // ],
+          legend: {
+            data: ["最大载荷", "最小载荷", "载荷差"],
+            orient: "vertical",
+            left: "80%",
+          },
+          grid: {
+            left: "3%",
+            right: "3%",
+            bottom: "15%",
+            top: "20%",
+            containLabel: true,
+          },
+          xAxis: {
+            nameLocation: "middle",
+            type: "time",
+          },
+          yAxis: {
+            name: "载荷(KN)",
+            nameLocation: "middle",
+            nameGap: 30,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 6, 0],
+              fontSize: 10,
+            },
+          },
+          series: [
+            {
+              name: "最大载荷",
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                color: "#2670f7",
+                width: 2,
+              },
+              data: this.loadArray1,
+            },
+            {
+              name: "最小载荷",
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                color: "#ed6741",
+                width: 2,
+              },
+              data: this.loadArray2,
+            },
+            {
+              name: "载荷差",
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                color: "#fbe268",
+                width: 2,
+              },
+              data: this.loadArray3,
+            },
+          ],
+        });
+      }
+    },
+    //跳转载荷曲线调用方法
+    // loadLine() {
+    //   this.isShow = 5;
+    // },
+    //跳转功图平铺页面调用方法
+    previewGtmj() {
+      this.isShow = 3;
+      this.gtDataInit();
+      // setTimeout(() => {
+      //   this.step();
+      // }, 10);
+      // this.previewGtmjData = this.detailsCollect;
+      // // this.previewGtmjVisible = true;
+    },
+    // 关闭功图
+    previewGtmjClose() {
+      this.previewGtmjVisible = false;
     },
     // 查询所有采油站信息
     selectOrgName() {
@@ -697,6 +1355,24 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.workingCollectInit();
+    },
+    // 功图平铺分页，页码大小改变
+    handleSizeChangeGt(val) {
+      this.logForm.pageSize = val;
+      this.gtDataInit();
+      setTimeout(() => {
+        this.step();
+      }, 10);
+      this.gtDataInit();
+    },
+    // 功图平铺分页，当前页改变
+    handleCurrentChangeGt(val) {
+      this.logForm.currentPage = val;
+      this.gtDataInit();
+      setTimeout(() => {
+        this.step();
+      }, 10);
+      this.gtDataInit();
     },
   },
 };
