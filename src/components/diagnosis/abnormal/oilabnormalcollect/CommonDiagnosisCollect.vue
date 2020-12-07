@@ -201,6 +201,9 @@ export default {
     diagndosisData: {
       type: Object,
     },
+    nowTime: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -243,7 +246,10 @@ export default {
     },
     //表格数据
     diagnosisAbnormalInit() {
-      this.termForm.oilStationId=this.diagndosisData.oilStationId;
+      this.termForm.oilStationId = this.diagndosisData.oilStationId;
+      if (this.termForm.acquisitionTime === "") {
+        this.termForm.acquisitionTime = this.nowTime;
+      }
       this.getRequest(
         "/diagnosis/abnormal/queryDiagramSourceByStationId?current=" +
           this.currentPage +
@@ -265,7 +271,7 @@ export default {
       });
     },
     //查询数据
-    diagnosisAbnormalSearch(){
+    diagnosisAbnormalSearch() {
       this.getRequest(
         "/diagnosis/abnormal/queryDiagramSourceByStationId?current=" +
           this.currentPage +
@@ -296,12 +302,12 @@ export default {
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
-      this.pageSize = val
+      this.pageSize = val;
       this.diagnosisAbnormalInit();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
-      this.currentPage = val
+      this.currentPage = val;
       this.diagnosisAbnormalInit();
     },
   },

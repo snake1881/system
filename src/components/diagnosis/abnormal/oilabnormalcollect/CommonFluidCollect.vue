@@ -3,141 +3,144 @@
     title="动液面异常数据详情"
     height="5%"
     :visible.sync="fluidAbnormalVisible"
-     width="76%"
+    width="76%"
     :before-close="fluidAbnormalClose"
     @opened="opened"
   >
-  <template>
-    <div class="dialogDiv">
-      <div class="waterAbnormal_top">
-        <el-form style="height:42px;" :model="termForm" :inline="true">
-          <el-form-item label="采油站">
-            <el-select
-              size="medium"
-              v-model="termForm.oilStationId"
-              style="width: 150px"
-              filterable
-              clearable
-              placeholder="全区"
-            >
-              <el-option
-                v-for="item in orgNameData"
-                :key="item.oilStationId"
-                :label="item.oilStationName"
-                :value="item.oilStationId"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="日期">
-            <el-date-picker
-              size="medium"
-              v-model="termForm.analysisDate"
-              style="width: 150px"
-              type="date"
-              placeholder="选择日期"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-            >
-            </el-date-picker>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              type="primary"
-              size="small"
-              icon="el-icon-search"
-              @click="fluidAbnormalSearch()"
-              >查询</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </div>
-      <el-table
-        v-loading="loading"
-        element-loading-text="拼命加载中"
-        element-loading-spinner="el-icon-loading"
-        :data="fluidAbnormal"
-        border
-        height="83%"
-        style="width: 100%"
-        :row-style="{ height: '2px' }"
-        :cell-style="{ padding: '0px' }"
-        :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-      >
-        <el-table-column
-         
-          label="序号"
-          width="60"
-          align="center"
-          type="index"
-          :index="(index)=>{return (index+1) + (this.currentPage-1)*this.pageSize }"
+    <template>
+      <div class="dialogDiv">
+        <div class="waterAbnormal_top">
+          <el-form style="height: 42px" :model="termForm" :inline="true">
+            <el-form-item label="采油站">
+              <el-select
+                size="medium"
+                v-model="termForm.oilStationId"
+                style="width: 150px"
+                filterable
+                clearable
+                placeholder="全区"
+              >
+                <el-option
+                  v-for="item in orgNameData"
+                  :key="item.oilStationId"
+                  :label="item.oilStationName"
+                  :value="item.oilStationId"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="日期">
+              <el-date-picker
+                size="medium"
+                v-model="termForm.analysisDate"
+                style="width: 150px"
+                type="date"
+                placeholder="选择日期"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+              >
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>
+              <el-button
+                type="primary"
+                size="small"
+                icon="el-icon-search"
+                @click="fluidAbnormalSearch()"
+                >查询</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </div>
+        <el-table
+          v-loading="loading"
+          element-loading-text="拼命加载中"
+          element-loading-spinner="el-icon-loading"
+          :data="fluidAbnormal"
+          border
+          height="83%"
+          style="width: 100%"
+          :row-style="{ height: '2px' }"
+          :cell-style="{ padding: '0px' }"
+          :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
         >
-        </el-table-column>
-        <el-table-column
-          prop="wellName"
-          label="井号"
-          width="120"
-          align="center"
-        ></el-table-column>
-        <el-table-column
+          <el-table-column
+            label="序号"
+            width="60"
+            align="center"
+            type="index"
+            :index="
+              (index) => {
+                return index + 1 + (this.currentPage - 1) * this.pageSize;
+              }
+            "
+          >
+          </el-table-column>
+          <el-table-column
+            prop="wellName"
+            label="井号"
+            width="120"
+            align="center"
+          ></el-table-column>
+          <el-table-column
             prop="oilStationName"
             label="采油站"
             width="120"
             align="center"
           ></el-table-column>
-        <el-table-column
-          prop="analysisDate"
-          label="分析日期"
-          width="180"
-          align="center"
-          :show-overflow-tooltip="true"
-        ></el-table-column>
-        <el-table-column
-          prop="fluidLevel"
-          label="动液面(M)"
-          width="100"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="fluidLevelStandard"
-          label="标准动液面(M)"
-          width="100"
-          align="center"
+          <el-table-column
+            prop="analysisDate"
+            label="分析日期"
+            width="180"
+            align="center"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+          <el-table-column
+            prop="fluidLevel"
+            label="动液面(M)"
+            width="100"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="fluidLevelStandard"
+            label="标准动液面(M)"
+            width="100"
+            align="center"
           >
-        </el-table-column>
-        <el-table-column
-          prop="abnormalResult"
-          label="异常结论"
-          width="240"
-          align="center"
-          :show-overflow-tooltip="true"
-        ></el-table-column>
-        <el-table-column
-          prop="abnormalReason"
-          label="异常原因"
-          width="120"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="remark"
-          label="备注"
-          width="100"
-          align="center"
-          :show-overflow-tooltip="true"
-        ></el-table-column>
-      </el-table>
-      <div class="liqFilterCondition_page">
-        <el-pagination
-          :current-page.sync="currentPage"
-          :page-size="pageSize"
-          :total="total"
-          :page-sizes="[10, 20, 30, 40, 50]"
-          layout="total, prev, pager, next, jumper, sizes"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
+          </el-table-column>
+          <el-table-column
+            prop="abnormalResult"
+            label="异常结论"
+            width="240"
+            align="center"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+          <el-table-column
+            prop="abnormalReason"
+            label="异常原因"
+            width="120"
+            align="center"
+          ></el-table-column>
+          <el-table-column
+            prop="remark"
+            label="备注"
+            width="100"
+            align="center"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+        </el-table>
+        <div class="liqFilterCondition_page">
+          <el-pagination
+            :current-page.sync="currentPage"
+            :page-size="pageSize"
+            :total="total"
+            :page-sizes="[10, 20, 30, 40, 50]"
+            layout="total, prev, pager, next, jumper, sizes"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
+        </div>
       </div>
-    </div>
-  </template>
+    </template>
   </el-dialog>
 </template>
 <script>
@@ -148,6 +151,9 @@ export default {
     },
     fluidData: {
       type: Object,
+    },
+    nowTime: {
+      type: String,
     },
   },
   data() {
@@ -179,7 +185,7 @@ export default {
     };
   },
   methods: {
-     opened() {
+    opened() {
       //初始化表格数据
       this.fluidAbnormalInit();
       this.orgNameInit();
@@ -190,16 +196,19 @@ export default {
     },
     //表格初始化
     fluidAbnormalInit() {
-      this.termForm.oilStationId=this.fluidData.oilStationId;
+      this.termForm.oilStationId = this.fluidData.oilStationId;
+      if (this.termForm.analysisDate === "") {
+        this.termForm.analysisDate = this.nowTime;
+      }
       this.getRequest(
         "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?current=" +
           this.currentPage +
           "&pageSize=" +
-          this.pageSize+
-          "&analysisDate="+
+          this.pageSize +
+          "&analysisDate=" +
           this.termForm.analysisDate +
           "&oilStationId=" +
-          this.termForm.oilStationId 
+          this.termForm.oilStationId
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -211,16 +220,16 @@ export default {
       });
     },
     //查询数据初始化
-    fluidAbnormalSearch(){
+    fluidAbnormalSearch() {
       this.getRequest(
         "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?current=" +
           this.currentPage +
           "&pageSize=" +
-          this.pageSize+
-          "&analysisDate="+
+          this.pageSize +
+          "&analysisDate=" +
           this.termForm.analysisDate +
           "&oilStationId=" +
-          this.termForm.oilStationId 
+          this.termForm.oilStationId
       ).then((resp) => {
         this.loading = false;
         if (resp) {
