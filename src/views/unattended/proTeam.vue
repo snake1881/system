@@ -308,8 +308,10 @@ export default {
   methods: {
     // 油井汇总
     teamInit() {
+     
+      
       this.getRequest(
-        "/teams/team/listTeamCount?productionTeamId=1&sTime=2020-11-18"
+        "/teams/team/listTeamCount?productionTeamId=1&sTime=2020-12-02"
       ).then((resp) => {
         if (resp) {
           this.oilData = resp.data.teamInfo;

@@ -241,12 +241,12 @@ export default {
       oilWell: [],
       // 功图
       gtDate1: "2020-08-31",
-      gtDate2: "2020-11-30",
+      gtDate2: "2020-12-30",
       coordinates: [[]],
       tableData: [],
       // 载荷
       zhDate1: "2020-08-31",
-      zhDate2: "2020-11-30",
+      zhDate2: "2020-12-30",
       // 载荷曲线日期
       zhLineDate: [],
       // 载荷曲线中最小载荷
@@ -255,7 +255,7 @@ export default {
       zhLineMaxLoad: [],
       // 生产
       proDate1: "2020-08-31",
-      proDate2: "2020-11-30",
+      proDate2: "2020-12-30",
       //生产曲线日期
       productProdDate: [],
       //生产曲线产油
@@ -285,7 +285,7 @@ export default {
     // 单井基础信息
     singleWellInit() {
       this.getRequest(
-        "/wells/well/selectWell?sTime=2020-11-18&wellId=" + this.$route.query.id
+        "/wells/well/selectWell?sTime=2020-12-02&wellId=" + this.$route.query.id
       ).then((resp) => {
         if (resp) {
           this.basicData = resp.data.wellInfo;
@@ -295,7 +295,7 @@ export default {
     // 措施作业数据
     measureInit() {
       this.getRequest(
-        "/wells/well/setWellInfoMeasures?sTime=2020-08-31&sTime1=2020-11-30&wellId=" +
+        "/wells/well/setWellInfoMeasures?sTime=2020-08-31&sTime1=2020-12-30&wellId=" +
           this.$route.query.id
       ).then((resp) => {
         if (resp) {

@@ -28,9 +28,9 @@
       >
         <el-table-column type="selection" align="center" width="90" />
         <el-table-column prop="templateName" align="center" label="模板名称" width="380" />
-        <el-table-column prop="formulationUnit" align="center" label="制定单位" width="360" />
-        <el-table-column prop="formulationDate" align="center" label="制定时间" width="380" />
-        <el-table-column align="center" label="操作" width="120">
+        <el-table-column prop="formulationUnit" align="center" label="制定单位" width="370" />
+        <el-table-column prop="formulationDate" align="center" label="制定时间" width="240" />
+        <el-table-column align="center" label="操作" width="240">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editTem(scope.row)" class="iconfont icon-bianji"/>
             <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu"/>

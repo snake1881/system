@@ -306,7 +306,7 @@ export default {
       this.getRequest(
         "/stations/station/listSitPage?oilStationId=" +
           this.$route.query.id +
-          "&sTime=2020-11-18"
+          "&sTime=2020-12-02"
       ).then((resp) => {
         if (resp) {
           this.oilStationData = resp.data.stationOilWellInfo;

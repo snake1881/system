@@ -270,8 +270,8 @@ export default {
     coordinate(val) {
       //每次处理之前保证坐标数组集合为空
       this.coordinates = [[]];
-      var displacementArray = val.displacementSet.split(",");
-      var disploadArray = val.loadSet.split(",");
+      var displacementArray = val.displacementSet.split(";");
+      var disploadArray = val.loadSet.split(";");
       for (var i = 0; i < displacementArray.length; i++) {
         this.coordinates[i] = [];
         this.coordinates[i][0] = parseFloat(displacementArray[i]);

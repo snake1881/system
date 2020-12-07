@@ -142,6 +142,7 @@ export default {
     },
     // 编辑
     waterAbnormalCollect(row, column) {
+      console.log(row);
       this.waterAbnormalData.oilStationId = row.oilStationId;
       // this.waterAbnormal.createTime=this.termForm.createTime;
       if (column.label == "正常井数") {

@@ -57,11 +57,11 @@
       >
         <el-table-column type="selection" align="center" width="90" />
         <el-table-column prop="indexName" align="center" label="指标名称" width="240" />
-        <el-table-column prop="scoreWeight" align="center" label="权重" width="150" />
-        <el-table-column prop="sequence" align="center" label="排列顺序" width="155" />
+        <el-table-column prop="scoreWeight" align="center" label="权重" width="100" />
+        <el-table-column prop="sequence" align="center" label="排列顺序" width="80" />
         <el-table-column prop="templateName" align="center" label="考核模板" width="300" />
         <el-table-column prop="remark" align="center" label="备注" width="280" />
-        <el-table-column label="操作" align="center" width="120">
+        <el-table-column label="操作" align="center" width="230">
           <template slot-scope="scope">
             <el-button type="text" size="small" @click="editIndex(scope.row)" class="iconfont icon-bianji" />
             <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu" />
