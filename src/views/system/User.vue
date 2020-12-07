@@ -86,10 +86,10 @@
         />
         <el-table-column prop="email" label="邮箱" width="130" />
         <el-table-column prop="phone" label="手机" width="130" />
-        <el-table-column prop="status" label="状态" width="80" />
-        <el-table-column prop="sex" label="性别" width="80" />
-        <el-table-column prop="createTime" label="创建时间" width="170" />
-        <el-table-column label="操作" width="80">
+        <el-table-column prop="status" label="状态" width="60" />
+        <el-table-column prop="sex" label="性别" width="60" />
+        <el-table-column prop="createTime" label="创建时间" width="160" />
+        <el-table-column label="操作" width="130">
           <template slot-scope="scope">
             <el-button
               type="text"

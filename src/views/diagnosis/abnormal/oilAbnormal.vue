@@ -85,18 +85,21 @@
       :liquidAbnormalVisible="checkLiquidAbnormalVisible"
       :liquidData="checkLiquidData"
       :abnormalType="abnormalType"
+      :nowTime="nowDateTime"
       @liquidRowlClose="checkLiquidClose"
     />
     <!-- 工况异常查看 -->
     <common-diagnosis-collect
       :diagnosisAbnormalVisible="checkDiagnosisAbnormalVisible"
       :diagndosisData="checkDiagnosisData"
+      :nowTime="nowDateTime"
       @diagnosidsRowClose="checkDiagnosisClose"
     />
     <!-- 动液面异常查看 -->
     <common-fluid-collect
       :fluidAbnormalVisible="checkFluidAbnormalVisible"
       :fluidData="checkFluidData"
+      :nowTime="nowDateTime"
       @fluidRowClose="checkFluidClose"
     />
   </div>
@@ -138,6 +141,7 @@ export default {
       //动液面异常查看
       checkFluidAbnormalVisible: false,
       checkFluidData: {},
+      nowDateTime: "",
     };
   },
   mounted() {
@@ -326,6 +330,11 @@ export default {
     },
     //表格数据初始化
     postInit() {
+      //如果日期值为空
+      if (this.postForm.postDate === "") {
+        //默认传递当前日期
+        this.postForm.postDate = this.getdate();
+      }
       this.getRequest(
         "/diagnosis/abnormal/queryOilProductionAbnormal?current=" +
           this.currentPage +
@@ -370,22 +379,23 @@ export default {
       return this.coordinates;
     },
     AbnormalCollect(row, column) {
-      if (column.property == "liquidAbnormal"){
-        this.abnormalType='0';
+      if (column.property == "liquidAbnormal") {
+        this.abnormalType = "0";
         this.liquidAbnormal(row);
-      }else if(column.property == "waterAbnormal"){
-        this.abnormalType='1';
+      } else if (column.property == "waterAbnormal") {
+        this.abnormalType = "1";
         this.liquidAbnormal(row);
-      }else if(column.property == "diagnosisAbnormal"){
+      } else if (column.property == "diagnosisAbnormal") {
         this.diagndosisAbnormal(row);
-      }else if(column.property == "fluidAbnormal"){
+      } else if (column.property == "fluidAbnormal") {
         this.fluidAbnormal(row);
-      }    
+      }
     },
     //液量异常详情
-    liquidAbnormal(val){
+    liquidAbnormal(val) {
       this.checkLiquidAbnormalVisible = true;
       this.checkLiquidData = val;
+      this.nowDateTime = this.postForm.postDate;
     },
     // 液量关闭查看详情对话框
     checkLiquidClose() {
@@ -395,15 +405,17 @@ export default {
     diagndosisAbnormal(val) {
       this.checkDiagnosisAbnormalVisible = true;
       this.checkDiagnosisData = val;
+      this.nowDateTime = this.postForm.postDate;
     },
     //工况关闭查看详情对话框
     checkDiagnosisClose() {
       this.checkDiagnosisAbnormalVisible = false;
     },
-    //动液面异常详情f
+    //动液面异常详情
     fluidAbnormal(val) {
       this.checkFluidAbnormalVisible = true;
       this.checkFluidData = val;
+      this.nowDateTime = this.postForm.postDate;
     },
     //动液面关闭查看详情对话框
     checkFluidClose() {
@@ -418,6 +430,23 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.postInit();
+    },
+    //获取当前日期
+    getdate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + "-" + month + "-" + strDate;
+      return currentdate;
     },
   },
 };

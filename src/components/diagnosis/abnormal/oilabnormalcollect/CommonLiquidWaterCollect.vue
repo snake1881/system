@@ -200,6 +200,9 @@ export default {
     abnormalType: {
       type: String,
     },
+    nowTime: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -240,6 +243,9 @@ export default {
       //传递参数值
       this.termForm.oilStationId = this.liquidData.oilStationId;
       this.termForm.abnormalType = this.abnormalType;
+      if (this.termForm.oilProdDate === "") {
+        this.termForm.oilProdDate = this.nowTime;
+      }
       this.getRequest(
         "/diagnosis/abnormal/queryLiquidWaterAbnormalByStationId?current=" +
           this.currentPage +
