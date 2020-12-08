@@ -217,8 +217,8 @@ export default {
     // 井场汇总信息
     wellSiteInit() {
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime=2020-12-02&wellSitName=" +
-          this.$route.query.name
+        "/wellSits/wellSit/WellSitList?sTime=2020-12-02&wellSitId=" +
+          this.$route.query.id
       ).then((resp) => {
         if (resp) {
           // 左侧井场汇总信息
@@ -234,7 +234,7 @@ export default {
     wellSiteVideoInit() {
       this.getRequest(
         "/unattended/monitoring/getVideoLink?wellSitName=" +
-          this.$route.query.name
+        this.$route.query.name
       ).then((resp) => {
         if (resp) {
           this.wellSiteNumber = resp.data;
