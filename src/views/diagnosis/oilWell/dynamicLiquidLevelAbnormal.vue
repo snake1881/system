@@ -143,7 +143,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <!-- 查看功图 -->
+    <!-- 查看曲线 -->
     <common-preview-Dym
       :previewDymVisible="previewDymVisible"
       :previewData="previewDymData"
@@ -196,7 +196,7 @@ export default {
       this.previewDymData = val;
       this.previewDymVisible = true;
     },
-    // 关闭功图
+    // 关闭曲线
     previewDymClose() {
       this.previewDymVisible = false;
     },
