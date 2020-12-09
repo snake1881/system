@@ -22,7 +22,10 @@
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
-          >异常：<span style="color: #e62c2c">0</span> 口</span
+          >异常：<span style="color: #e62c2c">{{
+            this.oilData.abnormalCount
+          }}</span>
+          口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >产液：<span style="color: #2cab6f">{{
@@ -86,7 +89,10 @@
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
-          >异常：<span style="color: #e62c2c">0</span> 口</span
+          >异常：<span style="color: #e62c2c">{{
+            this.waterData.abnormalCount
+          }}</span>
+          口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >配注：<span style="color: #2cab6f">{{
@@ -157,7 +163,9 @@
                         <span style="color: green">{{
                           item.wellOpenCount
                         }}</span
-                        >口 异常: <span style="color: red">0</span>口
+                        >口 异常:
+                        <span style="color: red">{{ item.abnormalCount }}</span
+                        >口
                       </td>
                     </tr>
                     <tr>
@@ -210,7 +218,11 @@
                         <span style="color: green">{{
                           item.waterOpenCount
                         }}</span
-                        >口 异常: <span style="color: red">0</span>口
+                        >口 异常:
+                        <span style="color: red">{{
+                          item.abnormalWaterCount
+                        }}</span
+                        >口
                       </td>
                     </tr>
                     <tr>
@@ -264,11 +276,21 @@
                 >
                 <span
                   class="proTeam_container_station_details_container_right_dec_span"
-                  >异常：<span style="color: #e62c2c">0</span> 处</span
+                  >异常：<span style="color: #e62c2c"
+                    >{{ item.abnormalCount }}+{{
+                      item.abnormalWaterCount
+                    }}</span
+                  >
+                  处</span
                 >
                 <span
                   class="proTeam_container_station_details_container_right_dec_span"
-                  >预警：<span style="color: #ec8e25">0</span> 处</span
+                  >预警：<span style="color: #ec8e25"
+                    >{{ item.abnormalCount }}+{{
+                      item.abnormalWaterCount
+                    }}</span
+                  >
+                  处</span
                 >
               </div>
               <i
@@ -308,8 +330,6 @@ export default {
   methods: {
     // 油井汇总
     teamInit() {
-     
-      
       this.getRequest(
         "/teams/team/listTeamCount?productionTeamId=1&sTime=2020-12-02"
       ).then((resp) => {
