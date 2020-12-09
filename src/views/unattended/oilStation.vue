@@ -273,17 +273,17 @@
           <el-row>
             <el-col :span="12">
               <span class="oilStation_container_details_bottom_dec"
-                >异常：<span style="color: #e62c2c"
-                  >{{ item.abnormalCount }}+{{ item.abnormalWaterCount }}</span
-                >
+                >异常：<span style="color: #e62c2c">{{
+                  item.abnormalCount + item.abnormalWaterCount
+                }}</span>
                 处</span
               >
             </el-col>
             <el-col :span="12">
               <span class="oilStation_container_details_bottom_dec"
-                >预警：<span style="color: #ec8e25"
-                  >{{ item.abnormalCount }}+{{ item.abnormalWaterCount }}</span
-                >
+                >预警：<span style="color: #ec8e25">{{
+                  item.abnormalCount + item.abnormalWaterCount
+                }}</span>
                 处</span
               >
             </el-col>
@@ -318,10 +318,12 @@ export default {
   methods: {
     // 站组汇总信息
     stationInit() {
+      var aData = new Date();
       this.getRequest(
         "/stations/station/listSitPage?oilStationId=" +
           this.$route.query.id +
-          "&sTime=2020-12-02"
+          "&sTime=" +
+          aData
       ).then((resp) => {
         if (resp) {
           this.oilStationData = resp.data.stationOilWellInfo;

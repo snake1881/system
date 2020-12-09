@@ -230,8 +230,11 @@ export default {
   methods: {
     // 井场汇总信息
     wellSiteInit() {
+      var aData = new Date();
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime=2020-12-02&wellSitId=" +
+        "/wellSits/wellSit/WellSitList?sTime=" +
+          aData +
+          "&wellSitId=" +
           this.$route.query.id
       ).then((resp) => {
         if (resp) {
@@ -241,7 +244,7 @@ export default {
           // 右侧详细信息
           this.wellSiteOilData = resp.data.wellSitInfoList;
           this.wellSiteWaterData = resp.data.waterSitInfoList;
-          thia.conditionData = resp.data.wellAbnormalList;
+          this.conditionData = resp.data.wellAbnormalList;
         }
       });
     },

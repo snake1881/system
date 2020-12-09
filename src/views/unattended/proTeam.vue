@@ -276,20 +276,16 @@
                 >
                 <span
                   class="proTeam_container_station_details_container_right_dec_span"
-                  >异常：<span style="color: #e62c2c"
-                    >{{ item.abnormalCount }}+{{
-                      item.abnormalWaterCount
-                    }}</span
-                  >
+                  >异常：<span style="color: #e62c2c">{{
+                    item.abnormalCount + item.abnormalWaterCount
+                  }}</span>
                   处</span
                 >
                 <span
                   class="proTeam_container_station_details_container_right_dec_span"
-                  >预警：<span style="color: #ec8e25"
-                    >{{ item.abnormalCount }}+{{
-                      item.abnormalWaterCount
-                    }}</span
-                  >
+                  >预警：<span style="color: #ec8e25">{{
+                    item.abnormalCount + item.abnormalWaterCount
+                  }}</span>
                   处</span
                 >
               </div>
@@ -330,8 +326,9 @@ export default {
   methods: {
     // 油井汇总
     teamInit() {
+      var aData = new Date();
       this.getRequest(
-        "/teams/team/listTeamCount?productionTeamId=1&sTime=2020-12-02"
+        "/teams/team/listTeamCount?productionTeamId=1&sTime=" + aData
       ).then((resp) => {
         if (resp) {
           this.oilData = resp.data.teamInfo;
