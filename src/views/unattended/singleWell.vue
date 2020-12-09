@@ -215,7 +215,11 @@
           size="mini"
           style="width: 120px; margin: 0 10px"
         />
-        <el-button size="mini" type="primary" plain @click="proLineInit()"
+        <el-button
+          size="mini"
+          type="primary"
+          plain
+          @click="proLineInit(), fluidLevelInit()"
           >查询</el-button
         >
         <div class="unattended_singleWell_container_proLine">
@@ -264,6 +268,8 @@ export default {
       productLiquidProd: [],
       // 生产曲线含水
       productWaterCut: [],
+      // 生产曲线动液面时间
+      fluidLevelDate: [],
       // 生产曲线动液面
       productFluidLevel: [],
     };
@@ -277,6 +283,8 @@ export default {
     this.gtInit();
     // 生产曲线
     this.proLineInit();
+    // 动液面曲线
+    this.fluidLevelInit();
     //载荷曲线
     this.zhLineInit();
     console.log(this.$route);
@@ -585,6 +593,31 @@ export default {
               },
             ],
           });
+        }
+      });
+    },
+    //获取生产曲线数据
+    productLineData(val) {
+      for (var i = 0; i < val.length; i++) {
+        this.productProdDate[i] = val[i].oilProdDate;
+        this.productOilProd[i] = val[i].drOilProd;
+        this.productLiquidProd[i] = val[i].drLiquidProd;
+        this.productWaterCut[i] = val[i].drWaterCut;
+      }
+    },
+    // 动液面曲线
+    fluidLevelInit() {
+      this.fluidLevelDate = [];
+      this.getRequest(
+        "/wells/well/selectFluids?sTime=" +
+          this.proDate1 +
+          "&sTime1=" +
+          this.proDate2 +
+          "&wellId=" +
+          this.$route.query.id
+      ).then((resp) => {
+        if (resp) {
+          this.FluidLevelData(resp.data.wellInfoMeasures);
           // 动液面曲线
           let dom3 = document.getElementById("proFluidLine");
           let myChart3 = echarts.init(dom3);
@@ -608,7 +641,7 @@ export default {
               left: 55,
             },
             xAxis: {
-              data: this.productProdDate,
+              data: this.fluidLevelDate,
               axisLine: {
                 //y轴
                 show: false,
@@ -665,13 +698,10 @@ export default {
         }
       });
     },
-    //获取生产曲线数据
-    productLineData(val) {
+    // 获取动液面曲线数据
+    FluidLevelData(val) {
       for (var i = 0; i < val.length; i++) {
-        this.productProdDate[i] = val[i].oilProdDate;
-        this.productOilProd[i] = val[i].drOilProd;
-        this.productLiquidProd[i] = val[i].drLiquidProd;
-        this.productWaterCut[i] = val[i].drWaterCut;
+        this.fluidLevelDate[i] = val[i].measureTime;
         this.productFluidLevel[i] = val[i].fluidLevel;
       }
     },

@@ -237,7 +237,7 @@
           </el-tooltip>
           <i
             class="iconfont icon-icon-- oilStation_container_details_middle_icon"
-            @click="gotoWellsite(item.wellSitName)"
+            @click="gotoWellsite(item.wellSitId,item.wellSitName)"
           />
         </div>
         <div class="oilStation_container_details_bottom">
@@ -325,12 +325,13 @@ export default {
         }
       });
     },
-    // 点击跳转到采油站
-    gotoWellsite(val) {
+    // 点击跳转到井场
+    gotoWellsite(val1,val2) {
       this.$router.push({
         path: "/unattended/wellsite",
         query: {
-          name: val,
+          id: val1,
+          name:val2,
         },
       });
     },

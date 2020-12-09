@@ -2,82 +2,90 @@
   <el-dialog
     :title="sendData.wellId + '井 井下作业派工'"
     :visible.sync="sendOperVisible"
-    width="60%"
+    width="55%"
     :before-close="sendOperClose"
   >
     <div class="sendOpereDiv">
-      <el-form :model="dispathchInfoData" label-width="75px">
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="上次作业:">
-              <el-input v-model="sendLastData.lastOperationName" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="上次队伍:">
-              <el-input v-model="sendLastData.lastTeamName" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="上次时间:">
-              <el-input v-model="sendLastData.lastFinishDate" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="距现在:">
-              <el-input v-model="sendLastData.dateCount" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="本次作业:">
-              <el-input v-model="sendData.operationName" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="派工单号:">
-              <el-input v-model="dispathchInfoData.formNum" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="作业队伍:">
-              <el-select
-                v-model="dispathchInfoData.teamId"
-                placeholder="请选择"
-              >
-                <el-option
-                  v-for="item in teamNameoptions"
-                  :key="item.teamName"
-                  :label="item.teamName"
-                  :value="item.teamId"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="备注:">
-              <el-input v-model="dispathchInfoData.remark" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="附件:">
-          <el-upload
-            action="#"
-            multiple
-            drag
-            :show-file-list="true"
-            :on-preview="handlePreview"
-            :http-request="handleUpload"
-            :file-list="fileLists"
-            class="upload-demo"
-          >
-            <i class="el-icon-upload" />
-            <div class="el-upload__text">
-              将文件拖到此处，或<em>点击上传</em>
-            </div>
-          </el-upload>
-        </el-form-item>
+      <el-form :model="dispathchInfoData" label-width="100px">
+        <fieldset class="sendOpereDiv_last">
+          <legend>上次作业</legend>
+          <el-row>
+            <el-col :span="10">
+              <el-form-item label="上次作业">
+                <el-input v-model="sendLastData.lastOperationName" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="上次作业队伍">
+                <el-input v-model="sendLastData.lastTeamName" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="10">
+              <el-form-item label="上次措施时间">
+                <el-input v-model="sendLastData.lastFinishDate" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="距现在天数">
+                <el-input v-model="sendLastData.dateCount" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </fieldset>
+        <fieldset class="sendOpereDiv_this">
+          <legend>本次作业</legend>
+          <el-row>
+            <el-col :span="10">
+              <el-form-item label="本次作业">
+                <el-input v-model="sendData.operationName" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="派工单号">
+                <el-input v-model="dispathchInfoData.formNum" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item label="作业队伍">
+            <el-select v-model="dispathchInfoData.teamId" placeholder="请选择">
+              <el-option
+                v-for="item in teamNameoptions"
+                :key="item.teamName"
+                :label="item.teamName"
+                :value="item.teamId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input v-model="dispathchInfoData.remark" type="textarea" />
+          </el-form-item>
+        </fieldset>
+        <!-- <fieldset class="sendOpereDiv_remark">
+          <legend>备注</legend>
+          <el-form-item>
+            <el-input v-model="dispathchInfoData.remark" type="textarea" />
+          </el-form-item>
+        </fieldset> -->
+        <fieldset class="sendOpereDiv_doc">
+          <legend>附件</legend>
+          <el-form-item>
+            <el-upload
+              action="#"
+              multiple
+              :show-file-list="true"
+              :on-preview="handlePreview"
+              :http-request="handleUpload"
+              :file-list="fileLists"
+            >
+              <i
+                class="el-icon-upload"
+                style="font-size: 30px; margin-left: -15%"
+              />
+            </el-upload>
+          </el-form-item>
+        </fieldset>
       </el-form>
     </div>
     <el-button
@@ -197,17 +205,57 @@ export default {
 
 <style lang="less" scoped>
 .sendOpereDiv {
-  height: 400px;
+  height: 430px;
+  margin-top: -2%;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
-
-.sendOpereDiv .el-input,
-.el-select {
-  width: 140px;
-  height: 2px;
+.sendOpereDiv_last {
+  width: 90%;
+  height: 24%;
+  color: #2670f7;
+  font-size: 14px;
+  border: 1px solid #ebeef5;
+  margin: 1% 5% 0 5%;
+}
+.sendOpereDiv_this {
+  width: 90%;
+  height: 40%;
+  color: #2670f7;
+  font-size: 14px;
+  border: 1px solid #ebeef5;
+  margin: 1% 5% 0 5%;
+}
+.sendOpereDiv_remark {
+  width: 90%;
+  height: 15%;
+  color: #2670f7;
+  font-size: 14px;
+  border: 1px solid #ebeef5;
+  margin: 1% 5% 0 5%;
+}
+.sendOpereDiv_doc {
+  width: 90%;
+  height: 10%;
+  color: #2670f7;
+  font-size: 14px;
+  border: 1px solid #ebeef5;
+  margin: 1% 5% 0 5%;
 }
 
 .sendOpereButton {
   margin-left: 35%;
+}
+</style>
+<style>
+/* .sendOpereDiv .el-input {
+  height: 10%;
+} */
+.sendOpereDiv .el-form-item__label,
+.el-input__inner {
+  font-size: 13px;
+  color: #666;
+  padding-right: 10px;
 }
 </style>
