@@ -52,6 +52,7 @@
         </ul>
       </div>
       <div class="wellsite_left_img">
+        <!--视频监控-->
         <iframe
           id="show-iframe"
           :src="this.videoLink"
