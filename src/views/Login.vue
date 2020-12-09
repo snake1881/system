@@ -50,6 +50,13 @@
                 />
               </el-input>
             </el-form-item>
+            <el-checkbox
+              v-model="checked"
+              class="loginContainer-checkbox"
+              @change="savePwd()"
+              >记住密码</el-checkbox
+            >
+            <span class="loginContainer-span">忘记密码?</span>
             <el-button
               type="primary"
               round
@@ -59,12 +66,6 @@
             >
               登录
             </el-button>
-            <el-checkbox
-              v-model="checked"
-              class="loginContainer-checkbox"
-              @change="savePwd()"
-              >记住密码</el-checkbox
-            >
           </el-form>
         </div>
       </div>
@@ -161,7 +162,9 @@ export default {
 @import "../assets/css/login.css";
 </style><style>
 .login .el-checkbox .el-checkbox__label {
-  color: #e6e6e6;
+  color: #b6b6b6;
+  margin-top: -5%;
+  font-size: 13px;
 }
 .login .el-input__inner {
   background-color: transparent;
@@ -170,5 +173,8 @@ export default {
 }
 .login .el-checkbox__inner {
   background-color: transparent;
+}
+.login .el-form-item {
+  margin-bottom: 10%;
 }
 </style>

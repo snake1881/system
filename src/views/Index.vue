@@ -91,7 +91,13 @@
       <el-card class="main_middle_2" shadow="hover">
         <div class="main_middle_2_item">
           <div class="main_middle_1_item_span">排采曲线</div>
-          <div id="paicai" class="main_between_2_item_measure"></div>
+          <div class="main_middle_2_item_content">
+            <div
+              id="paicai"
+              ref="Echart"
+              class="main_middle_2_item_content_collect"
+            />
+          </div>
         </div>
       </el-card>
     </div>
@@ -328,8 +334,10 @@ export default {
                 },
               ],
               grid: {
-                width: "84%",
-                height: "48%",
+                width: "90%",
+                height: "68%",
+                left: "5%",
+                top: "20%",
               },
               series: [
                 {

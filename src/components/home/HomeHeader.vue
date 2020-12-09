@@ -44,8 +44,6 @@
           >
         </el-dropdown-menu>
       </el-dropdown>
-      <!-- 用户名 -->
-      <span class="container_right_username">{{ username }}</span>
       <!-- 消息通知 -->
       <el-popover
         placement="bottom"
@@ -147,9 +145,6 @@ export default {
       username: this.$store.state.currentUser.username,
     };
   },
-  created() {
-    console.log(this.$store.state.routes);
-  },
   methods: {
     // 跳转到所有通知页面
     gotoReceiveNotice() {
@@ -216,7 +211,11 @@ export default {
   border-color: #0a1e42;
   background-color: #0a1e42;
   padding: 0 0;
-  font-size: 20px;
+  font-size: 18px;
+}
+.container_right .el-dropdown {
+  width: 40%;
+  height: 100%;
 }
 .container_middle .el-menu {
   border: 0;

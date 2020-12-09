@@ -34,7 +34,7 @@
 .login-container-title-text {
   color: #e6e6e6;
   margin: 2% 2% 1% 0;
-  font-size: 30px;
+  font-size: 32px;
   font-family: "Microsoft Yahei";
 }
 
@@ -52,8 +52,8 @@
 
 .login-container-form-left-image {
   width: 100%;
-  height: 100%;
-  margin: -3% 5%;
+  height: 96%;
+  margin: -4% 5%;
 }
 
 .login-container-form-right {
@@ -63,14 +63,22 @@
 
 .login-container-form-right-form {
   width: 80%;
-  margin: 5% 0;
+  height: 100%;
+  margin-top: 5%;
 }
 
 .loginContainer-button {
   width: 98%;
-  margin: 0 1%;
+  margin: 2% 1%;
 }
 
 .loginContainer-checkbox {
-  margin: 10px 0;
+  margin: 0 12% 6% 5%;
+}
+
+.loginContainer-span {
+  color: #c9c6c6;
+  margin: 0 0 6% 30%;
+  font-size: 13px;
+  font-family: "Microsoft Yahei";
 }

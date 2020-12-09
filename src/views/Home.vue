@@ -10,12 +10,12 @@
 import HomeHeader from "../components/home/HomeHeader";
 export default {
   components: {
-    HomeHeader
+    HomeHeader,
   },
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style lang="less" scoped>
