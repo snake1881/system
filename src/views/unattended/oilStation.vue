@@ -318,11 +318,15 @@ export default {
   methods: {
     // 站组汇总信息
     stationInit() {
-      // var aData = new Date();
+    var yesterday = new Date((new Date).getTime() - 24 * 60 * 60 * 1000);
+    var year = yesterday.getFullYear();
+    var month = yesterday.getMonth() > 9 ? yesterday.getMonth() + 1 : "0" + yesterday.getMonth() + 1;
+    var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
+    yesterday = year + "-" + month + "-" + day;
       this.getRequest(
         "/stations/station/listSitPage?oilStationId=" +
           this.$route.query.id +
-          "&sTime=2020-12-06"
+          "&sTime="+yesterday 
       ).then((resp) => {
         if (resp) {
           this.oilStationData = resp.data.stationOilWellInfo;
