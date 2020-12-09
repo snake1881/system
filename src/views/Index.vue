@@ -467,7 +467,7 @@ export default {
                       },
                     },
                   },
-                  { value: 150 - resp.data.prodProgress },
+                  { value: 100 - resp.data.prodProgress },
                 ],
                 itemStyle: {
                   normal: {
