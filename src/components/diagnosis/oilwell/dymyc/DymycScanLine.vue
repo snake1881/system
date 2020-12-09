@@ -99,11 +99,11 @@ export default {
     gtDataInit() {
       if (this.value2 !== null) {
         this.getRequest(
-          "/oilWell/dym/dymDataTerm?beginDate=" +
+          "/diagnosis/abnormal/queryFluidLevelAbnormalByTime?startDate=" +
             this.value2[0] +
             "&endDate=" +
             this.value2[1] +
-            "&wellName=" +
+            "&wellId=" +
             this.previewData.wellId
         ).then((resp) => {
           // this.loading = false;
@@ -111,10 +111,9 @@ export default {
             this.tableData = [];
             this.tableData = resp.data;
             this.coordinate();
-            this.$nextTick(()=>{
+            this.$nextTick(() => {
               this.drawLine();
             });
-            
           }
         });
       }
@@ -222,25 +221,25 @@ export default {
       this.data = [[]];
       for (var i = 0; i < this.tableData.length; i++) {
         this.data[i] = [];
-        this.data[i][0] = this.tableData[i].prodDate;
-        this.data[i][1] = this.tableData[i].dym;
+        this.data[i][0] = this.tableData[i].analysisDate;
+        this.data[i][1] = this.tableData[i].fluidLevel;
       }
+      console.log(this.data);
       return this.data;
     },
     //初始化时间
     dateInit() {
-      console.log(this.value2);
       if (this.value2.length == 0) {
         var date = new Date();
         var year = date.getFullYear();
-        var mouth = date.getMonth();
+        var mouth = date.getMonth() + 1;
         var day = date.getDate();
         var endDate = year + "-" + mouth + "-" + day;
         this.value2[1] = endDate;
         var date1 = new Date();
         date1.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
         var year1 = date1.getFullYear();
-        var mouth1 = date1.getMonth();
+        var mouth1 = date1.getMonth() + 1;
         var day1 = date1.getDate();
         var beginDate = year1 + "-" + mouth1 + "-" + day1;
         this.value2[0] = beginDate;
@@ -248,9 +247,8 @@ export default {
       console.log(this.value2);
     },
     opens() {
-      this.value2=[];
+      this.value2 = [];
       this.dateInit();
-      console.log(this.value2);
       this.gtDataInit();
     },
   },

@@ -52,18 +52,19 @@
         </ul>
       </div>
       <div class="wellsite_left_img">
-        <!-- <iframe
-          :src="this.wellSiteVideo.videoLink"
+        <iframe
+          src="http://10.30.102.10/getvideo/?key=6A450512-98C9-4FDF-8EA9-FC6FD6A8A8B0&token=153C9141DC5CD6DE04A07895894EF345&name=1766%E7%BD%90%E5%8C%BA"
           frameborder="0"
           allow="autoplay;encrypted-media"
           allowfullscreen
           style="height: 100%; width: 100%; margin-top: 1%"
         >
-        </iframe> -->
-        <img
+        </iframe>
+        <!-- <iframe src="https://v.qq.com/x/cover/vtxb95np45a6ooz.html#mod_player" frameborder="0" width="100%" height="100%"></iframe> -->
+        <!-- <img
           src="../../assets/images/monitor.jpg"
           style="height: 100%; width: 100%; margin-top: 1%"
-        />
+        /> -->
       </div>
       <div class="wellsite_left_video">
         <div

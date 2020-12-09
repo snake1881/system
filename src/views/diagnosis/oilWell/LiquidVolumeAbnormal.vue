@@ -67,6 +67,9 @@
       height="84%"
       border
       style="width: 100%"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
       <el-table-column
         label="序号"
@@ -271,10 +274,15 @@ export default {
       dialogForm: {
         // 采油站
         orgName: "",
+        // 井id
+        wellId: "",
         // 井号
         wellName: "",
+        // 异常类型
+        abnormalType: "",
+
         // 日期段
-        startDate: "",
+        startDate: [],
       },
       orgNameData: [],
       options: [
@@ -287,6 +295,16 @@ export default {
           label: "含水异常",
         },
       ],
+      //产油日期
+      oilProdDate: [],
+      //产液量STANDARD
+      liquidProd: [],
+      //标准产液量
+      liquidProdStandard: [],
+      //含水率
+      waterCut: [],
+      //标准含水率
+      waterCutStandard: [],
     };
   },
   created() {
@@ -319,9 +337,16 @@ export default {
     },
     // 查看曲线
     details(val) {
+      console.log(val);
       this.dialogTableVisible = true;
-      this.dialogForm.orgName = val.orgName;
+      this.dialogForm.orgName = val.oilStationName;
       this.dialogForm.wellName = val.wellName;
+      this.dialogForm.abnormalType = val.abnormalType;
+      this.dialogForm.wellId = val.wellId;
+      //调用当前时间
+      this.dateInit();
+      //调用绘图方法
+      this.lineChart();
     },
     // 画图(液量曲线)
     lineChart() {
@@ -331,13 +356,18 @@ export default {
       ) {
         this.dialogLoading = true;
         this.getRequest(
-          "/oilWell/liquidVolumeAbnormal/liquidVolumeAbnormal/" +
-            this.dialogForm.wellName +
-            "?startDate=" +
+          "/diagnosis/abnormal/queryLiquidWaterAbnormalByTime?abnormalType=" +
+            this.dialogForm.abnormalType +
+            "&wellId=" +
+            this.dialogForm.wellId +
+            "&startDate=" +
             this.dialogForm.startDate[0] +
             "&endDate=" +
             this.dialogForm.startDate[1]
         ).then((resp) => {
+          //处理数据为坐标
+          console.log(resp.data);
+          this.coordinate(resp.data)
           this.dialogLoading = false;
           if (resp) {
             this.dialogLiq = "";
@@ -352,7 +382,7 @@ export default {
                   top: "4%",
                 },
                 legend: {
-                  data: ["日产液量", "日产油量", "含水率"],
+                  data: ["产液量", "标准产液量", "含水率", "标准含水率"],
                 },
                 grid: {
                   bottom: 80,
@@ -371,7 +401,7 @@ export default {
                   {
                     type: "category",
                     boundaryGap: false,
-                    data: resp.data.date[0],
+                    data: this.oilProdDate,
                   },
                 ],
                 yAxis: [
@@ -388,22 +418,28 @@ export default {
                 ],
                 series: [
                   {
-                    name: "日产液量",
+                    name: "产液量",
                     type: "line",
                     yAxisIndex: 0,
-                    data: resp.data.prodDaily[0],
+                    data: this.liquidProd,
                   },
                   {
-                    name: "日产油量",
+                    name: "标准产液量",
                     type: "line",
                     yAxisIndex: 0,
-                    data: resp.data.oilDaily[0],
+                    data: this.liquidProdStandard,
                   },
                   {
                     name: "含水率",
                     type: "line",
                     yAxisIndex: 1,
-                    data: resp.data.waterDaily[0],
+                    data: this.waterCut,
+                  },
+                  {
+                    name: "标准含水率",
+                    type: "line",
+                    yAxisIndex: 1,
+                    data: this.waterCutStandard,
                   },
                 ],
               },
@@ -447,6 +483,44 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.liquidVolumeInit();
+    },
+    //初始化时间
+    dateInit() {
+      if (this.dialogForm.startDate.length == 0) {
+        var date = new Date();
+        var year = date.getFullYear();
+        var mouth = date.getMonth() + 1;
+        var day = date.getDate();
+        var endDate = year + "-" + mouth + "-" + day;
+        this.dialogForm.startDate[1] = endDate;
+        var date1 = new Date();
+        date1.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
+        var year1 = date1.getFullYear();
+        var mouth1 = date1.getMonth() + 1;
+        var day1 = date1.getDate();
+        var beginDate = year1 + "-" + mouth1 + "-" + day1;
+        this.dialogForm.startDate[0] = beginDate;
+      }
+    },
+    //处理坐标
+    coordinate(val) {
+      //产油日期
+      this.oilProdDate = [];
+      //产液量
+      this.liquidProd = [];
+      //标准产液量
+      this.liquidProdStandard = [];
+      //含水率
+      this.waterCut = [];
+      //标准含水率
+      this.waterCutStandard = [];
+      for (var i = 0; i < val.length; i++) {
+        this.oilProdDate[i] = val[i].oilProdDate;
+        this.liquidProd[i] = val[i].liquidProd;
+        this.liquidProdStandard[i] = val[i].liquidProdStandard;
+        this.waterCut[i] = val[i].waterCut;
+        this.waterCutStandard[i] = val[i].waterCutStandard;
+      }
     },
   },
 };
