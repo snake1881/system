@@ -33,9 +33,13 @@
 }
 
 .unattended_singleWell_top_information_container_video {
-    width: 60%;
+    /* width: 60%;
     border: 1px solid #dfe0e2;
-    margin: 2% 1%;
+    margin: 2% 1%; */
+    width: 67%;
+    height: 93%;
+    border: 1px solid #dfe0e2;
+    margin: 2% -3%;
 }
 
 .unattended_singleWell_top_information_container_dec {

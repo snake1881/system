@@ -13,10 +13,20 @@
             <p>泵深：0 m</p>
           </div>
           <div class="unattended_singleWell_top_information_container_video">
-            <img
+            <!-- <img
               src="../../assets/images/video.jpg"
               style="width: 100%; height: 100%"
-            />
+            /> -->
+            <!--视频监控-->
+            <iframe
+              id="show-iframe"
+              :src="this.videoLink"
+              frameborder="0"
+              allow="autoplay;encrypted-media"
+              allowfullscreen
+              style="height: 100%; width: 100%; margin-top: 1%"
+            >
+            </iframe>
           </div>
         </div>
       </div>
@@ -272,6 +282,8 @@ export default {
       fluidLevelDate: [],
       // 生产曲线动液面
       productFluidLevel: [],
+      //视频信息
+      videoLink: "",
     };
   },
   mounted() {
@@ -287,6 +299,8 @@ export default {
     this.fluidLevelInit();
     //载荷曲线
     this.zhLineInit();
+    //视频数据
+    this.wellSiteVideoInit();
     console.log(this.$route);
   },
   methods: {
@@ -782,6 +796,18 @@ export default {
         this.zhLineMinLoad[i] = val[i].minLoad;
         this.zhLineMaxLoad[i] = val[i].maxLoad;
       }
+    },
+    // 视频信息
+    wellSiteVideoInit() {
+      this.getRequest(
+        "/unattended/monitoring/getVideoLink?wellSitName=" +
+        this.$route.query.sitName
+      ).then((resp) => {
+        if (resp) {
+          //默认展示第一个视频
+          this.videoLink = resp.data[0].videoLink;
+        }
+      });
     },
   },
 };

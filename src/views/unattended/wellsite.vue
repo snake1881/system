@@ -108,7 +108,7 @@
           <img
             src="../../assets/images/oilWell.gif"
             class="wellsite_right_oilWell_details_img"
-            @click="gotoSingleWell(item.wellName, item.wellId)"
+            @click="gotoSingleWell(item.wellName, item.wellId, item.wellSitName)"
           />
           <div class="wellsite_right_oilWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
@@ -279,12 +279,13 @@ export default {
       this.$router.replace("/unattended/oilStation");
     },
     // 跳转到单井页面
-    gotoSingleWell(val1, val2) {
+    gotoSingleWell(val1, val2, val3) {
       this.$router.push({
         path: "/unattended/singleWell",
         query: {
           name: val1,
           id: val2,
+          sitName: val3,
         },
       });
     },
