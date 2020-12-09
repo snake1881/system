@@ -53,6 +53,7 @@
       </div>
       <div class="wellsite_left_img">
         <iframe
+          id="show-iframe"
           :src="this.videoLink"
           frameborder="0"
           allow="autoplay;encrypted-media"
@@ -74,7 +75,7 @@
           <div class="wellsite_left_video_container_text">
             <i
               class="iconfont icon-shexiangtou"
-              style="color: green; font-size: 28px"
+              style="color: green; font-size: 19px"
               @click="clickVideo(item)"
             />正常
           </div>
