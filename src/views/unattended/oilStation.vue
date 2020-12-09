@@ -25,7 +25,10 @@
           口</span
         >
         <span class="oilStation_left_oilWell_dec"
-          >异常：<span style="color: #e62c2c">0</span> 口</span
+          >异常：<span style="color: #e62c2c">{{
+            this.oilStationData.abnormalCount
+          }}</span>
+          口</span
         >
         <span class="oilStation_left_oilWell_dec"
           >产液：<span style="color: #2cab6f">{{
@@ -93,7 +96,10 @@
           口</span
         >
         <span class="oilStation_left_oilWell_dec"
-          >异常：<span style="color: #e62c2c">0</span> 口</span
+          >异常：<span style="color: #e62c2c">{{
+            this.waterStationData.abnormalWaterCount
+          }}</span>
+          口</span
         >
         <span class="oilStation_left_oilWell_dec"
           >配注：<span style="color: #2cab6f">{{
@@ -154,7 +160,9 @@
                     <span style="color: green">{{ item.wellCount }}</span
                     >口 开:
                     <span style="color: green">{{ item.wellOpenCount }}</span
-                    >口 异常: <span style="color: red">0</span>口
+                    >口 异常:
+                    <span style="color: red">{{ item.abnormalCount }}</span
+                    >口
                   </td>
                 </tr>
                 <tr>
@@ -204,7 +212,9 @@
                     总: <span style="color: green">{{ item.waterCount }}</span
                     >口 开:
                     <span style="color: green">{{ item.waterOpenCount }}</span
-                    >口 异常: <span style="color: red">0</span>口
+                    >口 异常:
+                    <span style="color: red">{{ item.abnormalWaterCount }}</span
+                    >口
                   </td>
                 </tr>
                 <tr>
@@ -237,7 +247,7 @@
           </el-tooltip>
           <i
             class="iconfont icon-icon-- oilStation_container_details_middle_icon"
-            @click="gotoWellsite(item.wellSitId,item.wellSitName)"
+            @click="gotoWellsite(item.wellSitId, item.wellSitName)"
           />
         </div>
         <div class="oilStation_container_details_bottom">
@@ -263,12 +273,18 @@
           <el-row>
             <el-col :span="12">
               <span class="oilStation_container_details_bottom_dec"
-                >异常：<span style="color: #e62c2c">0</span> 处</span
+                >异常：<span style="color: #e62c2c">{{
+                  item.abnormalCount + item.abnormalWaterCount
+                }}</span>
+                处</span
               >
             </el-col>
             <el-col :span="12">
               <span class="oilStation_container_details_bottom_dec"
-                >预警：<span style="color: #ec8e25">0</span> 处</span
+                >预警：<span style="color: #ec8e25">{{
+                  item.abnormalCount + item.abnormalWaterCount
+                }}</span>
+                处</span
               >
             </el-col>
           </el-row>
@@ -298,15 +314,15 @@ export default {
   },
   created() {
     this.stationInit();
-    console.log(this.$route);
   },
   methods: {
     // 站组汇总信息
     stationInit() {
+      // var aData = new Date();
       this.getRequest(
         "/stations/station/listSitPage?oilStationId=" +
           this.$route.query.id +
-          "&sTime=2020-12-02"
+          "&sTime=2020-12-06"
       ).then((resp) => {
         if (resp) {
           this.oilStationData = resp.data.stationOilWellInfo;
@@ -326,12 +342,12 @@ export default {
       });
     },
     // 点击跳转到井场
-    gotoWellsite(val1,val2) {
+    gotoWellsite(val1, val2) {
       this.$router.push({
         path: "/unattended/wellsite",
         query: {
           id: val1,
-          name:val2,
+          name: val2,
         },
       });
     },

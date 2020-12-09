@@ -32,7 +32,7 @@
             :key="index"
             class="wellsite_left_condition_details_li"
           >
-            {{ item.name }}
+            {{ item.wellName }}出现{{ item.diagnosisResult }}预警情况
           </li>
         </ul>
       </div>
@@ -43,7 +43,7 @@
       <div class="wellsite_left_condition_details">
         <ul :style="{ marginTop: marginTop + 'px' }">
           <li
-            v-for="(item, index) in conditionData"
+            v-for="(item, index) in videoData"
             :key="index"
             class="wellsite_left_condition_details_li"
           >
@@ -122,10 +122,23 @@
               ></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
-              >工况诊断: <span style="color: #2cab6f">XXXXXX</span></span
+              >工况诊断:
+              <span style="color: #2cab6f">{{
+                item.diagnosisResult
+              }}</span></span
             >
-            <span class="wellsite_right_waterWell_details_dec_span"
-              >异常情况: <span style="color: #e62c2c"> 供液不足</span></span
+            <span
+              class="wellsite_right_waterWell_details_dec_span"
+              v-if="item.diagnosisResult !== '正常'"
+              >异常情况:
+              <span style="color: #e62c2c">
+                {{ item.diagnosisResult }}</span
+              ></span
+            >
+            <span
+              class="wellsite_right_waterWell_details_dec_span"
+              v-if="item.diagnosisResult === '正常'"
+              >异常情况: <span style="color: #e62c2c"> 无</span></span
             >
           </div>
         </div>
@@ -161,7 +174,19 @@
                 >3</sup
               ></span
             >
-            <span class="wellsite_right_waterWell_details_dec_span"
+            <span
+              class="wellsite_right_waterWell_details_dec_span"
+              v-if="item.abnormalType === '0'"
+              >异常情况: <span style="color: #e62c2c"> 正常</span></span
+            >
+            <span
+              class="wellsite_right_waterWell_details_dec_span"
+              v-if="item.abnormalType === '1'"
+              >异常情况: <span style="color: #e62c2c"> 欠注</span></span
+            >
+            <span
+              class="wellsite_right_waterWell_details_dec_span"
+              v-if="item.abnormalType === '2'"
               >异常情况: <span style="color: #e62c2c"> 超注</span></span
             >
           </div>
@@ -179,24 +204,12 @@ export default {
       wellSite1: {},
       wellSite2: {},
       // 工况预警
-      conditionData: [
-        {
-          name: "XXXX出现XXXX预警情况",
-        },
-        {
-          name: "XXXX出现XXXX预警情况",
-        },
-        {
-          name: "XXXX出现XXXX预警情况",
-        },
-        {
-          name: "XXXX出现XXXX预警情况",
-        },
-        {
-          name: "XXXX出现XXXX预警情况",
-        },
-      ],
+      conditionData: [],
       // 监控预警
+      videoData: [
+        { name: "该井场出现视频遮挡" },
+        { name: "该井场出现外来人员" },
+      ],
       wellSiteVideoData: [],
       // 油井汇总
       wellSiteOilData: [],
@@ -218,8 +231,9 @@ export default {
   methods: {
     // 井场汇总信息
     wellSiteInit() {
+      // var aData = new Date();
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime=2020-12-02&wellSitId=" +
+        "/wellSits/wellSit/WellSitList?sTime=2020-12-06&wellSitId=" +
           this.$route.query.id
       ).then((resp) => {
         if (resp) {
@@ -229,6 +243,7 @@ export default {
           // 右侧详细信息
           this.wellSiteOilData = resp.data.wellSitInfoList;
           this.wellSiteWaterData = resp.data.waterSitInfoList;
+          this.conditionData = resp.data.wellAbnormalList;
         }
       });
     },
@@ -236,7 +251,7 @@ export default {
     wellSiteVideoInit() {
       this.getRequest(
         "/unattended/monitoring/getVideoLink?wellSitName=" +
-        this.$route.query.name
+          this.$route.query.name
       ).then((resp) => {
         if (resp) {
           this.wellSiteNumber = resp.data;
