@@ -225,7 +225,6 @@ export default {
     // this.timer = setInterval(this.showNotice, 200); //100表示间隔时间，数字越大滚得越快
     this.wellSiteInit();
     this.wellSiteVideoInit();
-    console.log(this.$route);
   },
   methods: {
     // 井场汇总信息
