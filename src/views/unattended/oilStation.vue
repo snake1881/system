@@ -318,12 +318,11 @@ export default {
   methods: {
     // 站组汇总信息
     stationInit() {
-      var aData = new Date();
+      // var aData = new Date();
       this.getRequest(
         "/stations/station/listSitPage?oilStationId=" +
           this.$route.query.id +
-          "&sTime=" +
-          aData
+          "&sTime=2020-12-06"
       ).then((resp) => {
         if (resp) {
           this.oilStationData = resp.data.stationOilWellInfo;

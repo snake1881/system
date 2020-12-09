@@ -230,11 +230,9 @@ export default {
   methods: {
     // 井场汇总信息
     wellSiteInit() {
-      var aData = new Date();
+      // var aData = new Date();
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime=" +
-          aData +
-          "&wellSitId=" +
+        "/wellSits/wellSit/WellSitList?sTime=2020-12-06&wellSitId=" +
           this.$route.query.id
       ).then((resp) => {
         if (resp) {
