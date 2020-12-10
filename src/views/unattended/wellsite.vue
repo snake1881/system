@@ -271,6 +271,8 @@ export default {
         // 滚上去36px后把前两条数据拉下来
         this.conditionData.push(this.conditionData[0]);
         this.conditionData.shift();
+        this.videoData.push(this.videoData[0]);
+        this.videoData.shift();
         this.marginTop = 0;
       }
     },
