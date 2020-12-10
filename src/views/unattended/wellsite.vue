@@ -225,7 +225,7 @@ export default {
     };
   },
   created() {
-    // this.timer = setInterval(this.showNotice, 200); //100表示间隔时间，数字越大滚得越快
+    this.timer = setInterval(this.showNotice, 200); //100表示间隔时间，数字越大滚得越快
     this.wellSiteInit();
     this.wellSiteVideoInit();
   },
@@ -271,6 +271,8 @@ export default {
         // 滚上去36px后把前两条数据拉下来
         this.conditionData.push(this.conditionData[0]);
         this.conditionData.shift();
+        this.videoData.push(this.videoData[0]);
+        this.videoData.shift();
         this.marginTop = 0;
       }
     },
