@@ -225,7 +225,7 @@ export default {
     };
   },
   created() {
-    // this.timer = setInterval(this.showNotice, 200); //100表示间隔时间，数字越大滚得越快
+    this.timer = setInterval(this.showNotice, 200); //100表示间隔时间，数字越大滚得越快
     this.wellSiteInit();
     this.wellSiteVideoInit();
   },
