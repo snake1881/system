@@ -8,7 +8,8 @@
 
 .wellsite_left {
     height: 100%;
-    width: 15%;
+    /* width: 15%; */
+    width: 26%;
     display: flex;
     flex-direction: column;
     background-color: #101f3f;
@@ -18,7 +19,8 @@
     width: 60%;
     height: 4%;
     font-size: 20px;
-    margin: 1% 20%;
+    /* margin: 1% 20%; */
+    margin: 1% 0%;
     text-align: center;
     color: #fff;
 }
@@ -26,7 +28,8 @@
 .wellsite_left_dailyData {
     width: 90%;
     height: 13%;
-    margin: 0 5%;
+    /* margin: 0 5%; */
+    margin: 0 0%;
     font-size: 14px;
     color: #969aa5;
 }
@@ -70,20 +73,24 @@
 
 .wellsite_left_img {
     width: 90%;
-    height: 25%;
-    margin: 2% 5%;
+    /* height: 25%; */
+    height:  48%;
+    /* margin: 2% 5%; */
+    margin: 2% 2%;
 }
 
 .wellsite_left_video {
     width: 100%;
     height: 6%;
-    margin: 2% 0;
+    /* margin: 2% 0; */
+    margin: 0% 0% 4%;
     display: flex;
     flex-direction: row;
 }
 
 .wellsite_left_video_container {
-    width: 40%;
+    /* width: 40%; */
+    width: 17%;
     height: 80%;
     margin: 0 4%;
     border-radius: 10%;

@@ -52,7 +52,9 @@
         </ul>
       </div>
       <div class="wellsite_left_img">
+        <!--视频监控-->
         <iframe
+          id="show-iframe"
           :src="this.videoLink"
           frameborder="0"
           allow="autoplay;encrypted-media"
@@ -74,7 +76,7 @@
           <div class="wellsite_left_video_container_text">
             <i
               class="iconfont icon-shexiangtou"
-              style="color: green; font-size: 28px"
+              style="color: green; font-size: 19px"
               @click="clickVideo(item)"
             />正常
           </div>
@@ -106,7 +108,7 @@
           <img
             src="../../assets/images/oilWell.gif"
             class="wellsite_right_oilWell_details_img"
-            @click="gotoSingleWell(item.wellName, item.wellId)"
+            @click="gotoSingleWell(item.wellName, item.wellId, item.wellSitName)"
           />
           <div class="wellsite_right_oilWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
@@ -230,9 +232,13 @@ export default {
   methods: {
     // 井场汇总信息
     wellSiteInit() {
-      // var aData = new Date();
+      var yesterday = new Date((new Date).getTime() - 24 * 60 * 60 * 1000);
+      var year = yesterday.getFullYear();
+      var month = yesterday.getMonth() > 9 ? yesterday.getMonth() + 1 : "0" + yesterday.getMonth() + 1;
+      var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
+      yesterday = year + "-" + month + "-" + day;
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime=2020-12-06&wellSitId=" +
+        "/wellSits/wellSit/WellSitList?sTime="+yesterday+"&wellSitId=" +
           this.$route.query.id
       ).then((resp) => {
         if (resp) {
@@ -273,12 +279,13 @@ export default {
       this.$router.replace("/unattended/oilStation");
     },
     // 跳转到单井页面
-    gotoSingleWell(val1, val2) {
+    gotoSingleWell(val1, val2, val3) {
       this.$router.push({
         path: "/unattended/singleWell",
         query: {
           name: val1,
           id: val2,
+          sitName: val3,
         },
       });
     },
