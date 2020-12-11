@@ -122,26 +122,26 @@
           <el-table-column
             prop="stroke"
             label="冲程(M)"
-            width="80"
+            width="60"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="frequency"
             label="冲次"
-            width="80"
+            width="60"
             align="center"
           >
           </el-table-column>
           <el-table-column
             prop="maxLoad"
             label="最大载荷(KN)"
-            width="80"
+            width="70"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="minLoad"
             label="最小载荷(KN)"
-            width="80"
+            width="70"
             align="center"
           ></el-table-column>
           <el-table-column

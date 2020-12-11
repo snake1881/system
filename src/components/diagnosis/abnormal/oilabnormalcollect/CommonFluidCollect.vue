@@ -3,7 +3,7 @@
     title="动液面异常数据详情"
     height="5%"
     :visible.sync="fluidAbnormalVisible"
-    width="76%"
+    width="90%"
     :before-close="fluidAbnormalClose"
     @opened="opened"
   >
@@ -97,27 +97,27 @@
           <el-table-column
             prop="fluidLevel"
             label="动液面(M)"
-            width="100"
+            width="120"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="fluidLevelStandard"
             label="标准动液面(M)"
-            width="100"
+            width="120"
             align="center"
           >
           </el-table-column>
           <el-table-column
             prop="abnormalResult"
             label="异常结论"
-            width="240"
+            width="300"
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
           <el-table-column
             prop="abnormalReason"
             label="异常原因"
-            width="120"
+            width="180"
             align="center"
           ></el-table-column>
           <el-table-column

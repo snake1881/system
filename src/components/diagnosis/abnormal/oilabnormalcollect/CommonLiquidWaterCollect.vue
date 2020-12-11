@@ -127,7 +127,7 @@
           <el-table-column
             prop="waterCut"
             label="含水率(%)"
-            width="120"
+            width="80"
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
