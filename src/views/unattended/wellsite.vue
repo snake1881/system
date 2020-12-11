@@ -134,7 +134,7 @@
               v-if="item.diagnosisResult !== '正常'"
               >异常情况:
               <span style="color: #e62c2c">
-                {{ item.diagnosisResult }}</span
+                {{ item.abnormalities }}异常</span
               ></span
             >
             <span
