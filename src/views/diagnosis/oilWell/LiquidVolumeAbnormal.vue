@@ -314,6 +314,11 @@ export default {
   methods: {
     // 数据初始化
     liquidVolumeInit() {
+      //如果日期值为空
+      if (this.termForm.oilProdDate === "") {
+        //默认传递当前日期
+        this.termForm.oilProdDate = this.getdate();
+      }
       this.getRequest(
         "/diagnosis/abnormal/queryLiquidWaterAbnormalByStationId?current=" +
           this.currentPage +
@@ -521,6 +526,23 @@ export default {
         this.waterCut[i] = val[i].waterCut;
         this.waterCutStandard[i] = val[i].waterCutStandard;
       }
+    },
+    //获取当前日期
+    getdate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + "-" + month + "-" + strDate;
+      return currentdate;
     },
   },
 };

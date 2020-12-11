@@ -207,7 +207,6 @@ export default {
           this.filterData = resp.data.records;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          this.getIndex();
         }
       });
     },
@@ -226,9 +225,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          if (this.ZhData != null) {
-            this.getIndex();
-          }
         }
       });
     },
@@ -294,15 +290,6 @@ export default {
     previewZhClose() {
       this.previewZhVisible = false;
     },
-    //设置序号
-    getIndex() {
-      if (this.ZhData !== null) {
-        this.ZhData.forEach((item, index) => {
-          item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
-          return item;
-        });
-      }
-    }
   }
 };
 </script>

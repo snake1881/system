@@ -22,7 +22,7 @@
       </el-form-item>
       <el-form-item label="日期">
         <el-date-picker
-          v-model="termForm.prodDate"
+          v-model="termForm.analysisDate"
           size="medium"
           type="date"
           placeholder="选择日期"
@@ -202,6 +202,12 @@ export default {
     },
     //表格数据初始化
     DymAbnormalInit() {
+      //如果日期值为空
+      if (this.termForm.analysisDate === "") {
+        //默认传递当前日期
+        this.termForm.analysisDate = this.getdate();
+        console.log(this.termForm.analysisDate);
+      }
       this.getRequest(
         "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?current=" +
           this.currentPage +
@@ -218,7 +224,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          this.getIndex();
         }
       });
     },
@@ -240,6 +245,23 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.abnormalDymSearch();
+    },
+    //获取当前日期
+    getdate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + "-" + month + "-" + strDate;
+      return currentdate;
     },
   },
 };
