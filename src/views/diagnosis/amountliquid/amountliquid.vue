@@ -48,7 +48,7 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="dymData"
-      height="90%"
+      height="85%"
       border
       style="width: 100%"
       :row-style="{ height: '2px' }"
@@ -290,5 +290,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../../assets/css/diagnosis/oilWell/dymAbnormal.css";
+@import "../../../assets/css/diagnosis/amountLiquid/amountLiquid.css";
 </style>
