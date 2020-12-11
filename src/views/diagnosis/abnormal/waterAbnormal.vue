@@ -1,6 +1,6 @@
  <template>
   <div class="waterAbnormal">
-    <el-form  :model="waterAbnormalData" :inline="true">
+    <el-form  class="waterAbnormal_form" :model="waterAbnormalData" :inline="true">
       <el-form-item label="日期">
         <el-date-picker
           size="medium"
@@ -23,6 +23,7 @@
       </el-form-item>
     </el-form>
     <el-table
+    class="waterAbnormal_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -92,7 +93,7 @@
     <div
       class="waterAbnormal_myChart"
       ref="myChart"
-      :style="{ width: '98%', height: '360px' }"
+      :style="{ width: '100%', height: '45%' }"
     ></div>
     <common-water-collect
       :waterAbnormalVisible="waterAbnormalVisible"
@@ -378,8 +379,6 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.element.style {
-  height: 360px;
-}
+@import "../../../assets/css/diagnosis/abnormal/waterAbnormalCollect.css";
 </style>
 

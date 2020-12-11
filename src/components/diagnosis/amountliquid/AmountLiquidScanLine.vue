@@ -217,7 +217,7 @@ export default {
       for (var i = 0; i < this.tableData.length; i++) {
         this.data[i] = [];
         this.data[i][0] = this.tableData[i].acquisitionTime;
-        this.data[i][1] = this.tableData[i].liquidProd;
+        this.data[i][1] = this.tableData[i].hourProd;
       }
       return this.data;
     },

@@ -9,7 +9,7 @@
             v-for="item in oilStationOptions"
             :key="item.oilStationId"
             :label="item.oilStationName"
-            :value="item.oilStationName"
+            :value="item.oilStationId"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -18,9 +18,9 @@
             clearable v-model="logForm.wellId" placeholder="井号">
           <el-option
             v-for="item in wellNameoptions"
-            :key="item.wellName"
+            :key="item.wellId"
             :label="item.wellName"
-            :value="item.wellName"
+            :value="item.wellId"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -59,7 +59,7 @@
       <div
         v-for="item in tableData"
         :key="item.inddsId"
-        :style="{ width: '25%', height: '260px' }"
+        :style="{ width: '25%', height: '40%' }"
       >
         <div
           class="tile_echarts_child"
@@ -167,7 +167,7 @@ export default {
     queryWellNameByOrgName(val) {
       console.log(val);
       this.getRequest(
-        "/diagnosis/knowledge/tile/queryWellNameByOrgName?orgName=" + val
+        "/basWellInfor/listByStation?oidStationId=" + val
       ).then(resp => {
         if (resp) {
           this.wellNameoptions = resp.data;
@@ -196,7 +196,7 @@ export default {
       myChart.setOption({
         title: {
           x: "center",
-          text: "井号："+val.wellId + "  时间："+val.acquisitionTime,
+          text: "井号："+val.wellName + "  时间："+val.acquisitionTime,
           top: "7%",
           textStyle: {
             fontSize: 13,

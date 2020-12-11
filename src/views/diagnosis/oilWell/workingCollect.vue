@@ -46,7 +46,7 @@
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
         :data="workingCollect"
-        height="84%"
+        height="87%"
         border
         style="width: 100%"
         @expand-change="rowCollectInit"

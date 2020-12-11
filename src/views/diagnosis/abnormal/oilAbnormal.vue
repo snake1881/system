@@ -12,11 +12,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="small"
-          @click="searchPost()"
+        <el-button type="primary" icon="el-icon-search" size="small" @click="searchPost()"
           >查询</el-button
         >
       </el-form-item>
@@ -35,35 +31,35 @@
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       @cell-click="AbnormalCollect"
     >
-      <el-table-column prop="oilStationName" label="采油站" min-width="15%" />
-      <el-table-column prop="sumWellCount" label="总井数" min-width="10%" />
-      <el-table-column prop="openWellCount" label="开井数" min-width="10%" />
-      <el-table-column prop="sumLiquid" label="总产液量" min-width="13%" />
+      <el-table-column
+        prop="oilStationName"
+        label="采油站"
+        min-width="15%"
+        align="center"
+      />
+      <el-table-column
+        prop="sumWellCount"
+        label="总井数"
+        min-width="10%"
+        align="center"
+      />
+      <el-table-column
+        prop="openWellCount"
+        label="开井数"
+        min-width="10%"
+        align="center"
+      />
+      <el-table-column prop="sumLiquid" label="产液量" min-width="13%" align="center" />
       <el-table-column
         prop="sumLiquidYesterday"
-        label="总产液量(昨)"
+        label="产液量(昨)"
         min-width="13%"
+        align="center"
       />
-      <el-table-column
-        prop="liquidAbnormal"
-        label="液量异常数"
-        min-width="10%"
-      />
-      <el-table-column
-        prop="waterAbnormal"
-        label="含水异常数"
-        min-width="10%"
-      />
-      <el-table-column
-        prop="diagnosisAbnormal"
-        label="工况异常数"
-        min-width="10%"
-      />
-      <el-table-column
-        prop="fluidAbnormal"
-        label="动液面异常数"
-        min-width="10%"
-      />
+      <el-table-column prop="liquidAbnormal" label="液量异常数" min-width="10%" align="center"/>
+      <el-table-column prop="waterAbnormal" label="含水异常数" min-width="10%" align="center"/>
+      <el-table-column prop="diagnosisAbnormal" label="工况异常数" min-width="10%" align="center"/>
+      <el-table-column prop="fluidAbnormal" label="动液面异常数" min-width="10%" align="center"/>
     </el-table>
     <!-- 分页 -->
     <div class="oil_abnormal_page">
@@ -346,6 +342,7 @@ export default {
         this.loading = false;
         if (resp) {
           this.oilAbnormalData = resp.data.records;
+          console.log(this.oilAbnormalData);
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;

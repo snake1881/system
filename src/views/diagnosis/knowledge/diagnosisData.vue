@@ -1,37 +1,35 @@
  <template>
   <div class="diagnosisData">
-    <div class="diagnosisData_top">
-      <el-form class="diagnosisData_form" :model="termForm" :inline="true">
-        <el-form-item >
-          <el-input
-            size="medium"
-            v-model="termForm.modelName"
-            filterable
-            clearable
-            placeholder="模块名称"
-          >
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button
-            type="primary"
-            size="small"
-            icon="el-icon-search"
-            @click="diagnosisDataInit()"
-            >查询</el-button
-          >
-          <el-button
-            type="primary"
-            size="small"
-            class="el-icon-plus"
-            @click="addDiagnosisData()"
-            >新增</el-button
-          >
-        </el-form-item>
-      </el-form>
-    </div>
+    <el-form class="diagnosisData_form" :model="termForm" :inline="true">
+      <el-form-item>
+        <el-input
+          size="medium"
+          v-model="termForm.modelName"
+          filterable
+          clearable
+          placeholder="模块名称"
+        >
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          size="small"
+          icon="el-icon-search"
+          @click="diagnosisDataInit()"
+          >查询</el-button
+        >
+        <el-button
+          type="primary"
+          size="small"
+          class="el-icon-plus"
+          @click="addDiagnosisData()"
+          >新增</el-button
+        >
+      </el-form-item>
+    </el-form>
     <el-table
-    class="diagnosisData_table"
+      class="diagnosisData_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -42,10 +40,9 @@
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-     
     >
       <el-table-column
-       prop="modelName"
+        prop="modelName"
         label="模块名称"
         width="140"
         align="center"
@@ -91,8 +88,8 @@
       </el-table-column>
     </el-table>
 
- <!-- 分页 -->
-    <div class="diagnosisData_page" >
+    <!-- 分页 -->
+    <div class="diagnosisData_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -158,11 +155,11 @@ export default {
         if (resp) {
           this.diagnosisData = resp.data;
           this.total = resp.data.total;
-            this.currentPage = resp.data.current;
-            this.pageSize = resp.data.size;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
         }
       });
-      console.log(this.diagnosisData)
+      console.log(this.diagnosisData);
     },
     // 编辑
     editDiagnosisData(val) {
@@ -191,12 +188,12 @@ export default {
       })
         .then(() => {
           this.deleteRequest(
-            "/modelPrinciple/modelPrinciple?diagnosisStep="+
-            val.diagnosisStep+
-            "&modelName="+
-            val.modelName+
-            "&sequence=" +
-            val.sequence
+            "/modelPrinciple/modelPrinciple?diagnosisStep=" +
+              val.diagnosisStep +
+              "&modelName=" +
+              val.modelName +
+              "&sequence=" +
+              val.sequence
           ).then((resp) => {
             if (resp) {
               this.$message({
@@ -214,7 +211,7 @@ export default {
           });
         });
     },
-     // 分页，页码大小改变
+    // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = parseInt(val);
       this.diagnosisDataInit();

@@ -59,7 +59,7 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       border
-      height="93%"
+      height="88%"
       style="width: 100%"
     >
       <el-table-column
@@ -230,7 +230,11 @@ export default {
     },
     //表格数据初始化
     liqFilterConditionInit() {
-      
+      // console.log(this.termForm.prodDate);
+      // if(this.termForm.prodDate==null){
+      //   this.termForm.prodDate=""
+      // }
+      // console.log(this.termForm.prodDate);
       this.getRequest(
         "/liquidFilterCondition/select?current=" +
           this.currentPage +
