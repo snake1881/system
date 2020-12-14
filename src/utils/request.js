@@ -37,7 +37,7 @@ axios.interceptors.response.use(
   }
 );
 //对方法进行封装
-let base = "/demo";
+let base = "/dbznyt";
 export const postKeyValueRequest = (url, params) => {
   return axios({
     method: "post",
