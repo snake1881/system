@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header><home-header /></el-header>
-    <el-main>
+    <el-main style="overflow: hidden;">
       <router-view />
     </el-main>
   </el-container>

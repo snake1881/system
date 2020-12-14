@@ -547,7 +547,7 @@ export default {
         this.abnormalForm.orgName = "";
       }
       this.getRequest(
-        "/mountLiquid/mountLiquid?acquisitionTime=" +
+        "/OilDaily/amountLiquid?acquisitionTime=" +
           this.abnormalForm.formDate +
           "&current=" +
           this.currentPage +
@@ -603,8 +603,9 @@ export default {
       if (this.abnormalForm.orgName == null) {
         this.abnormalForm.orgName = "";
       }
+      console.log("begin!");
       this.getRequest(
-        "/mountLiquid/mountLiquid?acquisitionTime=" +
+        "/OilDaily/amountLiquid?acquisitionTime=" +
           this.abnormalForm.formDate +
           "&current=" +
           this.currentPage +
