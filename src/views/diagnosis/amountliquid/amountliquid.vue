@@ -184,7 +184,7 @@ export default {
     abnormalDymSearch() {
       console.log(this.termForm.prodDate)
         this.getRequest(
-          "/mountLiquid/mountLiquid?acquisitionTime="+
+          "/mountLiquid/amountLiquid?acquisitionTime="+
           this.termForm.prodDate+
           "&current="+
           this.currentPage +
