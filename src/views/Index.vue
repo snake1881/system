@@ -3,7 +3,8 @@
     <div class="main_between">
       <el-card class="main_between_1" shadow="hover">
         <div class="main_between_1_item">
-          <div class="main_middle_1_item_span">油井情况</div>
+          <div class="main_between_1_item_span">油井情况</div>
+          <div :style="{ width: '100%', height: '6px' }"></div>
           <div class="main_between_1_item_well">
             <div class="main_between_1_item_well_line">
               <div id="well1" class="main_between_1_item_water1" />
@@ -60,7 +61,8 @@
       </el-card>
       <el-card class="main_between_2" shadow="hover">
         <div class="main_between_2_item">
-          <div class="main_middle_1_item_span">油井异常情况</div>
+          <div class="main_between_1_item_span">油井异常情况</div>
+          <div :style="{ width: '100%', height: '6px' }"></div>
           <div id="wellAbnormal" class="main_between_2_item_wellAbnormal" />
         </div>
       </el-card>
@@ -91,6 +93,7 @@
       <el-card class="main_middle_2" shadow="hover">
         <div class="main_middle_2_item">
           <div class="main_middle_1_item_span">排采曲线</div>
+          <div :style="{ width: '100%', height: '6px' }"></div>
           <div class="main_middle_2_item_content">
             <div
               id="paicai"
@@ -104,7 +107,8 @@
     <div class="main_between">
       <el-card class="main_between_1" shadow="hover">
         <div class="main_between_1_item">
-          <div class="main_middle_1_item_span">水井情况</div>
+          <div class="main_between_1_item_span">水井情况</div>
+           <div :style="{ width: '100%', height: '6px' }"></div>
           <div class="main_between_1_item_well">
             <div class="main_between_1_item_well_line">
               <div id="water1" class="main_between_1_item_water1" />
@@ -163,7 +167,8 @@
       </el-card>
       <el-card class="main_between_2" shadow="hover">
         <div class="main_between_2_item">
-          <div class="main_middle_1_item_span">措施情况</div>
+          <div class="main_between_1_item_span">措施情况</div>
+          <div :style="{ width: '100%', height: '6px' }"></div>
           <div id="measure" class="main_between_2_item_measure"></div>
         </div>
       </el-card>
