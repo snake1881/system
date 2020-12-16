@@ -107,7 +107,7 @@
         label="最小位移"
         width="100"
       />
-      <el-table-column prop="liquidProd" align="center" label="产液量" width="100" />
+      <el-table-column prop="hourProd" align="center" label="产液量" width="100" />
       <el-table-column align="center" label="操作" width="130">
         <template slot-scope="scope">
           <el-button
