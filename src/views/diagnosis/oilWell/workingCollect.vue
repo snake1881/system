@@ -30,6 +30,22 @@
           />
         </el-form-item>
         <el-form-item>
+          <el-select
+            v-model="abnormalForm.diagnosisLevel"
+            placeholder="报警级别"
+            clearable
+            filterable
+            size="medium"
+          >
+            <el-option
+              v-for="item in diagnosisLevelOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
           <el-button
             type="primary"
             icon="el-icon-search"
@@ -56,7 +72,7 @@
         :cell-style="{ padding: '0px' }"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
-        <el-table-column type="expand">
+        <el-table-column  width="35"  type="expand">
           <template slot-scope="scope">
             <div
               class="work_collect_item_detail"
@@ -96,7 +112,7 @@
         <el-table-column
           label="序号"
           type="index"
-          width="80"
+          width="60"
           align="center"
           :index="
             (index) => {
@@ -125,13 +141,13 @@
         <el-table-column
           prop="stroke"
           label="冲程"
-          width="100"
+          width="85"
           align="center"
         />
         <el-table-column
           prop="frequency"
           label="冲次"
-          width="100"
+          width="85"
           align="center"
         />
         <el-table-column
@@ -149,13 +165,24 @@
         <el-table-column
           prop="diagnosisResult"
           label="诊断结果"
-          width="150"
+          width="140"
           align="center"
         />
+         <el-table-column
+          prop="diagnosisLevel"
+          label="报警级别"
+          width="140"
+          align="center"
+        >
+         <template slot-scope="scope">
+          <p v-if="scope.row.diagnosisLevel == '0'">一级</p>
+          <p v-if="scope.row.diagnosisLevel == '1'">二级</p>
+          <p v-if="scope.row.diagnosisLevel == '2'">三级</p>
+        </template></el-table-column>
         <el-table-column
           prop="normalWaterCut"
           label="人工确认"
-          width="140"
+          width="120"
           align="center"
         />
       </el-table>
@@ -478,12 +505,27 @@ export default {
       // 表单数据
       abnormalForm: {
         // 采油站
-        orgName: null,
+        orgName: "",
         // 日期选择
         formDate: "",
         // 报警级别
-        alarmLevel: null,
+        diagnosisLevel: "",
       },
+      //
+      diagnosisLevelOptions:[
+        {
+          value: "0",
+          label: "一级",
+        },
+        {
+          value: "1",
+          label: "二级",
+        },
+        {
+          value: "2",
+          label: "三级",
+        }
+      ],
       // 分页数据
       currentPage: 1,
       pageSize: 10,
@@ -546,11 +588,16 @@ export default {
       if (this.abnormalForm.orgName == null) {
         this.abnormalForm.orgName = "";
       }
+      if (this.abnormalForm.formDate == null) {
+        this.abnormalForm.formDate = "";
+      }
       this.getRequest(
         "/OilDaily/amountLiquid?acquisitionTime=" +
           this.abnormalForm.formDate +
           "&current=" +
           this.currentPage +
+          "&diagnosisLevel="+
+          this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
           this.abnormalForm.orgName +
           "&pageSize=" +
@@ -603,12 +650,17 @@ export default {
       if (this.abnormalForm.orgName == null) {
         this.abnormalForm.orgName = "";
       }
+      if (this.abnormalForm.formDate == null) {
+        this.abnormalForm.formDate = "";
+      }
       console.log("begin!");
       this.getRequest(
         "/OilDaily/amountLiquid?acquisitionTime=" +
           this.abnormalForm.formDate +
           "&current=" +
           this.currentPage +
+          "&diagnosisLevel="+
+          this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
           this.abnormalForm.orgName +
           "&pageSize=" +
