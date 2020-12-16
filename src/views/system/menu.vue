@@ -21,18 +21,18 @@
       :cell-style="{padding:'0px'}"
       :header-cell-style="{background:'#eef1f6',color:'#606266'}"
     >
-      <el-table-column prop="moduleName" label="菜单名称" width="230" />
-      <el-table-column prop="sequence" label="排序" width="140" />
-      <el-table-column prop="moduleUrl" label="请求地址" width="440" />
-      <el-table-column prop="moduleType" label="类型" width="140">
+      <el-table-column prop="moduleName" label="菜单名称" min-width="180" />
+      <el-table-column prop="sequence" label="排序" min-width="60" />
+      <el-table-column prop="moduleUrl" label="请求地址" min-width="350" />
+      <el-table-column prop="moduleType" label="类型" min-width="80">
         <template slot-scope="scope">
           <p v-if="scope.row.moduleType == '0'">目录</p>
           <p v-if="scope.row.moduleType == '1'">菜单</p>
           <p v-if="scope.row.moduleType == '2'">按钮</p>
         </template>
       </el-table-column>
-      <el-table-column prop="permissionMark" label="权限标识" width="260" />
-      <el-table-column label="操作" width="120">
+      <el-table-column prop="permissionMark" label="权限标识" min-width="180" />
+      <el-table-column label="操作" min-width="150">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addMenu(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px"/>
           <el-button type="text" size="small" @click="editMenu(scope.row)" class="iconfont icon-bianji" />

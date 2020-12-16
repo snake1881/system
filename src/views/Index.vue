@@ -79,7 +79,7 @@
           plugin：地图使用的插件
           events： 事件
            -->
-          <el-amap
+          <!-- <el-amap
             ref="map"
             vid="amapDemo"
             :amap-manager="amapManager"
@@ -87,6 +87,10 @@
             :center="center"
             :plugin="plugin"
             class="amap-demo"
+          /> -->
+          <img
+          src="../assets/images/index_gis.jpg"
+          style="height: 100%; width: 100%; margin-top: 1%"
           />
         </div>
       </el-card>

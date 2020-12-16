@@ -64,18 +64,18 @@
       }"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="75px" />
-      <el-table-column prop="roleName" label="角色名称" width="245px" />
-      <el-table-column prop="roleKey" label="权限字符" width="240px" />
-      <el-table-column prop="sequence" label="显示顺序" width="200px" />
-      <el-table-column prop="status" label="状态" width="240px">
+      <el-table-column type="selection" min-width="75" />
+      <el-table-column prop="roleName" label="角色名称" min-width="245" />
+      <el-table-column prop="roleKey" label="权限字符" min-width="240" />
+      <el-table-column prop="sequence" label="显示顺序" min-width="120" />
+      <el-table-column prop="status" label="状态" min-width="120">
         <template slot-scope="scope">
           <p v-if="scope.row.status == '0'">停用</p>
           <p v-if="scope.row.status == '1'">正常</p>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建时间" width="240px" />
-      <el-table-column label="操作" width="80px">
+      <el-table-column prop="createTime" label="创建时间" min-width="220" />
+      <el-table-column label="操作" min-width="120">
         <template slot-scope="scope">
           <el-button
             type="text"
