@@ -306,8 +306,13 @@ export default {
   methods: {
     // 单井基础信息
     singleWellInit() {
+      var yesterday = new Date((new Date).getTime() - 24 * 60 * 60 * 1000);
+        var year = yesterday.getFullYear();
+        var month = yesterday.getMonth() > 9 ? yesterday.getMonth() + 1 : "0" + yesterday.getMonth() + 1;
+        var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
+        yesterday = year + "-" + month + "-" + day;
       this.getRequest(
-        "/wells/well/selectWell?sTime=2020-12-02&wellId=" + this.$route.query.id
+        "/wells/well/selectWell?sTime="+yesterday+"&wellId=" + this.$route.query.id
       ).then((resp) => {
         if (resp) {
           this.basicData = resp.data.wellInfo;
