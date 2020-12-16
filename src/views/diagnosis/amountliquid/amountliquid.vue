@@ -69,13 +69,13 @@
         prop="stroke"
         align="center"
         label="冲程(M)"
-        width="100"
+        width="90"
       />
       <el-table-column
         prop="frequency"
         align="center"
         label="冲次"
-        width="100"
+        width="90"
       />
       <el-table-column
         prop="timediffer"
@@ -87,27 +87,28 @@
         prop="maxLoad"
         align="center"
         label="最大载荷"
-        width="100"
+        width="90"
       />
       <el-table-column
         prop="minLoad"
         align="center"
         label="最小载荷"
-        width="100"
+        width="90"
       />
       <el-table-column
         prop="abnormalProblem"
         align="center"
         label="最大位移"
-        width="100"
+        width="90"
       />
       <el-table-column
         prop="minDisplacement"
         align="center"
         label="最小位移"
-        width="100"
+        width="90"
       />
-      <el-table-column prop="hourProd" align="center" label="产液量" width="100" />
+      <el-table-column prop="hourProd" align="center" label="产液量" width="90" />
+       <el-table-column prop="dayProd" align="center" label="日累产液" width="90" />
       <el-table-column align="center" label="操作" width="130">
         <template slot-scope="scope">
           <el-button
