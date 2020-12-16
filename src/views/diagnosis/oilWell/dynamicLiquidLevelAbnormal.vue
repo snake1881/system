@@ -26,8 +26,7 @@
           size="medium"
           type="date"
           placeholder="选择日期"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd "
+          value-format="yyyy-MM-dd"
         >
         </el-date-picker>
       </el-form-item>
@@ -249,7 +248,6 @@ export default {
     //获取当前日期
     getdate() {
       var date = new Date();
-      var seperator1 = "-";
       var year = date.getFullYear();
       var month = date.getMonth() > 9 ? date.getMonth() + 1 : "0" + date.getMonth() + 1;
       var strDate = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
