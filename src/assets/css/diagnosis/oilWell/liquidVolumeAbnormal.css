@@ -34,3 +34,12 @@
     margin-left: 42%;
     font-size: 26px;
 }
+.el-table .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 14px !important;
+    padding-right: 10px;
+  }

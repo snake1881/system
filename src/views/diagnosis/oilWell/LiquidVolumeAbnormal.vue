@@ -64,7 +64,7 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="liquidAbnormal"
-      height="84%"
+      height="83%"
       border
       style="width: 100%"
       :row-style="{ height: '2px' }"
@@ -161,6 +161,7 @@
         label="备注"
         width="80"
         align="center"
+        :show-overflow-tooltip="true"
       ></el-table-column>
       <el-table-column label="操作" fixed="right" width="120" align="center">
         <template slot-scope="scope">
@@ -361,17 +362,22 @@ export default {
       ) {
         this.dialogLoading = true;
         this.getRequest(
-          "/diagnosis/abnormal/queryLiquidWaterAbnormalByTime?abnormalType=" +
-            this.dialogForm.abnormalType +
-            "&wellId=" +
+          "/OilDaily/getDailyList?wellId=" +
             this.dialogForm.wellId +
-            "&startDate=" +
+            "&startTime=" +
             this.dialogForm.startDate[0] +
-            "&endDate=" +
+            "&endTime=" +
             this.dialogForm.startDate[1]
+          // "/diagnosis/abnormal/queryLiquidWaterAbnormalByTime?abnormalType=" +
+          //   this.dialogForm.abnormalType +
+          //   "&wellId=" +
+          //   this.dialogForm.wellId +
+          //   "&startDate=" +
+          //   this.dialogForm.startDate[0] +
+          //   "&endDate=" +
+          //   this.dialogForm.startDate[1]
         ).then((resp) => {
           //处理数据为坐标
-          console.log(resp.data);
           this.coordinate(resp.data);
           this.dialogLoading = false;
           if (resp) {
@@ -387,7 +393,8 @@ export default {
                   top: "4%",
                 },
                 legend: {
-                  data: ["产液量", "标准产液量", "含水率", "标准含水率"],
+                  // data: ["产液量", "标准产液量", "含水率", "标准含水率"],
+                  data: ["产液量(M)","含水率(%)"],
                 },
                 grid: {
                   bottom: 80,
@@ -411,7 +418,7 @@ export default {
                 ],
                 yAxis: [
                   {
-                    name: "产量(方)",
+                    name: "产液量(方)",
                     type: "value",
                     // max: 10,
                   },
@@ -423,29 +430,47 @@ export default {
                 ],
                 series: [
                   {
-                    name: "产液量",
+                    name: "产液量(M)",
                     type: "line",
+                    smooth: true,
                     yAxisIndex: 0,
                     data: this.liquidProd,
                   },
                   {
-                    name: "标准产液量",
+                    name: "含水率(%)",
                     type: "line",
-                    yAxisIndex: 0,
-                    data: this.liquidProdStandard,
-                  },
-                  {
-                    name: "含水率",
-                    type: "line",
+                    smooth: true,
                     yAxisIndex: 1,
                     data: this.waterCut,
                   },
-                  {
-                    name: "标准含水率",
-                    type: "line",
-                    yAxisIndex: 1,
-                    data: this.waterCutStandard,
-                  },
+                  // {
+                  //   name: "产液量",
+                  //   type: "line",
+                  //   smooth: true,
+                  //   yAxisIndex: 0,
+                  //   data: this.liquidProd,
+                  // },
+                  // {
+                  //   name: "标准产液量",
+                  //   type: "line",
+                  //   smooth: true,
+                  //   yAxisIndex: 0,
+                  //   data: this.liquidProdStandard,
+                  // },
+                  // {
+                  //   name: "含水率",
+                  //   type: "line",
+                  //   smooth: true,
+                  //   yAxisIndex: 1,
+                  //   data: this.waterCut,
+                  // },
+                  // {
+                  //   name: "标准含水率",
+                  //   type: "line",
+                  //   smooth: true,
+                  //   yAxisIndex: 1,
+                  //   data: this.waterCutStandard,
+                  // },
                 ],
               },
               true
@@ -461,11 +486,15 @@ export default {
     },
     // 根据primaryId删除异常数据
     dleteByPrimaryId(val) {
-      let primaryId = val.primaryId;
+      let primaryId = val.oilpabnId;
       this.deleteRequest(
-        "/oilWell/liquidVolumeAbnormal/liquidVolumeAbnormal/" + primaryId
+        "/diagnosis/abnormal/deleteByPrimaryId?primaryId=" + primaryId
       ).then((resp) => {
         if (resp) {
+          this.$message({
+            type: "success",
+            message: "删除成功!",
+          });
           this.liquidVolumeInit();
         }
       });
@@ -514,29 +543,41 @@ export default {
     },
     //处理坐标
     coordinate(val) {
+      // //产油日期
+      // this.oilProdDate = [];
+      // //产液量
+      // this.liquidProd = [];
+      // //标准产液量
+      // this.liquidProdStandard = [];
+      // //含水率
+      // this.waterCut = [];
+      // //标准含水率
+      // this.waterCutStandard = [];
+      // for (var i = 0; i < val.length; i++) {
+      //   this.oilProdDate[i] = val[i].oilProdDate;
+      //   this.liquidProd[i] = val[i].liquidProd;
+      //   this.liquidProdStandard[i] = val[i].liquidProdStandard;
+      //   this.waterCut[i] = val[i].waterCut;
+      //   this.waterCutStandard[i] = val[i].waterCutStandard;
+      // }
       //产油日期
       this.oilProdDate = [];
       //产液量
       this.liquidProd = [];
-      //标准产液量
-      this.liquidProdStandard = [];
       //含水率
       this.waterCut = [];
-      //标准含水率
-      this.waterCutStandard = [];
       for (var i = 0; i < val.length; i++) {
         this.oilProdDate[i] = val[i].oilProdDate;
-        this.liquidProd[i] = val[i].liquidProd;
-        this.liquidProdStandard[i] = val[i].liquidProdStandard;
-        this.waterCut[i] = val[i].waterCut;
-        this.waterCutStandard[i] = val[i].waterCutStandard;
+        this.liquidProd[i] = val[i].drLiquidProd;
+        this.waterCut[i] = val[i].drWaterCut;
       }
     },
     //获取当前日期
     getdate() {
       var date = new Date();
       var year = date.getFullYear();
-      var month = date.getMonth() > 9 ? date.getMonth() + 1 : "0" + date.getMonth() + 1;
+      var month =
+        date.getMonth() > 9 ? date.getMonth() + 1 : "0" + date.getMonth() + 1;
       var strDate = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
       var currentdate = year + "-" + month + "-" + strDate;
       return currentdate;

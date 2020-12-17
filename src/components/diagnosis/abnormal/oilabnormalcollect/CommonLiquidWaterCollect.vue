@@ -427,7 +427,6 @@ export default {
             this.dialogForm.startDate[1]
         ).then((resp) => {
           //处理数据为坐标
-          console.log(resp.data);
           this.coordinate(resp.data);
           this.dialogLoading = false;
           if (resp) {

@@ -78,7 +78,7 @@
           height="83%"
           style="width: 100%"
           :row-style="{ height: '2px' }"
-          :cell-style="{ padding: '0px' }"
+          :cell-style="{ padding: '5px' }"
           :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
         >
           <el-table-column
@@ -109,13 +109,6 @@
             prop="acquisitionTime"
             label="采集时间"
             width="180"
-            align="center"
-            :show-overflow-tooltip="true"
-          ></el-table-column>
-          <el-table-column
-            prop=""
-            label="采油站"
-            width="120"
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
@@ -165,7 +158,14 @@
           <el-table-column
             prop="diagnosisResult"
             label="工况结果"
-            width="180"
+            max-width="280"
+            align="center"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+          <el-table-column
+            prop=""
+            label="小时含水(%)"
+            width="80"
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
