@@ -3,7 +3,7 @@
     title="液量含水异常数据详情"
     height="5%"
     :visible.sync="liquidAbnormalVisible"
-    width="90%"
+    width="93%"
     :before-close="liquidAbnormalClose"
     @opened="opened"
   >
@@ -193,7 +193,7 @@
         </div>
         <el-dialog
           title="液量曲线"
-          width="60%"
+          width="62%"
           :modal-append-to-body='false'
           :visible.sync="dialogTableVisible"
           class="liquid_volume_abnormal_dialog"

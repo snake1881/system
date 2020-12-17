@@ -413,7 +413,7 @@ export default {
                   {
                     name: "产量(方)",
                     type: "value",
-                    max: 10,
+                    // max: 10,
                   },
                   {
                     name: "含水率(%)",
