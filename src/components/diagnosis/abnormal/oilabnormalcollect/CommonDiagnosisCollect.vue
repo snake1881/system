@@ -46,7 +46,7 @@
                 style="width: 150px"
                 filterable
                 clearable
-                v-model="termForm.diagnosisResult"
+                v-model="termForm.diagnosisLevel"
                 placeholder="请选择"
               >
                 <el-option
@@ -210,7 +210,7 @@ export default {
       termForm: {
         oilStationId: "",
         acquisitionTime: "",
-        diagnosisResult: "",
+        diagnosisLevel: "",
       },
       orgNameData: [],
       loading: true,
@@ -221,15 +221,15 @@ export default {
       options: [
         {
           value: "0",
-          label: "正常",
+          label: "一级",
         },
         {
           value: "1",
-          label: "欠注",
+          label: "二级",
         },
         {
           value: "2",
-          label: "超注",
+          label: "三级",
         },
       ],
     };
@@ -263,7 +263,6 @@ export default {
         this.loading = false;
         if (resp) {
           this.diagndosisAbnormal = resp.data.records;
-          console.log(this.diagndosisAbnormal);
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
@@ -272,6 +271,7 @@ export default {
     },
     //查询数据
     diagnosisAbnormalSearch() {
+      console.log(this.termForm);
       this.getRequest(
         "/diagnosis/abnormal/queryDiagramSourceByStationId?current=" +
           this.currentPage +
@@ -280,7 +280,9 @@ export default {
           "&acquisitionTime=" +
           this.termForm.acquisitionTime +
           "&oilStationId=" +
-          this.termForm.oilStationId
+          this.termForm.oilStationId +
+          "&diagnosisLevel=" +
+          this.termForm.diagnosisLevel
       ).then((resp) => {
         this.loading = false;
         if (resp) {
