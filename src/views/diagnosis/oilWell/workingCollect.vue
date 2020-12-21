@@ -877,7 +877,7 @@ export default {
       });
       this.getRequest(
         "/operation/operationInfo/listOperation?state=1&wellId=" +
-          detailsCollect.wellId
+         this.detailsCollect.wellId
       ).then((resp) => {
         if (resp) {
           // this.measure = resp.data;
