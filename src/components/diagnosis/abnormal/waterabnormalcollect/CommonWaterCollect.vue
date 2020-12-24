@@ -10,11 +10,11 @@
   <template>
     <div class="dialogDiv">
       <div class="waterAbnormal_top">
-        <el-form style="height:42px;" :model="editData" :inline="true">
+        <el-form style="height:42px;" :model="termForm" :inline="true">
           <el-form-item label="采油站">
             <el-select
               size="medium"
-              v-model="editData.oilStationId"
+              v-model="termForm.oilStationId"
               style="width: 150px"
               filterable
               clearable
@@ -31,7 +31,7 @@
           <el-form-item label="日期">
             <el-date-picker
               size="medium"
-              v-model="editData.createTime"
+              v-model="termForm.createTime"
               style="width: 150px"
               type="date"
               placeholder="选择日期"
@@ -46,7 +46,7 @@
               style="width: 150px"
               filterable
               clearable
-              v-model="editData.abnormalType"
+              v-model="termForm.abnormalType"
               placeholder="请选择"
             >
               <el-option
@@ -235,7 +235,9 @@ export default {
   methods: {
     //
     opened() {
-      
+      this.termForm.abnormalType=this.editData.abnormalType;
+       this.termForm.createTime=this.editData.createTime;
+        this.termForm.oilStationId=this.editData.oilStationId;
       this.waterAbnormalInit();
       this.orgNameInit();
     },
@@ -269,13 +271,13 @@ export default {
     waterAbnormalSearch() {
       this.getRequest(
         "/waterAbnormalCollect/waterList?abnormalType=" +
-          this.editData.abnormalType +
+          this.termForm.abnormalType +
           "&createTime=" +
-          this.editData.createTime +
+          this.termForm.createTime +
           "&current=" +
           this.currentPage +
           "&oilStationId=" +
-          this.editData.oilStationId +
+          this.termForm.oilStationId +
           "&pageSize=" +
           this.pageSize
       ).then((resp) => {

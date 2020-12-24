@@ -171,6 +171,11 @@ export default {
         //默认传递当前日期
         this.waterAbnormalData.createTime = this.getdate();
       };
+      // if (this.waterAbnormalData.createTime === "null"||this.waterAbnormalData.createTime === null) {
+      //   //默认传递当前日期
+      //   this.waterAbnormalData.createTime = "";
+      // };
+      console.log(this.waterAbnormalData.createTime);
       this.getRequest(
         "/waterAbnormalCollect/waterCollect?createTime=" +
           this.waterAbnormalData.createTime
