@@ -41,7 +41,7 @@
     >
       <el-table-column prop="rownum" label="序号" width="120" />
       <el-table-column prop="nodeName" label="当前任务" width="210" />
-      <el-table-column prop="wellId" label="井号" width="210" />
+      <el-table-column prop="wellName" label="井号" width="210" />
       <el-table-column prop="operationName" label="作业名称" width="210" />
       <el-table-column prop="operationType" label="作业类型" width="210">
         <template slot-scope="scope">
@@ -278,6 +278,7 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          console.log(this.operationData);
         }
       });
     },
