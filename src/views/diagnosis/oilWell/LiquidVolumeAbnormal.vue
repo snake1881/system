@@ -576,9 +576,9 @@ export default {
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
-      month = month < 10 ? "0" + month : month;
+      month = month < 10 ? ("0" + month) : month;
       var strDate = date.getDate();
-      strDate = strDate < 10 ? "0" + strDate : strDate;
+      strDate = strDate < 10 ? ("0" + strDate) : strDate;
       var currentdate = year + "-" + month + "-" + strDate;
       return currentdate;
     },
