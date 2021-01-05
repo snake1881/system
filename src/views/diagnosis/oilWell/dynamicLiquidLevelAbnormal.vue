@@ -248,9 +248,12 @@ export default {
     //获取当前日期
     getdate() {
       var date = new Date();
+      var seperator1 = "-";
       var year = date.getFullYear();
-      var month = date.getMonth() > 9 ? date.getMonth() + 1 : "0" + date.getMonth() + 1;
-      var strDate = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? ("0" + month) : month;
+      var strDate = date.getDate();
+      strDate = strDate < 10 ? ("0" + strDate) : strDate;
       var currentdate = year + "-" + month + "-" + strDate;
       return currentdate;
     },
