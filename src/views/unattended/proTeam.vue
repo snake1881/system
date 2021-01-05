@@ -327,10 +327,10 @@ export default {
     // 油井汇总
     teamInit() {
       var yesterday = new Date((new Date).getTime() - 24 * 60 * 60 * 1000);
-      var year = yesterday.getFullYear();
-      var month = yesterday.getMonth() > 9 ? yesterday.getMonth() + 1 : "0" + yesterday.getMonth() + 1;
-      var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
-      yesterday = year + "-" + month + "-" + day;
+        var year = yesterday.getFullYear();
+        var month = yesterday.getMonth() + 1 > 9 ? yesterday.getMonth() + 1 : "0" + (yesterday.getMonth() + 1);
+        var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
+        yesterday = year + "-" + month + "-" + day;
       this.getRequest(
         "/teams/team/listTeamCount?productionTeamId=1&sTime="+yesterday
       ).then((resp) => {
