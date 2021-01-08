@@ -101,7 +101,7 @@
       <el-table-column
         prop="abnormalResult"
         label="异常结论"
-        width="280"
+        width="180"
         align="center"
         :show-overflow-tooltip="true"
       ></el-table-column>
@@ -111,6 +111,17 @@
         width="120"
         align="center"
       ></el-table-column>
+      <el-table-column
+        prop="isIntervalPump"
+        label="井状况"
+        width="100"
+        align="center"
+      >
+      <template slot-scope="scope">
+          <p v-if="scope.row.isIntervalPump == '0'">正常</p>
+          <p v-if="scope.row.isIntervalPump == '1'" style="color:red">需停井恢复</p>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="remark"
         label="备注"
