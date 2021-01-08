@@ -72,7 +72,7 @@
         :cell-style="{ padding: '0px' }"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
-        <el-table-column  width="35"  type="expand">
+        <el-table-column width="35" type="expand">
           <template slot-scope="scope">
             <div
               class="work_collect_item_detail"
@@ -112,7 +112,7 @@
         <el-table-column
           label="序号"
           type="index"
-          width="60"
+          width="50"
           align="center"
           :index="
             (index) => {
@@ -138,16 +138,11 @@
           width="160"
           align="center"
         />
-        <el-table-column
-          prop="stroke"
-          label="冲程"
-          width="85"
-          align="center"
-        />
+        <el-table-column prop="stroke" label="冲程" width="60" align="center" />
         <el-table-column
           prop="frequency"
           label="冲次"
-          width="85"
+          max-width="60"
           align="center"
         />
         <el-table-column
@@ -165,26 +160,50 @@
         <el-table-column
           prop="diagnosisResult"
           label="诊断结果"
-          width="140"
+          min-width="150"
           align="center"
         />
-         <el-table-column
+        <el-table-column
           prop="diagnosisLevel"
           label="报警级别"
-          width="140"
+          width="80"
           align="center"
         >
-         <template slot-scope="scope">
-          <p v-if="scope.row.diagnosisLevel == '0'">一级</p>
-          <p v-if="scope.row.diagnosisLevel == '1'">二级</p>
-          <p v-if="scope.row.diagnosisLevel == '2'">三级</p>
-        </template></el-table-column>
+          <template slot-scope="scope">
+            <p v-if="scope.row.diagnosisLevel == '0'">一级</p>
+            <p v-if="scope.row.diagnosisLevel == '1'">二级</p>
+            <p v-if="scope.row.diagnosisLevel == '2'">三级</p>
+          </template></el-table-column
+        >
+        <el-table-column
+          prop="normalWaterCut"
+          label="人工工况"
+          max-width="110"
+          align="center"
+          ><template slot-scope="scope">
+            <el-button
+              type="primary"
+              size="small"
+              @click="confirmResult(scope.row)"
+              >人工工况</el-button>
+          </template>
+          ></el-table-column>
         <el-table-column
           prop="normalWaterCut"
           label="人工确认"
-          width="120"
+          max-width="110"
           align="center"
-        />
+          ><template slot-scope="scope">
+            <el-button
+              v-if="scope.row.isConfirm == '0'"
+              type="primary"
+              size="small"
+              @click="confirm(scope.row)"
+              >请确认</el-button
+            >
+            <p v-if="scope.row.isConfirm == '1'">已确认</p>
+          </template>
+          ></el-table-column>
       </el-table>
       <!-- 分页 -->
       <div class="work_collect_page">
@@ -487,11 +506,75 @@
         ></div>
       </div>
     </div>
+    <el-dialog
+      title="人工确认"
+      :visible.sync="confirmVisible"
+      width="36%"
+      :before-close="confirmClose"
+    >
+      <div class="confirmDiv">
+        <el-form :model="confirmDate" label-width="80px">
+          <el-form-item label="井号">
+            <el-input v-model="confirmDate.wellName" />
+          </el-form-item>
+          <el-form-item label="诊断结果">
+            <el-input v-model="confirmDate.diagnosisResult" />
+          </el-form-item>
+          <el-form-item label="措施">
+            <el-select v-model="confirmDate.measureContent">
+              <el-option
+                  v-for="item in confirmOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-button
+        type="primary"
+        @click="saveConfirm(confirmDate), confirmClose()"
+        class="confirmButton"
+        >提交</el-button
+      >
+      <el-button type="info" @click="confirmClose()">取消</el-button>
+    </el-dialog>
+    <!--人工工况-->
+    <el-dialog
+      title="人工工况"
+      :visible.sync="confirmResultVisible"
+      width="36%"
+      :before-close="confirmResultClose"
+    >
+      <div class="confirmResultDiv">
+        <el-form :model="confirmResultDate" label-width="80px">
+          <el-form-item label="井号">
+            <el-input v-model="confirmResultDate.wellName" />
+          </el-form-item>
+          <el-form-item label="诊断结果">
+            <el-input v-model="confirmResultDate.diagnosisResult" />
+          </el-form-item>
+          <el-form-item label="人工诊断">
+            <el-input v-model="confirmResultDate.confirmResult" />
+          </el-form-item>
+        </el-form>
+      </div>
+      <el-button
+        type="primary"
+        @click="saveConfirmResult(confirmResultDate), confirmResultClose()"
+        class="confirmButton"
+        >提交</el-button
+      >
+      <el-button type="info" @click="confirmResultClose()">取消</el-button>
+    </el-dialog>
   </div>
 </template>
 <script>
+import template from "../../assessment/template.vue";
 let echarts = require("echarts/lib/echarts");
 export default {
+  components: { template },
   data() {
     return {
       //选择框
@@ -512,7 +595,7 @@ export default {
         diagnosisLevel: "",
       },
       //
-      diagnosisLevelOptions:[
+      diagnosisLevelOptions: [
         {
           value: "0",
           label: "一级",
@@ -524,7 +607,7 @@ export default {
         {
           value: "2",
           label: "三级",
-        }
+        },
       ],
       // 分页数据
       currentPage: 1,
@@ -575,6 +658,30 @@ export default {
         pageSize: 8,
         total: 0,
       },
+      //人工确认
+      confirmVisible: false,
+      confirmDate: {},
+      confirmOptions: [
+        {
+          value: "井筒反洗;检泵",
+          label: "井筒反洗;检泵",
+        },
+        {
+          value: "周期检泵",
+          label: "周期检泵",
+        },
+        {
+          value: "调小防冲距",
+          label: "调小防冲距",
+        },
+        {
+          value: "检泵;更换新油管",
+          label: "检泵;更换新油管",
+        },
+      ],
+      //人工工况
+      confirmResultVisible: false,
+      confirmResultDate: {},
     };
   },
   created() {
@@ -596,7 +703,7 @@ export default {
           this.abnormalForm.formDate +
           "&current=" +
           this.currentPage +
-          "&diagnosisLevel="+
+          "&diagnosisLevel=" +
           this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
           this.abnormalForm.orgName +
@@ -609,6 +716,7 @@ export default {
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
           this.loading = false;
+          console.log(this.workingCollect);
           // this.getIndex();
         }
       });
@@ -659,7 +767,7 @@ export default {
           this.abnormalForm.formDate +
           "&current=" +
           this.currentPage +
-          "&diagnosisLevel="+
+          "&diagnosisLevel=" +
           this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
           this.abnormalForm.orgName +
@@ -695,7 +803,7 @@ export default {
           console.log(resp);
           this.measure = resp.data;
         }
-      }); 
+      });
     },
     // 查询该井的历史措施
     // measureInit() {
@@ -856,7 +964,7 @@ export default {
     // 详情页面绘制一个图像
     showGT() {
       // 获取三个功图的坐标数据
-      // 
+      //
       this.getRequest(
         "/mountLiquid/liquidList?endTime=" +
           this.detailsCollect.acquisitionTime +
@@ -877,7 +985,7 @@ export default {
       });
       this.getRequest(
         "/operation/operationInfo/listOperation?state=1&wellId=" +
-         this.detailsCollect.wellId
+          this.detailsCollect.wellId
       ).then((resp) => {
         if (resp) {
           // this.measure = resp.data;
@@ -1399,6 +1507,61 @@ export default {
         }
       });
     },
+    //人工确认弹出页面
+    confirm(val) {
+      this.confirmVisible = true;
+      this.confirmDate = val;
+      console.log(val);
+    },
+    confirmClose() {
+      this.confirmVisible = false;
+    },
+    //人工确认
+    saveConfirm(val) {
+      this.putRequest(
+        "/diagnosis/knowledge/gttile/updateConfirmById",
+        val
+      ).then((resp) => {
+        if (resp) {
+          this.$message({
+            message: "确认成功!",
+            type: "success",
+          });
+          this.workingCollectInit();
+        } else {
+          this.$message.error("确认失败，请重新确认!");
+        }
+      });
+    },
+
+    //人工工况弹出页面
+    confirmResult(val) {
+      this.confirmResultVisible = true;
+      this.confirmResultDate = val;
+    },
+    confirmResultClose() {
+      this.confirmResultVisible = false;
+    },
+    //人工工况确认 
+    saveConfirmResult(val) {
+      console.log(this.confirmResultDate);
+      this.postRequest(
+        "/OilDaily/confirmResult?confirmResult="+
+        this.confirmResultDate.confirmResult + 
+        "&inddsId="+
+        this.confirmResultDate.inddsId
+      ).then((resp) => {
+        if (resp) {
+          this.$message({
+            message: "人工工况确认成功!",
+            type: "success",
+          });
+          this.workingCollectInit();
+        } else {
+          this.$message.error("人工工况确认失败，请重新确认!");
+        }
+      });
+    },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
@@ -1432,4 +1595,23 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../../assets/css/diagnosis/oilWell/workingCollect.css";
+.confirmDiv {
+  height: 320px;
+  overflow: auto;
+}
+.confirmDiv .el-input {
+  width: 400px;
+  height: 2px;
+}
+.confirmButton {
+  margin: 0 0 10px 160px;
+}
+.confirmResultDiv {
+  height: 320px;
+  overflow: auto;
+}
+.confirmResultDiv .el-input {
+  width: 400px;
+  height: 2px;
+}
 </style>

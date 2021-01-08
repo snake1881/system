@@ -1,5 +1,5 @@
 <template>
-<el-dialog :title="editData.wellId + '井 井下作业编辑'" :visible.sync="editOperVisible" width="43%" :before-close="editOperClose">
+<el-dialog :title="editData.wellName + '井 井下作业编辑'" :visible.sync="editOperVisible" width="43%" :before-close="editOperClose">
   <div class="editDiv">
     <el-form :model="editData" label-width="80px">
       <el-row>

@@ -101,7 +101,7 @@
       <el-table-column
         prop="abnormalResult"
         label="异常结论"
-        width="280"
+        width="180"
         align="center"
         :show-overflow-tooltip="true"
       ></el-table-column>
@@ -111,6 +111,17 @@
         width="120"
         align="center"
       ></el-table-column>
+      <el-table-column
+        prop="isIntervalPump"
+        label="井状况"
+        width="100"
+        align="center"
+      >
+      <template slot-scope="scope">
+          <p v-if="scope.row.isIntervalPump == '0'">正常</p>
+          <p v-if="scope.row.isIntervalPump == '1'" style="color:red">需停井恢复</p>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="remark"
         label="备注"
@@ -248,9 +259,12 @@ export default {
     //获取当前日期
     getdate() {
       var date = new Date();
+      var seperator1 = "-";
       var year = date.getFullYear();
-      var month = date.getMonth() > 9 ? date.getMonth() + 1 : "0" + date.getMonth() + 1;
-      var strDate = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? ("0" + month) : month;
+      var strDate = date.getDate();
+      strDate = strDate < 10 ? ("0" + strDate) : strDate;
       var currentdate = year + "-" + month + "-" + strDate;
       return currentdate;
     },

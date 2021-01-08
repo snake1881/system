@@ -167,6 +167,15 @@ export default {
     },
     waterAbnormalInit() {
       // this.waterAbnormal.createTime=this.termForm.createTime;
+      if (this.waterAbnormalData.createTime === "") {
+        //默认传递当前日期
+        this.waterAbnormalData.createTime = this.getdate();
+      };
+      // if (this.waterAbnormalData.createTime === "null"||this.waterAbnormalData.createTime === null) {
+      //   //默认传递当前日期
+      //   this.waterAbnormalData.createTime = "";
+      // };
+      console.log(this.waterAbnormalData.createTime);
       this.getRequest(
         "/waterAbnormalCollect/waterCollect?createTime=" +
           this.waterAbnormalData.createTime
@@ -374,6 +383,23 @@ export default {
         array[7] = this.waterAbnormal[i].exceedNumber;
         this.coordinates[i] = array;
       }
+    },
+    //获取当前日期
+    getdate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + "-" + month + "-" + strDate;
+      return currentdate;
     },
   },
 };

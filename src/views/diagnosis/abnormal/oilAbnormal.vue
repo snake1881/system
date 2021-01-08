@@ -56,10 +56,30 @@
         min-width="13%"
         align="center"
       />
-      <el-table-column prop="liquidAbnormal" label="液量异常数" min-width="10%" align="center"/>
-      <el-table-column prop="waterAbnormal" label="含水异常数" min-width="10%" align="center"/>
-      <el-table-column prop="diagnosisAbnormal" label="工况异常数" min-width="10%" align="center"/>
-      <el-table-column prop="fluidAbnormal" label="动液面异常数" min-width="10%" align="center"/>
+      <el-table-column prop="liquidAbnormal" label="液量异常数" min-width="10%" align="center">
+        <template slot-scope="scope">
+          <a v-if="scope.row.liquidAbnormal == 0">{{scope.row.liquidAbnormal}}</a>
+          <a v-if="scope.row.liquidAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.liquidAbnormal}}</a>
+        </template>
+      </el-table-column>
+      <el-table-column prop="waterAbnormal" label="含水异常数" min-width="10%" align="center">
+        <template slot-scope="scope">
+          <a v-if="scope.row.waterAbnormal == 0">{{scope.row.waterAbnormal}}</a>
+          <a v-if="scope.row.waterAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.waterAbnormal}}</a>
+        </template>
+      </el-table-column>
+      <el-table-column prop="diagnosisAbnormal" label="工况异常数" min-width="10%" align="center">
+        <template slot-scope="scope">
+          <a v-if="scope.row.diagnosisAbnormal == 0">{{scope.row.diagnosisAbnormal}}</a>
+          <a v-if="scope.row.diagnosisAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.diagnosisAbnormal}}</a>
+        </template>
+      </el-table-column>
+      <el-table-column prop="fluidAbnormal" label="动液面异常数" min-width="10%" align="center">
+        <template slot-scope="scope">
+          <a v-if="scope.row.fluidAbnormal == 0">{{scope.row.fluidAbnormal}}</a>
+          <a v-if="scope.row.fluidAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.fluidAbnormal}}</a>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- 分页 -->
     <div class="oil_abnormal_page">
@@ -326,6 +346,7 @@ export default {
     },
     //表格数据初始化
     postInit() {
+      console.log(this.postForm.postDate);
       //如果日期值为空
       if (this.postForm.postDate === "") {
         //默认传递当前日期

@@ -193,6 +193,7 @@ export default {
     // 对话框父子组件传值
     fluidAbnormalClose() {
       this.$emit("fluidRowClose");
+      Object.assign(this.$data, this.$options.data())
     },
     //表格初始化
     fluidAbnormalInit() {

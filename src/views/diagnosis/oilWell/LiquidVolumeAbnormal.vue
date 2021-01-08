@@ -394,7 +394,7 @@ export default {
                 },
                 legend: {
                   // data: ["产液量", "标准产液量", "含水率", "标准含水率"],
-                  data: ["产液量(M)","含水率(%)"],
+                  data: ["产液量(M)", "含水率(%)"],
                 },
                 grid: {
                   bottom: 80,
@@ -523,21 +523,20 @@ export default {
       if (this.dialogForm.startDate.length == 0) {
         var date = new Date();
         var year = date.getFullYear();
-        var mouth =
-          date.getMonth() > 9 ? date.getMonth() + 1 : "0" + date.getMonth() + 1;
-        var day = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
-        var endDate = year + "-" + mouth + "-" + day;
+        var month = date.getMonth() + 1;
+        month = month < 10 ? ("0" + month) : month;
+        var day = date.getDate();
+        day = day < 10 ? ("0" + day) : day;
+        var endDate = year + "-" + month + "-" + day;
         this.dialogForm.startDate[1] = endDate;
         var date1 = new Date();
         date1.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
         var year1 = date1.getFullYear();
-        var mouth1 =
-          date1.getMonth() > 9
-            ? date1.getMonth() + 1
-            : "0" + date1.getMonth() + 1;
-        var day1 =
-          date1.getDate() > 9 ? date1.getDate() : "0" + date1.getDate();
-        var beginDate = year1 + "-" + mouth1 + "-" + day1;
+        var month1 = date1.getMonth() + 1;
+        month1 = month1 < 10 ? ("0" + month1) : month1;
+        var day1 = date1.getDate();
+        day1 = day1 < 10 ? ("0" + day1) : day1;
+        var beginDate = year1 + "-" + month1 + "-" + day1;
         this.dialogForm.startDate[0] = beginDate;
       }
     },
@@ -576,9 +575,10 @@ export default {
     getdate() {
       var date = new Date();
       var year = date.getFullYear();
-      var month =
-        date.getMonth() > 9 ? date.getMonth() + 1 : "0" + date.getMonth() + 1;
-      var strDate = date.getDate() > 9 ? date.getDate() : "0" + date.getDate();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? ("0" + month) : month;
+      var strDate = date.getDate();
+      strDate = strDate < 10 ? ("0" + strDate) : strDate;
       var currentdate = year + "-" + month + "-" + strDate;
       return currentdate;
     },

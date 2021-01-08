@@ -78,7 +78,7 @@
         width="90"
       />
       <el-table-column
-        prop="timediffer"
+        prop="timeDiffer"
         align="center"
         label="量液累计时间(H)"
         width="140"
@@ -96,7 +96,7 @@
         width="90"
       />
       <el-table-column
-        prop="abnormalProblem"
+        prop="maxDisplacement"
         align="center"
         label="最大位移"
         width="90"
