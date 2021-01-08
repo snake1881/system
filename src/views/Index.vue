@@ -90,7 +90,7 @@
           /> -->
           <img
           src="../assets/images/index_gis.jpg"
-          style="height: 100%; width: 100%; margin-top: 1%"
+          style="height: 100%; width: 100%; "
           />
         </div>
       </el-card>
@@ -277,12 +277,12 @@ export default {
                 trigger: "axis",
               },
               // 折线颜色
-              color: ["#2670f7", "#ed6741", "#57c5d9", "#fbe268", "#cabbe9"],
+              color: ["#FF8888", "#33FFFF", "#FF33FF", "red", "#0000FF"],
               legend: {
                 data: ["油井开井", "水井开井", "日产液", "日产油", "日注水"],
                 textStyle: {
-                  color: "#ffffff",
-                  fontSize: 10,
+                  color: "#333333",
+                  fontSize: 12,
                 },
               },
               xAxis: {
@@ -291,13 +291,13 @@ export default {
                 // 文字大小与颜色
                 axisLabel: {
                   textStyle: {
-                    color: "#c3dbff", //更改坐标轴文字颜色
-                    fontSize: 10, //更改坐标轴文字大小
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
                   },
                 },
                 // 轴线颜色
                 axisLine: {
-                  lineStyle: { color: "#C0C4CC" },
+                  lineStyle: { color: "#333333" },
                 },
                 // 网格线
                 splitLine: { show: false },
@@ -310,14 +310,14 @@ export default {
                   // 文字大小与颜色
                   axisLabel: {
                     textStyle: {
-                      color: "#c3dbff", //更改坐标轴文字颜色
+                      color: "#333333", //更改坐标轴文字颜色
                       fontSize: 12, //更改坐标轴文字大小
                     },
                   },
                   splitNumber: 3,
                   // 轴线颜色
                   axisLine: {
-                    lineStyle: { color: "#C0C4CC" },
+                    lineStyle: { color: "#333333" },
                   },
                   // 网格线
                   splitLine: { show: false },
@@ -329,14 +329,14 @@ export default {
                   // 文字大小与颜色
                   axisLabel: {
                     textStyle: {
-                      color: "#c3dbff", //更改坐标轴文字颜色
-                      fontSize: 10, //更改坐标轴文字大小
+                      color: "#333333", //更改坐标轴文字颜色
+                      fontSize: 12, //更改坐标轴文字大小
                     },
                   },
                   splitNumber: 3,
                   // 轴线颜色
                   axisLine: {
-                    lineStyle: { color: "#C0C4CC" },
+                    lineStyle: { color: "#333333" },
                   },
                   // 网格线
                   splitLine: { show: false },
@@ -417,7 +417,7 @@ export default {
               formatter: "{a} <br/>{b} : {c} ({d}%)",
             },
             // 图形颜色
-            color: ["#ed6741", "#0a2146"],
+            color: ["#acabab", "#2670f7"],
             series: [
               {
                 type: "pie",
@@ -457,7 +457,7 @@ export default {
               formatter: "{a} <br/>{b} : {c} ({d}%)",
             },
             // 图形颜色
-            color: ["#5dc5d9", "#0a2146"],
+            color: ["#acabab", "#57c5d9"],
             series: [
               {
                 type: "pie",
@@ -517,13 +517,13 @@ export default {
                 // 文字大小与颜色
                 axisLabel: {
                   textStyle: {
-                    color: "#c3dbff", //更改坐标轴文字颜色
-                    fontSize: 12, //更改坐标轴文字大小
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 13, //更改坐标轴文字大小
                   },
                 },
                 // 轴线颜色
                 axisLine: {
-                  lineStyle: { color: "#C0C4CC" },
+                  lineStyle: { color: "#333333" },
                 },
                 // 网格线
                 splitLine: { show: false },
@@ -540,13 +540,13 @@ export default {
                 // 文字大小与颜色
                 axisLabel: {
                   textStyle: {
-                    color: "#c3dbff", //更改坐标轴文字颜色
-                    fontSize: 9, //更改坐标轴文字大小
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
                   },
                 },
                 // 轴线颜色
                 axisLine: {
-                  lineStyle: { color: "#C0C4CC" },
+                  lineStyle: { color: "#333333" },
                 },
                 // 网格线
                 splitLine: { show: false },
@@ -570,7 +570,7 @@ export default {
                 dimension: 0,
                 inRange: {
                   color: [
-                    "#2670f7",
+                    "#0fc75c",
                     "#ed6741",
                     "#fbe268",
                     "#57c5d9",
@@ -594,7 +594,7 @@ export default {
                         position: "top", //在右方显示
                         textStyle: {
                           //数值样式
-                          color: "#c3dbff",
+                          color: "#333333",
                           fontSize: 12,
                         },
                       },
@@ -633,12 +633,12 @@ export default {
               x: "center",
               textStyle: {
                 fontSize: "12",
-                color: "#e6e6e6",
+                color: "#333333",
                 fontFamily: "Microsoft Yahei",
               },
             },
             // 图形颜色
-            color: ["#5dc5d9", "#0a2146"],
+            color: ["#acabab", "#0fc75c"],
             series: [
               {
                 type: "pie",
@@ -680,7 +680,7 @@ export default {
             legend: {
               data: ["正常", "超注", "欠注"],
               textStyle: {
-                color: "#e6e6e6",
+                color: "#333333",
                 fontSize: 10,
               },
               itemWidth: 12,
@@ -725,12 +725,12 @@ export default {
                 left: "5%",
                 top: "8%",
               },
-              color: ["#2670f7", "#57c5d9", "#cabbe9"],
+              color: ["#57c5d9", "#0fc75c", "#ed6741"],
               legend: {
                 data: ["措施井", "措施完成井", "措施中井"],
                 textStyle: {
-                  color: "#e6e6e6",
-                  fontSize: 10,
+                  color: "#333333",
+                  fontSize: 12,
                 },
               },
               xAxis: {
@@ -742,7 +742,7 @@ export default {
                   interval: 0, //这个一定要有，别忘记了
                   rotate: 55,
                   textStyle: {
-                    color: "#c3dbff", //更改坐标轴文字颜色
+                    color: "#333333", //更改坐标轴文字颜色
                     fontSize: 9, //更改坐标轴文字大小
                   },
                 },
@@ -757,8 +757,8 @@ export default {
                 axisLabel: {
                   show: true,
                   textStyle: {
-                    color: "#c3dbff", //更改坐标轴文字颜色
-                    fontSize: 10, //更改坐标轴文字大小
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
                   },
                 },
                 // 轴线颜色

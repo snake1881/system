@@ -10,7 +10,7 @@
         router
         mode="horizontal"
         default-active="/Index"
-        background-color="#0a1e42"
+        class="header-el-menu"
         text-color="#fff"
         active-text-color="#fff"
         v-if="this.$store.state.routes[0]"
@@ -201,34 +201,40 @@ export default {
 </style>
 
 <style>
-.el-container {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-}
-.container_right .el-button {
-  color: white;
-  border-color: #0a1e42;
-  background-color: #0a1e42;
-  padding: 0 0;
-  font-size: 18px;
-}
-.container_right .el-dropdown {
-  width: 40%;
-  height: 100%;
-}
-.container_middle .el-menu {
-  border: 0;
-  height: 100%;
-}
-.container_middle .el-menu .el-menu-item {
-  height: 100%;
-  line-height: 76px;
-}
-.container_right_notice_scrollbar .el-scrollbar__wrap {
-  overflow-x: hidden;
-}
-.el-menu-item.is-active {
-  background-color: rgb(68, 73, 87) !important;
-}
+ .el-menu-item:focus, .el-menu-item:hover{
+     background-color: #444b91 !important;
+   border-bottom-color:#565d99!important;
+ }
+ .el-menu-item.is-active {
+       background-color: linear-gradient(#47598f, #525bae) !important;
+       border-bottom-color:#565d99!important;
+ }
+  .el-container {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .container_right .el-button {
+    color: white;
+    border:none;
+    background-image: linear-gradient(#4e70ad, #3e4372);
+    padding: 0 0;
+    font-size: 18px;
+  }
+  .container_right .el-dropdown {
+    width: 40%;
+    height: 100%;
+  }
+  .container_middle .el-menu {
+    border: 0;
+    height: 100%;
+  }
+  .container_middle .el-menu .el-menu-item {
+    height: 100%;
+    line-height: 76px;
+  }
+  .container_right_notice_scrollbar .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
+  
 </style>

@@ -2,7 +2,7 @@
     width: 100%;
     height: 100%;
     display: flex;
-    border-bottom: 1px solid #253e69;
+    /* border-bottom: 1px solid #253e69; */
     flex-direction: row;
     justify-content: space-between;
 }
@@ -15,7 +15,7 @@
 
 .container_left .container_left_text {
     margin-top: 2.5%;
-    color: #f2f6fc;
+    color: #fff;
     font-size: 24px;
     font-family: "Microsoft Yahei";
 }
@@ -86,3 +86,10 @@
     height: 30%;
     margin-top: 31%;
 }
+
+.header-el-menu{
+    background-image: linear-gradient(#4e70ad, #3e4372);
+}
+
+  
+  

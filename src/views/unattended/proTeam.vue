@@ -158,7 +158,7 @@
                       <td rowspan="3">油井</td>
                       <td colspan="3">
                         总:
-                        <span style="color: green">{{ item.wellCount }}</span
+                        <span class="proTeam_container_station_details_container_right_dec_span" >{{ item.wellCount }}</span
                         >口 开:
                         <span style="color: green">{{
                           item.wellOpenCount
@@ -290,9 +290,13 @@
                 >
               </div>
               <i
-                class="iconfont icon-icon-- proTeam_container_station_details_container_right_icon"
+                class="iconfont icon-icon-- proTeam_container_station_details_container_right_icon"  v-show="seen"
                 @click="gotoStation(item.oilStationId, item.oilStationName)"
               />
+              <!-- <i
+                class="iconfont icon-icon-- proTeam_container_station_details_container_right_icon" v-show="!seen"
+                @click="dataNull()"
+              /> -->
             </div>
           </div>
         </div>
@@ -307,17 +311,41 @@ export default {
     return {
       tableFlag: false,
       // 油井汇总
-      oilData: {},
+      oilData: {
+        oilStationId: 0,
+        oilStationName: 0,
+        abnormalOilWell: 0,
+        drLiquidProd:0,
+        drOilProd:0,
+        drOilProdTon: 0,
+        drYesterdayLiquidProd:0,
+        drYesterdayOilProd:0,
+        drYesterdayOilProdTon: 0,
+        drInjectionAllocation: 0,
+        drWaterInjection: 0,
+        wellCount: 0,
+        wellOpenCount: 0,
+        waterCount: 0,
+        waterOpenCount: 0,
+        videoStationCount: 0,
+        teamWaterInfo: 0,
+      },
       // 水井汇总
-      waterData: {},
+      waterData:{
+        oilStationName: 0,
+        oilStationId:0,
+        drInjectionAllocation:0,
+        drWaterInjection:0,
+      },
       // 产油变化量
-      oilIncrease: "",
+      oilIncrease: 0,
       // 产液变化量
-      LiquidProdIncrease: "",
+      LiquidProdIncrease:0,
       // 视频汇总
-      videoData: "",
+      videoData: 0,
       // 采油站
-      stationData: [],
+      stationData :[],
+      seen:true
     };
   },
   created() {
@@ -334,18 +362,71 @@ export default {
       this.getRequest(
         "/teams/team/listTeamCount?productionTeamId=1&sTime="+yesterday
       ).then((resp) => {
+        console.log(resp)
         if (resp) {
-          this.oilData = resp.data.teamInfo;
-          this.waterData = resp.data.teamWater;
-          this.LiquidProdIncrease = (
-            resp.data.teamInfo.drLiquidProd -
-            resp.data.teamInfo.drYesterdayLiquidProd
-          ).toFixed(3);
-          this.oilIncrease = (
-            resp.data.teamInfo.drOilProd - resp.data.teamInfo.drYesterdayOilProd
-          ).toFixed(3);
-          this.stationData = resp.data.teamInfoList;
-          this.videoData = resp.data.videoTeamCount;
+          if(!(resp.data === 'null')){
+            if(!(resp.data.teamInfo === 'null')){
+              if(!(resp.data.teamInfo.drLiquidProd === 'null') || !(resp.data.teamInfo.drYesterdayLiquidProd)){
+                this.oilData = resp.data.teamInfo;
+                this.LiquidProdIncrease = (
+                resp.data.teamInfo.drLiquidProd -
+                resp.data.teamInfo.drYesterdayLiquidProd
+                ).toFixed(3);
+                this.oilIncrease = (
+                  resp.data.teamInfo.drOilProd - resp.data.teamInfo.drYesterdayOilProd
+                ).toFixed(3);
+              }else{
+                this.oilData.productionTeamName=resp.data.teamInfo.productionTeamName
+                this.oilData.wellTeamCount=resp.data.teamInfo.wellTeamCount
+                this.oilData.wellTeamOpenCount=resp.data.teamInfo.wellTeamOpenCount
+                this.oilData.abnormalCount=resp.data.teamInfo.abnormalCount
+                this.oilData.videoTeamCount=resp.data.teamInfo.videoTeamCount
+                this.oilData.abnormalWaterCount=resp.data.teamInfo.abnormalWaterCount
+                console.log(this.oilData);
+              }
+            }else{
+              this.dataNull();
+            }
+            if(!(resp.data.teamWater === 'null' )){
+              if(!(resp.data.teamWater.drInjectionAllocation === 'null') || !(resp.data.teamWater.drWaterInjection=== 'null')){
+                this.waterData = resp.data.teamWater;
+              }else{
+                this.waterData.productionTeamName= resp.data.teamWater.productionTeamName
+                this.waterData.waterTeamCount= resp.data.teamWater.waterTeamCount
+                this.waterData.waterTeamOpenCount= resp.data.teamWater.waterTeamOpenCount
+                this.waterData.abnormalCount= resp.data.teamWater.abnormalCount
+                console.log(this.waterData);
+              }
+            }else{
+              this.dataNull();
+            }
+            if(!(resp.data.teamInfoList.length == 0 || resp.data.teamInfoList === 'null')){
+                 this.stationData = resp.data.teamInfoList;
+            }else{
+               var oilStation_name=[];
+                for(let i=0;i<resp.data.teamInfoList.length;i++){
+                  oilStation_name[i]={
+                      oilStationName:resp.data.teamInfoList[i].oilStationName,
+                      oilStationId:resp.data.teamInfoList[i].oilStationId,
+                      wellCount:resp.data.teamInfoList[i].wellCount,
+                      waterOpenCount:resp.data.teamInfoList[i].waterOpenCount,
+                      waterCount:resp.data.teamInfoList[i].waterCount,
+                      videoStationCount:resp.data.teamInfoList[i].videoStationCount,
+                      wellTeamCount:resp.data.teamInfoList[i].wellTeamCount,
+                      wellTeamOpenCount:resp.data.teamInfoList[i].wellTeamOpenCount,
+                      abnormalCount:resp.data.teamInfoList[i].abnormalCount,
+                      abnormalWaterCount:resp.data.teamInfoList[i].abnormalWaterCount
+                    }
+                  }
+                  console.log(oilStation_name);
+                  this.oilStationNameInit(oilStation_name);
+            }
+            if(!(resp.data.videoTeamCount === 'null')){
+              this.videoData = resp.data.videoTeamCount;
+            }
+          }else{
+              this.dataNull();
+        }
         }
       });
     },
@@ -359,7 +440,43 @@ export default {
         },
       });
     },
-  },
+     dataNull() {
+        this.$message('接口异常，请联系技术人员');
+      },
+     
+    //采油队虚拟数据
+    oilStationNameInit(valment){
+      var stationDataFalse=[];
+      for(let i = 0; i < valment.length; i++){
+           stationDataFalse[i]={
+             productionTeamName: 0,
+             oilStationId : valment[i].oilStationId,
+             oilStationName :valment[i].oilStationName,
+             abnormalOilWell : 0,
+             drLiquidProd :0,
+             drOilProd :0,
+             drOilProdTon : 0,
+             drYesterdayLiquidProd : 0,
+             drYesterdayOilProd :0,
+             drYesterdayOilProdTon : 0,
+             drInjectionAllocation : 0,
+             drWaterInjection :0,
+             wellCount : valment[i].wellCount,
+             wellOpenCount :valment[i].wellOpenCount,
+             waterCount :valment[i].waterCount,
+             waterOpenCount :valment[i].waterOpenCount,
+             videoStationCount :valment[i].videoStationCount,
+             wellTeamCount :valment[i].wellTeamCount,
+             wellTeamOpenCount :valment[i].wellTeamOpenCount,
+             teamWaterInfo : 0,
+             abnormalCount : valment[i].abnormalCount,
+             abnormalWaterCount : valment[i].abnormalWaterCount,
+             videoTeamCount : valment[i].videoTeamCount
+             } 
+             this.stationData[i]=stationDataFalse[i];
+      }  
+    }
+  }
 };
 </script>
 
