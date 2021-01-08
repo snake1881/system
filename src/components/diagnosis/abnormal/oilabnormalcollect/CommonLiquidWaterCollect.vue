@@ -328,6 +328,7 @@ export default {
     // 对话框父子组件传值
     liquidAbnormalClose() {
       this.$emit("liquidRowlClose");
+      Object.assign(this.$data, this.$options.data())
     },
     liquidAbnormalInit() {
       //传递参数值

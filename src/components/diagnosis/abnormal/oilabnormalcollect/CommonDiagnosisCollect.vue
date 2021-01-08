@@ -4,6 +4,7 @@
     height="5%"
     :visible.sync="diagnosisAbnormalVisible"
     width="90%"
+    v-if="diagnosisAbnormalVisible"
     :before-close="diagnosidsAbnormalClose"
     @opened="opened"
   >
@@ -83,7 +84,7 @@
         >
           <el-table-column
             label="序号"
-            width="60"
+            width="50"
             align="center"
             type="index"
             :index="
@@ -102,7 +103,7 @@
           <el-table-column
             prop="oilStationName"
             label="采油站"
-            width="120"
+            max-width="150"
             align="center"
           ></el-table-column>
           <el-table-column
@@ -158,7 +159,7 @@
           <el-table-column
             prop="diagnosisResult"
             label="工况结果"
-            max-width="280"
+            max-width="260"
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
@@ -243,6 +244,7 @@ export default {
     // 对话框父子组件传值
     diagnosidsAbnormalClose() {
       this.$emit("diagnosidsRowClose");
+      Object.assign(this.$data, this.$options.data())
     },
     //表格数据
     diagnosisAbnormalInit() {
