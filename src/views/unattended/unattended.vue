@@ -50,7 +50,8 @@ export default {
   height: 100%;
   width: 100%;
   margin: 0;
-  background-image: url("../../assets/images/unatten_backImage.png");
+  // background-image: url("../../assets/images/unttend_one.png");
+   background-image: linear-gradient(#f3f3f3, #ececec);
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }

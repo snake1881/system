@@ -1,6 +1,6 @@
 <template>
   <el-menu
-    background-color="#0a1e42"
+   class="asider-el-menu"
     text-color="#909399"
     active-text-color="#fff"
     default-active="#"
@@ -57,12 +57,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-.el-menu {
-  height: 100%;
-  text-indent: 25px;
-}
-</style>
+
 <style>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
@@ -76,4 +71,16 @@ export default {
 .el-menu[data-v-a28ad4e6] {
   text-indent: 0;
 }
+.asider-el-menu{
+    background-color:#133168;
+}
+.el-submenu__title:hover,.el-menu-item:focus, .el-menu-item:hover{
+    background-color: #444b91 !important;
+   border-bottom-color:#565d99!important;
+   color: #fff!important;
+ }
+ .el-menu-item.is-active {
+       background-image: linear-gradient(#3e4e7e, #565d99) !important;
+       border-bottom-color:#565d99!important;
+ }
 </style>

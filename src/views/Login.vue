@@ -162,17 +162,18 @@ export default {
 @import "../assets/css/login.css";
 </style><style>
 .login .el-checkbox .el-checkbox__label {
-  color: #b6b6b6;
+  color: #303133;
   margin-top: -5%;
   font-size: 13px;
 }
 .login .el-input__inner {
   background-color: transparent;
-  color: #e6e6e6;
-  border: 1px solid rgb(109, 107, 107);
+  color:#303133;
+  border: 1px solid #303133;
 }
 .login .el-checkbox__inner {
   background-color: transparent;
+  border: 1px solid #646464;
 }
 .login .el-form-item {
   margin-bottom: 10%;
