@@ -194,9 +194,12 @@ export default {
       total: 0,
       // 表格加载动画
       loading: true,
+      //默认日期为前一天
+      currentdate:'',
     };
   },
   created() {
+    this.getdate();
     this.DymAbnormalInit();
     this.orgNameInit();
   },
@@ -258,15 +261,16 @@ export default {
     },
     //获取当前日期
     getdate() {
-      var date = new Date();
+      var curDate = new Date();
+      var date = new Date(curDate.getTime() - 24*60*60*1000);
       var seperator1 = "-";
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
       month = month < 10 ? ("0" + month) : month;
       var strDate = date.getDate();
       strDate = strDate < 10 ? ("0" + strDate) : strDate;
-      var currentdate = year + "-" + month + "-" + strDate;
-      return currentdate;
+      this.termForm.analysisDate = year + "-" + month + "-" + strDate;
+      return this.termForm.analysisDate;
     },
   },
 };
