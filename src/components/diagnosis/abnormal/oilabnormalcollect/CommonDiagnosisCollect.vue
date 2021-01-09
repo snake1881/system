@@ -170,13 +170,13 @@
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop=""
             label="人工确认"
             width="100"
             align="center"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          ></el-table-column> -->
         </el-table>
         <div class="liqFilterCondition_page">
           <el-pagination

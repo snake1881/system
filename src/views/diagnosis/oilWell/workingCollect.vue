@@ -185,9 +185,11 @@
               type="primary"
               size="small"
               @click="confirmResult(scope.row)"
-              >人工工况</el-button>
+              >人工工况</el-button
+            >
           </template>
-          ></el-table-column>
+          ></el-table-column
+        >
         <el-table-column
           prop="normalWaterCut"
           label="人工确认"
@@ -203,7 +205,8 @@
             >
             <p v-if="scope.row.isConfirm == '1'">已确认</p>
           </template>
-          ></el-table-column>
+          ></el-table-column
+        >
       </el-table>
       <!-- 分页 -->
       <div class="work_collect_page">
@@ -521,13 +524,16 @@
             <el-input v-model="confirmDate.diagnosisResult" />
           </el-form-item>
           <el-form-item label="措施">
-            <el-select v-model="confirmDate.measureContent">
+            <el-select
+              :popper-append-to-body="false"
+              v-model="confirmDate.measureContent"
+            >
               <el-option
-                  v-for="item in confirmOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+                v-for="item in confirmOptions"
+                :key="item.measureContent"
+                :label="item.measureContent"
+                :value="item.measureContent"
+              ></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -661,24 +667,8 @@ export default {
       //人工确认
       confirmVisible: false,
       confirmDate: {},
-      confirmOptions: [
-        {
-          value: "井筒反洗;检泵",
-          label: "井筒反洗;检泵",
-        },
-        {
-          value: "周期检泵",
-          label: "周期检泵",
-        },
-        {
-          value: "调小防冲距",
-          label: "调小防冲距",
-        },
-        {
-          value: "检泵;更换新油管",
-          label: "检泵;更换新油管",
-        },
-      ],
+      //工况诊断对照信息表
+      confirmOptions: [],
       //人工工况
       confirmResultVisible: false,
       confirmResultDate: {},
@@ -687,6 +677,8 @@ export default {
   created() {
     this.workingCollectInit();
     this.selectOrgName();
+    //查询工况对照信息
+    this.selectMeasure();
   },
   methods: {
     // 数据初始化
@@ -1507,6 +1499,14 @@ export default {
         }
       });
     },
+    //查询所有工况
+    selectMeasure() {
+      this.getRequest("/OilDaily/queryAllMeasure").then((resp) => {
+        if (resp) {
+          this.confirmOptions = resp.data;
+        }
+      });
+    },
     //人工确认弹出页面
     confirm(val) {
       this.confirmVisible = true;
@@ -1542,14 +1542,14 @@ export default {
     confirmResultClose() {
       this.confirmResultVisible = false;
     },
-    //人工工况确认 
+    //人工工况确认
     saveConfirmResult(val) {
       console.log(this.confirmResultDate);
       this.postRequest(
-        "/OilDaily/confirmResult?confirmResult="+
-        this.confirmResultDate.confirmResult + 
-        "&inddsId="+
-        this.confirmResultDate.inddsId
+        "/OilDaily/confirmResult?confirmResult=" +
+          this.confirmResultDate.confirmResult +
+          "&inddsId=" +
+          this.confirmResultDate.inddsId
       ).then((resp) => {
         if (resp) {
           this.$message({
@@ -1613,5 +1613,13 @@ export default {
 .confirmResultDiv .el-input {
   width: 400px;
   height: 2px;
+}
+/deep/ .el-select-dropdown {
+  max-width: 206.4px !important;
+  transform-origin: center top;
+  z-index: 2064;
+  position: fixed;
+  top: 331px;
+  left: 612px !important;
 }
 </style>
