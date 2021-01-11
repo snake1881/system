@@ -219,7 +219,6 @@
     data() {
       return {
         // 油井
-<<<<<<< HEAD
         oilStationData: {
           wellStationCount:0,
           wellStationOpenCount:0,
@@ -227,13 +226,8 @@
           drLiquidProd:0,
           drOilProd:0
         },
-        // 水井
-        waterStationData: {
-=======
-       oilStationData: {},
       // 水井
       waterStationData: {
->>>>>>> 49d72693589f546cdd5d422ceebbb970f42a7ced
           waterStationCount: 0,
           waterStationOpenCount: 0,
           abnormalWaterCount: 0,
@@ -252,6 +246,8 @@
       oilStationIncrease: "",
       // 井场汇总
       wellSiteData: [],
+       //flag
+       flag: 0,
       };
     },
     created() {
@@ -302,6 +298,21 @@
       dataNull() {
         this.$message('接口异常，请联系技术人员');
       },
+      dataInit(){
+        var wellNameArr =['1764-1','1766','1766采油站','高伙场采油站','高圈采油站','徐梁采油站','一号采油站','下蔡渠采油站','闫大庄采油站','四春圈采油站','东关采油站'];
+        var dataFalse=[];
+        for(let i = 0; i < wellNameArr.length; i++){
+           dataFalse[i]={
+            wellSitName :wellNameArr[i],
+            drLiquidProd:0,
+            drOilProd:0,
+            drYesterdayLiquidProd:0,
+            drYesterdayOilProd:0,
+            videoStationCount:0
+          } 
+             this.wellSiteData[i]=dataFalse[i];
+      } 
+      }
     }
   };
 </script>
