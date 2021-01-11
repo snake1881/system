@@ -54,10 +54,9 @@
           <i class="iconfont icon-ziyuan50ldpi" style="color: white; font-size: 16px; margin: 0 1% 0 25%" />
           水井
         </span>
-
         <span class="oilStation_left_oilWell_dec">总井：<span style="color: #2cab6f">
             {{
-               this.waterStationData.waterStationCount
+               this.waterStationData.waterStationCount 
           }}</span>
           口</span>
         <span class="oilStation_left_oilWell_dec">开井：<span style="color: #2cab6f">{{
@@ -266,9 +265,11 @@
           this.$route.query.id +
           "&sTime=" + yesterday
         ).then((resp) => {
+         
           if (resp) {
             this.oilStationData = resp.data.stationOilWellInfo;
-            if (!resp.data.stationWaterWellInfo === 'null') {
+           
+            if (resp.data.stationWaterWellInfo) {
               this.waterStationData = resp.data.stationWaterWellInfo;
             }
             this.stationVideo = resp.data.voidCount;
