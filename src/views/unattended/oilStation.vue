@@ -228,22 +228,15 @@
         },
         // 水井
         waterStationData: {
-          abnormalOilWell: 0,
-          drLiquidProd: 0,
-          drOilProd:0,
-          drOilProdTon: 0,
-          drYesterdayLiquidProd: 0,
-          drYesterdayOilProd: 0,
-          drYesterdayOilProdTon: 0,
-          wellSitName: 0,
-          wellCount: 0,
-          wellOpenCount: 0,
-          waterCount: 0,
-          waterOpenCount: 0,
+          waterStationCount: 0,
+          waterStationOpenCount: 0,
+          abnormalWaterCount: 0,
           drInjectionAllocation: 0,
           drWaterInjection: 0,
-          
-          wellSitId: 0
+          waterCount: 0,
+          waterOpenCount: 0,
+          abnormalWaterCount: 0,
+          drWaterInjection: 0
         },
         // 视频
         stationVideo:"",
@@ -269,45 +262,26 @@
         var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
         yesterday = year + "-" + month + "-" + day;
         this.getRequest(
-          // "/stations/station/listSitPage?oilStationId=" +
-          // this.$route.query.id +
-          // "&sTime=" + yesterday
-          "/stations/station/listSitPage?oilStationId=202010270018&sTime=2020-11-18"
+          "/stations/station/listSitPage?oilStationId=" +
+          this.$route.query.id +
+          "&sTime=" + yesterday
         ).then((resp) => {
           if (resp) {
-            if(!(resp.data === 'null')){
-            if (!(resp.data.stationWaterWellInfo === 'null')) {
-              if(!(resp.data.stationWaterWellInfo.drYesterdayOilProd === 'null' || resp.data.stationWaterWellInfo.drLiquidProd==='null')){
-                  this.waterStationData = resp.data.stationWaterWellInfo;
-                  this.LiqStationIncrease = (
-                    resp.data.stationOilWellInfo.drLiquidProd -
-                    resp.data.stationOilWellInfo.drYesterdayLiquidProd
-                  ).toFixed(3);
-                  this.oilStationIncrease = (
-                    resp.data.stationOilWellInfo.drOilProd -
-                    resp.data.stationOilWellInfo.drYesterdayOilProd
-                  ).toFixed(3);
-              }else{
-                this.waterStationData.wellStationCount=resp.data.stationWaterWellInfo.wellStationCount;
-                this.waterStationData.wellStationOpenCount=resp.data.stationWaterWellInfo.wellStationOpenCount
-                this.waterStationData.abnormalCount=resp.data.stationWaterWellInfo.abnormalCount
-                this.waterStationData.abnormalWaterCount=resp.data.stationWaterWellInfo.abnormalWaterCount
-                this.waterStationData.oilStationName=resp.data.stationWaterWellInfo.oilStationName
-                this.waterStationData.oilStationId=resp.data.stationWaterWellInfo.oilStationId
-                console.log(this.waterStationData);
-              }
-            }else{
-               this.dataNull();
+            this.oilStationData = resp.data.stationOilWellInfo;
+            if (!resp.data.stationWaterWellInfo === 'null') {
+              this.waterStationData = resp.data.stationWaterWellInfo;
             }
-              this.oilStationData = resp.data.stationOilWellInfo;
-              this.stationData = resp.data.stationWellInfoList;
-              this.wellSiteData = resp.data.stationWellInfoList;
-            if(!(resp.data.voidCount === 'null')){
-              this.stationVideo = resp.data.voidCount;
-            }
-            }else{
-               this.dataNull();
-            }
+            this.stationVideo = resp.data.voidCount;
+            this.stationData = resp.data.stationWellInfoList;
+            this.LiqStationIncrease = (
+              resp.data.stationOilWellInfo.drLiquidProd -
+              resp.data.stationOilWellInfo.drYesterdayLiquidProd
+            ).toFixed(3);
+            this.oilStationIncrease = (
+              resp.data.stationOilWellInfo.drOilProd -
+              resp.data.stationOilWellInfo.drYesterdayOilProd
+            ).toFixed(3);
+            this.wellSiteData = resp.data.stationWellInfoList;
           }
         });
       },
