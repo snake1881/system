@@ -103,7 +103,7 @@
       </el-item-form> -->
       <el-form-item>
         <el-upload
-          action="/demo/basWellInfor/import"
+          action="/dbznyt/basWellInfor/import"
           accept=".xls,.xlsx"
           :on-preview="handlePreview"
           :on-change="handleChange"
@@ -433,7 +433,7 @@ export default {
     //文件下载
     fileOpen() {
       window.open(
-        "http://localhost:8692/demo/basWellInfor/export" +
+        "http://localhost:8692/dnznyt/basWellInfor/export" +
           "?oilStationName=" +
           this.termData.oilStationName +
           "&wellCategory=" +
@@ -503,7 +503,7 @@ export default {
     //文件下载
     handleExport() {
       var elemIF = document.createElement('iframe')
-      elemIF.src = "http://localhost:8692/demo/basWellInfor/export" +
+      elemIF.src = "http://localhost:8692/dbznyt/basWellInfor/export" +
         "?oilStationName=" +
         this.termData.oilStationName +
         "&wellCategory=" +

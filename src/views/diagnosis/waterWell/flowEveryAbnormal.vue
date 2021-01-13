@@ -2,6 +2,41 @@
   <div class="role">
     <!-- 条件查询 -->
     <el-form class="role_form" :model="flowEveryForm" :inline="true">
+       <el-form-item label="采油站">
+        <el-select
+          v-model="flowEveryForm.oilStationId"
+          clearable
+          filterable
+          placeholder="全区"
+          size="medium"
+           @change="queryWellNameByOrgName" 
+        >
+          <el-option
+            v-for="item in orgNameData"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单井">
+        <el-select
+          v-model="flowEveryForm.wellId"
+          clearable
+          filterable
+          placeholder="全站"
+          size="medium"
+        >
+          <el-option
+            v-for="item in wellOptions"
+            :key="item.wellId"
+            :label="item.wellName"
+            :value="item.wellId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-form-item label="日期">
         <el-date-picker
           size="medium"
@@ -98,10 +133,16 @@ export default {
     return {
       // 查询
       flowEveryForm: {
+        oilStationId: "",
+        wellId: "",
         flowEveryDate: "",
       },
       // 表格数据
       flowEveryData: [],
+      //采油站下拉框数据
+      orgNameData: [],
+      //单井下拉框数据
+      wellOptions: [],
       // 分页
       currentPage: 1,
       pageSize: 10,
@@ -111,6 +152,8 @@ export default {
     };
   },
   created() {
+    this.orgNameInit();
+    this.wellOptionsInit();
     this.flowEveryInit();
   },
   methods: {
@@ -122,7 +165,9 @@ export default {
           "&current=" +
           this.currentPage +
           "&pageSize=" +
-          this.pageSize
+          this.pageSize+
+          "&wellId="+
+          this.flowEveryForm.wellId
       ).then((resp) => {
         if (resp) {
           this.flowEveryData = resp.data.bizWaterInjectionHours.records;
@@ -148,6 +193,35 @@ export default {
           this.pageSize = resp.data.bizWaterInjectionHours.size;
         }
       });
+    },
+    //采油站下拉框初始化
+    orgNameInit() {
+      this.getRequest("/basOilStationInfor/selectWater").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
+        }
+      });
+    },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectWater").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      console.log(val);
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

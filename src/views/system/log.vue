@@ -183,7 +183,7 @@ export default {
     //操作日志条件导出
     handleExport() {
       var elemIF = document.createElement('iframe')
-      elemIF.src = "http://localhost:8692/demo/operationLog/excelexport?endTime="+
+      elemIF.src = "http://localhost:8692/dbznyt/operationLog/excelexport?endTime="+
       this.logForm.endTime+
       "&moduleName="+
       this.logForm.moduleName+

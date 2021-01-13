@@ -3,22 +3,41 @@
     <div v-if="isShow == 1" class="work_collect_item">
       <!-- 条件查询 -->
       <el-form class="work_collect_form" :model="abnormalForm" :inline="true">
-        <el-form-item>
-          <el-select
-            v-model="abnormalForm.orgName"
-            placeholder="采油站"
-            clearable
-            filterable
-            size="medium"
+        <el-form-item label="采油站">
+        <el-select
+          v-model="abnormalForm.oilStationId"
+          clearable
+          filterable
+          placeholder="全区"
+          size="medium"
+          @change="queryWellNameByOrgName"
+        >
+          <el-option
+            v-for="item in orgNameData"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationId"
           >
-            <el-option
-              v-for="item in orgNames"
-              :key="item.oilStationId"
-              :label="item.oilStationName"
-              :value="item.oilStationId"
-            />
-          </el-select>
-        </el-form-item>
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单井">
+        <el-select
+          v-model="abnormalForm.wellId"
+          clearable
+          filterable
+          placeholder="全站"
+          size="medium"
+        >
+          <el-option
+            v-for="item in wellOptions"
+            :key="item.wellId"
+            :label="item.wellName"
+            :value="item.wellId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
         <el-form-item>
           <el-date-picker
             v-model="abnormalForm.formDate"
@@ -593,8 +612,8 @@ export default {
       measure: [],
       // 表单数据
       abnormalForm: {
-        // 采油站
-        orgName: "",
+        oilStationId: "",
+        wellId: "",
         // 日期选择
         formDate: "",
         // 报警级别
@@ -624,7 +643,9 @@ export default {
       // 展开行加载动画
       loadCollectLoad: true,
       // 采油站数据
-      orgNames: [],
+      orgNameData: [],
+      //单井下拉框数据
+      wellOptions: [],
       // 默认展示内容
       isShow: 1,
       // 工况详情数据
@@ -675,17 +696,32 @@ export default {
     };
   },
   created() {
+    this.getdate();
     this.workingCollectInit();
-    this.selectOrgName();
+    this.orgNameInit();
+    this.wellOptionsInit();
     //查询工况对照信息
     this.selectMeasure();
   },
   methods: {
+    //获取当前日期
+    getdate() {
+      var curDate = new Date();
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? ("0" + month) : month;
+      var strDate = date.getDate();
+      strDate = strDate < 10 ? ("0" + strDate) : strDate;
+      this.abnormalForm.formDate = year + "-" + month + "-" + strDate;
+      return this.abnormalForm.formDate;
+    },
     // 数据初始化
     workingCollectInit() {
       // this.loading = true;
-      if (this.abnormalForm.orgName == null) {
-        this.abnormalForm.orgName = "";
+      if (this.abnormalForm.oilStationId == null) {
+        this.abnormalForm.oilStationId = "";
       }
       if (this.abnormalForm.formDate == null) {
         this.abnormalForm.formDate = "";
@@ -698,9 +734,11 @@ export default {
           "&diagnosisLevel=" +
           this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
-          this.abnormalForm.orgName +
+          this.abnormalForm.oilStationId +
           "&pageSize=" +
-          this.pageSize
+          this.pageSize+
+          "&wellId="+
+          this.abnormalForm.wellId
       ).then((resp) => {
         if (resp) {
           this.workingCollect = resp.data.records;
@@ -747,8 +785,8 @@ export default {
     },
     // 表单条件查询
     searchWorkingCollect() {
-      if (this.abnormalForm.orgName == null) {
-        this.abnormalForm.orgName = "";
+      if (this.abnormalForm.oilStationId == null) {
+        this.abnormalForm.oilStationId = "";
       }
       if (this.abnormalForm.formDate == null) {
         this.abnormalForm.formDate = "";
@@ -762,9 +800,11 @@ export default {
           "&diagnosisLevel=" +
           this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
-          this.abnormalForm.orgName +
+          this.abnormalForm.oilStationId +
           "&pageSize=" +
-          this.pageSize
+          this.pageSize+
+          "&wellId="+
+          this.abnormalForm.wellId
       ).then((resp) => {
         if (resp) {
           this.workingCollect = resp.data.records;
@@ -1491,13 +1531,34 @@ export default {
     previewGtmjClose() {
       this.previewGtmjVisible = false;
     },
-    // 查询所有采油站信息
-    selectOrgName() {
+    //采油站下拉框初始化
+    orgNameInit() {
       this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
         if (resp) {
-          this.orgNames = resp.data;
+          this.orgNameData = resp.data;
         }
       });
+    },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectOil").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      console.log(val);
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
     },
     //查询所有工况
     selectMeasure() {

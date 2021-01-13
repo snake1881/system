@@ -1,14 +1,15 @@
 <template>
   <!--  液量异常参数筛选界面  -->
   <div class="liqFilterCondition">
-    <el-form class="liqFilterCondition_form"  :model="termForm" :inline="true">
-      <el-form-item >
+    <el-form class="liqFilterCondition_form" :model="termForm" :inline="true">
+      <el-form-item>
         <el-select
           size="medium"
-          v-model="termForm.orgName"
+          v-model="termForm.oilStationId"
           filterable
           clearable
           placeholder="采油站"
+          @change="queryWellNameByOrgName"
         >
           <el-option
             v-for="item in orgNameData"
@@ -18,7 +19,24 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item >
+      <el-form-item label="单井">
+        <el-select
+          v-model="termForm.wellId"
+          clearable
+          filterable
+          placeholder="全站"
+          size="medium"
+        >
+          <el-option
+            v-for="item in wellOptions"
+            :key="item.wellId"
+            :label="item.wellName"
+            :value="item.wellId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
         <el-date-picker
           size="medium"
           v-model="termForm.prodDate"
@@ -63,12 +81,15 @@
       style="width: 100%"
     >
       <el-table-column
-        
         label="序号"
         width="100"
         align="center"
         type="index"
-          :index="(index)=>{return (index+1) + (this.currentPage-1)*this.pageSize }"
+        :index="
+          (index) => {
+            return index + 1 + (this.currentPage - 1) * this.pageSize;
+          }
+        "
       ></el-table-column>
       <el-table-column
         prop="wellName"
@@ -159,7 +180,8 @@ export default {
     return {
       //搜索框数据
       termForm: {
-        orgName: "",
+        oilStationId: "",
+        wellId: "",
         prodDate: "",
       },
       isCreateNewUser: [
@@ -171,8 +193,10 @@ export default {
       //用于判断查询条件是否改变
       oldOrgName: "",
       oldProdDate: "",
-      //采油站名称
+      //采油站下拉框数据
       orgNameData: [],
+      //单井下拉框数据
+      wellOptions: [],
       //表格数据
       liqFilterConditionDate: [],
       //液量异常筛选参数
@@ -239,11 +263,13 @@ export default {
         "/liquidFilterCondition/select?current=" +
           this.currentPage +
           "&oilStationId=" +
-          this.termForm.orgName +
+          this.termForm.oilStationId +
           "&pageSize=" +
           this.pageSize +
           "&setDate=" +
-          this.termForm.prodDate
+          this.termForm.prodDate +
+          "&wellId=" +
+          this.termForm.wellId
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -261,11 +287,13 @@ export default {
         "/liquidFilterCondition/select?current=" +
           this.currentPage +
           "&oilStationId=" +
-          this.termForm.orgName +
+          this.termForm.oilStationId +
           "&pageSize=" +
           this.pageSize +
           "&setDate=" +
-          this.termForm.prodDate
+          this.termForm.prodDate +
+          "&wellId=" +
+          this.termForm.wellId
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -296,6 +324,26 @@ export default {
           this.orgNameData = resp.data;
         }
       });
+    },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectWater").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      console.log(val);
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

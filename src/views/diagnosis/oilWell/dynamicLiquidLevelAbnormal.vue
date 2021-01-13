@@ -10,12 +10,30 @@
           filterable
           placeholder="全区"
           size="medium"
+          @change="queryWellNameByOrgName"
         >
           <el-option
             v-for="item in orgNameData"
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单井">
+        <el-select
+          v-model="termForm.wellId"
+          clearable
+          filterable
+          placeholder="全站"
+          size="medium"
+        >
+          <el-option
+            v-for="item in wellOptions"
+            :key="item.wellId"
+            :label="item.wellName"
+            :value="item.wellId"
           >
           </el-option>
         </el-select>
@@ -117,9 +135,11 @@
         width="100"
         align="center"
       >
-      <template slot-scope="scope">
+        <template slot-scope="scope">
           <p v-if="scope.row.isIntervalPump == '0'">正常</p>
-          <p v-if="scope.row.isIntervalPump == '1'" style="color:red">需停井恢复</p>
+          <p v-if="scope.row.isIntervalPump == '1'" style="color: red">
+            需停井恢复
+          </p>
         </template>
       </el-table-column>
       <el-table-column
@@ -172,6 +192,7 @@ export default {
       termForm: {
         analysisDate: "",
         oilStationId: "",
+        wellId: "",
       },
       // 表格数据
       dymData: [],
@@ -182,6 +203,8 @@ export default {
       previewDymVisible: false,
       // 采油站下拉框数据
       orgNameData: [],
+      //单井下拉框
+      wellOptions: [],
       // 当前展开行数据
       loadCollect: [],
       // 展开行加载动画
@@ -195,11 +218,12 @@ export default {
       // 表格加载动画
       loading: true,
       //默认日期为前一天
-      currentdate:'',
+      currentdate: "",
     };
   },
   created() {
     this.getdate();
+    this.wellOptionsInit();
     this.DymAbnormalInit();
     this.orgNameInit();
   },
@@ -222,14 +246,16 @@ export default {
         console.log(this.termForm.analysisDate);
       }
       this.getRequest(
-        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?current=" +
+        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?analysisDate=" +
+          this.termForm.analysisDate +
+          "&current=" +
           this.currentPage +
+          "&oilStationId=" +
+          this.termForm.oilStationId +
           "&pageSize=" +
           this.pageSize +
-          "&analysisDate=" +
-          this.termForm.analysisDate +
-          "&oilStationId=" +
-          this.termForm.oilStationId
+          "&wellId=" +
+          this.termForm.wellId
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -242,33 +268,59 @@ export default {
     },
     //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+      this.getRequest("/basOilStationInfor/selectOil").then((resp) => {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
+          let oilAll = {
+            oilStationId: "",
+            oilStationName: "全站",
+          };
+          this.orgNameData.push(oilAll);
+          console.log(this.orgNameData);
         }
       });
+    },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectOil").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      console.log(val);
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.abnormalDymSearch();
+      this.DymAbnormalInit();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.abnormalDymSearch();
+      this.DymAbnormalInit();
     },
     //获取当前日期
     getdate() {
       var curDate = new Date();
-      var date = new Date(curDate.getTime() - 24*60*60*1000);
+      var date = new Date(curDate.getTime() - 24 * 60 * 60 * 1000);
       var seperator1 = "-";
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
-      month = month < 10 ? ("0" + month) : month;
+      month = month < 10 ? "0" + month : month;
       var strDate = date.getDate();
-      strDate = strDate < 10 ? ("0" + strDate) : strDate;
+      strDate = strDate < 10 ? "0" + strDate : strDate;
       this.termForm.analysisDate = year + "-" + month + "-" + strDate;
       return this.termForm.analysisDate;
     },

@@ -5,17 +5,35 @@
       <!-- 下拉框查询 -->
       <el-form-item label="采油站">
         <el-select
-          v-model="termForm.orgName"
+          v-model="termForm.oilStationId"
           clearable
           filterable
           placeholder="全区"
           size="medium"
+          @change="queryWellNameByOrgName"
         >
           <el-option
             v-for="item in orgNameData"
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单井">
+        <el-select
+          v-model="termForm.wellId"
+          clearable
+          filterable
+          placeholder="全站"
+          size="medium"
+        >
+          <el-option
+            v-for="item in wellOptions"
+            :key="item.wellId"
+            :label="item.wellName"
+            :value="item.wellId"
           >
           </el-option>
         </el-select>
@@ -55,10 +73,23 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-
-      <el-table-column  align="center" label="序号" width="60" type="index"
-          :index="(index)=>{return (index+1) + (this.currentPage-1)*this.pageSize }" />
-      <el-table-column prop="wellName" align="center" label="井号" width="100" />
+      <el-table-column
+        align="center"
+        label="序号"
+        width="60"
+        type="index"
+        :index="
+          (index) => {
+            return index + 1 + (this.currentPage - 1) * this.pageSize;
+          }
+        "
+      />
+      <el-table-column
+        prop="wellName"
+        align="center"
+        label="井号"
+        width="100"
+      />
       <el-table-column
         prop="acquisitionTime"
         align="center"
@@ -107,8 +138,18 @@
         label="最小位移"
         width="90"
       />
-      <el-table-column prop="hourProd" align="center" label="产液量" width="90" />
-       <el-table-column prop="dayProd" align="center" label="日累产液" width="90" />
+      <el-table-column
+        prop="hourProd"
+        align="center"
+        label="产液量"
+        width="90"
+      />
+      <el-table-column
+        prop="dayProd"
+        align="center"
+        label="日累产液"
+        width="90"
+      />
       <el-table-column align="center" label="操作" width="130">
         <template slot-scope="scope">
           <el-button
@@ -142,16 +183,17 @@
   </div>
 </template>
 <script>
-import AmountLiquidScanLine from '../../../components/diagnosis/amountliquid/AmountLiquidScanLine.vue';
+import AmountLiquidScanLine from "../../../components/diagnosis/amountliquid/AmountLiquidScanLine.vue";
 export default {
   components: {
-   AmountLiquidScanLine
+    AmountLiquidScanLine,
   },
   data() {
     return {
       termForm: {
-        prodDate:"",
-        orgName: "",
+        prodDate: "",
+        oilStationId: "",
+        wellId: "",
       },
       // 表格数据
       dymData: [],
@@ -162,7 +204,9 @@ export default {
       previewDymVisible: false,
       // 采油站下拉框数据
       orgNameData: [],
-       // 当前展开行数据
+      //单井下拉框数据
+      wellOptions: [],
+      // 当前展开行数据
       // loadCollect: [],
       // 展开行加载动画
       // loadCollectLoad: true,
@@ -179,29 +223,32 @@ export default {
   created() {
     this.abnormalDymSearch();
     this.orgNameInit();
+    this.wellOptionsInit();
   },
   methods: {
     // 根据输入信息查询
     abnormalDymSearch() {
-      console.log(this.termForm.prodDate)
-        this.getRequest(
-          "/mountLiquid/amountLiquid?acquisitionTime="+
-          this.termForm.prodDate+
-          "&current="+
+      console.log(this.termForm.prodDate);
+      this.getRequest(
+        "/mountLiquid/amountLiquid?acquisitionTime=" +
+          this.termForm.prodDate +
+          "&current=" +
           this.currentPage +
-          "&oilStationId="+
-          this.termForm.orgName +
-          "&pageSize="+
-          this.pageSize 
-        ).then((resp) => {
-          if (resp) {
-            this.dymData = resp.data.records;
-            this.total = resp.data.total;
-            this.currentPage = resp.data.current;
-            this.pageSize = resp.data.size;
-            // this.getIndex();
-          }
-        });
+          "&oilStationId=" +
+          this.termForm.oilStationId +
+          "&pageSize=" +
+          this.pageSize +
+          "&wellId=" +
+          this.termForm.wellId
+      ).then((resp) => {
+        if (resp) {
+          this.dymData = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+          // this.getIndex();
+        }
+      });
     },
     // 查看动液面曲线并初始化曲线数据
     preview(val) {
@@ -214,29 +261,53 @@ export default {
     },
     //表格数据初始化
     DymAbnormalInit() {
-         this.getRequest(
-          "/mountLiquid/mountLiquid?acquisitionTime="+this.termForm.prodDate+
-          "&current="+this.currentPage +
-          "&oilStationId="+this.termForm.orgName +
-          "&pageSize="+  this.pageSize
-        ).then((resp) => {
-          if (resp) {
-            this.dymData = resp.data.records;
-            this.total = resp.data.total;
-            this.currentPage = resp.data.current;
-            this.pageSize = resp.data.size;
-            // this.getIndex();
-          }
-        });
+      this.getRequest(
+        "/mountLiquid/mountLiquid?acquisitionTime=" +
+          this.termForm.prodDate +
+          "&current=" +
+          this.currentPage +
+          "&oilStationId=" +
+          this.termForm.orgName +
+          "&pageSize=" +
+          this.pageSize
+      ).then((resp) => {
+        if (resp) {
+          this.dymData = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+          // this.getIndex();
+        }
+      });
     },
-    //采油站下拉框数据查询
+    //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+      this.getRequest("/basOilStationInfor/selectWater").then((resp) => {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
         }
       });
+    },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectWater").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      console.log(val);
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
     },
     // 只展开一行放入当前行id
     // getRowKeys(row) {

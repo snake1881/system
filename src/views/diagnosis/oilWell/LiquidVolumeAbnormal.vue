@@ -14,12 +14,30 @@
           filterable
           placeholder="全区"
           size="medium"
+          @change="queryWellNameByOrgName"
         >
           <el-option
             v-for="item in orgNameData"
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="单井">
+        <el-select
+          v-model="termForm.wellId"
+          clearable
+          filterable
+          placeholder="全站"
+          size="medium"
+        >
+          <el-option
+            v-for="item in wellOptions"
+            :key="item.wellId"
+            :label="item.wellName"
+            :value="item.wellId"
           >
           </el-option>
         </el-select>
@@ -256,6 +274,7 @@ export default {
       // 表单数据
       termForm: {
         oilStationId: "",
+        wellId: "",
         oilProdDate: "",
         abnormalType: "0",
       },
@@ -286,6 +305,8 @@ export default {
         startDate: [],
       },
       orgNameData: [],
+      //单井下拉框数据
+      wellOptions: [],
       options: [
         {
           value: "0",
@@ -311,6 +332,7 @@ export default {
   created() {
     this.liquidVolumeInit();
     this.orgNameInit();
+    this.wellOptionsInit();
   },
   methods: {
     // 数据初始化
@@ -321,16 +343,18 @@ export default {
         this.termForm.oilProdDate = this.getdate();
       }
       this.getRequest(
-        "/diagnosis/abnormal/queryLiquidWaterAbnormalByStationId?current=" +
+        "/diagnosis/abnormal/queryLiquidWaterAbnormalByStationId?abnormalType=" +
+          this.termForm.abnormalType +
+          "&current=" +
           this.currentPage +
-          "&pageSize=" +
-          this.pageSize +
-          "&oilStationId=" +
-          this.termForm.oilStationId +
           "&oilProdDate=" +
           this.termForm.oilProdDate +
-          "&abnormalType=" +
-          this.termForm.abnormalType
+          "&oilStationId=" +
+          this.termForm.oilStationId +
+          "&pageSize=" +
+          this.pageSize +
+          "&wellId=" +
+          this.termForm.wellId
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -508,6 +532,26 @@ export default {
         }
       });
     },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectOil").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      console.log(val);
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
+    },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
@@ -524,18 +568,18 @@ export default {
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
-        month = month < 10 ? ("0" + month) : month;
+        month = month < 10 ? "0" + month : month;
         var day = date.getDate();
-        day = day < 10 ? ("0" + day) : day;
+        day = day < 10 ? "0" + day : day;
         var endDate = year + "-" + month + "-" + day;
         this.dialogForm.startDate[1] = endDate;
         var date1 = new Date();
         date1.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
         var year1 = date1.getFullYear();
         var month1 = date1.getMonth() + 1;
-        month1 = month1 < 10 ? ("0" + month1) : month1;
+        month1 = month1 < 10 ? "0" + month1 : month1;
         var day1 = date1.getDate();
-        day1 = day1 < 10 ? ("0" + day1) : day1;
+        day1 = day1 < 10 ? "0" + day1 : day1;
         var beginDate = year1 + "-" + month1 + "-" + day1;
         this.dialogForm.startDate[0] = beginDate;
       }
@@ -576,9 +620,9 @@ export default {
       var date = new Date();
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
-      month = month < 10 ? ("0" + month) : month;
+      month = month < 10 ? "0" + month : month;
       var strDate = date.getDate();
-      strDate = strDate < 10 ? ("0" + strDate) : strDate;
+      strDate = strDate < 10 ? "0" + strDate : strDate;
       var currentdate = year + "-" + month + "-" + strDate;
       return currentdate;
     },

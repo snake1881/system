@@ -190,7 +190,7 @@ export default {
       // this.logingLogForm.startTime
       // );
       var elemIF = document.createElement('iframe')
-      elemIF.src = "http://localhost:8692/demo/loginLog/excelexport?endTime="+
+      elemIF.src = "http://localhost:8692/dbznyt/loginLog/excelexport?endTime="+
       this.logingLogForm.endTime+
       "&moduleName="+
       this.logingLogForm.moduleName+
