@@ -5,12 +5,34 @@
       <!-- 条件查询 -->
       <el-form class="role_form" :model="templateFrom" :inline="true">
         <el-form-item>
-          <el-input v-model="templateFrom.templateName" placeholder="模板名称" size="medium" />
+          <el-input
+            v-model="templateFrom.templateName"
+            placeholder="模板名称"
+            size="medium"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="small" @click="searchTemplate()">查询</el-button>
-          <el-button type="primary" icon="el-icon-plus" size="small" @click="addTem()">新增</el-button>
-          <el-button type="primary" icon="el-icon-delete" size="small" @click="selectdelete()">批量删除</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="small"
+            @click="searchTemplate()"
+            >查询</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
+            size="small"
+            @click="addTem()"
+            >新增</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            size="small"
+            @click="selectdelete()"
+            >批量删除</el-button
+          >
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
@@ -20,21 +42,55 @@
         element-loading-spinner="el-icon-loading"
         :data="templateData"
         border
-        style="width:100%;height:86%"
-        :row-style="{height:'2px'}"
-        :cell-style="{padding:'0px'}"
-        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
+        style="width: 100%; height: 86%"
+        :row-style="{ height: '2px' }"
+        :cell-style="{ padding: '0px' }"
+        :header-cell-style="{
+          background: '#eef1f6',
+          color: '#606266',
+          'text-align': 'center',
+        }"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" align="center" width="90" />
-        <el-table-column prop="templateName" align="center" label="模板名称" width="380" />
-        <el-table-column prop="formulationUnit" align="center" label="制定单位" width="370" />
-        <el-table-column prop="formulationDate" align="center" label="制定时间" width="240" />
+        <el-table-column
+          prop="templateName"
+          align="center"
+          label="模板名称"
+          width="380"
+        />
+        <el-table-column
+          prop="formulationUnit"
+          align="center"
+          label="制定单位"
+          width="370"
+        />
+        <el-table-column
+          prop="formulationDate"
+          align="center"
+          label="制定时间"
+          width="240"
+        />
         <el-table-column align="center" label="操作" width="240">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editTem(scope.row)" class="iconfont icon-bianji"/>
-            <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu"/>
-            <el-button type="text" size="small" @click="detailTem(scope.row)" class="iconfont icon-xiangqing" />
+            <el-button
+              type="text"
+              size="small"
+              @click="editTem(scope.row)"
+              class="iconfont icon-bianji"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="sinDelete(scope.row)"
+              class="iconfont icon-shanchu"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="detailTem(scope.row)"
+              class="iconfont icon-xiangqing"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -51,7 +107,10 @@
         />
       </div>
       <!-- 新增 -->
-      <common-add-template :addTemVisible="addTemVisible" @addClose="addTemClose" />
+      <common-add-template
+        :addTemVisible="addTemVisible"
+        @addClose="addTemClose"
+      />
       <!-- 编辑 -->
       <common-edit-template
         :editTemVisible="editTemVisible"
@@ -68,11 +127,12 @@
         :underline="false"
         type="primary"
         icon="el-icon-arrow-left"
-      >返回</el-link>
+        >返回</el-link
+      >
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">考核模板信息</span>
+          <span style="color: #50a6fe">考核模板信息</span>
         </el-divider>
         <br />
         <div class="detail-content-template">
@@ -91,7 +151,7 @@
         <br />
         <br />
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">考核指标</span>
+          <span style="color: #50a6fe">考核指标</span>
         </el-divider>
         <br />
         <el-table
@@ -99,11 +159,26 @@
           border
           style="width: 100%"
           height="90%"
-          :header-cell-style="{'text-align':'center'}"
+          :header-cell-style="{ 'text-align': 'center' }"
         >
-          <el-table-column prop="indexName" align="center" label="指标名称" width="470" />
-          <el-table-column prop="scoreWeight" align="center" label="分值" width="405" />
-          <el-table-column prop="remark" align="center" label="备注" width="460" />
+          <el-table-column
+            prop="indexName"
+            align="center"
+            label="指标名称"
+            width="470"
+          />
+          <el-table-column
+            prop="scoreWeight"
+            align="center"
+            label="分值"
+            width="405"
+          />
+          <el-table-column
+            prop="remark"
+            align="center"
+            label="备注"
+            width="460"
+          />
         </el-table>
       </div>
     </div>
@@ -115,13 +190,13 @@ import CommonEditTemplate from "../../components/assessment/template/CommonEditT
 export default {
   components: {
     CommonAddTemplate,
-    CommonEditTemplate
+    CommonEditTemplate,
   },
   data() {
     return {
       //搜索框
       templateFrom: {
-        templateName: ""
+        templateName: "",
       },
       // 表格数据
       templateData: [],
@@ -140,7 +215,7 @@ export default {
       pageFlag: true,
       detailData: {},
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -156,7 +231,7 @@ export default {
           this.pageSize +
           "&templateName=" +
           this.templateFrom.templateName
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.templateData = resp.data.records;
           this.total = resp.data.total;
@@ -173,7 +248,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.templateData = resp.data.records;
@@ -209,50 +284,23 @@ export default {
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
-      checkArray.forEach(function(item) {
+      checkArray.forEach(function (item) {
         idArray.push(item.examineTId);
       });
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.deleteRequest("/examine/templateInfor/deleteBatch", idArray).then(
-            resp => {
-              if (resp) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!"
-                });
-              }
-              this.templateInit();
-            }
-          );
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
-    // 单个删除
-    sinDelete(val) {
-      this.$confirm("确定删除该条数据", "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest(
-            "/examine/templateInfor/deleteByPrimaryKey?templateId=" +
-              val.examineTId
-          ).then(resp => {
+            "/examine/templateInfor/deleteBatch",
+            idArray
+          ).then((resp) => {
             if (resp) {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "删除成功!",
               });
             }
             this.templateInit();
@@ -261,7 +309,35 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
+          });
+        });
+    },
+    // 单个删除
+    sinDelete(val) {
+      this.$confirm("确定删除该条数据", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.deleteRequest(
+            "/examine/templateInfor/deleteByPrimaryKey?templateId=" +
+              val.examineTId
+          ).then((resp) => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+            }
+            this.templateInit();
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
           });
         });
     },
@@ -269,7 +345,6 @@ export default {
     detailTem(val) {
       this.pageFlag = false;
       this.detailData = val;
-      console.log(val);
     },
     // 返回考核模板页面
     backTemplate() {
@@ -293,7 +368,7 @@ export default {
         return item;
       });
     },
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

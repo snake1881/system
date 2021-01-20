@@ -228,7 +228,6 @@ export default {
   methods: {
     // 根据输入信息查询
     abnormalDymSearch() {
-      console.log(this.termForm.prodDate);
       this.getRequest(
         "/mountLiquid/amountLiquid?acquisitionTime=" +
           this.termForm.prodDate +
@@ -300,7 +299,6 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      console.log(val);
       this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
         (resp) => {
           if (resp) {

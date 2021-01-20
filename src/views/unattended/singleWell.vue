@@ -306,13 +306,22 @@ export default {
   methods: {
     // 单井基础信息
     singleWellInit() {
-      var yesterday = new Date((new Date).getTime() - 24 * 60 * 60 * 1000);
-        var year = yesterday.getFullYear();
-        var month = yesterday.getMonth() + 1 > 9 ? yesterday.getMonth() + 1 : "0" + (yesterday.getMonth() + 1);
-        var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
-        yesterday = year + "-" + month + "-" + day;
+      var yesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+      var year = yesterday.getFullYear();
+      var month =
+        yesterday.getMonth() + 1 > 9
+          ? yesterday.getMonth() + 1
+          : "0" + (yesterday.getMonth() + 1);
+      var day =
+        yesterday.getDate() > 9
+          ? yesterday.getDate()
+          : "0" + yesterday.getDate();
+      yesterday = year + "-" + month + "-" + day;
       this.getRequest(
-        "/wells/well/selectWell?sTime="+yesterday+"&wellId=" + this.$route.query.id
+        "/wells/well/selectWell?sTime=" +
+          yesterday +
+          "&wellId=" +
+          this.$route.query.id
       ).then((resp) => {
         if (resp) {
           this.basicData = resp.data.wellInfo;
@@ -439,7 +448,6 @@ export default {
         this.coordinates[i][0] = parseFloat(displacementArray[i]);
         this.coordinates[i][1] = parseFloat(disploadArray[i]);
       }
-      console.log(this.coordinates);
       return this.coordinates;
     },
     // 生产曲线
@@ -806,7 +814,7 @@ export default {
     wellSiteVideoInit() {
       this.getRequest(
         "/unattended/monitoring/getVideoLink?wellSitName=" +
-        this.$route.query.sitName
+          this.$route.query.sitName
       ).then((resp) => {
         if (resp) {
           //默认展示第一个视频

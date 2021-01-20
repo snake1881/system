@@ -9,7 +9,7 @@
     @opened="opens"
     :before-close="previewGtmjClose"
   >
-    <div class="main" style="margin:auto;width:85%;height:450px;">
+    <div class="main" style="margin: auto; width: 85%; height: 450px">
       <div
         class="chart"
         id="myChart"
@@ -29,11 +29,11 @@ let echarts = require("echarts/lib/echarts");
 export default {
   props: {
     previewGtmjVisible: {
-      type: Boolean
+      type: Boolean,
     },
     previewData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
       yAxis: [],
       coordinates: [[]],
       coordinates1: [[]],
-      isColor: true
+      isColor: true,
     };
   },
   methods: {
@@ -58,7 +58,7 @@ export default {
           this.previewData.checkDate +
           "&wellId=" +
           this.previewData.wellCommonName
-      ).then(resp => {
+      ).then((resp) => {
         // this.loading = false;
         if (resp) {
           this.tableData = {};
@@ -74,7 +74,7 @@ export default {
           this.previewData.checkDate +
           "&wellCommonName=" +
           this.previewData.wellCommonName
-      ).then(resp => {
+      ).then((resp) => {
         // this.loading = false;
         if (resp) {
           this.tableData1 = {};
@@ -107,8 +107,8 @@ export default {
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
-              fontWeight: "bolder"
-            }
+              fontWeight: "bolder",
+            },
           },
           {
             text: "当前功图",
@@ -117,18 +117,18 @@ export default {
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
-              fontWeight: "bolder"
-            }
-          }
+              fontWeight: "bolder",
+            },
+          },
         ],
 
         tooltip: {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function(params) {
+          formatter: function (params) {
             return (
               "<div><p>位移：" +
               params[0].value[0] +
@@ -138,14 +138,14 @@ export default {
               "KN</p>" +
               "</div>"
             );
-          }
+          },
         },
         grid: {
           left: "3%",
           right: "3%",
           bottom: "15%",
           top: "20%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           name: "位移",
@@ -156,20 +156,19 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [8, 0, 0, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
+
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         series: [
           {
@@ -178,50 +177,52 @@ export default {
             type: "line",
             smooth: true,
             lineStyle: {
-              width: 1.5
-            }
-          }
-        ]
+              width: 1.5,
+            },
+          },
+        ],
       });
     },
     drawLine1() {
       let myChart2 = this.$echarts.init(document.getElementById("myChart2"));
       myChart2.setOption({
-        title: [{
-          x: "center",
-          text:
-            this.tableData1.wellCommonName +
-            "号井 " +
-            this.tableData1.dynaCreateTime,
-          subtext:
-            "最大载荷" +
-            this.tableData1.suspMaxLoad +
-            "最小载荷" +
-            this.tableData1.suspMinLoad,
-          top: "7%",
-          textStyle: {
-            fontSize: 13,
-            fontStyle: "normal",
-            fontWeight: "bolder"
-          }
-        },{
+        title: [
+          {
+            x: "center",
+            text:
+              this.tableData1.wellCommonName +
+              "号井 " +
+              this.tableData1.dynaCreateTime,
+            subtext:
+              "最大载荷" +
+              this.tableData1.suspMaxLoad +
+              "最小载荷" +
+              this.tableData1.suspMinLoad,
+            top: "7%",
+            textStyle: {
+              fontSize: 13,
+              fontStyle: "normal",
+              fontWeight: "bolder",
+            },
+          },
+          {
             text: "标准功图",
             top: "bottom",
             left: "center",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
-              fontWeight: "bolder"
-            }
-          }
+              fontWeight: "bolder",
+            },
+          },
         ],
         tooltip: {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function(params) {
+          formatter: function (params) {
             return (
               "<div><p>位移：" +
               params[0].value[0] +
@@ -231,14 +232,14 @@ export default {
               "KN</p>" +
               "</div>"
             );
-          }
+          },
         },
         grid: {
           left: "3%",
           right: "3%",
           bottom: "15%",
           top: "20%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           name: "位移",
@@ -249,20 +250,19 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [8, 0, 0, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
+
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         series: [
           {
@@ -271,10 +271,10 @@ export default {
             type: "line",
             smooth: true,
             lineStyle: {
-              width: 1.5
-            }
-          }
-        ]
+              width: 1.5,
+            },
+          },
+        ],
       });
     },
     //将坐标数据串处理为坐标点
@@ -303,8 +303,8 @@ export default {
     opens() {
       this.gtDataInit();
       this.gtmjChartInit();
-    }
-  }
+    },
+  },
 };
 </script>
 

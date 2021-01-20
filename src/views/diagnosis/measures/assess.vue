@@ -16,7 +16,7 @@
         <el-input
           v-model="termData.wellName"
           clearable
-          style="width:150px"
+          style="width: 150px"
           size="small"
           placeholder="井号"
         ></el-input>
@@ -26,7 +26,7 @@
           v-model="termData.wellCategory"
           clearable
           placeholder="请选择井类别"
-          style="width:150px"
+          style="width: 150px"
           size="small"
         >
           <el-option
@@ -43,7 +43,7 @@
         <el-select
           v-model="termData.oilStationName"
           clearable
-          style="width:150px"
+          style="width: 150px"
           placeholder="全区"
           size="small"
         >
@@ -85,7 +85,6 @@
           :on-success="handleSuccess"
           :before-remove="beforeRemove"
           multiple
-         
           :on-exceed="handleExceed"
           :file-list="fileList"
         >
@@ -124,7 +123,7 @@
       height="500px"
       border
       lazy
-      style="width:100%;"
+      style="width: 100%"
     >
       <el-table-column prop="index" align="center" label="序号" width="80">
       </el-table-column>
@@ -231,14 +230,14 @@ import CommonEditBaseWellInfor from "../../..//components/basewell/CommonEditBas
 export default {
   components: {
     CommonAddBaseWellInfor,
-    CommonEditBaseWellInfor
+    CommonEditBaseWellInfor,
   },
   data() {
     return {
       termData: {
         wellName: "",
         wellCategory: "",
-        oilStationName: ""
+        oilStationName: "",
       },
       file: [],
       fileList: [],
@@ -246,12 +245,12 @@ export default {
       wellCategoryOptions: [
         {
           value: "0",
-          label: "注水井"
+          label: "注水井",
         },
         {
           value: "1",
-          label: "油井"
-        }
+          label: "油井",
+        },
       ],
 
       BaseWellInforData: [],
@@ -264,7 +263,7 @@ export default {
       editBaseWellInforVisible: false,
       editBaseWellInforData: {},
       //新增
-      addBaseWellInforVisible: false
+      addBaseWellInforVisible: false,
     };
   },
   created() {
@@ -285,7 +284,7 @@ export default {
           this.termData.wellCategory +
           "&wellName=" +
           this.termData.wellName
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.BaseWellInforData = resp.data.records;
           this.total = resp.data.total;
@@ -303,7 +302,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.BaseWellInforData = resp.data.records;
@@ -352,7 +351,7 @@ export default {
     //采油站下拉框数据查询
     orgNameInit() {
       this.getRequest("/knowledge/DiagnosticParametersGt/CdWellSource").then(
-        resp => {
+        (resp) => {
           this.loading = false;
           if (resp) {
             this.orgNameData = resp.data;
@@ -365,15 +364,15 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/basWellInfor/delete?wellId=" + val.wellId).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.searchBaseWellInfor();
@@ -383,7 +382,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -417,30 +416,28 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length + fileList.length} 个文件`
+        `当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
       );
     },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
     handleSuccess(response, file, fileList) {
-      if(response.code===200){
+      if (response.code === 200) {
         this.$message({
           type: "success",
-          message: response.message+"，上传了"+response.data+"条数据"
+          message: response.message + "，上传了" + response.data + "条数据",
         });
-      }else{
+      } else {
         this.$message({
           type: "info",
-          message: response.message+"，"+response.data
+          message: response.message + "，" + response.data,
         });
       }
-        
-      
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped></style>

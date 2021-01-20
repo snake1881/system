@@ -5,15 +5,41 @@
       <!-- 条件查询 -->
       <el-form class="role_form" :model="dicFrom" :inline="true">
         <el-form-item>
-          <el-input v-model="dicFrom.codeTName" placeholder="编码名称" size="medium" />
+          <el-input
+            v-model="dicFrom.codeTName"
+            placeholder="编码名称"
+            size="medium"
+          />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="dicFrom.codeType" placeholder="编码类型" size="medium" />
+          <el-input
+            v-model="dicFrom.codeType"
+            placeholder="编码类型"
+            size="medium"
+          />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="small" @click="searchDictionary()">查询</el-button>
-          <el-button type="primary" icon="el-icon-plus" size="small" @click="addDic()">新增</el-button>
-          <el-button type="primary" icon="el-icon-delete" size="small" @click="selectdelete()">批量删除</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-search"
+            size="small"
+            @click="searchDictionary()"
+            >查询</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-plus"
+            size="small"
+            @click="addDic()"
+            >新增</el-button
+          >
+          <el-button
+            type="primary"
+            icon="el-icon-delete"
+            size="small"
+            @click="selectdelete()"
+            >批量删除</el-button
+          >
         </el-form-item>
       </el-form>
       <!-- 表格数据 -->
@@ -24,10 +50,14 @@
         :data="dicData"
         height="86%"
         border
-        style="width:100%"
-        :row-style="{height:'2px'}"
-        :cell-style="{padding:'0px'}"
-        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
+        style="width: 100%"
+        :row-style="{ height: '2px' }"
+        :cell-style="{ padding: '0px' }"
+        :header-cell-style="{
+          background: '#eef1f6',
+          color: '#606266',
+          'text-align': 'center',
+        }"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="125" />
@@ -36,9 +66,24 @@
         <el-table-column prop="createTime" label="创建时间" width="370" />
         <el-table-column label="操作" width="120">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editDic(scope.row)" class="iconfont icon-bianji" />
-            <el-button type="text" size="small" @click="sinDelete(scope.row)" class="iconfont icon-shanchu" />
-            <el-button type="text" size="small" @click="detailsDic(scope.row)" class="iconfont icon-xiangqing" />
+            <el-button
+              type="text"
+              size="small"
+              @click="editDic(scope.row)"
+              class="iconfont icon-bianji"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="sinDelete(scope.row)"
+              class="iconfont icon-shanchu"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="detailsDic(scope.row)"
+              class="iconfont icon-xiangqing"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -78,9 +123,7 @@
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            应用字典
-          </span>
+          <span style="color: #50a6fe"> 应用字典 </span>
         </el-divider>
         <br />
         <div class="detail-content-template">
@@ -103,9 +146,7 @@
         </div>
 
         <br /><br /><el-divider content-position="center">
-          <span style="color: #50a6fe;">
-            应用字典详情
-          </span>
+          <span style="color: #50a6fe"> 应用字典详情 </span>
         </el-divider>
         <br />
         <el-table
@@ -128,14 +169,14 @@ import CommonEditDic from "../../components/system/dic/CommonEditDic";
 export default {
   components: {
     CommonAddDic,
-    CommonEditDic
+    CommonEditDic,
   },
   data() {
     return {
       //搜索框
       dicFrom: {
         codeTName: "",
-        codeType: ""
+        codeType: "",
       },
       // 表格数据
       dicData: [],
@@ -154,7 +195,7 @@ export default {
       pageFlag: true,
       detailData: {},
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -172,7 +213,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.dicData = resp.data.records;
           this.total = resp.data.total;
@@ -188,7 +229,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.dicData = resp.data.records;
@@ -214,21 +255,21 @@ export default {
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
-      checkArray.forEach(function(item) {
+      checkArray.forEach(function (item) {
         idArray.push(item.codeTypeId);
       });
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/system/codeType/codeTypes", idArray).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.dicInit();
@@ -238,7 +279,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -247,16 +288,16 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest(
             "/system/codeType/codeType/" + val.codeTypeId
-          ).then(resp => {
+          ).then((resp) => {
             if (resp) {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "删除成功!",
               });
             }
             this.dicInit();
@@ -265,13 +306,12 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
     // 编辑字典
     editDic(val) {
-      console.log(val);
       this.editData = val;
       this.editDicVisible = true;
     },
@@ -298,15 +338,15 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.dicInit();
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/role.css";
 </style>
 <style>
-.role .iconfont{
+.role .iconfont {
   font-size: 20px;
 }
 </style>

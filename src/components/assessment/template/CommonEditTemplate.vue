@@ -15,19 +15,25 @@
         </el-form-item>
       </el-form>
     </div>
-      <el-button type="primary" @click="saveEditTem(editData), editTemClose()" class="editTemButton"> 提交</el-button>
-      <el-button type="primary" @click="editTemClose()"> 取消</el-button>
+    <el-button
+      type="primary"
+      @click="saveEditTem(editData), editTemClose()"
+      class="editTemButton"
+    >
+      提交</el-button
+    >
+    <el-button type="primary" @click="editTemClose()"> 取消</el-button>
   </el-dialog>
 </template>
 <script>
 export default {
   props: {
     editTemVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {};
@@ -40,19 +46,19 @@ export default {
     // 保存
     saveEditTem() {
       this.putRequest("/examine/templateInfor/update", this.editData).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "考核模板修改成功!",
-              type: "success"
+              type: "success",
             });
           } else {
             this.$message.error("考核模板修改失败，请重新提交!");
           }
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

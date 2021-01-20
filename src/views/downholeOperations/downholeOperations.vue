@@ -278,7 +278,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          console.log(this.operationData);
         }
       });
     },
@@ -383,7 +382,6 @@ export default {
         if (resp) {
           //上次作业信息数据
           this.measureEffectData = resp.data;
-          console.log(this.measureEffectData);
         }
       });
     },

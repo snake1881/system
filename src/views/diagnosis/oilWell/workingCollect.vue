@@ -4,40 +4,40 @@
       <!-- 条件查询 -->
       <el-form class="work_collect_form" :model="abnormalForm" :inline="true">
         <el-form-item label="采油站">
-        <el-select
-          v-model="abnormalForm.oilStationId"
-          clearable
-          filterable
-          placeholder="全区"
-          size="medium"
-          @change="queryWellNameByOrgName"
-        >
-          <el-option
-            v-for="item in orgNameData"
-            :key="item.oilStationId"
-            :label="item.oilStationName"
-            :value="item.oilStationId"
+          <el-select
+            v-model="abnormalForm.oilStationId"
+            clearable
+            filterable
+            placeholder="全区"
+            size="medium"
+            @change="queryWellNameByOrgName"
           >
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="单井">
-        <el-select
-          v-model="abnormalForm.wellId"
-          clearable
-          filterable
-          placeholder="全站"
-          size="medium"
-        >
-          <el-option
-            v-for="item in wellOptions"
-            :key="item.wellId"
-            :label="item.wellName"
-            :value="item.wellId"
+            <el-option
+              v-for="item in orgNameData"
+              :key="item.oilStationId"
+              :label="item.oilStationName"
+              :value="item.oilStationId"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="单井">
+          <el-select
+            v-model="abnormalForm.wellId"
+            clearable
+            filterable
+            placeholder="全站"
+            size="medium"
           >
-          </el-option>
-        </el-select>
-      </el-form-item>
+            <el-option
+              v-for="item in wellOptions"
+              :key="item.wellId"
+              :label="item.wellName"
+              :value="item.wellId"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
           <el-date-picker
             v-model="abnormalForm.formDate"
@@ -729,9 +729,9 @@ export default {
       var seperator1 = "-";
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
-      month = month < 10 ? ("0" + month) : month;
+      month = month < 10 ? "0" + month : month;
       var strDate = date.getDate();
-      strDate = strDate < 10 ? ("0" + strDate) : strDate;
+      strDate = strDate < 10 ? "0" + strDate : strDate;
       this.abnormalForm.formDate = year + "-" + month + "-" + strDate;
       return this.abnormalForm.formDate;
     },
@@ -754,8 +754,8 @@ export default {
           "&oilStationId=" +
           this.abnormalForm.oilStationId +
           "&pageSize=" +
-          this.pageSize+
-          "&wellId="+
+          this.pageSize +
+          "&wellId=" +
           this.abnormalForm.wellId
       ).then((resp) => {
         if (resp) {
@@ -764,7 +764,6 @@ export default {
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
           this.loading = false;
-          console.log(this.workingCollect);
           // this.getIndex();
         }
       });
@@ -820,8 +819,8 @@ export default {
           "&oilStationId=" +
           this.abnormalForm.oilStationId +
           "&pageSize=" +
-          this.pageSize+
-          "&wellId="+
+          this.pageSize +
+          "&wellId=" +
           this.abnormalForm.wellId
       ).then((resp) => {
         if (resp) {
@@ -1168,7 +1167,6 @@ export default {
     //跳转液量曲线页面调用方法
     amountLiquid() {
       this.isShow = 4;
-      console.log("进入液量曲线页面");
       this.amountLiquidInit();
     },
     //液量曲线数据初始化
@@ -1237,7 +1235,6 @@ export default {
         this.amountArray2[i][1] = this.amountLiquidData[i].drWaterCut / 100;
         this.amountArray3[i][1] = this.amountLiquidData[i].drOilProd;
       }
-      console.log("液量曲线数据处理完成");
       let myChart = this.$echarts.init(
         document.getElementById("amountLiquidChart")
       );
@@ -1276,24 +1273,6 @@ export default {
             );
           },
         },
-        // toolbox: {
-        //   left: "right",
-        //   feature: {
-        //     dataZoom: {
-        //       yAxisIndex: "none",
-        //     },
-        //     restore: {},
-        //     saveAsImage: {},
-        //   },
-        // },
-        // dataZoom: [
-        //   {
-        //     startValue: "2014-06-01",
-        //   },
-        //   {
-        //     type: "inside",
-        //   },
-        // ],
         legend: {
           data: ["产液量", "含水率", "产油"],
           orient: "vertical",
@@ -1372,9 +1351,7 @@ export default {
         // this.loading = false;
         if (resp) {
           this.loadData = [];
-          console.log(resp.data);
           this.loadData = resp.data;
-          console.log(this.loadData);
           this.loadDraw();
         }
       });
@@ -1412,9 +1389,6 @@ export default {
         this.loadArray1[i][1] = this.loadData[i].avgMaxLoad;
         this.loadArray2[i][1] = this.loadData[i].avgMinLoad;
         this.loadArray3[i][1] = this.loadData[i].loadDiffer;
-        // console.log(this.loadArray1);
-        // console.log(this.loadArray1);
-        // console.log(this.loadArray1);
         let myChart = this.$echarts.init(document.getElementById("loadChart"));
         // 绘制图表
         myChart.setOption({
@@ -1451,24 +1425,6 @@ export default {
               );
             },
           },
-          // toolbox: {
-          //   left: "right",
-          //   feature: {
-          //     dataZoom: {
-          //       yAxisIndex: "none",
-          //     },
-          //     restore: {},
-          //     saveAsImage: {},
-          //   },
-          // },
-          // dataZoom: [
-          //   {
-          //     startValue: "2014-06-01",
-          //   },
-          //   {
-          //     type: "inside",
-          //   },
-          // ],
           legend: {
             data: ["最大载荷", "最小载荷", "载荷差"],
             orient: "vertical",
@@ -1569,7 +1525,6 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      console.log(val);
       this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
         (resp) => {
           if (resp) {
@@ -1598,7 +1553,6 @@ export default {
     confirm(val) {
       this.confirmVisible = true;
       this.confirmDate = val;
-      console.log(val);
     },
     confirmClose() {
       this.confirmVisible = false;

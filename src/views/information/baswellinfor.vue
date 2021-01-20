@@ -41,8 +41,8 @@
           <el-option
             v-for="item in orgNameData"
             :key="item.oilStationId"
-              :label="item.oilStationName"
-              :value="item.oilStationName"
+            :label="item.oilStationName"
+            :value="item.oilStationName"
           >
           </el-option>
         </el-select>
@@ -385,18 +385,16 @@ export default {
     },
     //采油站下拉框数据查询
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(
-        (resp) => {
-          this.loading = false;
-          if (resp) {
-            this.orgNameData = resp.data;
-          }
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
-      );
+      });
     },
     //区队（采油站）ID下拉框数据查询
     oilStationInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.oilStationIdOptions = resp.data;
@@ -502,16 +500,17 @@ export default {
     // },
     //文件下载
     handleExport() {
-      var elemIF = document.createElement('iframe')
-      elemIF.src = "http://localhost:8692/dbznyt/basWellInfor/export" +
+      var elemIF = document.createElement("iframe");
+      elemIF.src =
+        "http://localhost:8692/dbznyt/basWellInfor/export" +
         "?oilStationName=" +
         this.termData.oilStationName +
         "&wellCategory=" +
         this.termData.wellCategory +
         "&wellName=" +
         this.termData.wellName;
-        elemIF.style.display = "none";
-      document.body.appendChild(elemIF)
+      elemIF.style.display = "none";
+      document.body.appendChild(elemIF);
     },
 
     handleRemove(file, fileList) {

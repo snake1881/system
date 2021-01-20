@@ -36,13 +36,11 @@
               <el-radio value="3" label="3" border>任意天</el-radio>
             </el-radio-group>
           </template>
-          <!-- <el-input v-model="LiqFilterConditiontData.filter" style="width: 300px" ></el-input> -->
         </el-form-item>
         <el-form-item
           v-if="LiqFilterConditiontData.filter === '任意天'"
           label="指定日期:"
         >
-          <!-- <el-input v-model="LiqFilterConditiontData.appointDate" style="width: 300px" /> -->
           <el-date-picker
             v-model="LiqFilterConditiontData.appointDate"
             type="date"
@@ -89,17 +87,6 @@ export default {
     },
     // 保存修改后的信息
     saveAddLiqFilterCondition() {
-      // console.log(this.LiqFilterConditiontData);
-      // if (this.LiqFilterConditiontData.filter == "昨日") {
-      //   this.LiqFilterConditiontData.filter = 0;
-      // } else if (this.LiqFilterConditiontData.filter == "上月") {
-      //   this.LiqFilterConditiontData.filter = 1;
-      // } else if (this.LiqFilterConditiontData.filter == "前三月") {
-      //   this.LiqFilterConditiontData.filter = 2;
-      // } else if (this.LiqFilterConditiontData.filter == "任意天") {
-      //   this.LiqFilterConditiontData.filter = 3;
-      // }
-      // console.log(this.LiqFilterConditiontData);
       this.putRequest(
         "/liquidFilterCondition/liquidFilter",
         this.LiqFilterConditiontData

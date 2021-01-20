@@ -336,7 +336,6 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      console.log(val);
       this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
         (resp) => {
           if (resp) {

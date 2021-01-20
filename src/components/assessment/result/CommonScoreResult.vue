@@ -12,29 +12,33 @@
           :key="index"
           :label="item.examineContent"
         >
-          <i style="margin:100px 100px">{{ item.score }}</i>
+          <i style="margin: 100px 100px">{{ item.score }}</i>
           <el-input
             onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
             @input="numberChange($event, index)"
-           
             v-model.number="item.singleScore"
           />
         </el-form-item>
       </el-form>
     </div>
-      <el-button type="primary" @click="saveEditResult(), scoreResultClose()" class="scoreResultButton">提交</el-button>
-      <el-button type="info" @click="scoreResultClose()">取消</el-button>
+    <el-button
+      type="primary"
+      @click="saveEditResult(), scoreResultClose()"
+      class="scoreResultButton"
+      >提交</el-button
+    >
+    <el-button type="info" @click="scoreResultClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
 export default {
   props: {
     scoreResultVisible: {
-      type: Boolean
+      type: Boolean,
     },
     scoreData: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   inject: ["reload"],
   data() {
@@ -50,11 +54,11 @@ export default {
       this.postRequest(
         "/examine/resultDetail/insertResultDetail",
         this.scoreData
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.$message({
             message: "打分成功!",
-            type: "success"
+            type: "success",
           });
           this.reload();
         } else {
@@ -65,17 +69,13 @@ export default {
     //
     numberChange(val, index) {
       console.log(val);
-      if(val<0||val>this.scoreData[index].score){
-        this.$alert('请在打分范围内打分！', '提示', {
-          confirmButtonText: '确定',
-          // callback: action => {
-          //   this.scoreData[index].singleScore="0";
-          //   return this.scoreData[index];
-          // }
+      if (val < 0 || val > this.scoreData[index].score) {
+        this.$alert("请在打分范围内打分！", "提示", {
+          confirmButtonText: "确定",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

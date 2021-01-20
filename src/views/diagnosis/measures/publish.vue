@@ -1,133 +1,127 @@
 <template>
   <div class="publish">
-    
-      <!-- 条件查询 -->
-      <el-form class="publish_form" v-model="termData" :inline="true">
-        <el-form-item label="日期" >
-          <el-date-picker
+    <!-- 条件查询 -->
+    <el-form class="publish_form" v-model="termData" :inline="true">
+      <el-form-item label="日期">
+        <el-date-picker
           size="medium"
-            v-model="termData.chooseDate"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
-         <el-button
+          v-model="termData.chooseDate"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button
           type="primary"
           icon="el-icon-search"
           size="small"
           @click="searchMeasures()"
           >查询</el-button
-        > 
-        </el-form-item>
-      </el-form>
-      <!-- 表格数据 -->
-      <el-table
+        >
+      </el-form-item>
+    </el-form>
+    <!-- 表格数据 -->
+    <el-table
       class="publish_table"
-        v-loading="loading"
-        element-loading-text="拼命加载中"
-        element-loading-spinner="el-icon-loading"
-        :data="MeasuresData"
-        height="93%"
-        border
-        lazy
-        style="width:100%;"
-        :row-style="{ height: '2px' }"
-        :cell-style="{ padding: '0px' }"
-        :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
-      >
-        <el-table-column prop="index" align="center" label="序号" width="80">
-        </el-table-column>
-        <el-table-column
-          prop="wellCommonName"
-          align="center"
-          label="井号"
-          width="130"
-        />
-        <el-table-column
-          prop="prodDate"
-          align="center"
-          label="日期"
-          width="150"
-        />
-        <el-table-column
-          prop="measure"
-          align="center"
-          label="措施"
-          width="170"
-        />
-        <el-table-column
-          prop="creator"
-          align="center"
-          label="创建人"
-          width="150"
-        />
-        <el-table-column
-          prop="startDate"
-          align="center"
-          label="措施开始时间"
-          width="150"
-        />
-        <el-table-column
-          prop="endDate"
-          align="center"
-          label="措施完工时间"
-          width="150"
-        />
-        <el-table-column
-          prop="designee"
-          align="center"
-          label="指派人"
-          width="150"
-        />
-        <el-table-column align="center" label="操作" width="180">
-          <template slot-scope="scope">
-            <el-button
-              v-if="scope.row.designee === null"
-              type="text"
-              size="small"
-              @click="measuresRelease(scope.row)"
-              >发布</el-button
-            >
-            <el-button
-              v-if="scope.row.designee !== null"
-              type="text"
-              size="small"
-              @click="planDownload()"
-              >设计模板下载</el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      :data="MeasuresData"
+      height="93%"
+      border
+      lazy
+      style="width: 100%"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
+    >
+      <el-table-column prop="index" align="center" label="序号" width="80">
+      </el-table-column>
+      <el-table-column
+        prop="wellCommonName"
+        align="center"
+        label="井号"
+        width="130"
+      />
+      <el-table-column
+        prop="prodDate"
+        align="center"
+        label="日期"
+        width="150"
+      />
+      <el-table-column prop="measure" align="center" label="措施" width="170" />
+      <el-table-column
+        prop="creator"
+        align="center"
+        label="创建人"
+        width="150"
+      />
+      <el-table-column
+        prop="startDate"
+        align="center"
+        label="措施开始时间"
+        width="150"
+      />
+      <el-table-column
+        prop="endDate"
+        align="center"
+        label="措施完工时间"
+        width="150"
+      />
+      <el-table-column
+        prop="designee"
+        align="center"
+        label="指派人"
+        width="150"
+      />
+      <el-table-column align="center" label="操作" width="180">
+        <template slot-scope="scope">
+          <el-button
+            v-if="scope.row.designee === null"
+            type="text"
+            size="small"
+            @click="measuresRelease(scope.row)"
+            >发布</el-button
+          >
+          <el-button
+            v-if="scope.row.designee !== null"
+            type="text"
+            size="small"
+            @click="planDownload()"
+            >设计模板下载</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
 
-      <!-- 分页 -->
-      <div class="publish_page" >
-        <el-pagination
-          :current-page.sync="currentPage"
-          :page-size="pageSize"
-          :total="total"
-          :page-sizes="[10, 20, 30, 40, 50]"
-          layout="total, prev, pager, next, jumper, sizes"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
-      </div>
-      <!-- 措施发布 -->
-      <common-measures-release
-        :measuresReleaseVisible="measuresReleaseVisible"
-        :releaseData="measuresReleaseData"
-        @measuresReleaseRowClose="measuresReleaseClose"
+    <!-- 分页 -->
+    <div class="publish_page">
+      <el-pagination
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        :total="total"
+        :page-sizes="[10, 20, 30, 40, 50]"
+        layout="total, prev, pager, next, jumper, sizes"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
       />
-      <!-- 措施发布 -->
-      <common-plan-download
-        :planDownloadVisible="planDownloadVisible"
-        @planDownloadRowClose="planDownloadClose"
-      />
+    </div>
+    <!-- 措施发布 -->
+    <common-measures-release
+      :measuresReleaseVisible="measuresReleaseVisible"
+      :releaseData="measuresReleaseData"
+      @measuresReleaseRowClose="measuresReleaseClose"
+    />
+    <!-- 措施发布 -->
+    <common-plan-download
+      :planDownloadVisible="planDownloadVisible"
+      @planDownloadRowClose="planDownloadClose"
+    />
   </div>
 </template>
 <script>
@@ -136,12 +130,12 @@ import CommonMeasuresRelease from "../../../components/diagnosis/measure/CommonM
 export default {
   components: {
     CommonMeasuresRelease,
-    CommonPlanDownload
+    CommonPlanDownload,
   },
   data() {
     return {
       termData: {
-        chooseDate: ""
+        chooseDate: "",
       },
       MeasuresData: [],
       // 分页数据
@@ -154,7 +148,7 @@ export default {
       //
       planDownloadVisible: false,
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -172,7 +166,7 @@ export default {
           this.termData.chooseDate[1] +
           "&pagSeize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.MeasuresData = resp.data.records;
           this.total = resp.data.total;
@@ -191,7 +185,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.MeasuresData = resp.data.records;
@@ -242,8 +236,8 @@ export default {
         // }
         return item;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

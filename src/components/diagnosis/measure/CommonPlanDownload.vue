@@ -5,9 +5,9 @@
     :visible.sync="planDownloadVisible"
     :before-close="planDownloadClose"
   >
-    <div  class="dialogDiv">
+    <div class="dialogDiv">
       <el-form label-width="120px" align="center">
-          <el-from-item label="模板选择：">
+        <el-from-item label="模板选择：">
           <span>模板选择：</span>
           <el-select clearable v-model="value" placeholder="请选择">
             <el-option
@@ -28,60 +28,58 @@
     >
       下载模板
     </el-button>
-    <el-button @click="planDownloadClose()" type="info">
-      取消
-    </el-button>
+    <el-button @click="planDownloadClose()" type="info"> 取消 </el-button>
   </el-dialog>
 </template>
 <script>
 export default {
   props: {
     planDownloadVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
       options: [
         {
           value: "1",
-          label: "断杆"
+          label: "断杆",
         },
         {
           value: "2",
-          label: "卡泵"
+          label: "卡泵",
         },
         {
           value: "3",
-          label: "漏失"
+          label: "漏失",
         },
         {
           value: "4",
-          label: "套提100米设计"
+          label: "套提100米设计",
         },
         {
           value: "5",
-          label: "套下50米设计"
+          label: "套下50米设计",
         },
         {
           value: "6",
-          label: "停井恢复"
+          label: "停井恢复",
         },
         {
           value: "7",
-          label: "下生产管柱"
+          label: "下生产管柱",
         },
         {
           value: "8",
-          label: "周期检泵"
+          label: "周期检泵",
         },
         {
           value: "9",
-          label: "座封检泵"
-        }
+          label: "座封检泵",
+        },
       ],
       value: "",
-      isColor: true
+      isColor: true,
     };
   },
   methods: {
@@ -92,12 +90,12 @@ export default {
     open() {
       this.$alert("请选择模板", "提示", {
         confirmButtonText: "确定",
-        callback: action => {
+        callback: (action) => {
           this.$message({
             type: "info",
-            message: `action: ${action}`
+            message: `action: ${action}`,
           });
-        }
+        },
       });
     },
     downloadExcel() {
@@ -122,8 +120,8 @@ export default {
       } else if (this.value === "9") {
         window.location.href = "/座封检泵.docx";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -132,18 +130,12 @@ export default {
   height: 200px;
   overflow: auto;
 }
-// .dialogDiv .el-input {
-//   width: 420px;
-//   height: 2px;
-// }
+
 .dialogDiv .el-select {
   width: 420px;
   height: 2px;
 }
-// .dialogDiv .el-date-picker {
-//   width: 420px;
-//   height: 2px;
-// }
+
 .downloadExcelButton {
   margin: 0 0 0 240px;
 }

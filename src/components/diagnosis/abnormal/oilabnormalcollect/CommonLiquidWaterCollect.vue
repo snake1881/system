@@ -194,7 +194,7 @@
         <el-dialog
           title="液量曲线"
           width="62%"
-          :modal-append-to-body='false'
+          :modal-append-to-body="false"
           :visible.sync="dialogTableVisible"
           class="liquid_volume_abnormal_dialog"
         >
@@ -328,7 +328,7 @@ export default {
     // 对话框父子组件传值
     liquidAbnormalClose() {
       this.$emit("liquidRowlClose");
-      Object.assign(this.$data, this.$options.data())
+      Object.assign(this.$data, this.$options.data());
     },
     liquidAbnormalInit() {
       //传递参数值
@@ -401,7 +401,6 @@ export default {
     },
     // 查看曲线
     details(val) {
-      console.log(val);
       this.dialogTableVisible = true;
       this.dialogForm.orgName = val.oilStationName;
       this.dialogForm.wellName = val.wellName;
@@ -443,7 +442,7 @@ export default {
                   top: "4%",
                 },
                 legend: {
-                  data: ["产液量(M)","含水率(%)"],
+                  data: ["产液量(M)", "含水率(%)"],
                 },
                 grid: {
                   bottom: 80,
@@ -511,18 +510,18 @@ export default {
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
-        month = month < 10 ? ("0" + month) : month;
+        month = month < 10 ? "0" + month : month;
         var day = date.getDate();
-        day = day < 10 ? ("0" + day) : day;
+        day = day < 10 ? "0" + day : day;
         var endDate = year + "-" + month + "-" + day;
         this.dialogForm.startDate[1] = endDate;
         var date1 = new Date();
         date1.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
         var year1 = date1.getFullYear();
         var month1 = date1.getMonth() + 1;
-        month1 = month1 < 10 ? ("0" + month1) : month1;
+        month1 = month1 < 10 ? "0" + month1 : month1;
         var day1 = date1.getDate();
-        day1 = day1 < 10 ? ("0" + day1) : day1;
+        day1 = day1 < 10 ? "0" + day1 : day1;
         var beginDate = year1 + "-" + month1 + "-" + day1;
         this.dialogForm.startDate[0] = beginDate;
       }

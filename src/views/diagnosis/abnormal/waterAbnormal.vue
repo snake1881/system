@@ -1,6 +1,10 @@
  <template>
   <div class="waterAbnormal">
-    <el-form  class="waterAbnormal_form" :model="waterAbnormalData" :inline="true">
+    <el-form
+      class="waterAbnormal_form"
+      :model="waterAbnormalData"
+      :inline="true"
+    >
       <el-form-item label="日期">
         <el-date-picker
           size="medium"
@@ -23,7 +27,7 @@
       </el-form-item>
     </el-form>
     <el-table
-    class="waterAbnormal_table"
+      class="waterAbnormal_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -73,7 +77,7 @@
         align="center"
       >
       </el-table-column>
-     
+
       <el-table-column
         prop="shortNumber"
         label="欠注井数"
@@ -143,7 +147,6 @@ export default {
     },
     // 编辑
     waterAbnormalCollect(row, column) {
-      console.log(row);
       this.waterAbnormalData.oilStationId = row.oilStationId;
       // this.waterAbnormal.createTime=this.termForm.createTime;
       if (column.label == "正常井数") {
@@ -159,7 +162,6 @@ export default {
         this.waterAbnormalData.abnormalType = "2";
         this.waterAbnormalVisible = true;
       }
-      console.log(this.waterAbnormalData);
     },
     // 关闭编辑框
     waterAbnormalCollectClose() {
@@ -170,12 +172,11 @@ export default {
       if (this.waterAbnormalData.createTime === "") {
         //默认传递当前日期
         this.waterAbnormalData.createTime = this.getdate();
-      };
+      }
       // if (this.waterAbnormalData.createTime === "null"||this.waterAbnormalData.createTime === null) {
       //   //默认传递当前日期
       //   this.waterAbnormalData.createTime = "";
       // };
-      console.log(this.waterAbnormalData.createTime);
       this.getRequest(
         "/waterAbnormalCollect/waterCollect?createTime=" +
           this.waterAbnormalData.createTime
@@ -183,9 +184,7 @@ export default {
         this.loading = false;
         if (resp) {
           this.waterAbnormal = resp.data;
-          // console.log(this.waterAbnormal);
           this.coordinate();
-          // console.log(this.coordinates);
           if (this.coordinates != null) {
             this.$nextTick(() => {
               this.drawLine();
@@ -219,7 +218,7 @@ export default {
           containLabel: true,
         },
         dataset: {
-          source: this.coordinates
+          source: this.coordinates,
         },
         xAxis: {
           type: "category",
@@ -328,7 +327,7 @@ export default {
               },
             },
           },
-         
+
           {
             name: "欠注井数",
             type: "bar",
@@ -357,14 +356,9 @@ export default {
     // 画图
     drawLine() {
       let chart = this.$echarts.init(this.$refs.myChart);
-      console.log(chart);
-      console.log(this.coordinates);
       this.getOption();
-      console.log(this.option);
       // 绘制图表
-      chart.setOption(this.option,true);
-      console.log("success");
-      console.log(chart);
+      chart.setOption(this.option, true);
       //  }
     },
     //将坐标数据串处理为坐标点

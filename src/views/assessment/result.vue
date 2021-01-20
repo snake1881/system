@@ -47,10 +47,30 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" align="center" width="90" />
-        <el-table-column prop="takeObject" align="center" label="参考单位/人员" width="300" />
-        <el-table-column prop="totalScore" align="center" label="总得分" width="100" />
-        <el-table-column prop="examineDate" align="center" label="考核时间" width="180" />
-        <el-table-column prop="remark" align="center" label="备注" width="360" />
+        <el-table-column
+          prop="takeObject"
+          align="center"
+          label="参考单位/人员"
+          width="300"
+        />
+        <el-table-column
+          prop="totalScore"
+          align="center"
+          label="总得分"
+          width="100"
+        />
+        <el-table-column
+          prop="examineDate"
+          align="center"
+          label="考核时间"
+          width="180"
+        />
+        <el-table-column
+          prop="remark"
+          align="center"
+          label="备注"
+          width="360"
+        />
         <el-table-column label="操作" align="center" width="280">
           <template slot-scope="scope">
             <el-button
@@ -163,11 +183,36 @@
             children: 'children',
           }"
         >
-          <el-table-column prop="indexName" align="center" label="指标名称" width="360" />
-          <el-table-column prop="examineContent" align="center" label="考核内容" width="360" />
-          <el-table-column prop="requirement" align="center" label="工作要求" width="360" />
-          <el-table-column prop="score" align="center" label="分值" width="130" />
-          <el-table-column prop="singleScore" align="center" label="得分" width="125" />
+          <el-table-column
+            prop="indexName"
+            align="center"
+            label="指标名称"
+            width="360"
+          />
+          <el-table-column
+            prop="examineContent"
+            align="center"
+            label="考核内容"
+            width="360"
+          />
+          <el-table-column
+            prop="requirement"
+            align="center"
+            label="工作要求"
+            width="360"
+          />
+          <el-table-column
+            prop="score"
+            align="center"
+            label="分值"
+            width="130"
+          />
+          <el-table-column
+            prop="singleScore"
+            align="center"
+            label="得分"
+            width="125"
+          />
         </el-table>
       </div>
     </div>

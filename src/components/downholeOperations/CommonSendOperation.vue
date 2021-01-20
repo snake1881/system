@@ -62,12 +62,6 @@
             <el-input v-model="dispathchInfoData.remark" type="textarea" />
           </el-form-item>
         </fieldset>
-        <!-- <fieldset class="sendOpereDiv_remark">
-          <legend>备注</legend>
-          <el-form-item>
-            <el-input v-model="dispathchInfoData.remark" type="textarea" />
-          </el-form-item>
-        </fieldset> -->
         <fieldset class="sendOpereDiv_doc">
           <legend>附件</legend>
           <el-form-item>
@@ -148,7 +142,6 @@ export default {
         if (resp) {
           //派工成功后更新节点状态
           this.updateOperNode(this.sendData);
-
           this.$message({
             message: "派工成功!",
             type: "success",
@@ -163,7 +156,6 @@ export default {
     selectTeams() {
       this.getRequest("/operation/teamInfo/selectTeams").then((resp) => {
         if (resp) {
-          console.log(resp.data);
           //将施工队伍信息赋值给下拉框
           this.teamNameoptions = resp.data;
         }
@@ -189,7 +181,6 @@ export default {
       let fd = new FormData();
       // 将文件对象添加到fd对象中
       fd.append("file", fileObj);
-      console.log(fileObj);
       this.postRequest("/", fd).then((resp) => {
         if (resp) {
           this.$message({

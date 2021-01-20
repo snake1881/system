@@ -106,7 +106,6 @@ export default {
             "&wellId=" +
             this.previewData.wellId
         ).then((resp) => {
-          // this.loading = false;
           if (resp) {
             this.tableData = [];
             this.tableData = resp.data;
@@ -207,11 +206,6 @@ export default {
               width: 1,
             },
             data: this.data,
-            // type: "line",
-            // smooth: true,
-            // lineStyle: {
-            //   width: 1.5
-            // }
           },
         ],
       });
@@ -224,7 +218,6 @@ export default {
         this.data[i][0] = this.tableData[i].analysisDate;
         this.data[i][1] = this.tableData[i].fluidLevel;
       }
-      console.log(this.data);
       return this.data;
     },
     //初始化时间
@@ -233,18 +226,18 @@ export default {
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
-        month = month < 10 ? ("0" + month) : month;
+        month = month < 10 ? "0" + month : month;
         var day = date.getDate();
-        day = day < 10 ? ("0" + day) : day;
+        day = day < 10 ? "0" + day : day;
         var endDate = year + "-" + month + "-" + day;
         this.value2[1] = endDate;
         var date1 = new Date();
         date1.setTime(date.getTime() - 7 * 24 * 60 * 60 * 1000);
         var year1 = date1.getFullYear();
         var month1 = date1.getMonth() + 1;
-        month1 = month1 < 10 ? ("0" + month1) : month1;
+        month1 = month1 < 10 ? "0" + month1 : month1;
         var day1 = date1.getDate();
-        day1 = day1 < 10 ? ("0" + day1) : day1;
+        day1 = day1 < 10 ? "0" + day1 : day1;
         var beginDate = year1 + "-" + month1 + "-" + day1;
         this.value2[0] = beginDate;
       }

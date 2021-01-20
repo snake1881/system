@@ -367,7 +367,6 @@ export default {
     },
     // 查看曲线
     details(val) {
-      console.log(val);
       this.dialogTableVisible = true;
       this.dialogForm.orgName = val.oilStationName;
       this.dialogForm.wellName = val.wellName;
@@ -543,7 +542,6 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      console.log(val);
       this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
         (resp) => {
           if (resp) {

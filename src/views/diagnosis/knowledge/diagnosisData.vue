@@ -159,7 +159,6 @@ export default {
           this.pageSize = resp.data.size;
         }
       });
-      console.log(this.diagnosisData);
     },
     // 编辑
     editDiagnosisData(val) {

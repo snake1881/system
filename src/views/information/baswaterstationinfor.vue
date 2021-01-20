@@ -7,7 +7,7 @@
         <el-input
           v-model="termData.waterStationName"
           clearable
-          style="width:150px"
+          style="width: 150px"
           size="medium"
           placeholder="井号"
         ></el-input>
@@ -17,7 +17,7 @@
           v-model="termData.oilStationId"
           clearable
           filterable
-          style="width:150px"
+          style="width: 150px"
           placeholder="全区"
           size="medium"
         >
@@ -50,7 +50,7 @@
       </el-form-item>
     </el-form>
     <el-table
-    class="BaseWaterStation_table"
+      class="BaseWaterStation_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -58,7 +58,7 @@
       height="85%"
       border
       lazy
-      style="width:100%;"
+      style="width: 100%"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
@@ -115,18 +115,20 @@
             type="text"
             size="small"
             @click="editBaseWaterStation(scope.row)"
-            class="iconfont icon-bianji"/>
+            class="iconfont icon-bianji"
+          />
           <el-button
             type="text"
             size="small"
             @click="BaseWaterStationDelete(scope.row)"
-            class="iconfont icon-shanchu"/>
+            class="iconfont icon-shanchu"
+          />
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页 -->
-    <div class="BaseWaterStation_page" >
+    <div class="BaseWaterStation_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -156,13 +158,13 @@ import CommonEditBaseWaterStation from "../..//components/baseinformation/basewa
 export default {
   components: {
     CommonAddBaseWaterStation,
-    CommonEditBaseWaterStation
+    CommonEditBaseWaterStation,
   },
   data() {
     return {
       termData: {
         waterStationName: "",
-        oilStationId: ""
+        oilStationId: "",
       },
       file: [],
       fileList: [],
@@ -170,12 +172,12 @@ export default {
       wellCategoryOptions: [
         {
           value: "0",
-          label: "注水井"
+          label: "注水井",
         },
         {
           value: "1",
-          label: "油井"
-        }
+          label: "油井",
+        },
       ],
 
       BaseWaterStationData: [],
@@ -188,7 +190,7 @@ export default {
       editBaseWaterStationVisible: false,
       editBaseWaterStationData: {},
       //新增
-      addBaseWaterStationVisible: false
+      addBaseWaterStationVisible: false,
     };
   },
   created() {
@@ -207,7 +209,7 @@ export default {
           this.pageSize +
           "&waterStationName=" +
           this.termData.waterStationName
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.BaseWaterStationData = resp.data.records;
           this.total = resp.data.total;
@@ -225,7 +227,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.BaseWaterStationData = resp.data.records;
@@ -273,7 +275,7 @@ export default {
     },
     //采油站下拉框数据查询
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
@@ -285,17 +287,17 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest(
             "/basWaterStationInfor/waterStation?waterStationId=" +
               val.waterStationId
-          ).then(resp => {
+          ).then((resp) => {
             if (resp) {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "删除成功!",
               });
             }
             this.searchBaseWaterStation();
@@ -304,11 +306,11 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
