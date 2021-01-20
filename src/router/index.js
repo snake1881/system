@@ -54,6 +54,13 @@ const routes = [{
             hidden: true
         }
     ]
+    },
+    {
+        path: "/waterAbnormal",
+        name: "waterAbnormal",
+            component: () =>
+                import ("@/views/diagnosis/abnormal/waterAbnormal.vue"),
+            hidden: true
     }
 ];
 

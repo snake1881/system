@@ -6,6 +6,21 @@
           <div class="main_between_1_item_span">油井情况</div>
           <div :style="{ width: '100%', height: '6px' }"></div>
           <div class="main_between_1_item_well">
+            <div class="block">
+              <el-date-picker
+                v-model="wellDate"
+                type="date"
+                editable
+                clearable
+                size="small"
+                align="center"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+                @change="wellInit()"
+                placeholder="选择日期"
+              >
+              </el-date-picker>
+            </div>
             <div class="main_between_1_item_well_line">
               <div id="well1" class="main_between_1_item_water1" />
               <div id="well2" class="main_between_1_item_water2" />
@@ -29,6 +44,12 @@
                   }}</span></span
                 >
                 <span class="main_between_1_item_water1_span"
+                  >日含水:
+                  <span style="color: #e65a40">{{
+                    this.drWaterContent + "%"
+                  }}</span></span
+                >
+                <!-- <span class="main_between_1_item_water1_span"
                   >月产液(m<sup>3</sup>):
                   <span style="color: #e65a40">{{
                     this.monthLiquid
@@ -39,21 +60,21 @@
                   <span style="color: #e65a40">{{
                     this.yearLiquid
                   }}</span></span
-                >
+                > -->
               </div>
               <div class="main_between_1_item_well_dec_container3">
                 <span class="main_between_1_item_water1_span"
                   >日产油(m<sup>3</sup>):
                   <span style="color: #e65a40">{{ this.dailyOil }}</span></span
                 >
-                <span class="main_between_1_item_water1_span"
+                <!-- <span class="main_between_1_item_water1_span"
                   >月产油(m<sup>3</sup>):
                   <span style="color: #e65a40">{{ this.monthOil }}</span></span
                 >
                 <span class="main_between_1_item_water1_span"
                   >年产油(m<sup>3</sup>):
                   <span style="color: #e65a40">{{ this.yearOil }}</span></span
-                >
+                > -->
               </div>
             </div>
           </div>
@@ -144,10 +165,12 @@
                 >
                 <span class="main_between_1_item_water1_span"
                   >欠注井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{
-                    this.waterUnder
-                  }}</span></span
-                >
+                  <router-link to="/diagnosis/diagnosis">
+                    <span style="color: #e65a40">{{
+                      this.waterUnder
+                    }}</span></router-link
+                  >
+                </span>
               </div>
               <div class="main_between_1_item_well_dec_container2">
                 <span class="main_between_1_item_water1_span"
@@ -197,6 +220,10 @@ export default {
           defaultType: 0,
         },
       ],
+      //当天时间
+      sysDate: "",
+      //油井选择时间
+      wellDate: "",
       // 油井总井数
       wellTotal: "",
       // 油井开井数
@@ -213,6 +240,8 @@ export default {
       monthOil: "",
       // 年产油
       yearOil: "",
+      // 日含水
+      drWaterContent: "",
       // 水井总井数
       waterTotal: "",
       // 水井开井数
@@ -252,6 +281,7 @@ export default {
     };
   },
   mounted() {
+    this.getdate();
     // 油井情况
     this.wellInit();
     // 排采曲线
@@ -264,6 +294,11 @@ export default {
     this.measureInit();
   },
   methods: {
+    //
+    hreftwo() {
+      this.$router.push({ path: "/Login" });
+    },
+
     // 排采曲线
     collectInit() {
       this.getRequest("/homePage/drainageMining/selectDrainageMining").then(
@@ -396,9 +431,11 @@ export default {
         this.collectDailyWater[i] = val[i].waterInjection;
       }
     },
-    // 油井情况
+    // 油井情况初始化
     wellInit() {
-      this.getRequest("/homePage/wellSituation/selectWell").then((resp) => {
+      this.getRequest(
+        "/homePage/wellSituation/selectWell?date=" + this.wellDate
+      ).then((resp) => {
         if (resp) {
           this.wellTotal = resp.data.wellTotal;
           this.wellOpen = resp.data.wellOpen;
@@ -408,6 +445,7 @@ export default {
           this.dailyOil = resp.data.drOilProd;
           this.monthOil = resp.data.drOilProdMonth;
           this.yearOil = resp.data.drOilProdYear;
+          this.drWaterContent = resp.data.drWaterContent;
           // 油井情况1
           let dom1 = document.getElementById("well1");
           let myChart1 = echarts.init(dom1);
@@ -802,6 +840,24 @@ export default {
         this.measureOperationFinish[i] = val[i].operationFinish;
         this.measureOperationNotFinish[i] = val[i].operationNotFinish;
       }
+    },
+    //日期初始化
+    getdate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + "-" + month + "-" + strDate;
+      this.sysDate = currentdate;
+      this.wellDate = currentdate;
     },
   },
 };
