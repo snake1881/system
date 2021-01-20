@@ -1,5 +1,10 @@
 <template>
-  <el-dialog  title="编辑用户信息" :visible.sync="editUserVisible" width="40%" :before-close="editUserClose">
+  <el-dialog
+    title="编辑用户信息"
+    :visible.sync="editUserVisible"
+    width="40%"
+    :before-close="editUserClose"
+  >
     <div class="dialogEditDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="登录名称">
@@ -37,7 +42,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="primary" @click="editUserClose(), saveEditUser(editData)" class="editUserButton">提交</el-button>
+    <el-button
+      type="primary"
+      @click="editUserClose(), saveEditUser(editData)"
+      class="editUserButton"
+      >提交</el-button
+    >
     <el-button type="info" @click="editUserClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -45,11 +55,11 @@
 export default {
   props: {
     editUserVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -57,8 +67,8 @@ export default {
       deparmentData: [],
       defaultProps: {
         children: "children",
-        label: "departmentName"
-      }
+        label: "departmentName",
+      },
     };
   },
   created() {
@@ -71,11 +81,11 @@ export default {
     },
     // 保存修改后的信息
     saveEditUser() {
-      this.putRequest("/system/sysUser/user", this.editData).then(resp => {
+      this.putRequest("/system/sysUser/user", this.editData).then((resp) => {
         if (resp) {
           this.$message({
             message: "用户编辑成功!",
-            type: "success"
+            type: "success",
           });
         } else {
           this.$message.error("用户编辑失败，请重新提交!");
@@ -84,20 +94,16 @@ export default {
     },
     // 部门菜单树
     treeInIt() {
-      this.getRequest("/system/department/getDepartmentTree").then(resp => {
+      this.getRequest("/system/department/getDepartmentTree").then((resp) => {
         if (resp) {
           this.deparmentData = resp.data;
         }
       });
     },
     getCheckedKeys(val) {
-      console.log(val);
       this.editData.departmentName = val.departmentName;
-      // this.$refs.tree
-      //   .getCheckedKeys()
-      //   .concat(this.$refs.tree.getHalfCheckedKeys());
-    }
-  }
+    },
+  },
 };
 </script>
 

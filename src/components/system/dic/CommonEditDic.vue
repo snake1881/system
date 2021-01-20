@@ -14,8 +14,11 @@
           <el-input v-model="editData.codeType" />
         </el-form-item>
         <el-form-item label="排列顺序">
-          <el-input onkeyup="this.value = this.value.replace(/[^\d.]/g,'');" v-model="editData.sequence"  />
-        </el-form-item> 
+          <el-input
+            onkeyup="this.value = this.value.replace(/[^\d.]/g,'');"
+            v-model="editData.sequence"
+          />
+        </el-form-item>
         <el-button
           type="text"
           class="el-icon-circle-plus-outline"
@@ -41,7 +44,7 @@
               </el-col>
               <el-button
                 type="text"
-                style="margin-left:20px"
+                style="margin-left: 20px"
                 @click="dlete(item)"
               >
                 删除
@@ -64,11 +67,11 @@
 export default {
   props: {
     editDicVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {};
@@ -80,17 +83,18 @@ export default {
     },
     // 保存修改后的信息
     saveEditDic() {
-      console.log(this.addDic);
-      this.putRequest("/system/codeType/codeType", this.editData).then(resp => {
-        if (resp) {
-          this.$message({
-            message: "信息更改成功!",
-            type: "success"
-          });
-        } else {
-          this.$message.error("信息更改失败，请重新提交!");
+      this.putRequest("/system/codeType/codeType", this.editData).then(
+        (resp) => {
+          if (resp) {
+            this.$message({
+              message: "信息更改成功!",
+              type: "success",
+            });
+          } else {
+            this.$message.error("信息更改失败，请重新提交!");
+          }
         }
-      });
+      );
     },
     // 添加
     addDic() {
@@ -99,7 +103,7 @@ export default {
       }
       this.editData.sysTCodeInforList.push({
         codeName: " ",
-        codeValue: " "
+        codeValue: " ",
       });
     },
     // 删除
@@ -108,8 +112,8 @@ export default {
       if (index !== -1) {
         this.editData.sysTCodeInforList.splice(index, 1);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

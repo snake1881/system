@@ -2,9 +2,14 @@
   <div class="tile">
     <!-- 条件查询 -->
     <el-form class="tile_form" :model="logForm" :inline="true">
-      <el-form-item >
-        <el-select filterable
-            clearable @change="queryWellNameByOrgName" v-model="logForm.oilStation" placeholder="采油站">
+      <el-form-item>
+        <el-select
+          filterable
+          clearable
+          @change="queryWellNameByOrgName"
+          v-model="logForm.oilStation"
+          placeholder="采油站"
+        >
           <el-option
             v-for="item in oilStationOptions"
             :key="item.oilStationId"
@@ -13,9 +18,13 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item >
-        <el-select filterable
-            clearable v-model="logForm.wellId" placeholder="井号">
+      <el-form-item>
+        <el-select
+          filterable
+          clearable
+          v-model="logForm.wellId"
+          placeholder="井号"
+        >
           <el-option
             v-for="item in wellNameoptions"
             :key="item.wellId"
@@ -24,11 +33,11 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item >
+      <el-form-item>
         <el-date-picker
-        type="date"
-        filterable
-            clearable
+          type="date"
+          filterable
+          clearable
           placeholder="开始时间"
           v-model="logForm.startTime"
           value-format="yyyy-MM-dd"
@@ -37,9 +46,9 @@
       </el-form-item>
       <el-form-item>
         <el-date-picker
-        type="date"
-        filterable
-            clearable
+          type="date"
+          filterable
+          clearable
           placeholder="结束时间"
           v-model="logForm.endTime"
           value-format="yyyy-MM-dd"
@@ -54,8 +63,8 @@
         >查询</el-button
       >
     </el-form>
-    
-      <div class="tile_echarts">
+
+    <div class="tile_echarts">
       <div
         v-for="item in tableData"
         :key="item.inddsId"
@@ -68,7 +77,7 @@
         ></div>
       </div>
     </div>
-   
+
     <!-- 分页 -->
     <div class="tile_page">
       <el-pagination
@@ -82,7 +91,6 @@
       />
     </div>
     <!-- 新增 -->
-    
   </div>
 </template>
 <script>
@@ -90,7 +98,7 @@ import CommonAddTile from "../../../components/diagnosis/knowledge/CommonAddTile
 let echarts = require("echarts/lib/echarts");
 export default {
   components: {
-    CommonAddTile
+    CommonAddTile,
   },
   data() {
     return {
@@ -102,14 +110,14 @@ export default {
         oilStation: "",
         wellId: "",
         startTime: "",
-        endTime: ""
+        endTime: "",
       },
       addTileVisible: false,
       wellNameoptions: [],
       oilStationOptions: [],
       addTileData: {},
       tableData: [],
-      coordinates: [[]]
+      coordinates: [[]],
     };
   },
   mounted() {},
@@ -123,27 +131,25 @@ export default {
     //根据输入信息查询
     searchTile() {
       this.getRequest(
-        "/diagnosis/knowledge/gttile/selectByTerm?current="+
-        this.logForm.currentPage+
-        "&endTime="+
-        this.logForm.endTime+
-        "&pageSize="+
-        this.logForm.pageSize+
-        "&startTime="+
-        this.logForm.startTime+
-        "&wellId="+
-        this.logForm.wellId
-        
-      ).then(resp => {
+        "/diagnosis/knowledge/gttile/selectByTerm?current=" +
+          this.logForm.currentPage +
+          "&endTime=" +
+          this.logForm.endTime +
+          "&pageSize=" +
+          this.logForm.pageSize +
+          "&startTime=" +
+          this.logForm.startTime +
+          "&wellId=" +
+          this.logForm.wellId
+      ).then((resp) => {
         if (resp) {
-          console.log(resp);
           this.tableData = resp.data.records;
           this.logForm.total = resp.data.total;
           this.logForm.currentPage = resp.data.current;
           this.logForm.pageSize = resp.data.size;
-          this.tableData.forEach(element => {
+          this.tableData.forEach((element) => {
             //延迟到DOM更新之后再执行绘制图形
-            this.$nextTick(function() {
+            this.$nextTick(function () {
               //处理数据为坐标
               this.coordinate(element);
               //将处理后的坐标添加到对象中
@@ -157,7 +163,7 @@ export default {
     },
     //获取采油站信息
     queryOrgName() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         if (resp) {
           this.oilStationOptions = resp.data;
         }
@@ -165,14 +171,13 @@ export default {
     },
     //获取采油站井名称
     queryWellNameByOrgName(val) {
-      console.log(val);
-      this.getRequest(
-        "/basWellInfor/listByStation?oidStationId=" + val
-      ).then(resp => {
-        if (resp) {
-          this.wellNameoptions = resp.data;
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellNameoptions = resp.data;
+          }
         }
-      });
+      );
     },
     //设置初始化时间
     getNowTime() {
@@ -196,21 +201,21 @@ export default {
       myChart.setOption({
         title: {
           x: "center",
-          text: "井号："+val.wellName + "  时间："+val.acquisitionTime,
+          text: "井号：" + val.wellName + "  时间：" + val.acquisitionTime,
           top: "7%",
           textStyle: {
             fontSize: 13,
             fontStyle: "normal",
-            fontWeight: "bolder"
-          }
+            fontWeight: "bolder",
+          },
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function(params) {
+          formatter: function (params) {
             return (
               "<div><p>位移：" +
               params[0].value[0] +
@@ -220,14 +225,14 @@ export default {
               "KN</p>" +
               "</div>"
             );
-          }
+          },
         },
         grid: {
           left: "3%",
           right: "3%",
           bottom: "15%",
           top: "20%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           name: "位移(M)",
@@ -238,8 +243,8 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [10, 250, 0, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         yAxis: {
           name: "载荷(KN)",
@@ -250,8 +255,8 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         series: [
           {
@@ -260,10 +265,10 @@ export default {
             type: "line",
             smooth: true,
             lineStyle: {
-              width: 1.5
-            }
-          }
-        ]
+              width: 1.5,
+            },
+          },
+        ],
       });
     },
     //将坐标数据串处理为坐标点
@@ -299,7 +304,7 @@ export default {
     // addTileClose() {
     //   this.addTileVisible = false;
     // }
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

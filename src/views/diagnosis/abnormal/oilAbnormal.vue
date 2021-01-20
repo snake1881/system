@@ -12,7 +12,11 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="small" @click="searchPost()"
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+          @click="searchPost()"
           >查询</el-button
         >
       </el-form-item>
@@ -49,35 +53,84 @@
         min-width="10%"
         align="center"
       />
-      <el-table-column prop="sumLiquid" label="产液量" min-width="13%" align="center" />
+      <el-table-column
+        prop="sumLiquid"
+        label="产液量"
+        min-width="13%"
+        align="center"
+      />
       <el-table-column
         prop="sumLiquidYesterday"
         label="产液量(昨)"
         min-width="13%"
         align="center"
       />
-      <el-table-column prop="liquidAbnormal" label="液量异常数" min-width="10%" align="center">
+      <el-table-column
+        prop="liquidAbnormal"
+        label="液量异常数"
+        min-width="10%"
+        align="center"
+      >
         <template slot-scope="scope">
-          <a v-if="scope.row.liquidAbnormal == 0">{{scope.row.liquidAbnormal}}</a>
-          <a v-if="scope.row.liquidAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.liquidAbnormal}}</a>
+          <a v-if="scope.row.liquidAbnormal == 0">{{
+            scope.row.liquidAbnormal
+          }}</a>
+          <a
+            v-if="scope.row.liquidAbnormal != 0"
+            style="color: #409eff; cursor: pointer"
+            >{{ scope.row.liquidAbnormal }}</a
+          >
         </template>
       </el-table-column>
-      <el-table-column prop="waterAbnormal" label="含水异常数" min-width="10%" align="center">
+      <el-table-column
+        prop="waterAbnormal"
+        label="含水异常数"
+        min-width="10%"
+        align="center"
+      >
         <template slot-scope="scope">
-          <a v-if="scope.row.waterAbnormal == 0">{{scope.row.waterAbnormal}}</a>
-          <a v-if="scope.row.waterAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.waterAbnormal}}</a>
+          <a v-if="scope.row.waterAbnormal == 0">{{
+            scope.row.waterAbnormal
+          }}</a>
+          <a
+            v-if="scope.row.waterAbnormal != 0"
+            style="color: #409eff; cursor: pointer"
+            >{{ scope.row.waterAbnormal }}</a
+          >
         </template>
       </el-table-column>
-      <el-table-column prop="diagnosisAbnormal" label="工况异常数" min-width="10%" align="center">
+      <el-table-column
+        prop="diagnosisAbnormal"
+        label="工况异常数"
+        min-width="10%"
+        align="center"
+      >
         <template slot-scope="scope">
-          <a v-if="scope.row.diagnosisAbnormal == 0">{{scope.row.diagnosisAbnormal}}</a>
-          <a v-if="scope.row.diagnosisAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.diagnosisAbnormal}}</a>
+          <a v-if="scope.row.diagnosisAbnormal == 0">{{
+            scope.row.diagnosisAbnormal
+          }}</a>
+          <a
+            v-if="scope.row.diagnosisAbnormal != 0"
+            style="color: #409eff; cursor: pointer"
+            >{{ scope.row.diagnosisAbnormal }}</a
+          >
         </template>
       </el-table-column>
-      <el-table-column prop="fluidAbnormal" label="动液面异常数" min-width="10%" align="center">
+      <el-table-column
+        prop="fluidAbnormal"
+        label="动液面异常数"
+        min-width="10%"
+        align="center"
+      >
         <template slot-scope="scope">
-          <a v-if="scope.row.fluidAbnormal == 0">{{scope.row.fluidAbnormal}}</a>
-          <a v-if="scope.row.fluidAbnormal != 0" style="color: #409EFF; cursor:pointer;">{{scope.row.fluidAbnormal}}</a>
+          <a v-if="scope.row.fluidAbnormal == 0">{{
+            scope.row.fluidAbnormal
+          }}</a>
+          <a
+            v-if="scope.row.fluidAbnormal != 0"
+            style="color: #409eff; cursor: pointer"
+            >{{ scope.row.fluidAbnormal }}</a
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -346,7 +399,6 @@ export default {
     },
     //表格数据初始化
     postInit() {
-      console.log(this.postForm.postDate);
       //如果日期值为空
       if (this.postForm.postDate === "") {
         //默认传递当前日期
@@ -363,7 +415,6 @@ export default {
         this.loading = false;
         if (resp) {
           this.oilAbnormalData = resp.data.records;
-          console.log(this.oilAbnormalData);
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;

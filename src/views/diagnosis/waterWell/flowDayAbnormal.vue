@@ -9,7 +9,7 @@
           filterable
           placeholder="全区"
           size="medium"
-           @change="queryWellNameByOrgName" 
+          @change="queryWellNameByOrgName"
         >
           <el-option
             v-for="item in orgNameData"
@@ -128,8 +128,8 @@ export default {
     return {
       // 查询
       flowDayForm: {
-        oilStationId:"",
-        wellId:"",
+        oilStationId: "",
+        wellId: "",
         flowDayDate: "",
       },
       // 表格数据
@@ -137,7 +137,7 @@ export default {
       //采油站下拉框数据
       orgNameData: [],
       //单井下拉框数据
-      wellOptions:[],
+      wellOptions: [],
       // 分页
       currentPage: 1,
       pageSize: 10,
@@ -155,14 +155,14 @@ export default {
     // 根据日期查询
     searchFlowDay() {
       this.getRequest(
-        "/waterWell/flowAbnormal/selectFlowAbnormalByTime?current="+
-         this.currentPage +
-        "&pageSize="+
-        this.pageSize +
-        "&waterInjectionDate="+
-        this.flowDayForm.flowDayDate+
-        "&wellId=" +
-        this.flowDayForm.wellId
+        "/waterWell/flowAbnormal/selectFlowAbnormalByTime?current=" +
+          this.currentPage +
+          "&pageSize=" +
+          this.pageSize +
+          "&waterInjectionDate=" +
+          this.flowDayForm.flowDayDate +
+          "&wellId=" +
+          this.flowDayForm.wellId
       ).then((resp) => {
         if (resp) {
           this.flowDayData = resp.data.abnormalFlowList.records;
@@ -198,7 +198,7 @@ export default {
         }
       });
     },
-      //单井下拉框初始化
+    //单井下拉框初始化
     wellOptionsInit() {
       this.getRequest("/basWellInfor/selectWater").then((resp) => {
         this.loading = false;
@@ -209,14 +209,13 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      console.log(val);
-      this.getRequest(
-        "/basWellInfor/listByStation?oidStationId=" + val
-      ).then(resp => {
-        if (resp) {
-          this.wellOptions = resp.data;
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
         }
-      });
+      );
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
@@ -233,8 +232,4 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "../../../assets/css/system/role.css";
-// .flowDayAbnormal {
-//   width: 100%;
-//   height: 100%;
-// }
 </style>

@@ -3,7 +3,11 @@
     <!-- 条件查询 -->
     <el-form class="features_form" :model="logForm" :inline="true">
       <el-form-item label="采油站:">
-        <el-select @change="queryWellNameByOrgName" v-model="logForm.oilStation" placeholder="全区">
+        <el-select
+          @change="queryWellNameByOrgName"
+          v-model="logForm.oilStation"
+          placeholder="全区"
+        >
           <el-option
             v-for="item in oilStationOptions"
             :key="item.orgName"
@@ -27,21 +31,27 @@
         icon="el-icon-search"
         size="small"
         @click="searchFeatures()"
-        >查询</el-button>
+        >查询</el-button
+      >
     </el-form>
     <div class="features_echarts">
       <div
         v-for="item in tableData"
         :key="item.dynaId"
-        :style="{ width: '25%', height: '260px' }">
+        :style="{ width: '25%', height: '260px' }"
+      >
         <div
           class="features_echarts_child"
           :key="item.dynaId"
           :id="item.dynaId"
         ></div>
         <div class="features_echarts_button">
-          <el-button type="primary" size="mini" @click="editFeatures(item)">修改</el-button>
-          <el-button type="primary" size="mini" @click="deleteFeatures(item)">删除</el-button>
+          <el-button type="primary" size="mini" @click="editFeatures(item)"
+            >修改</el-button
+          >
+          <el-button type="primary" size="mini" @click="deleteFeatures(item)"
+            >删除</el-button
+          >
         </div>
       </div>
     </div>
@@ -70,7 +80,7 @@ import CommonEditFeatures from "../../../components/diagnosis/knowledge/CommonEd
 let echarts = require("echarts/lib/echarts");
 export default {
   components: {
-    CommonEditFeatures
+    CommonEditFeatures,
   },
   data() {
     return {
@@ -89,13 +99,13 @@ export default {
         wellName: "",
         dynaCreateTime: "",
         addType: "标准功图",
-        diagnosticResults: "泵工作正常"
+        diagnosticResults: "泵工作正常",
       },
       tableData: [],
-      coordinates: [[]]
+      coordinates: [[]],
     };
   },
-  created(){
+  created() {
     //
     this.searchFeatures();
     this.queryOrgName();
@@ -106,16 +116,15 @@ export default {
       this.postRequest(
         "/diagnosis/knowledge/tile/queryByterm",
         this.logForm
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
-          console.log(resp);
           this.tableData = resp.data.records;
           this.logForm.total = resp.data.total;
           this.logForm.currentPage = resp.data.current;
           this.logForm.pageSize = resp.data.size;
-          this.tableData.forEach(element => {
+          this.tableData.forEach((element) => {
             //延迟到DOM更新之后再执行绘制图形
-            this.$nextTick(function() {
+            this.$nextTick(function () {
               //处理数据为坐标
               this.coordinate(element);
               //将处理后的坐标添加到对象中
@@ -129,7 +138,7 @@ export default {
     },
     //获取采油站信息
     queryOrgName() {
-      this.getRequest("/diagnosis/knowledge/tile/queryorgName").then(resp => {
+      this.getRequest("/diagnosis/knowledge/tile/queryorgName").then((resp) => {
         if (resp) {
           this.oilStationOptions = resp.data;
         }
@@ -137,10 +146,9 @@ export default {
     },
     //获取采油站井名称
     queryWellNameByOrgName(val) {
-      console.log(val);
       this.getRequest(
         "/diagnosis/knowledge/tile/queryWellNameByOrgName?orgName=" + val
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.wellNameoptions = resp.data;
         }
@@ -160,16 +168,16 @@ export default {
           textStyle: {
             fontSize: 13,
             fontStyle: "normal",
-            fontWeight: "bolder"
-          }
+            fontWeight: "bolder",
+          },
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function(params) {
+          formatter: function (params) {
             return (
               "<div><p>位移：" +
               params[0].value[0] +
@@ -179,14 +187,14 @@ export default {
               "KN</p>" +
               "</div>"
             );
-          }
+          },
         },
         grid: {
           left: "3%",
           right: "3%",
           bottom: "15%",
           top: "20%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           name: "位移(M)",
@@ -197,8 +205,8 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [10, 250, 0, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         yAxis: {
           name: "载荷(KN)",
@@ -209,8 +217,8 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         series: [
           {
@@ -219,10 +227,10 @@ export default {
             type: "line",
             smooth: true,
             lineStyle: {
-              width: 1.5
-            }
-          }
-        ]
+              width: 1.5,
+            },
+          },
+        ],
       });
     },
     //将坐标数据串处理为坐标点
@@ -253,17 +261,16 @@ export default {
       this.editFeaturesData.wellName = val.wellId;
       this.editFeaturesData.dynaCreateTime = val.dynaCreateTime;
       this.editFeaturesVisible = true;
-      console.log(this.editFeaturesData);
     },
     //删除特征库
-    deleteFeatures(){
+    deleteFeatures() {
       alert("要删吗?");
     },
     // 关闭修改对话框
     editFeaturesClose() {
       this.editFeaturesVisible = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

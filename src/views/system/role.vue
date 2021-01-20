@@ -231,7 +231,6 @@ export default {
     },
     // 表格多选
     handleSelectionChange(val) {
-      console.log(val);
       this.selectData = val;
     },
     // 批量删除角色
@@ -268,7 +267,6 @@ export default {
     },
     // 编辑
     editRole(val) {
-      console.log(val);
       this.editRoleVisible = true;
       this.editRoleData = val;
     },

@@ -243,7 +243,6 @@ export default {
       if (this.termForm.analysisDate === "") {
         //默认传递当前日期
         this.termForm.analysisDate = this.getdate();
-        console.log(this.termForm.analysisDate);
       }
       this.getRequest(
         "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?analysisDate=" +
@@ -277,7 +276,6 @@ export default {
             oilStationName: "全站",
           };
           this.orgNameData.push(oilAll);
-          console.log(this.orgNameData);
         }
       });
     },
@@ -292,7 +290,6 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      console.log(val);
       this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
         (resp) => {
           if (resp) {

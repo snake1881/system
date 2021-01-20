@@ -20,7 +20,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="特征结果">
-          <el-select v-model="featuresData.diagnosticResults" placeholder="请选择">
+          <el-select
+            v-model="featuresData.diagnosticResults"
+            placeholder="请选择"
+          >
             <el-option
               v-for="item in measuresoptions"
               :key="item.primaryId"
@@ -32,7 +35,10 @@
       </el-form>
     </div>
     <span slot="footer">
-      <el-button type="primary" @click="saveEditFeatures(), editFeaturesClose()">
+      <el-button
+        type="primary"
+        @click="saveEditFeatures(), editFeaturesClose()"
+      >
         提交
       </el-button>
     </span>
@@ -42,18 +48,18 @@
 export default {
   props: {
     editFeaturesVisible: {
-      type: Boolean
+      type: Boolean,
     },
     featuresData: {
       wellName: String,
       dynaCreateTime: String,
       addType: String,
-      diagnosticResults: String
-    }
+      diagnosticResults: String,
+    },
   },
   data() {
     return {
-      measuresoptions: []
+      measuresoptions: [],
     };
   },
   created() {
@@ -70,14 +76,14 @@ export default {
     //获取措施建议
     queryMeasures() {
       this.getRequest("/diagnosis/knowledge/tile/queryAllMeasures").then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.measuresoptions = resp.data;
           }
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

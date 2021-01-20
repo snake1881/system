@@ -7,27 +7,6 @@
     @opened="opened"
   >
     <div class="dialogDiv">
-      <!-- <el-form>
-        <el-from-item>
-          <el-select
-            size="medium"
-            v-model="abnormalParamData.typeDesc"
-            style="width: 250px"
-            filterable
-            clearable
-            placeholder="类型描述"
-             @change="ylYccsInit()"
-          >
-            <el-option
-              v-for="item in abnormalParamData"
-              :key="item.typeDesc"
-              :label="item.typeDesc"
-              :value="item.typeDesc"
-             
-            ></el-option>
-          </el-select>
-        </el-from-item>
-      </el-form> -->
       <el-form :model="editData" label-width="440px">
         <el-form-item label="类型描述">
           <el-input :disabled="true" v-model="editData.typeDesc"> </el-input>

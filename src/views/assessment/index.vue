@@ -49,23 +49,67 @@
         element-loading-spinner="el-icon-loading"
         :data="indexData"
         border
-        style="width:100%;height:86%"
-        :row-style="{height:'2px'}"
-        :cell-style="{padding:'0px'}"
-        :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
+        style="width: 100%; height: 86%"
+        :row-style="{ height: '2px' }"
+        :cell-style="{ padding: '0px' }"
+        :header-cell-style="{
+          background: '#eef1f6',
+          color: '#606266',
+          'text-align': 'center',
+        }"
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" align="center" width="90" />
-        <el-table-column prop="indexName" align="center" label="指标名称" width="240" />
-        <el-table-column prop="scoreWeight" align="center" label="权重" width="100" />
-        <el-table-column prop="sequence" align="center" label="排列顺序" width="80" />
-        <el-table-column prop="templateName" align="center" label="考核模板" width="300" />
-        <el-table-column prop="remark" align="center" label="备注" width="280" />
+        <el-table-column
+          prop="indexName"
+          align="center"
+          label="指标名称"
+          width="240"
+        />
+        <el-table-column
+          prop="scoreWeight"
+          align="center"
+          label="权重"
+          width="100"
+        />
+        <el-table-column
+          prop="sequence"
+          align="center"
+          label="排列顺序"
+          width="80"
+        />
+        <el-table-column
+          prop="templateName"
+          align="center"
+          label="考核模板"
+          width="300"
+        />
+        <el-table-column
+          prop="remark"
+          align="center"
+          label="备注"
+          width="280"
+        />
         <el-table-column label="操作" align="center" width="230">
           <template slot-scope="scope">
-            <el-button type="text" size="small" @click="editIndex(scope.row)" class="iconfont icon-bianji" />
-            <el-button type="text" size="small" @click="sinDelete(scope.row)"  class="iconfont icon-shanchu" />
-            <el-button type="text" size="small" @click="detailIndex(scope.row)" class="iconfont icon-xiangqing" />
+            <el-button
+              type="text"
+              size="small"
+              @click="editIndex(scope.row)"
+              class="iconfont icon-bianji"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="sinDelete(scope.row)"
+              class="iconfont icon-shanchu"
+            />
+            <el-button
+              type="text"
+              size="small"
+              @click="detailIndex(scope.row)"
+              class="iconfont icon-xiangqing"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -107,7 +151,7 @@
       <!-- 详情信息 -->
       <div class="detail-content">
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">考核指标信息</span>
+          <span style="color: #50a6fe">考核指标信息</span>
         </el-divider>
         <br />
         <div class="detail-content-template">
@@ -128,19 +172,34 @@
         <br />
         <br />
         <el-divider content-position="center">
-          <span style="color: #50a6fe;">考核指标详情</span>
+          <span style="color: #50a6fe">考核指标详情</span>
         </el-divider>
         <br />
-        <el-table 
+        <el-table
           :data="this.detailData.indexDetails"
           border
           style="width: 100%"
           height="90%"
-          :header-cell-style="{'text-align':'center'}"
+          :header-cell-style="{ 'text-align': 'center' }"
         >
-          <el-table-column prop="examineContent" align="center" label="考核内容" width="515" />
-          <el-table-column prop="requirement" align="center" label="考核标准" width="510" />
-          <el-table-column prop="score" align="center" label="分值" width="310" />
+          <el-table-column
+            prop="examineContent"
+            align="center"
+            label="考核内容"
+            width="515"
+          />
+          <el-table-column
+            prop="requirement"
+            align="center"
+            label="考核标准"
+            width="510"
+          />
+          <el-table-column
+            prop="score"
+            align="center"
+            label="分值"
+            width="310"
+          />
         </el-table>
       </div>
     </div>
@@ -152,14 +211,14 @@ import CommonEditIndex from "../../components/assessment/index/CommonEditIndex";
 export default {
   components: {
     CommonAddIndex,
-    CommonEditIndex
+    CommonEditIndex,
   },
   data() {
     return {
       //搜索框
       indexFrom: {
         indexName: "",
-        templateName: ""
+        templateName: "",
       },
       // 表格数据
       indexData: [],
@@ -179,7 +238,7 @@ export default {
       // 查看详情
       detailData: {},
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -189,15 +248,15 @@ export default {
     // 根据输入信息查询
     searchIndex() {
       this.postRequest(
-        "/examine/IndexInfo/selectByTerm?current="+
-        this.currentPage +
-        "&indexName="+
-        this.indexFrom.indexName +
-        "&pageSize="+
-        this.pageSize+
-        "&templateName=" +
-        this.indexFrom.templateName
-      ).then(resp => {
+        "/examine/IndexInfo/selectByTerm?current=" +
+          this.currentPage +
+          "&indexName=" +
+          this.indexFrom.indexName +
+          "&pageSize=" +
+          this.pageSize +
+          "&templateName=" +
+          this.indexFrom.templateName
+      ).then((resp) => {
         if (resp) {
           this.indexData = resp.data.records;
           this.total = resp.data.total;
@@ -214,7 +273,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.indexData = resp.data.records;
@@ -237,7 +296,6 @@ export default {
     editIndex(val) {
       this.editIndexVisible = true;
       this.editData = val;
-      console.log(val);
     },
     // 关闭编辑对话框
     editIndexClose() {
@@ -251,21 +309,21 @@ export default {
     selectdelete() {
       var checkArray = this.selectData;
       var idArray = [];
-      checkArray.forEach(function(item) {
+      checkArray.forEach(function (item) {
         idArray.push(item.indexId);
       });
       this.$confirm("确定删除您勾选的数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/examine/IndexInfo/deleteBatch", idArray).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.indexInit();
@@ -275,7 +333,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -284,16 +342,16 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest(
             "/examine/IndexInfo/deleteByPrimaryKey?indexId=" + val.indexId
-          ).then(resp => {
+          ).then((resp) => {
             if (resp) {
               this.$message({
                 type: "success",
-                message: "删除成功!"
+                message: "删除成功!",
               });
             }
             this.indexInit();
@@ -302,7 +360,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -332,8 +390,8 @@ export default {
         item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         return item;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

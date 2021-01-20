@@ -53,7 +53,7 @@
       height="93%"
       border
       lazy
-       @expand-change="rowCollectInit"
+      @expand-change="rowCollectInit"
       :expand-row-keys="expands"
       :row-key="getRowKeys"
       :row-style="{ height: '2px' }"
@@ -61,11 +61,11 @@
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       :tree-props="{
         children: 'children',
-        hasChildren: 'hasChildren'
+        hasChildren: 'hasChildren',
       }"
-      style="width:100%;"
+      style="width: 100%"
     >
-     <el-table-column type="expand">
+      <el-table-column type="expand">
         <template slot-scope="scope">
           <div
             class="load_abnormal_item_detail"
@@ -74,10 +74,34 @@
             element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading"
           >
-            <div class="load_abnormal_item_detail_table"  style="padding:0px;line-height:0px;" v-for="(item, index) in loadCollect" :key="index">
-              <span style="  width:100px;text-align:center; display: inline-block; ">{{ item.wellCommonName }}</span>
-              <span style="  width:180px;text-align:center; display: inline-block; margin-left: 5px">{{ item.checkDate }}</span>
-              <span style="  width:500px;text-align:center; display: inline-block; margin-left: 5px">{{ item.abnormalProblem }}</span>
+            <div
+              class="load_abnormal_item_detail_table"
+              style="padding: 0px; line-height: 0px"
+              v-for="(item, index) in loadCollect"
+              :key="index"
+            >
+              <span
+                style="width: 100px; text-align: center; display: inline-block"
+                >{{ item.wellCommonName }}</span
+              >
+              <span
+                style="
+                  width: 180px;
+                  text-align: center;
+                  display: inline-block;
+                  margin-left: 5px;
+                "
+                >{{ item.checkDate }}</span
+              >
+              <span
+                style="
+                  width: 500px;
+                  text-align: center;
+                  display: inline-block;
+                  margin-left: 5px;
+                "
+                >{{ item.abnormalProblem }}</span
+              >
               <el-button
                 type="text"
                 @click="previewGtmj(item)"
@@ -148,13 +172,13 @@
 import CommonPreviewZh from "../../../components/diagnosis/oilwell/abnormalZh/CommonPreviewZh";
 export default {
   components: {
-    CommonPreviewZh
+    CommonPreviewZh,
   },
   data() {
     return {
       termData: {
         checkDate: "",
-        orgName: ""
+        orgName: "",
       },
       // 表格数据
       ZhData: [],
@@ -174,7 +198,7 @@ export default {
       loading: true,
       //
       previewZhVisible: false,
-      previewZhData: {}
+      previewZhData: {},
     };
   },
   created() {
@@ -200,7 +224,7 @@ export default {
           this.termData.orgName +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.ZhData = resp.data.records;
           this.total = resp.data.total;
@@ -218,7 +242,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.ZhData = resp.data.records;
@@ -230,14 +254,12 @@ export default {
     },
     //采油站下拉框数据初始化
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(
-        resp => {
-          this.loading = false;
-          if (resp) {
-            this.orgNameData = resp.data;
-          }
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
-      );
+      });
     },
     // 只展开一行放入当前行id
     getRowKeys(row) {
@@ -290,7 +312,7 @@ export default {
     previewZhClose() {
       this.previewZhVisible = false;
     },
-  }
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -1,11 +1,11 @@
 <template>
   <el-menu
-   class="asider-el-menu"
+    class="asider-el-menu"
     text-color="#909399"
     active-text-color="#fff"
-    default-active="#"
     :unique-opened="true"
     router
+    :default-active="$route.path"
   >
     <div v-for="(item, index) in this.menus.children" :key="index">
       <div v-if="item.children">
@@ -53,7 +53,6 @@ export default {
       menus: this.$store.state.routes[0].children[this.routerNumber],
     };
   },
-  methods: {},
 };
 </script>
 
@@ -71,16 +70,18 @@ export default {
 .el-menu[data-v-a28ad4e6] {
   text-indent: 0;
 }
-.asider-el-menu{
-    background-color:#133168;
+.asider-el-menu {
+  background-color: #133168;
 }
-.el-submenu__title:hover,.el-menu-item:focus, .el-menu-item:hover{
-    background-color: #444b91 !important;
-   border-bottom-color:#565d99!important;
-   color: #fff!important;
- }
- .el-menu-item.is-active {
-       background-image: linear-gradient(#3e4e7e, #565d99) !important;
-       border-bottom-color:#565d99!important;
- }
+.el-submenu__title:hover,
+.el-menu-item:focus,
+.el-menu-item:hover {
+  background-color: #444b91 !important;
+  border-bottom-color: #565d99 !important;
+  color: #fff !important;
+}
+.el-menu-item.is-active {
+  background-image: linear-gradient(#3e4e7e, #565d99) !important;
+  border-bottom-color: #565d99 !important;
+}
 </style>

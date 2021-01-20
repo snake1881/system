@@ -69,14 +69,27 @@
             element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading"
           >
-            <div style="padding:0px;line-height:0px;" v-for="(item, index) in loadCollect" :key="index">
-              <span style="width:100px;text-align:center; display: inline-block;" >{{ item.wellCommonName }}</span>
-              <span style="width:150px;text-align:center; display: inline-block; ">{{ item.checkDate }}</span>
-              <span style="width:220px;text-align:center; display: inline-block;">{{ item.abnormalProblem }}</span>
+            <div
+              style="padding: 0px; line-height: 0px"
+              v-for="(item, index) in loadCollect"
+              :key="index"
+            >
+              <span
+                style="width: 100px; text-align: center; display: inline-block"
+                >{{ item.wellCommonName }}</span
+              >
+              <span
+                style="width: 150px; text-align: center; display: inline-block"
+                >{{ item.checkDate }}</span
+              >
+              <span
+                style="width: 220px; text-align: center; display: inline-block"
+                >{{ item.abnormalProblem }}</span
+              >
               <el-button
                 type="text"
                 @click="previewAbnormalGt(item)"
-                style="width:100px;text-align:center; display: inline-block;"
+                style="width: 100px; text-align: center; display: inline-block"
                 >查看功图</el-button
               >
             </div>
@@ -155,7 +168,7 @@ export default {
       orgNameData: [],
       //表格数据
       abnormalGtData: [],
-       // 当前展开行数据
+      // 当前展开行数据
       loadCollect: [],
       // 展开行加载动画
       loadCollectLoad: true,
@@ -230,14 +243,12 @@ export default {
     },
     //采油站下拉框初始化
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(
-        (resp) => {
-          this.loading = false;
-          if (resp) {
-            this.orgNameData = resp.data;
-          }
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
-      );
+      });
     },
     // 只展开一行放入当前行id
     getRowKeys(row) {

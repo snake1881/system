@@ -9,22 +9,15 @@
     @opened="opens"
     :before-close="priviewAbnormalGtClose"
   >
-  <el-form >
-    <el-form-item v-if="isChart">
-      <div
-      class="chart"
-      id="myChart"
-      :style="{ width: '100%', height: '400px' }"
-    ></div>
-    </el-form-item>
-    <!-- <el-form-item v-if="isSpan">
-    <div
-      :style="{ width: '100%', height: '400px' }"
-    >
-    <span>无功图数据</span>
-    </div>
-    </el-form-item> -->
-  </el-form>
+    <el-form>
+      <el-form-item v-if="isChart">
+        <div
+          class="chart"
+          id="myChart"
+          :style="{ width: '100%', height: '400px' }"
+        ></div>
+      </el-form-item>
+    </el-form>
   </el-dialog>
 </template>
 
@@ -33,11 +26,11 @@ let echarts = require("echarts/lib/echarts");
 export default {
   props: {
     previewAbnormalGtVisible: {
-      type: Boolean
+      type: Boolean,
     },
     previewData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -47,11 +40,11 @@ export default {
       coordinates: [[]],
       coordinates1: [[]],
       isColor: true,
-      isChart:{
-        type: Boolean
+      isChart: {
+        type: Boolean,
       },
-      isSpan:{
-        type: Boolean
+      isSpan: {
+        type: Boolean,
       },
     };
   },
@@ -67,19 +60,19 @@ export default {
           this.previewData.checkDate +
           "&wellId=" +
           this.previewData.wellId
-      ).then(resp => {
+      ).then((resp) => {
         // this.loading = false;
         if (resp) {
-          this.tableData1={};
+          this.tableData1 = {};
           this.tableData1 = resp.data;
           this.coordinate();
-          if(resp.data != null){
-            this.isChart=true;
-            this.isSpan=false;
+          if (resp.data != null) {
+            this.isChart = true;
+            this.isSpan = false;
             this.drawLine();
-          }else{
-            this.isChart=false;
-            this.isSpan=true;
+          } else {
+            this.isChart = false;
+            this.isSpan = true;
           }
         }
       });
@@ -95,22 +88,26 @@ export default {
       myChart.setOption({
         title: {
           x: "center",
-          text: this.tableData1.wellCommonName + "号井   " +this.tableData1.dynaCreateTime +"  功图",
+          text:
+            this.tableData1.wellCommonName +
+            "号井   " +
+            this.tableData1.dynaCreateTime +
+            "  功图",
           top: "7%",
           textStyle: {
             fontSize: 13,
             fontStyle: "normal",
-            fontWeight: "bolder"
+            fontWeight: "bolder",
           },
-          subtext: ""
+          subtext: "",
         },
         tooltip: {
           trigger: "axis",
           axisPointer: {
             // 坐标轴指示器，坐标轴触发有效
-            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
           },
-          formatter: function(params) {
+          formatter: function (params) {
             return (
               "<div><p>位移：" +
               params[0].value[0] +
@@ -120,14 +117,14 @@ export default {
               "KN</p>" +
               "</div>"
             );
-          }
+          },
         },
         grid: {
           left: "3%",
           right: "3%",
           bottom: "15%",
           top: "20%",
-          containLabel: true
+          containLabel: true,
         },
         xAxis: {
           name: "位移",
@@ -138,20 +135,19 @@ export default {
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [8, 0, 0, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
+
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],
-            fontSize: 10
-          }
+            fontSize: 10,
+          },
         },
         series: [
           {
@@ -160,15 +156,15 @@ export default {
             type: "line",
             smooth: true,
             lineStyle: {
-              width: 1.5
-            }
-          }
-        ]
+              width: 1.5,
+            },
+          },
+        ],
       });
     },
     //将坐标数据串处理为坐标点
     coordinate() {
-      this.coordinates=[[]];
+      this.coordinates = [[]];
       var displacementArray = this.tableData1.displacement.split(";");
       var disploadArray = this.tableData1.dispLoad.split(";");
       for (var i = 0; i < displacementArray.length; i++) {
@@ -179,12 +175,11 @@ export default {
       return this.coordinates;
     },
     opens() {
-      this.coordinates=[[]];
-      this.tableData1={};
+      this.coordinates = [[]];
+      this.tableData1 = {};
       this.gtDataInit();
-      console.log(this.isChart);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -199,9 +194,8 @@ export default {
   width: 700px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

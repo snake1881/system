@@ -42,11 +42,11 @@
 export default {
   props: {
     addTileVisible: {
-      type: Boolean
+      type: Boolean,
     },
     tileData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -66,10 +66,10 @@ export default {
         label: "",
         authDate: "",
         author: "",
-        dynaId: ""
+        dynaId: "",
       },
       addType: "",
-      diagnosticResults: ""
+      diagnosticResults: "",
     };
   },
   created() {
@@ -77,23 +77,6 @@ export default {
   },
   methods: {
     saveAddTile() {
-      // if (this.addType == 0) {
-      //   this.postRequest(
-      //     "/diagnosis/knowledge/standardCard/insert",
-      //     this.standardData
-      //   ).then(resp => {
-      //     if (resp) {
-      //       console.log(this.standardData);
-      //       this.$message({
-      //         message: "添加标准功图库成功!",
-      //         type: "success"
-      //       });
-      //     }else{
-      //       this.$message.error("添加标准功图库失败，请重新提交!");
-      //     }
-      //   });
-      // }
-      console.log(this.tileData);
       this.standardData.wellCommonName = this.tileData.wellId;
       this.standardData.checkDate = this.tileData.dynaCreateTime;
       this.standardData.stroke = this.tileData.stroke;
@@ -104,7 +87,6 @@ export default {
       this.standardData.downgoingMaxCurrent = this.tileData.downgoingMaxCurrent;
       this.standardData.label = this.diagnosticResults;
       this.standardData.dynaId = this.tileData.dynaId;
-      console.log(this.standardData);
     },
     // 对话框父子组件传值
     addTileClose() {
@@ -115,14 +97,14 @@ export default {
     //获取措施建议
     queryMeasures() {
       this.getRequest("/diagnosis/knowledge/tile/queryAllMeasures").then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.measuresoptions = resp.data;
           }
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

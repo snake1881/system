@@ -153,7 +153,6 @@ export default {
     },
     //获取采油站井名称
     queryWellNameByOrgName(val) {
-      console.log(val);
       this.getRequest(
         "/diagnosis/knowledge/tile/queryWellNameByOrgName?orgName=" + val
       ).then((resp) => {

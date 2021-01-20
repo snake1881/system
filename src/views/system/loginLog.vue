@@ -1,28 +1,44 @@
 <template>
   <div class="role">
     <!-- 条件查询 -->
-    <el-form class="role_form" :model="logingLogForm" :rules="rules" :inline="true">
+    <el-form
+      class="role_form"
+      :model="logingLogForm"
+      :rules="rules"
+      :inline="true"
+    >
       <el-form-item>
-        <el-input v-model="logingLogForm.moduleName" clearable placeholder="模块名称" size="medium"/>
+        <el-input
+          v-model="logingLogForm.moduleName"
+          clearable
+          placeholder="模块名称"
+          size="medium"
+        />
       </el-form-item>
-      <el-form-item label="日期" >
-          <el-date-picker
-            v-model="chooseDate"
-            size="medium"
-            type="daterange"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-            format="yyyy-MM-dd"
-            value-format="yyyy-MM-dd"
-          >
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" icon="el-icon-search" size="small" @click="searchLog()">查询</el-button>
-        </el-form-item>
+      <el-form-item label="日期">
+        <el-date-picker
+          v-model="chooseDate"
+          size="medium"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+        >
+        </el-date-picker>
+      </el-form-item>
       <el-form-item>
-      <el-button
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+          @click="searchLog()"
+          >查询</el-button
+        >
+      </el-form-item>
+      <el-form-item>
+        <el-button
           type="primary"
           icon="el-icon-download"
           size="small"
@@ -40,10 +56,10 @@
       @selection-change="handleSelectionChange"
       height="86%"
       border
-      style="width:100%"
-      :row-style="{height:'2px'}"
-      :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266'}"
+      style="width: 100%"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
       <el-table-column type="selection" width="55" />
       <el-table-column prop="operationId" label="日志编号" width="90" />
@@ -55,7 +71,6 @@
       <el-table-column prop="operationType" label="操作类型" width="100" />
       <el-table-column prop="operationMsg" label="操作信息" width="100" />
       <el-table-column prop="operationTime" label="登陆时间" width="240" />
-      
     </el-table>
     <!-- 分页 -->
     <div class="role_page">
@@ -79,24 +94,24 @@ export default {
       logingLogForm: {
         moduleName: "",
         startTime: "",
-        endTime: ""
+        endTime: "",
       },
       // 表格数据
       logingLogData: [],
       // 多选数据
       selectData: [],
-      chooseDate:"",
+      chooseDate: "",
       // 分页数据
       currentPage: 1,
       pageSize: 10,
       total: 0,
       rules: {
         moduleName: [
-          { required: true, message: "模块名称不能为空", trigger: "blur" }
-        ]
+          { required: true, message: "模块名称不能为空", trigger: "blur" },
+        ],
       },
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -105,8 +120,8 @@ export default {
   methods: {
     // 根据输入信息查询
     searchLog() {
-      this.logingLogForm.startTime=this.chooseDate[0];
-      this.logingLogForm.endTime=this.chooseDate[1];
+      this.logingLogForm.startTime = this.chooseDate[0];
+      this.logingLogForm.endTime = this.chooseDate[1];
       console.log(this.logForm);
       this.postRequest(
         "/loginLog/findListsLoginByPage?page=" +
@@ -114,7 +129,7 @@ export default {
           "&size=" +
           this.pageSize,
         this.logingLogForm
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.logingLogData = resp.data.records;
           this.total = resp.data.total;
@@ -130,7 +145,7 @@ export default {
           this.currentPage +
           "&size=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.logingLogData = resp.data.records;
@@ -189,26 +204,27 @@ export default {
       // "&startTime="+
       // this.logingLogForm.startTime
       // );
-      var elemIF = document.createElement('iframe')
-      elemIF.src = "http://localhost:8692/dbznyt/loginLog/excelexport?endTime="+
-      this.logingLogForm.endTime+
-      "&moduleName="+
-      this.logingLogForm.moduleName+
-      "&startTime="+
-      this.logingLogForm.startTime;
+      var elemIF = document.createElement("iframe");
+      elemIF.src =
+        "http://localhost:8692/dbznyt/loginLog/excelexport?endTime=" +
+        this.logingLogForm.endTime +
+        "&moduleName=" +
+        this.logingLogForm.moduleName +
+        "&startTime=" +
+        this.logingLogForm.startTime;
       //隐藏iframe
       elemIF.style.display = "none";
-      document.body.appendChild(elemIF)
+      document.body.appendChild(elemIF);
       this.searchLog();
     },
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/role.css";
 </style>
 <style>
-.role .iconfont{
+.role .iconfont {
   font-size: 20px;
 }
 </style>

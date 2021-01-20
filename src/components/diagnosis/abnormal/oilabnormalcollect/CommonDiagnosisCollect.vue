@@ -144,12 +144,6 @@
             width="80"
             align="center"
           ></el-table-column>
-          <!-- <el-table-column
-            prop="pointNum"
-            label="位移点数"
-            width="80"
-            align="center"
-          ></el-table-column> -->
           <el-table-column
             prop="liquidProd"
             label="小时产液量(M3)"
@@ -170,13 +164,6 @@
             align="center"
             :show-overflow-tooltip="true"
           ></el-table-column>
-          <!-- <el-table-column
-            prop=""
-            label="人工确认"
-            width="100"
-            align="center"
-            :show-overflow-tooltip="true"
-          ></el-table-column> -->
         </el-table>
         <div class="liqFilterCondition_page">
           <el-pagination
@@ -244,7 +231,7 @@ export default {
     // 对话框父子组件传值
     diagnosidsAbnormalClose() {
       this.$emit("diagnosidsRowClose");
-      Object.assign(this.$data, this.$options.data())
+      Object.assign(this.$data, this.$options.data());
     },
     //表格数据
     diagnosisAbnormalInit() {
@@ -273,7 +260,6 @@ export default {
     },
     //查询数据
     diagnosisAbnormalSearch() {
-      console.log(this.termForm);
       this.getRequest(
         "/diagnosis/abnormal/queryDiagramSourceByStationId?current=" +
           this.currentPage +

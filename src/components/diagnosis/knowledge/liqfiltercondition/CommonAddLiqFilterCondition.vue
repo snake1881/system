@@ -19,26 +19,18 @@
           >
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="条件:" >
+        <el-form-item label="条件:">
           <template>
-            <el-radio-group v-model="LiqFilterConditiontData.filter" size="medium"> 
-              <!-- <el-radio-button label="昨日" border></el-radio-button >
-              <el-radio-button  label="上月" border></el-radio-button >
-              <el-radio-button  label="前三月" border></el-radio-button >
-              <el-radio-button label="任意天" border></el-radio-button > -->
-              <!-- <el-row>
-                <el-col :span="24"><el-radio label="昨日" border></el-radio ><el-radio label="上月" border></el-radio >
-                </el-col>
-              <el-col :span="24"> </el-col>
-              </el-row> -->
-          
+            <el-radio-group
+              v-model="LiqFilterConditiontData.filter"
+              size="medium"
+            >
               <el-radio value="0" label="0" border>昨日</el-radio>
               <el-radio value="1" label="1" border>上月</el-radio>
               <el-radio value="2" label="2" border>前三月</el-radio>
               <el-radio value="3" label="3" border>任意天</el-radio>
             </el-radio-group>
           </template>
-            
         </el-form-item>
         <el-form-item
           v-if="LiqFilterConditiontData.filter === '3'"
@@ -71,8 +63,8 @@
 export default {
   props: {
     addLiqFilterConditionVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -81,8 +73,8 @@ export default {
         wellId: "",
         setDate: "",
         filter: "",
-        appointDate: ""
-      }
+        appointDate: "",
+      },
     };
   },
   methods: {
@@ -95,19 +87,19 @@ export default {
       this.postRequest(
         "/liquidFilterCondition/liquidFilter",
         this.LiqFilterConditiontData
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.$message({
             message: "液量异常筛选条件新增成功!",
-            type: "success"
+            type: "success",
           });
           this.reload();
         } else {
           this.$message.error("液量异常筛选条件新增失败，请重新提交!");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -125,7 +117,7 @@ export default {
   height: 2px;
 }
 .dialogDiv .el-radio-group {
-  margin-top:-40px;
+  margin-top: -40px;
   width: 460px;
   height: 2px;
 }
@@ -141,9 +133,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

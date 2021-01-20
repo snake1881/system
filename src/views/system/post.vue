@@ -3,11 +3,27 @@
     <!-- 条件查询 -->
     <el-form class="role_form" :model="postForm" :inline="true">
       <el-form-item>
-        <el-input v-model="postForm.positionName" placeholder="岗位名称" size="medium" />
+        <el-input
+          v-model="postForm.positionName"
+          placeholder="岗位名称"
+          size="medium"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="small" @click="searchPost()">查询</el-button>
-        <el-button type="primary" icon="el-icon-plus" size="small" @click="addPost()">新增</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="small"
+          @click="searchPost()"
+          >查询</el-button
+        >
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          size="small"
+          @click="addPost()"
+          >新增</el-button
+        >
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
@@ -18,10 +34,14 @@
       :data="postData"
       height="86%"
       border
-      style="width:100%;"
-      :row-style="{height:'2px'}"
-      :cell-style="{padding:'0px'}"
-      :header-cell-style="{background:'#eef1f6',color:'#606266','text-align':'center'}"
+      style="width: 100%"
+      :row-style="{ height: '2px' }"
+      :cell-style="{ padding: '0px' }"
+      :header-cell-style="{
+        background: '#eef1f6',
+        color: '#606266',
+        'text-align': 'center',
+      }"
     >
       <el-table-column prop="positionId" label="岗位编号" width="200" />
       <el-table-column prop="positionCode" label="岗位编码" width="290" />
@@ -30,8 +50,18 @@
       <el-table-column prop="createTime" label="创建时间" width="300" />
       <el-table-column label="操作" width="80">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="editPost(scope.row)" class="iconfont icon-bianji" />
-          <el-button type="text" size="small" @click="dletePost(scope.row)" class="iconfont icon-shanchu" />
+          <el-button
+            type="text"
+            size="small"
+            @click="editPost(scope.row)"
+            class="iconfont icon-bianji"
+          />
+          <el-button
+            type="text"
+            size="small"
+            @click="dletePost(scope.row)"
+            class="iconfont icon-shanchu"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -48,7 +78,10 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-post :addPostVisible="addPostVisible" @postRowClose="addPostClose" />
+    <common-add-post
+      :addPostVisible="addPostVisible"
+      @postRowClose="addPostClose"
+    />
     <!-- 编辑 -->
     <common-edit-post
       :editPostVisible="editPostVisible"
@@ -63,13 +96,13 @@ import CommonEditPost from "../../components/system/post/CommonEditPost";
 export default {
   components: {
     CommonAddPost,
-    CommonEditPost
+    CommonEditPost,
   },
   data() {
     return {
       //搜索框
       postForm: {
-        positionName: ""
+        positionName: "",
       },
       // 表格数据
       postData: [],
@@ -83,7 +116,7 @@ export default {
       // 新增
       addPostVisible: false,
       // 表格加载动画
-      loading: true
+      loading: true,
     };
   },
   created() {
@@ -95,12 +128,11 @@ export default {
       this.postRequest(
         "/position/findListsByPage?page=" +
           this.currentPage +
-          "&positionName="+
+          "&positionName=" +
           this.postForm.positionName +
           "&size=" +
-          this.pageSize,
-       
-      ).then(resp => {
+          this.pageSize
+      ).then((resp) => {
         if (resp) {
           this.postData = resp.data.records;
           this.total = resp.data.total;
@@ -114,15 +146,15 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/position/deleteById?ids=" + val.positionId).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.postInit();
@@ -132,7 +164,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
     },
@@ -143,7 +175,7 @@ export default {
           this.currentPage +
           "&size=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.postData = resp.data.records;
@@ -180,15 +212,15 @@ export default {
     // 关闭新增框
     addPostClose() {
       this.addPostVisible = false;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
 @import "../../assets/css/system/role.css";
 </style>
 <style>
-.role .iconfont{
+.role .iconfont {
   font-size: 20px;
 }
 </style>

@@ -108,7 +108,9 @@
           <img
             src="../../assets/images/oilWell.gif"
             class="wellsite_right_oilWell_details_img"
-            @click="gotoSingleWell(item.wellName, item.wellId, item.wellSitName)"
+            @click="
+              gotoSingleWell(item.wellName, item.wellId, item.wellSitName)
+            "
           />
           <div class="wellsite_right_oilWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
@@ -232,13 +234,21 @@ export default {
   methods: {
     // 井场汇总信息
     wellSiteInit() {
-      var yesterday = new Date((new Date).getTime() - 24 * 60 * 60 * 1000);
-        var year = yesterday.getFullYear();
-        var month = yesterday.getMonth() + 1 > 9 ? yesterday.getMonth() + 1 : "0" + (yesterday.getMonth() + 1);
-        var day = yesterday.getDate() > 9 ? yesterday.getDate() : "0" + yesterday.getDate();
-        yesterday = year + "-" + month + "-" + day;
+      var yesterday = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
+      var year = yesterday.getFullYear();
+      var month =
+        yesterday.getMonth() + 1 > 9
+          ? yesterday.getMonth() + 1
+          : "0" + (yesterday.getMonth() + 1);
+      var day =
+        yesterday.getDate() > 9
+          ? yesterday.getDate()
+          : "0" + yesterday.getDate();
+      yesterday = year + "-" + month + "-" + day;
       this.getRequest(
-        "/wellSits/wellSit/WellSitList?sTime="+yesterday+"&wellSitId=" +
+        "/wellSits/wellSit/WellSitList?sTime=" +
+          yesterday +
+          "&wellSitId=" +
           this.$route.query.id
       ).then((resp) => {
         if (resp) {
@@ -265,7 +275,7 @@ export default {
         }
       });
     },
-   
+
     // 返回采油站页面
     gotoOilStation() {
       this.$router.replace("/unattended/oilStation");
@@ -282,7 +292,7 @@ export default {
       });
     },
     // 视频点击
-    clickVideo(val){
+    clickVideo(val) {
       this.videoLink = val.videoLink;
     },
   },
