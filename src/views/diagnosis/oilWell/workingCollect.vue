@@ -581,7 +581,23 @@
             <el-input v-model="confirmResultDate.diagnosisResult" />
           </el-form-item>
           <el-form-item label="人工诊断">
-            <el-input v-model="confirmResultDate.confirmResult" />
+            <el-select
+              clearable
+              filterable
+              reserve-keyword
+              @change.native="selectBlur" 
+              @blur.native="selectBlur"  
+              placeholder="请选择/输入诊断结果"
+              :popper-append-to-body="false"
+              v-model="confirmResultDate.confirmResult"
+            >
+              <el-option
+                v-for="item in confirmResultOptions"
+                :key="item.diagnosisResult"
+                :label="item.diagnosisResult"
+                :value="item.diagnosisResult"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -690,6 +706,8 @@ export default {
       confirmDate: {},
       //工况诊断对照信息表
       confirmOptions: [],
+      //人工工况诊断对照信息表
+      confirmResultOptions: [],
       //人工工况
       confirmResultVisible: false,
       confirmResultDate: {},
@@ -1568,6 +1586,14 @@ export default {
         }
       });
     },
+    //查询功图诊断措施对照信息
+    selectMeasure() {
+      this.getRequest("/OilDaily/selectAllMeasure").then((resp) => {
+        if (resp) {
+          this.confirmResultOptions = resp.data;
+        }
+      });
+    },
     //人工确认弹出页面
     confirm(val) {
       this.confirmVisible = true;
@@ -1622,6 +1648,10 @@ export default {
           this.$message.error("人工工况确认失败，请重新确认!");
         }
       });
+    },
+    //人工工况下拉输入事件
+    selectBlur(e){
+      this.confirmResultDate.confirmResult = e.target.value;
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
