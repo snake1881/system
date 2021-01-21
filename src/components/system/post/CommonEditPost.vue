@@ -3,7 +3,7 @@
     <div class="dialogDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="岗位编号">
-          <el-input v-model="editData.positionId" />
+          <el-input disabled v-model="editData.positionId" />
         </el-form-item>
         <el-form-item label="岗位编码">
           <el-input v-model="editData.positionCode" />

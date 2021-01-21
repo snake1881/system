@@ -110,8 +110,8 @@
             class="amap-demo"
           /> -->
           <img
-          src="../assets/images/index_gis.jpg"
-          style="height: 100%; width: 100%; "
+            src="../assets/images/index_gis.jpg"
+            style="height: 100%; width: 100%"
           />
         </div>
       </el-card>
@@ -133,7 +133,7 @@
       <el-card class="main_between_1" shadow="hover">
         <div class="main_between_1_item">
           <div class="main_between_1_item_span">水井情况</div>
-           <div :style="{ width: '100%', height: '6px' }"></div>
+          <div :style="{ width: '100%', height: '6px' }"></div>
           <div class="main_between_1_item_well">
             <div class="main_between_1_item_well_line">
               <div id="water1" class="main_between_1_item_water1" />
@@ -155,13 +155,15 @@
               <div class="main_between_1_item_well_dec_container">
                 <span class="main_between_1_item_water1_span"
                   >正常井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{
-                    this.waterNormal
-                  }}</span></span
-                >
+                  <router-link to="/diagnosis/diagnosis">
+                    <span style="color: #e65a40">{{ this.waterNormal }}</span>
+                  </router-link>
+                </span>
                 <span class="main_between_1_item_water1_span"
                   >超注井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{ this.waterOver }}</span></span
+                  <router-link to="/diagnosis/diagnosis">
+                    <span style="color: #e65a40">{{ this.waterOver }}</span>
+                  </router-link></span
                 >
                 <span class="main_between_1_item_water1_span"
                   >欠注井数(口<sup></sup>):

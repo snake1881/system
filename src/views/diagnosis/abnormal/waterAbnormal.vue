@@ -76,6 +76,16 @@
         width="150"
         align="center"
       >
+      <template slot-scope="scope">
+          <a v-if="scope.row.normalNumber == 0">{{
+            scope.row.normalNumber
+          }}</a>
+          <a
+            v-if="scope.row.normalNumber != 0"
+            style="color: #409eff; cursor: pointer"
+            >{{ scope.row.normalNumber }}</a
+          >
+        </template>
       </el-table-column>
 
       <el-table-column
@@ -83,7 +93,16 @@
         label="欠注井数"
         width="150"
         align="center"
-      >
+      ><template slot-scope="scope">
+          <a v-if="scope.row.shortNumber == 0">{{
+            scope.row.shortNumber
+          }}</a>
+          <a
+            v-if="scope.row.shortNumber != 0"
+            style="color: #409eff; cursor: pointer"
+            >{{ scope.row.shortNumber }}</a
+          >
+        </template>
       </el-table-column>
       <el-table-column
         prop="exceedNumber"
@@ -91,6 +110,16 @@
         width="150"
         align="center"
       >
+      <template slot-scope="scope">
+          <a v-if="scope.row.exceedNumber == 0">{{
+            scope.row.exceedNumber
+          }}</a>
+          <a
+            v-if="scope.row.exceedNumber != 0"
+            style="color: #409eff; cursor: pointer"
+            >{{ scope.row.exceedNumber }}</a
+          >
+        </template>
       </el-table-column>
     </el-table>
     <div :style="{ width: '100%', height: '20px' }"></div>

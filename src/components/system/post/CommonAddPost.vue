@@ -2,9 +2,9 @@
   <el-dialog title="新增岗位" :visible.sync="addPostVisible" width="40%" :before-close="addPostClose">
     <div class="addPostDiv">
       <el-form :model="postData" label-width="80px">
-        <el-form-item label="岗位编号">
+        <!-- <el-form-item label="岗位编号">
           <el-input v-model="postData.positionId" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="岗位编码">
           <el-input v-model="postData.positionCode" />
         </el-form-item>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       postData: {
-        positionId: "",
+        
         positionCode: "",
         positionName: "",
         sequence:""
