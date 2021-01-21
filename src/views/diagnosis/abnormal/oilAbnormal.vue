@@ -2,7 +2,25 @@
   <div class="oil_abnormal">
     <!-- 条件查询 -->
     <el-form class="oil_abnormal_form" :model="postForm" :inline="true">
-      <el-form-item>
+      <!-- 下拉框查询 -->
+      <el-form-item label="采油站">
+        <el-select
+          v-model="postForm.oilStationId"
+          clearable
+          filterable
+          placeholder="全区"
+          size="medium"
+        >
+          <el-option
+            v-for="item in orgNameData"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationId"
+          >
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="日期">
         <el-date-picker
           type="date"
           placeholder="选择日期"
@@ -190,7 +208,10 @@ export default {
       postForm: {
         positionName: "",
         postDate: "",
+        oilStationId: ""
       },
+      // 采油站下拉框数据
+      orgNameData: [],
       oilAbnormalData: [],
       // 表格数据
       wellChartData: [[]],
@@ -217,7 +238,10 @@ export default {
     //表格初始化
     this.postInit();
   },
-  created() {},
+  created() {
+    //采油站下拉框数据初始化
+    this.orgNameInit();
+  },
   methods: {
     // 画图
     drawLine(val) {
@@ -410,7 +434,9 @@ export default {
           "&pageSize=" +
           this.pageSize +
           "&createTime=" +
-          this.postForm.postDate
+          this.postForm.postDate +
+          "&oilStationId=" + 
+          this.postForm.oilStationId
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -516,6 +542,15 @@ export default {
       }
       var currentdate = year + "-" + month + "-" + strDate;
       return currentdate;
+    },
+    //采油站下拉框数据初始化
+    orgNameInit() {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
+        }
+      });
     },
   },
 };
