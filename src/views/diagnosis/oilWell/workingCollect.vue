@@ -194,6 +194,12 @@
           align="center"
         />
         <el-table-column
+          prop="confirmResult"
+          label="人工结果"
+          min-width="150"
+          align="center"
+        />
+        <el-table-column
           prop="diagnosisLevel"
           label="报警级别"
           width="80"

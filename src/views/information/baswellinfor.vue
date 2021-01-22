@@ -517,7 +517,7 @@ export default {
     //文件下载
     handleExport() {
       var elemIF = document.createElement('iframe')
-      elemIF.src = "http://localhost:8692/dbznyt/basWellInfor/export" +
+      elemIF.src = "/dbznyt/basWellInfor/export" +
         "?oilStationName=" +
         this.termData.oilStationName +
         "&wellCategory=" +
