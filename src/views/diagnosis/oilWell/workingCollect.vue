@@ -3,20 +3,39 @@
     <div v-if="isShow == 1" class="work_collect_item">
       <!-- 条件查询 -->
       <el-form class="work_collect_form" :model="abnormalForm" :inline="true">
-        <el-form-item>
+        <el-form-item label="采油站">
           <el-select
-            v-model="abnormalForm.orgName"
-            placeholder="采油站"
+            v-model="abnormalForm.oilStationId"
             clearable
             filterable
+            placeholder="全区"
             size="medium"
+            @change="queryWellNameByOrgName"
           >
             <el-option
-              v-for="item in orgNames"
+              v-for="item in orgNameData"
               :key="item.oilStationId"
               :label="item.oilStationName"
               :value="item.oilStationId"
-            />
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="单井">
+          <el-select
+            v-model="abnormalForm.wellId"
+            clearable
+            filterable
+            placeholder="全站"
+            size="medium"
+          >
+            <el-option
+              v-for="item in wellOptions"
+              :key="item.wellId"
+              :label="item.wellName"
+              :value="item.wellId"
+            >
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -54,15 +73,15 @@
             >查询</el-button
           >
         </el-form-item>
-      <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-download"
-          size="small"
-          @click="exportData()"
-          >导出</el-button
-        >
-      </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            icon="el-icon-download"
+            size="small"
+            @click="exportData()"
+            >导出</el-button
+          >
+        </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
@@ -82,7 +101,7 @@
         :cell-style="{ padding: '0px' }"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
-      <el-table-column type="selection" width="55" />
+        <el-table-column type="selection" width="55" />
         <el-table-column width="35" type="expand">
           <template slot-scope="scope">
             <div
@@ -574,23 +593,22 @@
           </el-form-item>
           <el-form-item label="人工诊断">
             <el-select
-            clearable
-            filterable
-            reserve-keyword
-            @change.native="selectBlur"
-            @blur.native="selectBlur"
-            placeholder="请选择/输入诊断结果"
-            :popper-append-to-body="false"
-            v-model="confirmResultDate.confirmResult"
-          >
-            <el-option
-              v-for="item in confirmResultOptions"
-              :key="item.diagnosisResult"
-              :label="item.diagnosisResult"
-              :value="item.diagnosisResult"
-            ></el-option>
-          </el-select>
-            <el-input v-model="confirmResultDate.confirmResult" />
+              clearable
+              filterable
+              reserve-keyword
+              @change.native="selectBlur"
+              @blur.native="selectBlur"
+              placeholder="请选择/输入诊断结果"
+              :popper-append-to-body="false"
+              v-model="confirmResultDate.confirmResult"
+            >
+              <el-option
+                v-for="item in confirmResultOptions"
+                :key="item.diagnosisResult"
+                :label="item.diagnosisResult"
+                :value="item.diagnosisResult"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -699,13 +717,13 @@ export default {
       confirmDate: {},
       //工况诊断对照信息表
       confirmOptions: [],
-       //人工工况诊断对照信息表
-       confirmResultOptions: [],
+      //人工工况诊断对照信息表
+      confirmResultOptions: [],
       //人工工况
       confirmResultVisible: false,
       confirmResultDate: {},
-       // 表格多选
-       selectData: [],
+      // 表格多选
+      selectData: [],
     };
   },
   created() {
@@ -717,8 +735,8 @@ export default {
     this.selectMeasure();
   },
   methods: {
-     // 表格多选
-     handleSelectionChange(val) {
+    // 表格多选
+    handleSelectionChange(val) {
       this.selectData = JSON.parse(JSON.stringify(val));
       for (var i = 0; i < this.selectData.length; i++) {
         if (this.selectData[i].diagnosisLevel == 0) {
@@ -1208,7 +1226,6 @@ export default {
     //跳转液量曲线页面调用方法
     amountLiquid() {
       this.isShow = 4;
-      console.log("进入液量曲线页面");
       this.amountLiquidInit();
     },
     //液量曲线数据初始化
@@ -1277,7 +1294,6 @@ export default {
         this.amountArray2[i][1] = this.amountLiquidData[i].drWaterCut / 100;
         this.amountArray3[i][1] = this.amountLiquidData[i].drOilProd;
       }
-      console.log("液量曲线数据处理完成");
       let myChart = this.$echarts.init(
         document.getElementById("amountLiquidChart")
       );
@@ -1316,7 +1332,6 @@ export default {
             );
           },
         },
-        
         legend: {
           data: ["产液量", "含水率", "产油"],
           orient: "vertical",
@@ -1395,9 +1410,7 @@ export default {
         // this.loading = false;
         if (resp) {
           this.loadData = [];
-          console.log(resp.data);
           this.loadData = resp.data;
-          console.log(this.loadData);
           this.loadDraw();
         }
       });
@@ -1435,9 +1448,6 @@ export default {
         this.loadArray1[i][1] = this.loadData[i].avgMaxLoad;
         this.loadArray2[i][1] = this.loadData[i].avgMinLoad;
         this.loadArray3[i][1] = this.loadData[i].loadDiffer;
-        // console.log(this.loadArray1);
-        // console.log(this.loadArray1);
-        // console.log(this.loadArray1);
         let myChart = this.$echarts.init(document.getElementById("loadChart"));
         // 绘制图表
         myChart.setOption({
@@ -1474,24 +1484,6 @@ export default {
               );
             },
           },
-          // toolbox: {
-          //   left: "right",
-          //   feature: {
-          //     dataZoom: {
-          //       yAxisIndex: "none",
-          //     },
-          //     restore: {},
-          //     saveAsImage: {},
-          //   },
-          // },
-          // dataZoom: [
-          //   {
-          //     startValue: "2014-06-01",
-          //   },
-          //   {
-          //     type: "inside",
-          //   },
-          // ],
           legend: {
             data: ["最大载荷", "最小载荷", "载荷差"],
             orient: "vertical",
@@ -1608,8 +1600,8 @@ export default {
         }
       });
     },
-     //查询功图诊断措施对照信息
-     selectMeasure() {
+    //查询功图诊断措施对照信息
+    selectMeasure() {
       this.getRequest("/OilDaily/selectAllMeasure").then((resp) => {
         if (resp) {
           this.confirmResultOptions = resp.data;
@@ -1620,7 +1612,6 @@ export default {
     confirm(val) {
       this.confirmVisible = true;
       this.confirmDate = val;
-      console.log(val);
     },
     confirmClose() {
       this.confirmVisible = false;
@@ -1671,8 +1662,8 @@ export default {
         }
       });
     },
-     //人工工况下拉输入事件
-     selectBlur(e) {
+    //人工工况下拉输入事件
+    selectBlur(e) {
       this.confirmResultDate.confirmResult = e.target.value;
     },
     // 分页，页码大小改变
@@ -1727,7 +1718,7 @@ export default {
   width: 400px;
   height: 2px;
 }
- .el-select-dropdown {
+.el-select-dropdown {
   max-width: 206.4px !important;
   transform-origin: center top;
   z-index: 2064;
