@@ -54,6 +54,15 @@
             >查询</el-button
           >
         </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-download"
+          size="small"
+          @click="exportData()"
+          >导出</el-button
+        >
+      </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
@@ -66,12 +75,14 @@
         border
         style="width: 100%"
         @expand-change="rowCollectInit"
+        @selection-change="handleSelectionChange"
         :expand-row-keys="expands"
         :row-key="getRowKeys"
         :row-style="{ height: '2px' }"
         :cell-style="{ padding: '0px' }"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
+      <el-table-column type="selection" width="55" />
         <el-table-column width="35" type="expand">
           <template slot-scope="scope">
             <div
@@ -562,6 +573,23 @@
             <el-input v-model="confirmResultDate.diagnosisResult" />
           </el-form-item>
           <el-form-item label="人工诊断">
+            <el-select
+            clearable
+            filterable
+            reserve-keyword
+            @change.native="selectBlur"
+            @blur.native="selectBlur"
+            placeholder="请选择/输入诊断结果"
+            :popper-append-to-body="false"
+            v-model="confirmResultDate.confirmResult"
+          >
+            <el-option
+              v-for="item in confirmResultOptions"
+              :key="item.diagnosisResult"
+              :label="item.diagnosisResult"
+              :value="item.diagnosisResult"
+            ></el-option>
+          </el-select>
             <el-input v-model="confirmResultDate.confirmResult" />
           </el-form-item>
         </el-form>
@@ -593,8 +621,8 @@ export default {
       measure: [],
       // 表单数据
       abnormalForm: {
-        // 采油站
-        orgName: "",
+        oilStationId: "",
+        wellId: "",
         // 日期选择
         formDate: "",
         // 报警级别
@@ -624,7 +652,9 @@ export default {
       // 展开行加载动画
       loadCollectLoad: true,
       // 采油站数据
-      orgNames: [],
+      orgNameData: [],
+      //单井下拉框数据
+      wellOptions: [],
       // 默认展示内容
       isShow: 1,
       // 工况详情数据
@@ -669,23 +699,89 @@ export default {
       confirmDate: {},
       //工况诊断对照信息表
       confirmOptions: [],
+       //人工工况诊断对照信息表
+       confirmResultOptions: [],
       //人工工况
       confirmResultVisible: false,
       confirmResultDate: {},
+       // 表格多选
+       selectData: [],
     };
   },
   created() {
+    this.getdate();
     this.workingCollectInit();
-    this.selectOrgName();
+    this.orgNameInit();
+    this.wellOptionsInit();
     //查询工况对照信息
     this.selectMeasure();
   },
   methods: {
+     // 表格多选
+     handleSelectionChange(val) {
+      this.selectData = JSON.parse(JSON.stringify(val));
+      for (var i = 0; i < this.selectData.length; i++) {
+        if (this.selectData[i].diagnosisLevel == 0) {
+          this.selectData[i].diagnosisLevel = "一级";
+        } else if (this.selectData[i].diagnosisLevel == 1) {
+          this.selectData[i].diagnosisLevel = "二级";
+        } else if (this.selectData[i].diagnosisLevel == 2) {
+          this.selectData[i].diagnosisLevel = "三级";
+        }
+      }
+    },
+    // 文件导出
+    exportData() {
+      const {
+        export_json_to_excel,
+      } = require("../../../vendor/Export2Excel.js");
+      const tHeader = [
+        "井号",
+        "量液时间",
+        "采油站",
+        "冲程",
+        "冲刺",
+        "最大载荷",
+        "最小载荷",
+        "诊断结果",
+        "报警级别",
+      ];
+      const filterVal = [
+        "wellName",
+        "acquisitionTime",
+        "oilStationName",
+        "stroke",
+        "frequency",
+        "maxLoad",
+        "minLoad",
+        "diagnosisResult",
+        "diagnosisLevel",
+      ];
+      var list = this.selectData;
+      const data = this.formatJson(filterVal, list);
+      export_json_to_excel(tHeader, data, "工况汇总");
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    },
+    //获取当前日期
+    getdate() {
+      var curDate = new Date();
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? "0" + month : month;
+      var strDate = date.getDate();
+      strDate = strDate < 10 ? "0" + strDate : strDate;
+      this.abnormalForm.formDate = year + "-" + month + "-" + strDate;
+      return this.abnormalForm.formDate;
+    },
     // 数据初始化
     workingCollectInit() {
       // this.loading = true;
-      if (this.abnormalForm.orgName == null) {
-        this.abnormalForm.orgName = "";
+      if (this.abnormalForm.oilStationId == null) {
+        this.abnormalForm.oilStationId = "";
       }
       if (this.abnormalForm.formDate == null) {
         this.abnormalForm.formDate = "";
@@ -698,9 +794,11 @@ export default {
           "&diagnosisLevel=" +
           this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
-          this.abnormalForm.orgName +
+          this.abnormalForm.oilStationId +
           "&pageSize=" +
-          this.pageSize
+          this.pageSize +
+          "&wellId=" +
+          this.abnormalForm.wellId
       ).then((resp) => {
         if (resp) {
           this.workingCollect = resp.data.records;
@@ -708,7 +806,6 @@ export default {
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
           this.loading = false;
-          console.log(this.workingCollect);
           // this.getIndex();
         }
       });
@@ -747,13 +844,12 @@ export default {
     },
     // 表单条件查询
     searchWorkingCollect() {
-      if (this.abnormalForm.orgName == null) {
-        this.abnormalForm.orgName = "";
+      if (this.abnormalForm.oilStationId == null) {
+        this.abnormalForm.oilStationId = "";
       }
       if (this.abnormalForm.formDate == null) {
         this.abnormalForm.formDate = "";
       }
-      console.log("begin!");
       this.getRequest(
         "/OilDaily/amountLiquid?acquisitionTime=" +
           this.abnormalForm.formDate +
@@ -762,9 +858,11 @@ export default {
           "&diagnosisLevel=" +
           this.abnormalForm.diagnosisLevel +
           "&oilStationId=" +
-          this.abnormalForm.orgName +
+          this.abnormalForm.oilStationId +
           "&pageSize=" +
-          this.pageSize
+          this.pageSize +
+          "&wellId=" +
+          this.abnormalForm.wellId
       ).then((resp) => {
         if (resp) {
           this.workingCollect = resp.data.records;
@@ -1218,24 +1316,7 @@ export default {
             );
           },
         },
-        // toolbox: {
-        //   left: "right",
-        //   feature: {
-        //     dataZoom: {
-        //       yAxisIndex: "none",
-        //     },
-        //     restore: {},
-        //     saveAsImage: {},
-        //   },
-        // },
-        // dataZoom: [
-        //   {
-        //     startValue: "2014-06-01",
-        //   },
-        //   {
-        //     type: "inside",
-        //   },
-        // ],
+        
         legend: {
           data: ["产液量", "含水率", "产油"],
           orient: "vertical",
@@ -1491,19 +1572,47 @@ export default {
     previewGtmjClose() {
       this.previewGtmjVisible = false;
     },
-    // 查询所有采油站信息
-    selectOrgName() {
+    //采油站下拉框初始化
+    orgNameInit() {
       this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
         if (resp) {
-          this.orgNames = resp.data;
+          this.orgNameData = resp.data;
         }
       });
+    },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectOil").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
     },
     //查询所有工况
     selectMeasure() {
       this.getRequest("/OilDaily/queryAllMeasure").then((resp) => {
         if (resp) {
           this.confirmOptions = resp.data;
+        }
+      });
+    },
+     //查询功图诊断措施对照信息
+     selectMeasure() {
+      this.getRequest("/OilDaily/selectAllMeasure").then((resp) => {
+        if (resp) {
+          this.confirmResultOptions = resp.data;
         }
       });
     },
@@ -1562,6 +1671,10 @@ export default {
         }
       });
     },
+     //人工工况下拉输入事件
+     selectBlur(e) {
+      this.confirmResultDate.confirmResult = e.target.value;
+    },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
@@ -1614,7 +1727,7 @@ export default {
   width: 400px;
   height: 2px;
 }
-.el-select-dropdown {
+ .el-select-dropdown {
   max-width: 206.4px !important;
   transform-origin: center top;
   z-index: 2064;
