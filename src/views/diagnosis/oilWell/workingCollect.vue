@@ -768,6 +768,7 @@ export default {
         "最大载荷",
         "最小载荷",
         "诊断结果",
+        "人工结果",
         "报警级别",
       ];
       const filterVal = [
@@ -779,6 +780,7 @@ export default {
         "maxLoad",
         "minLoad",
         "diagnosisResult",
+        "confirmResult",
         "diagnosisLevel",
       ];
       var list = this.selectData;
