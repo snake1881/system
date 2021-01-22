@@ -161,7 +161,13 @@
         label="日累产液"
         width="90"
       />
-      <el-table-column align="center" label="操作" width="130">
+       <el-table-column
+        prop="liquidProd"
+        align="center"
+        label="24小时产液量"
+        width="140"
+      />
+      <el-table-column align="center" label="操作" width="130"  fixed="right" >
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -179,7 +185,7 @@
         :current-page.sync="currentPage"
         :page-size="pageSize"
         :total="total"
-        :page-sizes="[10, 20, 30, 40, 50]"
+        :page-sizes="[10, 20, 50, 100, 300]"
         layout="total, prev, pager, next, jumper, sizes"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
