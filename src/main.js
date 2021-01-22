@@ -32,6 +32,8 @@ Vue.prototype.postKeyValueRequest = postKeyValueRequest;
 import { initMenu } from "./utils/menu";
 
 import './assets/icon/iconfont.css';
+import './vendor/Blob'
+import './vendor/Export2Excel'
 
 // 导航守卫
 router.beforeEach((to, from, next) => {

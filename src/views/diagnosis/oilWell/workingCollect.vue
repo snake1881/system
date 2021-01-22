@@ -73,6 +73,15 @@
             >查询</el-button
           >
         </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            icon="el-icon-download"
+            size="small"
+            @click="exportData()"
+            >导出</el-button
+          >
+        </el-form-item>
       </el-form>
       <!-- 表格数据 -->
       <el-table
@@ -85,12 +94,14 @@
         border
         style="width: 100%"
         @expand-change="rowCollectInit"
+        @selection-change="handleSelectionChange"
         :expand-row-keys="expands"
         :row-key="getRowKeys"
         :row-style="{ height: '2px' }"
         :cell-style="{ padding: '0px' }"
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
+        <el-table-column type="selection" width="55" />
         <el-table-column width="35" type="expand">
           <template slot-scope="scope">
             <div
@@ -585,8 +596,8 @@
               clearable
               filterable
               reserve-keyword
-              @change.native="selectBlur" 
-              @blur.native="selectBlur"  
+              @change.native="selectBlur"
+              @blur.native="selectBlur"
               placeholder="请选择/输入诊断结果"
               :popper-append-to-body="false"
               v-model="confirmResultDate.confirmResult"
@@ -711,6 +722,8 @@ export default {
       //人工工况
       confirmResultVisible: false,
       confirmResultDate: {},
+      // 表格多选
+      selectData: [],
     };
   },
   created() {
@@ -722,6 +735,53 @@ export default {
     this.selectMeasure();
   },
   methods: {
+    // 表格多选
+    handleSelectionChange(val) {
+      this.selectData = JSON.parse(JSON.stringify(val));
+      for (var i = 0; i < this.selectData.length; i++) {
+        if (this.selectData[i].diagnosisLevel == 0) {
+          this.selectData[i].diagnosisLevel = "一级";
+        } else if (this.selectData[i].diagnosisLevel == 1) {
+          this.selectData[i].diagnosisLevel = "二级";
+        } else if (this.selectData[i].diagnosisLevel == 2) {
+          this.selectData[i].diagnosisLevel = "三级";
+        }
+      }
+    },
+    // 文件导出
+    exportData() {
+      const {
+        export_json_to_excel,
+      } = require("../../../vendor/Export2Excel.js");
+      const tHeader = [
+        "井号",
+        "量液时间",
+        "采油站",
+        "冲程",
+        "冲刺",
+        "最大载荷",
+        "最小载荷",
+        "诊断结果",
+        "报警级别",
+      ];
+      const filterVal = [
+        "wellName",
+        "acquisitionTime",
+        "oilStationName",
+        "stroke",
+        "frequency",
+        "maxLoad",
+        "minLoad",
+        "diagnosisResult",
+        "diagnosisLevel",
+      ];
+      var list = this.selectData;
+      const data = this.formatJson(filterVal, list);
+      export_json_to_excel(tHeader, data, "工况汇总");
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    },
     //获取当前日期
     getdate() {
       var curDate = new Date();
@@ -808,7 +868,6 @@ export default {
       if (this.abnormalForm.formDate == null) {
         this.abnormalForm.formDate = "";
       }
-      console.log("begin!");
       this.getRequest(
         "/OilDaily/amountLiquid?acquisitionTime=" +
           this.abnormalForm.formDate +
@@ -1604,7 +1663,7 @@ export default {
       });
     },
     //人工工况下拉输入事件
-    selectBlur(e){
+    selectBlur(e) {
       this.confirmResultDate.confirmResult = e.target.value;
     },
     // 分页，页码大小改变

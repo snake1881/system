@@ -58,6 +58,15 @@
           >查询</el-button
         >
       </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-download"
+          size="small"
+          @click="exportData()"
+          >导出</el-button
+        >
+      </el-form-item>
     </el-form>
     <!-- 表格数据 -->
     <el-table
@@ -66,6 +75,7 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :data="dymData"
+      @selection-change="handleSelectionChange"
       height="85%"
       border
       style="width: 100%"
@@ -73,6 +83,7 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
+      <el-table-column type="selection" width="55" />
       <el-table-column
         align="center"
         label="序号"
@@ -218,6 +229,8 @@ export default {
       total: 0,
       // 表格加载动画
       loading: true,
+      // 表格多选数据
+      selectData: [],
     };
   },
   created() {
@@ -226,6 +239,48 @@ export default {
     this.wellOptionsInit();
   },
   methods: {
+    // 表格多选
+    handleSelectionChange(val) {
+      this.selectData = val;
+    },
+    // 文件导出
+    exportData() {
+      const {
+        export_json_to_excel,
+      } = require("../../../vendor/Export2Excel.js");
+      const tHeader = [
+        "井号",
+        "量液时间",
+        "冲程(M)",
+        "冲刺",
+        "液量累计时间(H)",
+        "最大载荷",
+        "最小载荷",
+        "最大位移",
+        "最小位移",
+        "产液量",
+        "日累产液",
+      ];
+      const filterVal = [
+        "wellName",
+        "acquisitionTime",
+        "stroke",
+        "frequency",
+        "timeDiffer",
+        "maxLoad",
+        "minLoad",
+        "maxDisplacement",
+        "minDisplacement",
+        "hourProd",
+        "dayProd",
+      ];
+      const list = this.selectData;
+      const data = this.formatJson(filterVal, list);
+      export_json_to_excel(tHeader, data, "智能量液");
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
+    },
     // 根据输入信息查询
     abnormalDymSearch() {
       this.getRequest(
