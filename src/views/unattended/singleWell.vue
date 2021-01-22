@@ -702,8 +702,6 @@ export default {
                 //y轴刻度线
                 show: false,
               },
-              max: 100,
-              min: 0,
               splitNumber: 2,
               // 文字大小与颜色
               axisLabel: {
@@ -711,7 +709,6 @@ export default {
                   color: "#666", //更改坐标轴文字颜色
                   fontSize: 10, //更改坐标轴文字大小
                 },
-                formatter: "{value} %",
               },
             },
             series: [
