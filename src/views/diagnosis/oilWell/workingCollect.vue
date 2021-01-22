@@ -209,6 +209,8 @@
             <p v-if="scope.row.diagnosisLevel == '0'">一级</p>
             <p v-if="scope.row.diagnosisLevel == '1'">二级</p>
             <p v-if="scope.row.diagnosisLevel == '2'">三级</p>
+            <p v-if="scope.row.diagnosisLevel == '3'">四级</p>
+            <p v-if="scope.row.diagnosisLevel == '4'">正常</p>
           </template></el-table-column
         >
         <el-table-column
@@ -666,6 +668,15 @@ export default {
           value: "2",
           label: "三级",
         },
+        {
+          value: "3",
+          label: "四级",
+        },
+        {
+          value: "4",
+          label: "正常",
+        },
+
       ],
       // 分页数据
       currentPage: 1,
