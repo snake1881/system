@@ -269,7 +269,7 @@
         <el-radio-group
           v-model="radio"
           size="small"
-          style="margin-left: 25%"
+          style="margin-left: 28%"
           @change="radioChange"
         >
           <el-radio-button label="详情"></el-radio-button>
@@ -306,7 +306,7 @@
         <div class="work_collect_item_gt_g" id="gt1" ref="dom1" />
         <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
         <div class="work_collect_item_gt_g" id="gt3" ref="dom3" />
-        <div class="work_collect_item_gt_g" id="gt4" ref="dom4" />
+        <!-- <div class="work_collect_item_gt_g" id="gt4" ref="dom4" /> -->
       </div>
       <table
         cellspacing="0"
@@ -357,16 +357,30 @@
         </el-table>
       </div>
     </div>
+    <!--功图平铺--->
     <div class="work_collect_item" v-if="isShow == 3">
       <div v-if="isShow == 3" style="margin-top: 20px"></div>
       <div v-if="isShow == 3" class="gtTile">
         <el-button icon="el-icon-arrow-left" type="text" @click="back()"
           >返回</el-button
         >
+        <el-date-picker
+          v-model="value3"
+          type="daterange"
+          size="small"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          style="margin-left: 5%; width: 240px"
+          @change="gtDataSearch()"
+        >
+        </el-date-picker>
         <el-radio-group
           v-model="radio"
           size="small"
-          style="margin-left: 25%"
+          style="margin-left: 5%"
           @change="radioChange"
         >
           <el-radio-button label="详情"></el-radio-button>
@@ -488,16 +502,30 @@
         />
       </div>
     </div>
+    <!--液量曲线--->
     <div class="work_collect_item" v-if="isShow == 4">
       <div v-if="isShow == 4" style="margin-top: 20px"></div>
       <div v-if="isShow == 4" class="amountLiquid">
         <el-button icon="el-icon-arrow-left" type="text" @click="back()"
           >返回</el-button
         >
+        <el-date-picker
+          v-model="value1"
+          type="daterange"
+          size="small"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          style="margin-left: 5%; width: 240px"
+          @change="amountLiquidSearch()"
+        >
+        </el-date-picker>
         <el-radio-group
           v-model="radio"
           size="small"
-          style="margin-left: 25%"
+          style="margin-left: 5%"
           @change="radioChange"
         >
           <el-radio-button label="详情"></el-radio-button>
@@ -507,7 +535,7 @@
           <el-radio-button label="重新诊断"></el-radio-button>
         </el-radio-group>
       </div>
-      <div :style="{ height: '100px' }"></div>
+      <!-- <div :style="{ height: '100px' }"></div> -->
       <div>
         <div
           v-if="isShow == 4"
@@ -517,17 +545,31 @@
         ></div>
       </div>
     </div>
+    <!--载荷曲线--->
     <div class="work_collect_item" v-if="isShow == 5">
       <div v-if="isShow == 5" style="margin-top: 20px"></div>
       <div v-if="isShow == 5" class="loadLine">
         <el-button icon="el-icon-arrow-left" type="text" @click="back()"
           >返回</el-button
         >
+        <el-date-picker
+          v-model="value2"
+          type="daterange"
+          size="small"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          style="margin-left: 5%; width: 240px"
+          @change="loadSearch()"
+        >
+        </el-date-picker>
         <el-radio-group
           margin:center
           v-model="radio"
           size="small"
-          style="margin-left: 25%"
+          style="margin-left: 5%"
           @change="radioChange"
         >
           <el-radio-button label="详情"></el-radio-button>
@@ -537,7 +579,7 @@
           <el-radio-button label="重新诊断"></el-radio-button>
         </el-radio-group>
       </div>
-      <div :style="{ height: '100px' }"></div>
+      <!-- <div :style="{ height: '100px' }"></div> -->
       <div>
         <div
           v-if="isShow == 5"
@@ -676,7 +718,6 @@ export default {
           value: "4",
           label: "正常",
         },
-
       ],
       // 分页数据
       currentPage: 1,
@@ -741,6 +782,12 @@ export default {
       confirmResultDate: {},
       // 表格多选
       selectData: [],
+      //液量曲线时间段数据
+      value1: [],
+      //载荷曲线时间段数据
+      value2: [],
+      //功图平铺时间段数据
+      value3: [],
     };
   },
   created() {
@@ -812,6 +859,19 @@ export default {
       var strDate = date.getDate();
       strDate = strDate < 10 ? "0" + strDate : strDate;
       this.abnormalForm.formDate = year + "-" + month + "-" + strDate;
+      var date1 = new Date();
+      date1.setTime(date.getTime() - 10 * 24 * 60 * 60 * 1000);
+      var year1 = date1.getFullYear();
+      var month1 = date1.getMonth() + 1;
+      month1 = month1 < 10 ? "0" + month1 : month1;
+      var day1 = date1.getDate();
+      day1 = day1 < 10 ? "0" + day1 : day1;
+      this.value1[0] = year1 + "-" + month1 + "-" + day1;
+      this.value1[1] = year + "-" + month + "-" + strDate;
+      this.value2[0] = year1 + "-" + month1 + "-" + day1;
+      this.value2[1] = year + "-" + month + "-" + strDate;
+      this.value3[0] = year1 + "-" + month1 + "-" + day1;
+      this.value3[1] = year + "-" + month + "-" + strDate;
       return this.abnormalForm.formDate;
     },
     // 数据初始化
@@ -946,11 +1006,54 @@ export default {
     // },
     //功图平铺页面数据初始化
     gtDataInit() {
+      // this.tableData = [];
       this.getRequest(
         "/diagnosis/knowledge/gttile/selectByTerm?current=" +
           this.logForm.currentPage +
+          "&endTime=" +
+          this.value3[1] +
           "&pageSize=" +
           this.logForm.pageSize +
+          "&startTime=" +
+          this.value3[0] +
+          "&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        // this.loading = false;
+        if (resp) {
+          this.tableData = [];
+          this.tableData = resp.data.records;
+          this.logForm.total = resp.data.total;
+          this.logForm.currentPage = resp.data.current;
+          this.logForm.pageSize = resp.data.size;
+          for (var i = 0; i < this.tableData.length; i++) {
+            this.coordinates = [[]];
+            var displacementArray = this.tableData[i].displacementSet.split(
+              ";"
+            );
+            var disploadArray = this.tableData[i].loadSet.split(";");
+            for (var j = 0; j < displacementArray.length; j++) {
+              this.coordinates[j] = [];
+              this.coordinates[j][0] = parseFloat(displacementArray[j]);
+              this.coordinates[j][1] = parseFloat(disploadArray[j]);
+            }
+            this.drawLine2(i);
+          }
+        }
+      });
+    },
+    //查询功图平铺页面数据
+    gtDataSearch() {
+      // this.tableData = [];
+      this.getRequest(
+        "/diagnosis/knowledge/gttile/selectByTerm?current=" +
+          this.logForm.currentPage +
+          "&endTime=" +
+          this.value3[1] +
+          "&pageSize=" +
+          this.logForm.pageSize +
+          "&startTime=" +
+          this.value3[0] +
           "&wellId=" +
           this.detailsCollect.wellId
       ).then((resp) => {
@@ -1093,21 +1196,23 @@ export default {
       // 获取三个功图的坐标数据
       //
       this.getRequest(
-        "/mountLiquid/liquidList?endTime=" +
+        "/OilDaily/collectDiagram?acquisitionTime=" +
           this.detailsCollect.acquisitionTime +
+          "&diagnosisResult=" +
+          this.detailsCollect.diagnosisResult +
           "&wellId=" +
           this.detailsCollect.wellId
       ).then((resp) => {
         if (resp) {
           this.tableData = resp.data;
-          this.coordinate(this.tableData[0]);
+          console.log(this.tableData.nowIndicatorDiagram);
+          console.log(this.tableData);
+          this.coordinate(this.tableData.yesterdayIndicatorDiagram);
           this.drawLine(0);
-          this.coordinate(this.tableData[1]);
+          this.coordinate(this.tableData.nowIndicatorDiagram);
           this.drawLine(1);
-          this.coordinate(this.tableData[2]);
-          this.drawLine(2);
-          this.coordinate(this.tableData[3]);
-          this.drawLine(3);
+          this.coordinate(this.tableData.standardIndicatorDiagram);
+          this.drawStandardLine();
         }
       });
       this.getRequest(
@@ -1120,7 +1225,7 @@ export default {
         }
       });
     },
-    //详情页面绘制四个图像
+    //详情页面绘制昨日和今日图像
     drawLine(val) {
       // 基于准备好的dom，初始化echarts实例
       let dom = "";
@@ -1128,21 +1233,18 @@ export default {
         dom = document.getElementById(this.$refs.dom1.id);
       } else if (val === 1) {
         dom = document.getElementById(this.$refs.dom2.id);
-      } else if (val === 2) {
-        dom = document.getElementById(this.$refs.dom3.id);
-      } else if (val === 3) {
-        dom = document.getElementById(this.$refs.dom4.id);
       }
       let myChart = echarts.init(dom);
       // 绘制图表
+
       myChart.setOption({
         title: {
           x: "center",
           text:
             "井号：" +
-            this.tableData[val].wellName +
+            this.detailsCollect.wellName +
             "  时间：" +
-            this.tableData[val].acquisitionTime,
+            this.tableData.yesterdayIndicatorDiagram.acquisitionTime,
           top: "7%",
           textStyle: {
             fontSize: 13,
@@ -1212,6 +1314,89 @@ export default {
         ],
       });
     },
+    drawStandardLine() {
+      console.log(this.coordinates);
+      // 基于准备好的dom，初始化echarts实例
+      let dom = "";
+      dom = document.getElementById(this.$refs.dom3.id);
+      let myChart = echarts.init(dom);
+      console.log(dom);
+      console.log(myChart);
+      // 绘制图表
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: this.detailsCollect.diagnosisResult + "标准功图",
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          left: "6%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          nameLocation: "middle",
+          // min: 0,
+          // max: 100,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 8, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: this.coordinates,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+      console.log(myChart);
+    },
     //详情页面将坐标数据串处理为坐标点
     coordinate(val) {
       //每次处理之前保证坐标数组集合为空
@@ -1253,6 +1438,24 @@ export default {
         "/OilDaily/getDailyList?endTime=" +
           this.detailsCollect.acquisitionTime +
           "&startTime=" +
+          "&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        // this.loading = false;
+        if (resp) {
+          this.amountLiquidData = [];
+          this.amountLiquidData = resp.data;
+          this.amountLiquidDraw();
+        }
+      });
+    },
+    //液量曲线查询
+    amountLiquidSearch() {
+      this.getRequest(
+        "/OilDaily/getDailyList?endTime=" +
+          this.value1[1] +
+          "&startTime=" +
+          this.value1[0] +
           "&wellId=" +
           this.detailsCollect.wellId
       ).then((resp) => {
@@ -1328,6 +1531,18 @@ export default {
             fontWeight: "bolder",
           },
           subtext: "",
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            // dataZoom: {
+            //     yAxisIndex: 'none'
+            // },
+            // dataView: {readOnly: false},
+            magicType: { type: ["line", "bar"] },
+            restore: {},
+            saveAsImage: {},
+          },
         },
         tooltip: {
           trigger: "axis",
@@ -1434,6 +1649,24 @@ export default {
         }
       });
     },
+    //载荷曲线数据查询并绘图
+    loadSearch() {
+      this.getRequest(
+        "/diagnosis/knowledge/gttile/loadList?endTime=" +
+          this.value2[1] +
+          "&startTime=" +
+          this.value2[0] +
+          "&wellId=" +
+          this.detailsCollect.wellId
+      ).then((resp) => {
+        // this.loading = false;
+        if (resp) {
+          this.loadData = [];
+          this.loadData = resp.data;
+          this.loadDraw();
+        }
+      });
+    },
     // laodCoordinates() {
     //   this.amountArray = [[[]]];
     //   this.amountArray[0] = [[]];
@@ -1492,7 +1725,7 @@ export default {
                 "<div><p>时间：" +
                 params[0].value[0] +
                 "</p>" +
-                "<p>最大载荷：" +
+                "<p >最大载荷：" +
                 params[0].value[1] +
                 "KN<p>最小载荷：" +
                 params[1].value[1] +
@@ -1572,6 +1805,7 @@ export default {
     //跳转功图平铺页面调用方法
     previewGtmj() {
       this.isShow = 3;
+      this.gtDataInit();
       this.gtDataInit();
       // setTimeout(() => {
       //   this.step();
@@ -1698,20 +1932,20 @@ export default {
     // 功图平铺分页，页码大小改变
     handleSizeChangeGt(val) {
       this.logForm.pageSize = val;
-      this.gtDataInit();
+      this.gtDataSearch();
       setTimeout(() => {
         this.step();
       }, 10);
-      this.gtDataInit();
+      this.gtDataSearch();
     },
     // 功图平铺分页，当前页改变
     handleCurrentChangeGt(val) {
       this.logForm.currentPage = val;
-      this.gtDataInit();
+      this.gtDataSearch();
       setTimeout(() => {
         this.step();
       }, 10);
-      this.gtDataInit();
+      this.gtDataSearch();
     },
   },
 };
