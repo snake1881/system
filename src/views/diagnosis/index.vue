@@ -1,14 +1,7 @@
 <template>
-  <div>
-    油水井诊断首页
-  </div>
+  <div>油水井诊断首页</div>
 </template>
 <script>
-export default {
-  data() {
-    return {};
-  },
-  methods: {}
-};
+export default {};
 </script>
 <style lang="less" scoped></style>

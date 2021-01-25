@@ -545,7 +545,6 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  // overflow-y: scroll;
 }
 .checkOperDiv_submit_table_container_title {
   width: 100%;
@@ -646,15 +645,6 @@ export default {
   font-size: 14px;
   color: #2485e0 !important;
 }
-/* .el-step__description .is-process {
-  font-size: 14px;
-  color: #dedede !important;
-}
-.el-step__description .is-finish {
-  font-size: 14px;
-  color: #2485e0 !important;
-} */
-
 .el-step__icon {
   width: 40px;
   height: 40px;
@@ -679,7 +669,4 @@ export default {
   width: 70%;
   height: 70%;
 }
-/* .checkOperDiv .el-dialog__title {
-  line-height: 15px !important;
-} */
 </style>

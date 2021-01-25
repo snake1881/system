@@ -16,11 +16,9 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationName"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
-
       <el-form-item label="日期">
         <el-date-picker
           size="medium"
@@ -29,8 +27,7 @@
           placeholder="选择日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -42,7 +39,6 @@
         >
       </el-form-item>
     </el-form>
-
     <!-- 表格数据 -->
     <el-table
       class="abnormalLoad_table"
@@ -112,8 +108,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="index" align="center" label="序号" width="80">
-      </el-table-column>
+      <el-table-column prop="index" align="center" label="序号" width="80" />
       <el-table-column
         prop="wellCommonName"
         align="center"
@@ -146,7 +141,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <!-- 分页 -->
     <div class="abnormalLoad_page">
       <el-pagination
@@ -208,12 +202,6 @@ export default {
   methods: {
     // 根据输入信息查询
     searchZh() {
-      // if(this.pageSize===undefined){
-      //   this.pageSize=10;
-      // };
-      // if(this.currentPage===undefined){
-      //   this.currentPage=1;
-      // };
       let a = this.pageSize;
       this.getRequest(
         "/oilWell/abnormalZh/abnormalZhPage?checkDate=" +

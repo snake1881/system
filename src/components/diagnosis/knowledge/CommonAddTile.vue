@@ -15,8 +15,8 @@
         </el-form-item>
         <el-form-item label="添加成为">
           <el-select v-model="addType" placeholder="请选择">
-            <el-option label="标准功图" value="0"></el-option>
-            <el-option label="特征功图" value="1"></el-option>
+            <el-option label="标准功图" value="0" />
+            <el-option label="特征功图" value="1" />
           </el-select>
         </el-form-item>
         <el-form-item label="特征结果">
@@ -26,7 +26,7 @@
               :key="item.primaryId"
               :label="item.diagnosticResults"
               :value="item.diagnosticResults"
-            ></el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -114,7 +114,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style>
 .el-input {
   width: 700px;
 }

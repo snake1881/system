@@ -6,7 +6,7 @@
     :before-close="editLiqFilterConditionClose"
   >
     <div class="dialogDiv">
-      <el-form :model="editData" label-width="100px" >
+      <el-form :model="editData" label-width="100px">
         <el-form-item label="井号:">
           <el-input :disabled="true" v-model="editData.wellId" />
         </el-form-item>
@@ -14,12 +14,12 @@
           <el-input :disabled="true" v-model="editData.setDate" />
         </el-form-item>
         <el-form-item label="条件:">
-            <el-radio-group v-model="editData.filter">
-             <el-radio value="0" label="0" border>昨日</el-radio>
-              <el-radio value="1" label="1" border>上月</el-radio>
-              <el-radio value="2" label="2" border>前三月</el-radio>
-              <el-radio value="3" label="3" border>任意天</el-radio>
-            </el-radio-group>
+          <el-radio-group v-model="editData.filter">
+            <el-radio value="0" label="0" border>昨日</el-radio>
+            <el-radio value="1" label="1" border>上月</el-radio>
+            <el-radio value="2" label="2" border>前三月</el-radio>
+            <el-radio value="3" label="3" border>任意天</el-radio>
+          </el-radio-group>
         </el-form-item>
         <el-form-item v-if="editData.filter === '3'" label="指定日期:">
           <el-date-picker
@@ -28,8 +28,7 @@
             placeholder="选择日期"
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd HH:mm:ss"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
       </el-form>
     </div>
@@ -49,11 +48,11 @@
 export default {
   props: {
     editLiqFilterConditionVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {};
@@ -65,21 +64,20 @@ export default {
     },
     // 保存修改后的信息
     saveEditLiqFilterCondition() {
-      this.putRequest(
-        "/liquidFilterCondition/update",
-        this.editData
-      ).then(resp => {
-        if (resp) {
-          this.$message({
-            message: "液量异常筛选条件信息修改成功!",
-            type: "success"
-          });
-        } else {
-          this.$message.error("液量异常筛选条件信息修改失败，请重新提交!");
+      this.putRequest("/liquidFilterCondition/update", this.editData).then(
+        (resp) => {
+          if (resp) {
+            this.$message({
+              message: "液量异常筛选条件信息修改成功!",
+              type: "success",
+            });
+          } else {
+            this.$message.error("液量异常筛选条件信息修改失败，请重新提交!");
+          }
         }
-      });
-    }
-  }
+      );
+    },
+  },
 };
 </script>
 
@@ -97,13 +95,12 @@ export default {
   height: 2px;
 }
 .dialogDiv .el-radio-group {
-  margin-top:-40px;
+  margin-top: -40px;
   width: 460px;
   height: 2px;
 }
 .dialogDiv .el-radio {
   width: 85px;
-  // height: 2px;
 }
 .dialogDiv .el-date-picker {
   width: 460px;
@@ -113,9 +110,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

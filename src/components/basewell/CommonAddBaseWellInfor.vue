@@ -17,7 +17,7 @@
           <el-input
             size="small"
             v-model="BaseWellInfor.wellName"
-            style="width:150px"
+            style="width: 150px"
           />
         </el-form-item>
         <el-form-item label="层位:">
@@ -71,8 +71,7 @@
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 150px"
             size="small"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="投转注日期:">
           <el-date-picker
@@ -82,8 +81,7 @@
             size="small"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 150px"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="完井日期:">
           <el-date-picker
@@ -93,8 +91,7 @@
             placeholder="完井日期"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 150px"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
       </el-form>
 
@@ -104,7 +101,7 @@
             v-model="BaseWellInfor.wellCategory"
             clearable
             placeholder="请选择井类别"
-            style="width:150px"
+            style="width: 150px"
             size="small"
           >
             <el-option
@@ -112,8 +109,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="井类型:">
@@ -121,7 +117,7 @@
             v-model="BaseWellInfor.wellType"
             clearable
             placeholder="请选择井类型"
-            style="width:150px"
+            style="width: 150px"
             size="small"
           >
             <el-option
@@ -129,8 +125,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="井性质:">
@@ -138,7 +133,7 @@
             v-model="BaseWellInfor.wellNature"
             clearable
             placeholder="请选择井性质"
-            style="width:150px"
+            style="width: 150px"
             size="small"
           >
             <el-option
@@ -146,8 +141,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -158,7 +152,7 @@
             v-model="BaseWellInfor.oilStationId"
             clearable
             placeholder="请选择区队"
-            style="width:150px"
+            style="width: 150px"
             size="small"
           >
             <el-option
@@ -166,8 +160,7 @@
               :key="item.oilStationId"
               :label="item.oilStationName"
               :value="item.oilStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="井场:">
@@ -175,7 +168,7 @@
             v-model="BaseWellInfor.wellSiteId"
             clearable
             placeholder="请选择井场"
-            style="width:150px"
+            style="width: 150px"
             size="small"
           >
             <el-option
@@ -183,22 +176,18 @@
               :key="item.wellSiteId"
               :label="item.wellSiteName"
               :value="item.wellSiteId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
       <el-form :inline="true">
-        <el-form-item
-          v-if="BaseWellInfor.wellCategory === '0'"
-          label="注水站:"
-        >
+        <el-form-item v-if="BaseWellInfor.wellCategory === '0'" label="注水站:">
           <el-select
             @change="waterStationIdChange"
             v-model="BaseWellInfor.waterStationId"
             clearable
             placeholder="请选择注水站"
-            style="width:150px"
+            style="width: 150px"
             size="small"
           >
             <el-option
@@ -206,19 +195,15 @@
               :key="item.waterStationId"
               :label="item.waterStationName"
               :value="item.waterStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
-        <el-form-item
-          v-if="BaseWellInfor.wellCategory === '0'"
-          label="配水间:"
-        >
+        <el-form-item v-if="BaseWellInfor.wellCategory === '0'" label="配水间:">
           <el-select
             v-model="BaseWellInfor.distributionRoomId"
             clearable
             placeholder="请选择配水间"
-            style="width:150px"
+            style="width: 150px"
             size="small"
           >
             <el-option
@@ -226,8 +211,7 @@
               :key="item.distributionRoomId"
               :label="item.distributionRoomName"
               :value="item.distributionRoomId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -282,8 +266,8 @@
 export default {
   props: {
     addBaseWellInforVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -310,44 +294,44 @@ export default {
         latitude: "",
         altitude: "",
         remark: "",
-        active: ""
+        active: "",
       },
       //井类别(0:注水井,1:油井)
       wellCategoryOptions: [
         {
           value: "0",
-          label: "注水井"
+          label: "注水井",
         },
         {
           value: "1",
-          label: "油井"
-        }
+          label: "油井",
+        },
       ],
       //井类型(0:旧井)
       wellTypeOptions: [
         {
           value: "0",
-          label: "旧井"
+          label: "旧井",
         },
         {
           value: "1",
-          label: "新井"
+          label: "新井",
         },
         {
           value: "2",
-          label: "遗留井"
-        }
+          label: "遗留井",
+        },
       ],
       //井性质(0:投注,1:转注)[注水井]
       wellNatureOptions: [
         {
           value: "0",
-          label: "投注"
+          label: "投注",
         },
         {
           value: "1",
-          label: "转注"
-        }
+          label: "转注",
+        },
       ],
       //区队ID
       oilStationIdOptions: [],
@@ -356,7 +340,7 @@ export default {
       //注水站ID
       waterStationIdOptions: [],
       //配水间ID
-      distributionRoomIdOptions: []
+      distributionRoomIdOptions: [],
     };
   },
   methods: {
@@ -367,11 +351,11 @@ export default {
     // 保存修改后的信息
     saveAddBaseWellInfor() {
       this.postRequest("/basWellInfor/insert", this.BaseWellInfor).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "功图诊断参数新增成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -382,7 +366,7 @@ export default {
     },
     //区队ID下拉框数据查询
     oilStationInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.oilStationIdOptions = resp.data;
@@ -393,7 +377,7 @@ export default {
     oilStationChange(val) {
       this.getRequest(
         "/basWaterStationInfor/optionById?oilStationId=" + val
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.waterStationIdOptions = resp.data;
@@ -402,7 +386,7 @@ export default {
     },
     //井场ID下拉框数据查询
     wellSiteInit() {
-      this.getRequest("/basWellSiteInfor/wellSiteOptions").then(resp => {
+      this.getRequest("/basWellSiteInfor/wellSiteOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.wellSiteIdOptions = resp.data;
@@ -412,7 +396,7 @@ export default {
     //注水站ID下拉框数据查询
     waterStationInit() {
       this.getRequest("/basWaterStationInfor/waterStationOptions").then(
-        resp => {
+        (resp) => {
           this.loading = false;
           if (resp) {
             this.waterStationIdOptions = resp.data;
@@ -424,7 +408,7 @@ export default {
     waterStationIdChange(val) {
       this.getRequest(
         "/basWaterDistributionRoom/OptionsById?waterStationId=" + val
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.distributionRoomIdOptions = resp.data;
@@ -435,7 +419,7 @@ export default {
     waterDistributionRoomInit() {
       this.getRequest(
         "/basWaterDistributionRoom/waterDistributionRoomOptions"
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.distributionRoomIdOptions = resp.data;
@@ -447,8 +431,8 @@ export default {
       this.wellSiteInit();
       this.waterStationInit();
       this.waterDistributionRoomInit();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -458,7 +442,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style>
 .el-input {
   width: 700px;
 }

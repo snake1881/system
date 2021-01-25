@@ -25,7 +25,7 @@
                   :key="item.oilStationId"
                   :label="item.oilStationName"
                   :value="item.oilStationId"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="日期">
@@ -37,8 +37,7 @@
                 placeholder="选择日期"
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
-              >
-              </el-date-picker>
+              />
             </el-form-item>
             <el-form-item label="异常条件">
               <el-select
@@ -54,8 +53,7 @@
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
-                >
-                </el-option>
+                />
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -91,65 +89,64 @@
                 return index + 1 + (this.currentPage - 1) * this.pageSize;
               }
             "
-          >
-          </el-table-column>
+          />
           <el-table-column
             prop="wellName"
             label="井号"
             width="110"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="oilStationName"
             label="采油站"
             width="120"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="oilProdDate"
             label="产油日期"
             width="180"
             align="center"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          />
           <el-table-column
             prop="prodTime"
             label="生产时间"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="liquidProd"
             label="产液量"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="waterCut"
             label="含水率(%)"
             width="80"
             align="center"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          />
           <el-table-column
             prop="liquidProdStandard"
             label="标准产液量(M3)"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="waterCutStandard"
             label="标准含水率(%)"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="abnormalResult"
             label="异常结论"
             width="180"
             align="center"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          />
           <el-table-column
             prop="abnormalType"
             label="异常类型"
@@ -165,13 +162,13 @@
             label="异常原因"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="remark"
             label="备注"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column label="操作" fixed="right" width="80" align="center">
             <template slot-scope="scope">
               <el-button type="text" size="small" @click="details(scope.row)"
@@ -226,8 +223,7 @@
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-              >
-              </el-date-picker>
+              />
             </el-form-item>
             <el-button type="primary" size="medium" @click="lineChart()"
               >查询</el-button
@@ -307,7 +303,6 @@ export default {
         wellName: "",
         // 异常类型
         abnormalType: "",
-
         // 日期段
         startDate: [],
       },
@@ -550,10 +545,6 @@ export default {
   height: 480px;
   overflow: auto;
 }
-// .dialogDiv .el-input {
-//   width: 420px;
-//   height: 2px;
-// }
 .dialogDiv .el-select {
   width: 420px;
   height: 2px;

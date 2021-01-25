@@ -12,8 +12,7 @@
           end-placeholder="结束日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -40,8 +39,7 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-      <el-table-column prop="index" align="center" label="序号" width="80">
-      </el-table-column>
+      <el-table-column prop="index" align="center" label="序号" width="80" />
       <el-table-column
         prop="wellCommonName"
         align="center"
@@ -98,7 +96,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <!-- 分页 -->
     <div class="publish_page">
       <el-pagination
@@ -177,7 +174,6 @@ export default {
         }
       });
     },
-
     //表格数据初始化
     MeasuresInit() {
       this.getRequest(
@@ -228,12 +224,6 @@ export default {
       this.MeasuresData.forEach((item, index) => {
         item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         item.prodDate = item.prodDate.slice(0, 10);
-        // if (item.startDate !== null) {
-        //   item.startDate = item.startDate.slice(0, 10);
-        // }
-        // if (item.endTime !== null) {
-        //   item.endDate = item.endDate.slice(0, 10);
-        // }
         return item;
       });
     },

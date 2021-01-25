@@ -14,12 +14,12 @@
         class="chart"
         id="myChart"
         :style="{ width: '50%', height: '400px' }"
-      ></div>
+      />
       <div
         class="chart"
         id="myChart2"
         :style="{ width: '50%', height: '400px' }"
-      ></div>
+      />
     </div>
   </el-dialog>
 </template>
@@ -59,7 +59,6 @@ export default {
           "&wellId=" +
           this.previewData.wellCommonName
       ).then((resp) => {
-        // this.loading = false;
         if (resp) {
           this.tableData = {};
           this.tableData = resp.data;
@@ -75,7 +74,6 @@ export default {
           "&wellCommonName=" +
           this.previewData.wellCommonName
       ).then((resp) => {
-        // this.loading = false;
         if (resp) {
           this.tableData1 = {};
           this.tableData1 = resp.data;
@@ -85,10 +83,7 @@ export default {
       });
     },
     drawLine() {
-      // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
-
-      // 绘制图表
       myChart.setOption({
         title: [
           {
@@ -125,8 +120,7 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            type: "line",
           },
           formatter: function (params) {
             return (
@@ -219,8 +213,7 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            type: "line",
           },
           formatter: function (params) {
             return (
@@ -314,7 +307,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style>
 .el-input {
   width: 700px;
 }

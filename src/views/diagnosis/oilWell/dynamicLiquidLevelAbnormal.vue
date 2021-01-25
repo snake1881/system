@@ -17,8 +17,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="单井">
@@ -34,8 +33,7 @@
             :key="item.wellId"
             :label="item.wellName"
             :value="item.wellId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="日期">
@@ -45,8 +43,7 @@
           type="date"
           placeholder="选择日期"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -82,53 +79,51 @@
             return index + 1 + (this.currentPage - 1) * this.pageSize;
           }
         "
-      >
-      </el-table-column>
+      />
       <el-table-column
         prop="wellName"
         label="井号"
         width="120"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="oilStationName"
         label="采油站"
         width="120"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="analysisDate"
         label="分析日期"
         width="180"
         align="center"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column
         prop="fluidLevel"
         label="动液面(M)"
         width="100"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="fluidLevelStandard"
         label="标准动液面(M)"
         width="100"
         align="center"
-      >
-      </el-table-column>
+      />
       <el-table-column
         prop="abnormalResult"
         label="异常结论"
         width="180"
         align="center"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column
         prop="abnormalReason"
         label="异常原因"
         width="120"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="isIntervalPump"
         label="井状况"
@@ -148,7 +143,7 @@
         width="100"
         align="center"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column align="center" label="操作" width="140">
         <template slot-scope="scope">
           <el-button

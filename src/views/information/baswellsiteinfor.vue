@@ -10,7 +10,7 @@
           style="width: 150px"
           size="medium"
           placeholder="请输入井场"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="采油站">
         <el-select
@@ -26,8 +26,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -63,8 +62,7 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-      <el-table-column prop="index" align="center" label="序号" width="60">
-      </el-table-column>
+      <el-table-column prop="index" align="center" label="序号" width="60" />
       <el-table-column
         prop="wellSiteName"
         align="center"
@@ -76,8 +74,7 @@
         align="center"
         label="采油站"
         width="150"
-      >
-      </el-table-column>
+      />
       <el-table-column
         prop="tankNum"
         align="center"

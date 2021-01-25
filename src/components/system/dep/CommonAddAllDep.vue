@@ -1,5 +1,10 @@
 <template>
-  <el-dialog title="创建新部门" :visible.sync="addAllDepVisible" width="40%" :before-close="addAllDepClose">
+  <el-dialog
+    title="创建新部门"
+    :visible.sync="addAllDepVisible"
+    width="40%"
+    :before-close="addAllDepClose"
+  >
     <div class="addAllDepDiv">
       <el-form :model="allDepData" label-width="80px">
         <el-form-item label="部门名称">
@@ -8,9 +13,6 @@
         <el-form-item label="联系电话">
           <el-input v-model="allDepData.phone" />
         </el-form-item>
-        <!-- <el-form-item label="父级ID">
-          <el-input v-model="allDepData.parentDepartmentId" />
-        </el-form-item> -->
         <el-form-item label="部门类型">
           <el-select v-model="allDepData.departmentType">
             <el-option label="内部单位" value="0" />
@@ -22,16 +24,21 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="primary" @click="saveAddAllDep(), addAllDepClose()" class="addAllDepButton">提交 </el-button>
-    <el-button type="info" @click=" addAllDepClose()">取消 </el-button>
+    <el-button
+      type="primary"
+      @click="saveAddAllDep(), addAllDepClose()"
+      class="addAllDepButton"
+      >提交
+    </el-button>
+    <el-button type="info" @click="addAllDepClose()">取消 </el-button>
   </el-dialog>
 </template>
 <script>
 export default {
   props: {
     addAllDepVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -40,8 +47,8 @@ export default {
         departmentName: "",
         departmentType: "",
         sequence: "",
-        phone: ""
-      }
+        phone: "",
+      },
     };
   },
   methods: {
@@ -54,19 +61,19 @@ export default {
       this.postRequest(
         "/system/department/insertDepartment",
         this.allDepData
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.$message({
             message: "部门新增成功!",
-            type: "success"
+            type: "success",
           });
           this.reload();
         } else {
           this.$message.error("部门新增失败，请重新提交!");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

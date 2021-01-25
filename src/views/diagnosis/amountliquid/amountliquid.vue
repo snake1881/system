@@ -1,8 +1,6 @@
 <template>
   <div class="dymAbnormal">
-    <!-- 条件查询 -->
     <el-form class="dymAbnormal_form" :model="termForm" :inline="true">
-      <!-- 下拉框查询 -->
       <el-form-item label="采油站">
         <el-select
           v-model="termForm.oilStationId"
@@ -17,8 +15,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="单井">
@@ -34,8 +31,7 @@
             :key="item.wellId"
             :label="item.wellName"
             :value="item.wellId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="日期">
@@ -46,8 +42,7 @@
           placeholder="选择日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -161,13 +156,13 @@
         label="日累产液"
         width="90"
       />
-       <el-table-column
+      <el-table-column
         prop="liquidProd"
         align="center"
         label="24小时产液量"
         width="140"
       />
-      <el-table-column align="center" label="操作" width="130"  fixed="right" >
+      <el-table-column align="center" label="操作" width="130" fixed="right">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -223,12 +218,6 @@ export default {
       orgNameData: [],
       //单井下拉框数据
       wellOptions: [],
-      // 当前展开行数据
-      // loadCollect: [],
-      // 展开行加载动画
-      // loadCollectLoad: true,
-      // 设置row-key只展示一行
-      // expands: [],
       // 分页数据
       currentPage: 1,
       pageSize: 10,
@@ -308,7 +297,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          // this.getIndex();
         }
       });
     },
@@ -338,7 +326,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          // this.getIndex();
         }
       });
     },
@@ -370,38 +357,6 @@ export default {
         }
       );
     },
-    // 只展开一行放入当前行id
-    // getRowKeys(row) {
-    //   return row.primaryId;
-    // },
-    // // 控制展开与关闭行
-    // rowCollectInit(row, expandedRows) {
-    //   //只展开一行
-    //   if (expandedRows.length) {
-    //     //说明展开了
-    //     this.expands = [];
-    //     if (row) {
-    //       //只展开当前行wellCommonName
-    //       this.expands.push(row.primaryId);
-    //       this.loadCollect = [];
-    //       this.loadCollectLoad = true;
-    //       this.getRequest(
-    //         "/oilWell/dym/dymDataDate?prodDate=" +
-    //           row.prodDate +
-    //           "&wellName=" +
-    //           row.wellName
-    //       ).then((resp) => {
-    //         this.loadCollectLoad = false;
-    //         if (resp) {
-    //           this.loadCollect = resp.data;
-    //         }
-    //       });
-    //     }
-    //   } else {
-    //     //说明收起了
-    //     this.expands = [];
-    //   }
-    // },
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
@@ -412,13 +367,6 @@ export default {
       this.currentPage = val;
       this.abnormalDymSearch();
     },
-    //设置序号
-    // getIndex() {
-    //   this.dymData.forEach((item, index) => {
-    //     item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
-    //     return item;
-    //   });
-    // },
   },
 };
 </script>

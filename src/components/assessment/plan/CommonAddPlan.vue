@@ -1,65 +1,99 @@
 <template>
-<el-dialog title="新增考核计划" :visible.sync="addPlanVisible" width="59%" :before-close="addPlanClose">
-  <div class="addPlan">
-    <el-form :model="addData" label-width="80px">
-      <el-form-item label="计划名称">
-        <el-input v-model="addData.planName" />
-      </el-form-item>
-      <el-row>
-        <el-col :span="8">
-          <el-form-item label="开始时间">
-            <el-date-picker type="datetime" v-model="addData.startDate" value-format="yyyy-MM-dd hh:mm:ss" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="结束时间">
-            <el-date-picker type="datetime" v-model="addData.endDate" value-format="yyyy-MM-dd hh:mm:ss" />
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="考核模板">
-            <el-select v-model="addData.examineTId">
-              <el-option v-for="(item, index) in this.template" :key="index" :label="item.templateName" :value="item.examineTId" />
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-button type="text" class="el-icon-circle-plus-outline" @click="addIndexDep()">
-        添加科室
-      </el-button>
-      <div class="addPlanDes">
-        <el-form-item v-for="(item, index) in addData.resultInforList" :key="index">
-          <el-row>
-            <el-col :span="8">
-              <el-form-item label="参考单位">
-                <el-input v-model="item.takeObject" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item label="总得分">
-                <el-input v-model="item.totalScore" />
-              </el-form-item>
-            </el-col>
-            <el-button type="text" style="margin-left:20px" @click="dlete(item)">
-              删除
-            </el-button>
-          </el-row>
+  <el-dialog
+    title="新增考核计划"
+    :visible.sync="addPlanVisible"
+    width="59%"
+    :before-close="addPlanClose"
+  >
+    <div class="addPlan">
+      <el-form :model="addData" label-width="80px">
+        <el-form-item label="计划名称">
+          <el-input v-model="addData.planName" />
         </el-form-item>
-      </div>
-    </el-form>
-  </div>
-  <el-button type="primary" @click="saveAddPlan(addData), addPlanClose()" class="addPlanButton">提交 </el-button>
-  <el-button type="info" @click=" addPlanClose()">取消 </el-button>
-</el-dialog>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="开始时间">
+              <el-date-picker
+                type="datetime"
+                v-model="addData.startDate"
+                value-format="yyyy-MM-dd hh:mm:ss"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="结束时间">
+              <el-date-picker
+                type="datetime"
+                v-model="addData.endDate"
+                value-format="yyyy-MM-dd hh:mm:ss"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="考核模板">
+              <el-select v-model="addData.examineTId">
+                <el-option
+                  v-for="(item, index) in this.template"
+                  :key="index"
+                  :label="item.templateName"
+                  :value="item.examineTId"
+                />
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-button
+          type="text"
+          class="el-icon-circle-plus-outline"
+          @click="addIndexDep()"
+        >
+          添加科室
+        </el-button>
+        <div class="addPlanDes">
+          <el-form-item
+            v-for="(item, index) in addData.resultInforList"
+            :key="index"
+          >
+            <el-row>
+              <el-col :span="8">
+                <el-form-item label="参考单位">
+                  <el-input v-model="item.takeObject" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="8">
+                <el-form-item label="总得分">
+                  <el-input v-model="item.totalScore" />
+                </el-form-item>
+              </el-col>
+              <el-button
+                type="text"
+                style="margin-left: 20px"
+                @click="dlete(item)"
+              >
+                删除
+              </el-button>
+            </el-row>
+          </el-form-item>
+        </div>
+      </el-form>
+    </div>
+    <el-button
+      type="primary"
+      @click="saveAddPlan(addData), addPlanClose()"
+      class="addPlanButton"
+      >提交
+    </el-button>
+    <el-button type="info" @click="addPlanClose()">取消 </el-button>
+  </el-dialog>
 </template>
 
 <script>
 export default {
   props: {
     addPlanVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -70,12 +104,14 @@ export default {
         startDate: "",
         endDate: "",
         template: "",
-        resultInforList: [{
-          takeObject: " ",
-          totalScore: " "
-        }]
+        resultInforList: [
+          {
+            takeObject: " ",
+            totalScore: " ",
+          },
+        ],
       },
-      template: []
+      template: [],
     };
   },
   created() {
@@ -90,7 +126,7 @@ export default {
     addIndexDep() {
       this.addData.resultInforList.push({
         takeObject: " ",
-        totalScore: " "
+        totalScore: " ",
       });
     },
     // 删除
@@ -102,7 +138,7 @@ export default {
     },
     //初始化
     templateInit() {
-      this.getRequest("/examine/templateInfor/queryAll").then(resp => {
+      this.getRequest("/examine/templateInfor/queryAll").then((resp) => {
         if (resp) {
           this.template = resp.data;
         }
@@ -110,19 +146,21 @@ export default {
     },
     // 保存
     saveAddPlan() {
-      this.postRequest("/examine/planInfor/insert", this.addData).then(resp => {
-        if (resp) {
-          this.$message({
-            message: "考核计划新增成功!",
-            type: "success"
-          });
-          this.reload();
-        } else {
-          this.$message.error("考核计划新增失败，请重新提交!");
+      this.postRequest("/examine/planInfor/insert", this.addData).then(
+        (resp) => {
+          if (resp) {
+            this.$message({
+              message: "考核计划新增成功!",
+              type: "success",
+            });
+            this.reload();
+          } else {
+            this.$message.error("考核计划新增失败，请重新提交!");
+          }
         }
-      });
-    }
-  }
+      );
+    },
+  },
 };
 </script>
 
@@ -130,19 +168,18 @@ export default {
 .addPlan {
   height: 340px;
   overflow: auto;
-
 }
 
 .addPlanDes {
   margin-left: 0px;
   height: 140px;
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 
 .addPlanButton {
   margin-left: 280px;
 }
-</style><style lang="less">
+</style><style >
 element.style {
   margin: 0;
 }

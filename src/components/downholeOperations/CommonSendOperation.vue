@@ -240,9 +240,6 @@ export default {
 }
 </style>
 <style>
-/* .sendOpereDiv .el-input {
-  height: 10%;
-} */
 .sendOpereDiv .el-form-item__label,
 .el-input__inner {
   font-size: 13px;

@@ -7,15 +7,15 @@
     @opened="opens()"
   >
     <div class="dialogDiv">
-      <el-form :model="releaseData"   label-width="120px">
+      <el-form :model="releaseData" label-width="120px">
         <el-form-item :inline="true">
-          <span>井号： {{this.releaseData.wellCommonName}}</span>
-          <span>日期： {{this.releaseData.prodDate}}</span>
-          <span>措施： {{this.releaseData.measure}}</span>
+          <span>井号： {{ this.releaseData.wellCommonName }}</span>
+          <span>日期： {{ this.releaseData.prodDate }}</span>
+          <span>措施： {{ this.releaseData.measure }}</span>
         </el-form-item>
       </el-form>
-      <el-form :model="releaseData1" label-width="120px"  >
-        <el-form-item label="日期" >
+      <el-form :model="releaseData1" label-width="120px">
+        <el-form-item label="日期">
           <el-date-picker
             v-model="termData.chooseDate"
             type="daterange"
@@ -24,58 +24,51 @@
             end-placeholder="结束日期"
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd HH:mm:ss"
-          >
-          </el-date-picker>
-        </el-form-item >
+          />
+        </el-form-item>
         <el-form-item label="指派人" prop="desigee">
           <el-select
-          v-model="releaseData.designee"
-          clearable
-          filterable
-          placeholder="请选择"
-          size="medium"
-        >
-          <el-option
-            v-for="(item,index)  in this.designeeOptions"
-            :key="index"
-            :label="item.userName"
-            :value="item.userName"
+            v-model="releaseData.designee"
+            clearable
+            filterable
+            placeholder="请选择"
+            size="medium"
           >
-          </el-option>
+            <el-option
+              v-for="(item, index) in this.designeeOptions"
+              :key="index"
+              :label="item.userName"
+              :value="item.userName"
+            />
           </el-select>
         </el-form-item>
       </el-form>
     </div>
-      <el-button
-        type="primary"
-        class="saveMeasureReleaseButton"
-        @click="saveMeasureRelease(), measuresReleaseClose()"
-      >
-        提交
-      </el-button>
-      <el-button
-        type="info"
-        @click="measuresReleaseClose()"
-      >
-        取消
-      </el-button>
+    <el-button
+      type="primary"
+      class="saveMeasureReleaseButton"
+      @click="saveMeasureRelease(), measuresReleaseClose()"
+    >
+      提交
+    </el-button>
+    <el-button type="info" @click="measuresReleaseClose()"> 取消 </el-button>
   </el-dialog>
 </template>
 <script>
 export default {
   props: {
     measuresReleaseVisible: {
-      type: Boolean
+      type: Boolean,
     },
-    releaseData:{
-      type: Object
-    }
+    releaseData: {
+      type: Object,
+    },
   },
   inject: ["reload"],
   data() {
     return {
       termData: {
-        chooseDate: ""
+        chooseDate: "",
       },
       releaseData1: {
         createTime: "",
@@ -83,14 +76,19 @@ export default {
         endDate: "",
         measureid: "",
         publisher: "",
-        startDate: ""
+        startDate: "",
       },
-      designeeOptions:[],
+      designeeOptions: [],
       rules: {
         designee: [
           { required: true, message: "请输入指派人", trigger: "blur" },
-          { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
-        ]
+          {
+            min: 3,
+            max: 10,
+            message: "长度在 3 到 10 个字符",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
@@ -101,16 +99,16 @@ export default {
     },
     // 保存修改后的信息
     saveMeasureRelease() {
-      this.releaseData1.startDate=this.termData.chooseDate[0];
-      this.releaseData1.endDate=this.termData.chooseDate[1];
-      this.releaseData1.designee=this.releaseData.designee;
-      this.releaseData1.measureid=this.releaseData.measureid;
+      this.releaseData1.startDate = this.termData.chooseDate[0];
+      this.releaseData1.endDate = this.termData.chooseDate[1];
+      this.releaseData1.designee = this.releaseData.designee;
+      this.releaseData1.measureid = this.releaseData.measureid;
       this.postRequest("/measures/measure/measures", this.releaseData1).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "措施发布成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -121,17 +119,17 @@ export default {
     },
     //指派人拉框数据查询
     designeeInit() {
-      this.getRequest("/system/sysUser/users").then(resp => {
+      this.getRequest("/system/sysUser/users").then((resp) => {
         this.loading = false;
         if (resp) {
           this.designeeOptions = resp.data;
         }
       });
     },
-    opens(){
+    opens() {
       this.designeeInit();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -157,9 +155,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

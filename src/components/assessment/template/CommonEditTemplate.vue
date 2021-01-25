@@ -74,7 +74,7 @@ export default {
   margin: 0 0 0 180px;
 }
 </style>
-<style lang="less">
+<style >
 element.style {
   margin: 0;
 }

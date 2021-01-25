@@ -8,10 +8,18 @@
     <div class="dialogDiv">
       <el-form :model="editData" label-position="left" label-width="200px">
         <el-form-item label="诊断步骤:">
-          <el-input :disabled="true" v-model="editData.diagnosticStep" style="width: 550px" />
+          <el-input
+            :disabled="true"
+            v-model="editData.diagnosticStep"
+            style="width: 550px"
+          />
         </el-form-item>
         <el-form-item label="序号(数字):">
-          <el-input :disabled="true" v-model="editData.orderNumber" style="width: 550px" />
+          <el-input
+            :disabled="true"
+            v-model="editData.orderNumber"
+            style="width: 550px"
+          />
         </el-form-item>
         <el-form-item label="诊断结果:">
           <el-input v-model="editData.abnormalProblem" style="width: 550px" />
@@ -40,11 +48,11 @@
 export default {
   props: {
     editDiagnosisDataVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {};
@@ -59,18 +67,18 @@ export default {
       this.putRequest(
         "/knowledge/DiagnosticParametersGt/DiagnosticParametersGt",
         this.editData
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.$message({
             message: "液量异常筛选条件信息修改成功!",
-            type: "success"
+            type: "success",
           });
         } else {
           this.$message.error("液量异常筛选条件信息修改失败，请重新提交!");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -80,7 +88,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style>
 .el-input {
   width: 700px;
 }

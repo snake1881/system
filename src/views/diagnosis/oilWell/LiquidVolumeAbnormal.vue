@@ -21,8 +21,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="单井">
@@ -38,8 +37,7 @@
             :key="item.wellId"
             :label="item.wellName"
             :value="item.wellId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -62,8 +60,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -99,65 +96,64 @@
             return index + 1 + (this.currentPage - 1) * this.pageSize;
           }
         "
-      >
-      </el-table-column>
+      />
       <el-table-column
         prop="wellName"
         label="井号"
         width="120"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="oilStationName"
         label="采油站"
         width="120"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="oilProdDate"
         label="产油日期"
         width="180"
         align="center"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column
         prop="prodTime"
         label="生产时间"
         width="60"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="liquidProd"
         label="产液量"
         width="80"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="waterCut"
         label="含水率(%)"
         width="80"
         align="center"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column
         prop="liquidProdStandard"
         label="标准产液量(M3)"
         width="80"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="waterCutStandard"
         label="标准含水率(%)"
         width="80"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="abnormalResult"
         label="异常结论"
         width="180"
         align="center"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column
         prop="abnormalType"
         label="异常类型"
@@ -173,14 +169,14 @@
         label="异常原因"
         width="80"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="remark"
         label="备注"
         width="80"
         align="center"
         :show-overflow-tooltip="true"
-      ></el-table-column>
+      />
       <el-table-column label="操作" fixed="right" width="120" align="center">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="details(scope.row)"
@@ -241,8 +237,7 @@
             range-separator="至"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-button type="primary" size="medium" @click="lineChart()"
           >查询</el-button
@@ -300,7 +295,6 @@ export default {
         wellName: "",
         // 异常类型
         abnormalType: "",
-
         // 日期段
         startDate: [],
       },
@@ -391,14 +385,6 @@ export default {
             this.dialogForm.startDate[0] +
             "&endTime=" +
             this.dialogForm.startDate[1]
-          // "/diagnosis/abnormal/queryLiquidWaterAbnormalByTime?abnormalType=" +
-          //   this.dialogForm.abnormalType +
-          //   "&wellId=" +
-          //   this.dialogForm.wellId +
-          //   "&startDate=" +
-          //   this.dialogForm.startDate[0] +
-          //   "&endDate=" +
-          //   this.dialogForm.startDate[1]
         ).then((resp) => {
           //处理数据为坐标
           this.coordinate(resp.data);
@@ -416,7 +402,6 @@ export default {
                   top: "4%",
                 },
                 legend: {
-                  // data: ["产液量", "标准产液量", "含水率", "标准含水率"],
                   data: ["产液量(M)", "含水率(%)"],
                 },
                 grid: {
@@ -443,7 +428,6 @@ export default {
                   {
                     name: "产液量(方)",
                     type: "value",
-                    // max: 10,
                   },
                   {
                     name: "含水率(%)",
@@ -466,34 +450,6 @@ export default {
                     yAxisIndex: 1,
                     data: this.waterCut,
                   },
-                  // {
-                  //   name: "产液量",
-                  //   type: "line",
-                  //   smooth: true,
-                  //   yAxisIndex: 0,
-                  //   data: this.liquidProd,
-                  // },
-                  // {
-                  //   name: "标准产液量",
-                  //   type: "line",
-                  //   smooth: true,
-                  //   yAxisIndex: 0,
-                  //   data: this.liquidProdStandard,
-                  // },
-                  // {
-                  //   name: "含水率",
-                  //   type: "line",
-                  //   smooth: true,
-                  //   yAxisIndex: 1,
-                  //   data: this.waterCut,
-                  // },
-                  // {
-                  //   name: "标准含水率",
-                  //   type: "line",
-                  //   smooth: true,
-                  //   yAxisIndex: 1,
-                  //   data: this.waterCutStandard,
-                  // },
                 ],
               },
               true
@@ -584,23 +540,6 @@ export default {
     },
     //处理坐标
     coordinate(val) {
-      // //产油日期
-      // this.oilProdDate = [];
-      // //产液量
-      // this.liquidProd = [];
-      // //标准产液量
-      // this.liquidProdStandard = [];
-      // //含水率
-      // this.waterCut = [];
-      // //标准含水率
-      // this.waterCutStandard = [];
-      // for (var i = 0; i < val.length; i++) {
-      //   this.oilProdDate[i] = val[i].oilProdDate;
-      //   this.liquidProd[i] = val[i].liquidProd;
-      //   this.liquidProdStandard[i] = val[i].liquidProdStandard;
-      //   this.waterCut[i] = val[i].waterCut;
-      //   this.waterCutStandard[i] = val[i].waterCutStandard;
-      // }
       //产油日期
       this.oilProdDate = [];
       //产液量

@@ -9,10 +9,6 @@ export default {
   components: {
     error,
   },
-  data() {
-    return {};
-  },
-  methods: {},
 };
 </script>
 <style lang="less" scoped>

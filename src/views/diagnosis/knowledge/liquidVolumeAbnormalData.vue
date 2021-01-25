@@ -16,7 +16,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="单井">
@@ -32,8 +32,7 @@
             :key="item.wellId"
             :label="item.wellName"
             :value="item.wellId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -44,8 +43,7 @@
           placeholder="选择日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -90,13 +88,13 @@
             return index + 1 + (this.currentPage - 1) * this.pageSize;
           }
         "
-      ></el-table-column>
+      />
       <el-table-column
         prop="wellName"
         label="井号"
         width="160"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="filter"
         label="条件（填写选定日期后可选择任意天）"
@@ -117,7 +115,7 @@
         label="指定日期"
         width="320"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column label="操作" width="240" align="center">
         <template slot-scope="scope">
           <el-button
@@ -254,11 +252,6 @@ export default {
     },
     //表格数据初始化
     liqFilterConditionInit() {
-      // console.log(this.termForm.prodDate);
-      // if(this.termForm.prodDate==null){
-      //   this.termForm.prodDate=""
-      // }
-      // console.log(this.termForm.prodDate);
       this.getRequest(
         "/liquidFilterCondition/select?current=" +
           this.currentPage +
@@ -277,7 +270,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          // this.getIndex();
         }
       });
     },
@@ -301,7 +293,6 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
-          // this.getIndex();
         }
       });
     },

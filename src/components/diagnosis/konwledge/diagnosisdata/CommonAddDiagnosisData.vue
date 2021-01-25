@@ -46,8 +46,8 @@
 export default {
   props: {
     addDiagnosisDataVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -56,8 +56,8 @@ export default {
         diagnosticStep: "",
         orderNumber: "",
         abnormalProblem: "",
-        diagnosticBasis: ""
-      }
+        diagnosticBasis: "",
+      },
     };
   },
   methods: {
@@ -70,19 +70,19 @@ export default {
       this.postRequest(
         "/knowledge/DiagnosticParametersGt/DiagnosticParametersGt",
         this.DiagnosisData
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.$message({
             message: "功图诊断参数新增成功!",
-            type: "success"
+            type: "success",
           });
           this.reload();
         } else {
           this.$message.error("功图诊断参数新增失败，请重新提交!");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -92,7 +92,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style>
 .el-input {
   width: 700px;
 }

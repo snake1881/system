@@ -88,7 +88,7 @@ export default {
   margin-left: 260px;
 }
 </style>
-<style lang="less" scoped>
+<style >
 .scoreResult .el-input {
   width: 150px;
 }

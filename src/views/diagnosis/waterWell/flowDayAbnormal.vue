@@ -16,8 +16,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="单井">
@@ -33,8 +32,7 @@
             :key="item.wellId"
             :label="item.wellName"
             :value="item.wellId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="日期">
@@ -45,8 +43,7 @@
           placeholder="选择日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button

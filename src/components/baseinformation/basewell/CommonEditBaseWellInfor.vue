@@ -50,8 +50,7 @@
             placeholder="投产/注水日期"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 150px"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="投转注日期:">
           <el-date-picker
@@ -60,8 +59,7 @@
             placeholder="投转注日期"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 150px"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="完井日期:">
           <el-date-picker
@@ -70,8 +68,7 @@
             placeholder="完井日期"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 150px"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
       </el-form>
       <el-form label-position="right" label-width="120px" :inline="true">
@@ -88,8 +85,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="井类型">
@@ -105,8 +101,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="井性质">
@@ -122,8 +117,7 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -142,8 +136,7 @@
               :key="item.oilStationId"
               :label="item.oilStationName"
               :value="item.oilStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="井场">
@@ -159,18 +152,14 @@
               :key="item.wellSiteId"
               :label="item.wellSiteName"
               :value="item.wellSiteId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
       <el-form
         label-position="right"
         label-width="120px"
-        v-if="
-          editData.wellCategory === '0' ||
-          editData.wellCategory === '2'
-        "
+        v-if="editData.wellCategory === '0' || editData.wellCategory === '2'"
         :inline="true"
       >
         <el-form-item label="注水站">
@@ -187,8 +176,7 @@
               :key="item.waterStationId"
               :label="item.waterStationName"
               :value="item.waterStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="配水间">
@@ -204,8 +192,7 @@
               :key="item.distributionRoomId"
               :label="item.distributionRoomName"
               :value="item.distributionRoomId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
       </el-form>
@@ -233,11 +220,6 @@
           />
         </el-form-item>
       </el-form>
-      <!-- <el-form>
-        <el-form-item label="备注:">
-          <el-input v-model="editData.remark" style="width: 690px" />
-        </el-form-item>
-      </el-form> -->
       <el-form label-position="right" label-width="120px">
         <el-form-item label="备注:">
           <el-input
@@ -445,7 +427,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style >
 .el-input {
   width: 700px;
 }

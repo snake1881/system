@@ -1,5 +1,10 @@
 <template>
-  <el-dialog title="新增菜单" :visible.sync="addMenuVisible" width="36%" :before-close="addMenuClose">
+  <el-dialog
+    title="新增菜单"
+    :visible.sync="addMenuVisible"
+    width="36%"
+    :before-close="addMenuClose"
+  >
     <div class="addMenuDiv">
       <el-form :model="addData" label-width="80px">
         <el-form-item label="上级菜单">
@@ -25,7 +30,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="primary" @click="saveAddMenu(addData), addMenuClose()" class="addMenuButton">提交</el-button>
+    <el-button
+      type="primary"
+      @click="saveAddMenu(addData), addMenuClose()"
+      class="addMenuButton"
+      >提交</el-button
+    >
     <el-button type="info" @click="addMenuClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -33,11 +43,11 @@
 export default {
   props: {
     addMenuVisible: {
-      type: Boolean
+      type: Boolean,
     },
     addData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   inject: ["reload"],
   data() {
@@ -48,7 +58,7 @@ export default {
         moduleUrl: "",
         moduleType: "",
         permissionMark: "",
-        parentModuleId: ""
+        parentModuleId: "",
       },
     };
   },
@@ -60,13 +70,13 @@ export default {
     // 菜单树
     saveAddMenu(val) {
       //将父节点id赋值给子节点
-      this.addMenuData.parentModuleId=val.moduleId; 
+      this.addMenuData.parentModuleId = val.moduleId;
       this.postRequest("/system/sysModule/insert", this.addMenuData).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "菜单新增成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -74,8 +84,8 @@ export default {
           }
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

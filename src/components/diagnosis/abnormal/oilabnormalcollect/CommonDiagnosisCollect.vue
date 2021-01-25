@@ -26,7 +26,7 @@
                   :key="item.oilStationId"
                   :label="item.oilStationName"
                   :value="item.oilStationId"
-                ></el-option>
+                />
               </el-select>
             </el-form-item>
             <el-form-item label="日期">
@@ -38,8 +38,7 @@
                 placeholder="选择日期"
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
-              >
-              </el-date-picker>
+              />
             </el-form-item>
             <el-form-item label="报警级别">
               <el-select
@@ -55,8 +54,7 @@
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
-                >
-                </el-option>
+                />
               </el-select>
             </el-form-item>
             <el-form-item>
@@ -92,78 +90,76 @@
                 return index + 1 + (this.currentPage - 1) * this.pageSize;
               }
             "
-          >
-          </el-table-column>
+          />
           <el-table-column
             prop="wellName"
             label="井号"
             width="120"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="oilStationName"
             label="采油站"
             max-width="150"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="acquisitionTime"
             label="采集时间"
             width="180"
             align="center"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          />
           <el-table-column
             prop="stroke"
             label="冲程(M)"
             width="60"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="frequency"
             label="冲次"
             width="60"
             align="center"
-          >
-          </el-table-column>
+          />
           <el-table-column
             prop="maxLoad"
             label="最大载荷(KN)"
             width="70"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="minLoad"
             label="最小载荷(KN)"
             width="70"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="space"
             label="时间间隔(MS)"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="liquidProd"
             label="小时产液量(M3)"
             width="80"
             align="center"
-          ></el-table-column>
+          />
           <el-table-column
             prop="diagnosisResult"
             label="工况结果"
             max-width="260"
             align="center"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          />
           <el-table-column
             prop=""
             label="小时含水(%)"
             width="80"
             align="center"
             :show-overflow-tooltip="true"
-          ></el-table-column>
+          />
         </el-table>
         <div class="liqFilterCondition_page">
           <el-pagination

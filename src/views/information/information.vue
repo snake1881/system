@@ -19,20 +19,20 @@ import PageHeader from "../../components/PageHeader";
 export default {
   components: {
     CommonAside,
-    PageHeader
+    PageHeader,
   },
   props: {
     // 侧边栏收缩
     isCollapse: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
       // 侧边栏显示
-      router7: 5
+      router7: 5,
     };
-  }
+  },
 };
 </script>
 <style lang="less" scoped>
