@@ -459,6 +459,7 @@ export default {
     // 生产曲线
     proLineInit() {
       this.productProdDate = [];
+      var aData = new Date();
       this.proDate2 =
         aData.getFullYear() +
         "-" +
@@ -647,6 +648,7 @@ export default {
     // 动液面曲线
     fluidLevelInit() {
       this.fluidLevelDate = [];
+      var aData = new Date();
       this.proDate2 =
         aData.getFullYear() +
         "-" +
@@ -787,7 +789,6 @@ export default {
             color: ["#2485e0", "#ec8e25"],
             xAxis: {
               data: this.zhLineDate,
-              // 文字大小与颜色
               axisLabel: {
                 textStyle: {
                   color: "#666", //更改坐标轴文字颜色
@@ -800,7 +801,6 @@ export default {
               max: 200,
               min: 0,
               splitNumber: 3,
-              // 文字大小与颜色
               axisLabel: {
                 textStyle: {
                   color: "#666", //更改坐标轴文字颜色
