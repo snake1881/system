@@ -15,7 +15,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationName"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="日期">
@@ -26,8 +26,7 @@
           placeholder="选择日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -39,7 +38,6 @@
         >
       </el-form-item>
     </el-form>
-
     <el-table
       class="abnormalGt_table"
       v-loading="loading"
@@ -109,8 +107,7 @@
         label="诊断结果"
         align="center"
         width="320"
-      >
-      </el-table-column>
+      />
       <el-table-column
         prop="orgName"
         label="采油站"
@@ -313,7 +310,6 @@ export default {
           "&wellId=" +
           this.val.wellId
       ).then((resp) => {
-        // this.loading = false;
         if (resp) {
           this.tableData = resp.data;
         }

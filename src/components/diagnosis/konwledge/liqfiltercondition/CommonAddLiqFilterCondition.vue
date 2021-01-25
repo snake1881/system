@@ -24,8 +24,7 @@
             placeholder="选择日期"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 300px"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="条件（选择任意天后可选择日期）:">
           <template>
@@ -48,8 +47,7 @@
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd HH:mm:ss"
             style="width: 300px"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
       </el-form>
     </div>
@@ -112,7 +110,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style>
 .el-input {
   width: 700px;
 }

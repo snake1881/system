@@ -2,7 +2,6 @@
   <div class="oil_abnormal">
     <!-- 条件查询 -->
     <el-form class="oil_abnormal_form" :model="postForm" :inline="true">
-      <!-- 下拉框查询 -->
       <el-form-item label="采油站">
         <el-select
           v-model="postForm.oilStationId"
@@ -16,8 +15,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="日期">
@@ -27,7 +25,7 @@
           v-model="postForm.postDate"
           value-format="yyyy-MM-dd"
           style="width: 100%"
-        ></el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -164,9 +162,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <div id="wellChart" :style="{ width: '98%', height: '300px' }"></div>
-    <!-- <div id="waterWellChart" :style="{ width: '98%', height: '300px' }"></div> -->
-
+    <div id="wellChart" :style="{ width: '98%', height: '300px' }" />
     <!-- 液量含水异常查看 -->
     <common-liquid-water-collect
       :liquidAbnormalVisible="checkLiquidAbnormalVisible"
@@ -208,7 +204,7 @@ export default {
       postForm: {
         positionName: "",
         postDate: "",
-        oilStationId: ""
+        oilStationId: "",
       },
       // 采油站下拉框数据
       orgNameData: [],
@@ -245,12 +241,8 @@ export default {
   methods: {
     // 画图
     drawLine(val) {
-      // 基于准备好的dom，初始化echarts实例
       let dom = document.getElementById("wellChart");
-      // let dom2 = document.getElementById("waterWellChart");
       let myChart = echarts.init(dom);
-      // let myChart2 = echarts.init(dom2);
-      // 绘制图表
       myChart.setOption({
         title: {
           x: "center",
@@ -259,8 +251,7 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            type: "shadow",
           },
           formatter: "{c}",
         },
@@ -322,17 +313,16 @@ export default {
             },
           },
           axisTick: {
-            show: false, //隐藏y坐标轴刻度
+            show: false,
           },
         },
         series: [
           {
             name: "总井数",
             type: "bar",
-            barWidth: 6, //柱体宽带
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -340,10 +330,9 @@ export default {
           {
             name: "开井数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -351,10 +340,9 @@ export default {
           {
             name: "总产液量",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -362,10 +350,9 @@ export default {
           {
             name: "总产液量(昨)",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -373,10 +360,9 @@ export default {
           {
             name: "液量异常数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -384,10 +370,9 @@ export default {
           {
             name: "含水异常数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -395,10 +380,9 @@ export default {
           {
             name: "工况异常数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -406,10 +390,9 @@ export default {
           {
             name: "动液面异常数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -435,7 +418,7 @@ export default {
           this.pageSize +
           "&createTime=" +
           this.postForm.postDate +
-          "&oilStationId=" + 
+          "&oilStationId=" +
           this.postForm.oilStationId
       ).then((resp) => {
         this.loading = false;

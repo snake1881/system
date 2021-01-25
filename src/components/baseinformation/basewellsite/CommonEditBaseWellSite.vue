@@ -23,8 +23,7 @@
               :key="item.oilStationId"
               :label="item.oilStationName"
               :value="item.oilStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="油罐数量">
@@ -45,8 +44,7 @@
             type="date"
             placeholder="建成日期"
             value-format="yyyy-MM-dd HH:mm:ss"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="经度:">
           <el-input
@@ -91,11 +89,11 @@
 export default {
   props: {
     editBaseWellSiteVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -103,26 +101,26 @@ export default {
       activeOptions: [
         {
           value: "0",
-          label: "无效"
+          label: "无效",
         },
         {
           value: "1",
-          label: "有效"
-        }
+          label: "有效",
+        },
       ],
       //井类别(0:注水井,1:油井)
       wellCategoryOptions: [
         {
           value: "0",
-          label: "注水井"
+          label: "注水井",
         },
         {
           value: "1",
-          label: "油井"
-        }
+          label: "油井",
+        },
       ],
       //区队ID
-      oilStationIdOptions: []
+      oilStationIdOptions: [],
     };
   },
   methods: {
@@ -133,11 +131,11 @@ export default {
     // 保存修改后的信息
     saveEditBaseWellSite() {
       this.putRequest("/basWellSiteInfor/wellSite", this.editData).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "井场信息修改成功!",
-              type: "success"
+              type: "success",
             });
           } else {
             this.$message.error("井场信息修改失败，请重新提交!");
@@ -147,7 +145,7 @@ export default {
     },
     //区队ID下拉框数据查询
     oilStationInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.oilStationIdOptions = resp.data;
@@ -156,8 +154,8 @@ export default {
     },
     opens() {
       this.oilStationInit();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -182,9 +180,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

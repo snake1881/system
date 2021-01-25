@@ -19,7 +19,7 @@
           style="width: 150px"
           size="small"
           placeholder="井号"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="井类别">
         <el-select
@@ -34,11 +34,9 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
-
       <el-form-item label="采油站">
         <el-select
           v-model="termData.oilStationName"
@@ -52,8 +50,7 @@
             :key="item.orgName"
             :label="item.orgName"
             :value="item.orgName"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -93,27 +90,6 @@
           >
         </el-upload>
       </el-form-item>
-      <!-- <el-form
-        id="upload"
-        method="POST"
-        enctype="multipart/form-data"
-        action="/demo/basWellInfor/import"
-      >
-        <el-input
-          type="file"
-          size="small"
-          name="file"
-          style="width:200px"
-          value="选择文件"
-        />
-        <el-input
-          type="submit"
-          size="small"
-          name="press"
-          style="width:80px"
-          value="导入"
-        />
-      </el-form> -->
     </el-form>
     <el-table
       v-loading="loading"
@@ -125,8 +101,7 @@
       lazy
       style="width: 100%"
     >
-      <el-table-column prop="index" align="center" label="序号" width="80">
-      </el-table-column>
+      <el-table-column prop="index" align="center" label="序号" width="80" />
       <el-table-column
         prop="wellName"
         align="center"
@@ -158,17 +133,12 @@
         label="井类别"
         width="100"
       />
-      <!-- <template slot-scope="scope">
-          <p v-if="scope.row.wellCategory == '0'">停用</p>
-          <p v-if="scope.row.wellCategory == '1'">正常</p>
-        </template> -->
       <el-table-column
         prop="wellType"
         align="center"
         label="井类型"
         width="100"
       />
-
       <el-table-column
         prop="longitude"
         align="center"
@@ -198,7 +168,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <!-- 分页 -->
     <div class="BaseWellInfor_page" align="center">
       <el-pagination
@@ -386,16 +355,6 @@ export default {
           });
         });
     },
-    //
-    // ifWellCategory(row) {
-    //   if (row.wellCategory == "1 ") {
-    //     return;
-    //     ("油井");
-    //   } else if (row.wellCategory == "0") {
-    //     return;
-    //     ("注水井");
-    //   }
-    // },
     //文件下载
     fileOpen() {
       window.open("http://localhost:8692/demo/basWellInfor/export");
@@ -407,9 +366,6 @@ export default {
       console.log(file);
     },
     handleChange(file, fileList) {
-      // console.log("这是file", file);
-      // console.log("这是fileList", fileList);
-      // 当多余一个的时候替换文件
       if (fileList.length > 1) {
         fileList.splice(0, 1);
       }
@@ -440,4 +396,3 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped></style>

@@ -16,8 +16,7 @@
             type="date"
             placeholder="选择日期"
             value-format="yyyy-MM-dd HH:mm:ss"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="条件:">
           <template>
@@ -42,8 +41,7 @@
             placeholder="选择日期"
             format="yyyy-MM-dd"
             value-format="yyyy-MM-dd HH:mm:ss"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
       </el-form>
     </div>
@@ -123,7 +121,6 @@ export default {
 }
 .dialogDiv .el-radio {
   width: 85px;
-  // height: 2px;
 }
 .dialogDiv .el-date-picker {
   width: 460px;

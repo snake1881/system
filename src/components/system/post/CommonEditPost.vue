@@ -1,5 +1,10 @@
 <template>
-  <el-dialog title="岗位编辑" :visible.sync="editPostVisible" width="40%" :before-close="editPostClose">
+  <el-dialog
+    title="岗位编辑"
+    :visible.sync="editPostVisible"
+    width="40%"
+    :before-close="editPostClose"
+  >
     <div class="dialogDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="岗位编号">
@@ -16,7 +21,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="primary" @click="saveEditPost(), editPostClose()" class="editPostButton">提交</el-button>
+    <el-button
+      type="primary"
+      @click="saveEditPost(), editPostClose()"
+      class="editPostButton"
+      >提交</el-button
+    >
     <el-button type="info" @click="editPostClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -24,11 +34,11 @@
 export default {
   props: {
     editPostVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {};
@@ -40,18 +50,18 @@ export default {
     },
     // 保存修改后的信息
     saveEditPost() {
-      this.putRequest("/position/updateById", this.editData).then(resp => {
+      this.putRequest("/position/updateById", this.editData).then((resp) => {
         if (resp) {
           this.$message({
             message: "信息更改成功!",
-            type: "success"
+            type: "success",
           });
         } else {
           this.$message.error("信息更改失败，请重新提交!");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

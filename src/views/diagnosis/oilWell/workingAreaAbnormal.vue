@@ -17,8 +17,7 @@
             :key="item.oilStationID"
             :label="item.oilStationName"
             :value="item.oilStationName"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="日期">
@@ -29,8 +28,7 @@
           placeholder="选择日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -42,7 +40,6 @@
         >
       </el-form-item>
     </el-form>
-
     <!-- 表格数据 -->
     <el-table
       class="abnormalGtmj_table"
@@ -74,10 +71,33 @@
             element-loading-text="拼命加载中"
             element-loading-spinner="el-icon-loading"
           >
-            <div style="padding:0px;line-height:0px;" v-for="(item, index) in loadCollect" :key="index">
-              <span style=" width:100px;text-align:center; display: inline-block; ">{{ item.wellCommonName }}</span>
-              <span style=" width:180px;text-align:center; display: inline-block; margin-left: 10px">{{ item.checkDate }}</span>
-              <span style=" width:300px;text-align:center; display: inline-block; margin-left: 10px">{{ item.abnormalProblem }}</span>
+            <div
+              style="padding: 0px; line-height: 0px"
+              v-for="(item, index) in loadCollect"
+              :key="index"
+            >
+              <span
+                style="width: 100px; text-align: center; display: inline-block"
+                >{{ item.wellCommonName }}</span
+              >
+              <span
+                style="
+                  width: 180px;
+                  text-align: center;
+                  display: inline-block;
+                  margin-left: 10px;
+                "
+                >{{ item.checkDate }}</span
+              >
+              <span
+                style="
+                  width: 300px;
+                  text-align: center;
+                  display: inline-block;
+                  margin-left: 10px;
+                "
+                >{{ item.abnormalProblem }}</span
+              >
               <el-button
                 type="text"
                 @click="previewGtmj(item)"
@@ -88,8 +108,7 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="index" align="center" label="序号" width="80">
-      </el-table-column>
+      <el-table-column prop="index" align="center" label="序号" width="80" />
       <el-table-column
         prop="wellCommonName"
         align="center"
@@ -235,14 +254,12 @@ export default {
     },
     //采油站下拉框数据初始化
     selectInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(
-        (resp) => {
-          this.loading = false;
-          if (resp) {
-            this.orgNameData = resp.data;
-          }
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
-      );
+      });
     },
     // 只展开一行放入当前行id
     getRowKeys(row) {

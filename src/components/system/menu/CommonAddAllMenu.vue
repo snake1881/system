@@ -1,5 +1,10 @@
 <template>
-  <el-dialog title="新增新菜单" :visible.sync="addAllMenuVisible" width="36%" :before-close="addAllMenuClose">
+  <el-dialog
+    title="新增新菜单"
+    :visible.sync="addAllMenuVisible"
+    width="36%"
+    :before-close="addAllMenuClose"
+  >
     <div class="addAllMenuDiv">
       <el-form :model="allMenuData" label-width="80px">
         <el-form-item label="菜单名称">
@@ -20,7 +25,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="primary" @click="saveAddAllMenu(), addAllMenuClose()" class="addAllMenuButton">提交</el-button>
+    <el-button
+      type="primary"
+      @click="saveAddAllMenu(), addAllMenuClose()"
+      class="addAllMenuButton"
+      >提交</el-button
+    >
     <el-button type="info" @click="addAllMenuClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -28,8 +38,8 @@
 export default {
   props: {
     addAllMenuVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -38,8 +48,8 @@ export default {
         moduleName: "",
         moduleUrl: "",
         moduleType: "",
-        permissionMark: ""
-      }
+        permissionMark: "",
+      },
     };
   },
   methods: {
@@ -50,11 +60,11 @@ export default {
     // 保存新增菜单信息
     saveAddAllMenu() {
       this.postRequest("/system/sysModule/insert", this.allMenuData).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "菜单新增成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -62,8 +72,8 @@ export default {
           }
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

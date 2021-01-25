@@ -1,5 +1,10 @@
 <template>
-  <el-dialog title="编辑部门" :visible.sync="editDepVisible" width="40%" :before-close="editdepClose">
+  <el-dialog
+    title="编辑部门"
+    :visible.sync="editDepVisible"
+    width="40%"
+    :before-close="editdepClose"
+  >
     <div class="editDepDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="部门名称">
@@ -19,7 +24,12 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-button type="primary" @click="saveEditDep(), editdepClose()" class="editDepButton">提交</el-button>
+    <el-button
+      type="primary"
+      @click="saveEditDep(), editdepClose()"
+      class="editDepButton"
+      >提交</el-button
+    >
     <el-button type="info" @click="editdepClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -27,11 +37,11 @@
 export default {
   props: {
     editDepVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   inject: ["reload"],
   data() {
@@ -45,11 +55,11 @@ export default {
     // 部门
     saveEditDep() {
       this.putRequest("/system/department/updateSelective", this.editData).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "部门编辑成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -57,8 +67,8 @@ export default {
           }
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 

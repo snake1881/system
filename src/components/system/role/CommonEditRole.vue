@@ -1,5 +1,10 @@
 <template>
-  <el-dialog title="角色编辑" :visible.sync="editRoleVisible" width="40%" :before-close="editRoleClose">
+  <el-dialog
+    title="角色编辑"
+    :visible.sync="editRoleVisible"
+    width="40%"
+    :before-close="editRoleClose"
+  >
     <div class="editRoleDiv">
       <el-form :model="editData" label-width="80px">
         <el-form-item label="角色名称">
@@ -10,8 +15,8 @@
         </el-form-item>
         <el-form-item label="角色状态">
           <el-select v-model="editData.status" placeholder="请选择">
-            <el-option label="正常" value="1"></el-option>
-            <el-option label="停用" value="0"></el-option>
+            <el-option label="正常" value="1" />
+            <el-option label="停用" value="0" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -29,7 +34,12 @@
         />
       </div>
     </div>
-    <el-button type="primary" @click="saveEditRole(), editRoleClose()" class="editRoleButton">提交</el-button>
+    <el-button
+      type="primary"
+      @click="saveEditRole(), editRoleClose()"
+      class="editRoleButton"
+      >提交</el-button
+    >
     <el-button type="info" @click="editRoleClose()">取消</el-button>
   </el-dialog>
 </template>
@@ -37,19 +47,19 @@
 export default {
   props: {
     editRoleVisible: {
-      type: Boolean
+      type: Boolean,
     },
     editData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
       treeData: [],
       defaultProps: {
         children: "children",
-        label: "moduleName"
-      }
+        label: "moduleName",
+      },
     };
   },
   created() {
@@ -62,7 +72,7 @@ export default {
     },
     // 菜单树
     treeInIt() {
-      this.getRequest("/system/sysModule/getSysModuleTree").then(resp => {
+      this.getRequest("/system/sysModule/getSysModuleTree").then((resp) => {
         if (resp) {
           this.treeData = resp.data;
         }
@@ -76,18 +86,18 @@ export default {
     },
     // 保存修改后的信息
     saveEditRole() {
-      this.putRequest("/system/sysRole/update", this.editData).then(resp => {
+      this.putRequest("/system/sysRole/update", this.editData).then((resp) => {
         if (resp) {
           this.$message({
             message: "信息更改成功!",
-            type: "success"
+            type: "success",
           });
         } else {
           this.$message.error("信息更改失败，请重新提交!");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -104,7 +114,7 @@ export default {
   margin: 0 0 0 180px;
 }
 .editMenuDescription {
-  height:150px;
-  overflow-y:scroll
+  height: 150px;
+  overflow-y: scroll;
 }
 </style>

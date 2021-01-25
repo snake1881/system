@@ -1,6 +1,5 @@
 <template>
   <div class="features">
-    <!-- 条件查询 -->
     <el-form class="features_form" :model="logForm" :inline="true">
       <el-form-item label="采油站:">
         <el-select
@@ -13,7 +12,7 @@
             :key="item.orgName"
             :label="item.orgName"
             :value="item.orgName"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="井号:">
@@ -23,7 +22,7 @@
             :key="item.wellName"
             :label="item.wellName"
             :value="item.wellName"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-button
@@ -44,7 +43,7 @@
           class="features_echarts_child"
           :key="item.dynaId"
           :id="item.dynaId"
-        ></div>
+        />
         <div class="features_echarts_button">
           <el-button type="primary" size="mini" @click="editFeatures(item)"
             >修改</el-button
@@ -106,7 +105,6 @@ export default {
     };
   },
   created() {
-    //
     this.searchFeatures();
     this.queryOrgName();
   },
@@ -156,10 +154,8 @@ export default {
     },
     //实例化图表
     drawLine(val) {
-      // 基于准备好的dom，初始化echarts实例
       let dom = document.getElementById(val.dynaId);
       let myChart = echarts.init(dom);
-      // 绘制图表
       myChart.setOption({
         title: {
           x: "center",
@@ -174,8 +170,7 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            type: "line",
           },
           formatter: function (params) {
             return (
@@ -211,8 +206,6 @@ export default {
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {

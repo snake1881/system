@@ -7,14 +7,9 @@
     :before-close="addBaseWaterStationClose"
   >
     <div class="dialogDiv">
-      <el-form
-        :model="BaseWaterStation"
-        label-width="120px"
-      >
+      <el-form :model="BaseWaterStation" label-width="120px">
         <el-form-item label="注水站名称:">
-          <el-input
-            v-model="BaseWaterStation.waterStationName"
-          />
+          <el-input v-model="BaseWaterStation.waterStationName" />
         </el-form-item>
         <el-form-item label="采油站名称:">
           <el-select
@@ -28,8 +23,7 @@
               :key="item.oilStationId"
               :label="item.oilStationName"
               :value="item.oilStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="注水规模(M3)">
@@ -44,8 +38,7 @@
             type="date"
             placeholder="投用日期"
             value-format="yyyy-MM-dd HH:mm:ss"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="经度:">
           <el-input
@@ -66,9 +59,7 @@
           />
         </el-form-item>
         <el-form-item label="备注:">
-          <el-input
-            v-model="BaseWaterStation.remark"
-          />
+          <el-input v-model="BaseWaterStation.remark" />
         </el-form-item>
       </el-form>
     </div>
@@ -80,7 +71,9 @@
       >
         提交
       </el-button>
-         <el-button type="info" @click="addBaseWaterStationClose()">取消 </el-button>
+      <el-button type="info" @click="addBaseWaterStationClose()"
+        >取消
+      </el-button>
     </span>
   </el-dialog>
 </template>
@@ -88,8 +81,8 @@
 export default {
   props: {
     addBaseWaterStationVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -116,59 +109,58 @@ export default {
         latitude: "",
         altitude: "",
         remark: "",
-        active: ""
+        active: "",
       },
       //
-      activeOptions:[
+      activeOptions: [
         {
           value: "0",
-          label: "无效"
+          label: "无效",
         },
         {
           value: "1",
-          label: "有效"
-        }
+          label: "有效",
+        },
       ],
       //井类别(0:注水井,1:油井)
       wellCategoryOptions: [
         {
           value: "0",
-          label: "注水井"
+          label: "注水井",
         },
         {
           value: "1",
-          label: "油井"
-        }
+          label: "油井",
+        },
       ],
       //井类型(0:旧井)
       wellTypeOptions: [
         {
           value: "0",
-          label: "旧井"
+          label: "旧井",
         },
         {
           value: "1",
-          label: "新井"
+          label: "新井",
         },
         {
           value: "2",
-          label: "遗留井"
-        }
+          label: "遗留井",
+        },
       ],
       //井性质(0:投注,1:转注)[注水井]
       wellNatureOptions: [
         {
           value: "0",
-          label: "投注"
+          label: "投注",
         },
         {
           value: "1",
-          label: "转注"
-        }
+          label: "转注",
+        },
       ],
       //区队ID
       oilStationIdOptions: [],
-      
     };
   },
   methods: {
@@ -178,23 +170,24 @@ export default {
     },
     // 保存修改后的信息
     saveAddBaseWaterStation() {
-      this.postRequest("/basWaterStationInfor/waterStation", this.BaseWaterStation).then(
-        resp => {
-          if (resp) {
-            this.$message({
-              message: "注水站信息新增成功!",
-              type: "success"
-            });
-            this.reload();
-          } else {
-            this.$message.error("注水站信息新增失败，请重新提交!");
-          }
+      this.postRequest(
+        "/basWaterStationInfor/waterStation",
+        this.BaseWaterStation
+      ).then((resp) => {
+        if (resp) {
+          this.$message({
+            message: "注水站信息新增成功!",
+            type: "success",
+          });
+          this.reload();
+        } else {
+          this.$message.error("注水站信息新增失败，请重新提交!");
         }
-      );
+      });
     },
     //区队ID下拉框数据查询
     oilStationInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.oilStationIdOptions = resp.data;
@@ -203,8 +196,8 @@ export default {
     },
     opens() {
       this.oilStationInit();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -229,9 +222,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

@@ -23,8 +23,7 @@
               :key="item.oilStationId"
               :label="item.oilStationName"
               :value="item.oilStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="油罐数量">
@@ -45,8 +44,7 @@
             type="date"
             placeholder="建成日期"
             value-format="yyyy-MM-dd HH:mm:ss"
-          >
-          </el-date-picker>
+          />
         </el-form-item>
         <el-form-item label="经度:">
           <el-input
@@ -91,8 +89,8 @@
 export default {
   props: {
     addBaseWellSiteVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -107,21 +105,21 @@ export default {
         latitude: "",
         altitude: "",
         active: "",
-        remark: ""
+        remark: "",
       },
       //
       activeOptions: [
         {
           value: "0",
-          label: "无效"
+          label: "无效",
         },
         {
           value: "1",
-          label: "有效"
-        }
+          label: "有效",
+        },
       ],
       //区队ID
-      oilStationIdOptions: []
+      oilStationIdOptions: [],
     };
   },
   methods: {
@@ -132,11 +130,11 @@ export default {
     // 保存修改后的信息
     saveAddBaseWellSite() {
       this.postRequest("/basWellSiteInfor/wellSite", this.BaseWellSite).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "井场信息新增成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -147,7 +145,7 @@ export default {
     },
     //区队ID下拉框数据查询
     oilStationInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.oilStationIdOptions = resp.data;
@@ -157,8 +155,8 @@ export default {
 
     opens() {
       this.oilStationInit();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -183,9 +181,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

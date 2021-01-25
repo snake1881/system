@@ -10,7 +10,7 @@
           style="width: 150px"
           size="medium"
           placeholder="井号"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="井类别">
         <el-select
@@ -25,8 +25,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="采油站">
@@ -41,10 +40,9 @@
           <el-option
             v-for="item in orgNameData"
             :key="item.oilStationId"
-              :label="item.oilStationName"
-              :value="item.oilStationName"
-          >
-          </el-option>
+            :label="item.oilStationName"
+            :value="item.oilStationName"
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -65,15 +63,6 @@
           >新增</el-button
         >
       </el-form-item>
-      <!-- <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-download"
-          size="small"
-          @click="fileOpen()"
-          >导出</el-button
-        >
-      </el-form-item> -->
       <el-form-item>
         <el-button
           size="small"
@@ -83,24 +72,6 @@
           >导出</el-button
         >
       </el-form-item>
-      <!-- <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-download"
-          size="small"
-          @click="download3()"
-          >导出</el-button
-        >
-      </el-form-item> -->
-      <!-- <el-item-form>
-        <el-button
-          size="small"
-          type="primary"
-          icon="el-icon-download"
-          @click="handleExport()"
-          >导出</el-button
-        >
-      </el-item-form> -->
       <el-form-item>
         <el-upload
           action="/dbznyt/basWellInfor/import"
@@ -133,8 +104,7 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-      <el-table-column prop="index" align="center" label="序号" width="80">
-      </el-table-column>
+      <el-table-column prop="index" align="center" label="序号" width="80" />
       <el-table-column
         prop="wellName"
         align="center"
@@ -154,14 +124,22 @@
         width="150"
       />
       <el-table-column
-        v-if="this.termData.wellCategory==0||this.termData.wellCategory==2||this.termData.wellCategory==4"
+        v-if="
+          this.termData.wellCategory == 0 ||
+          this.termData.wellCategory == 2 ||
+          this.termData.wellCategory == 4
+        "
         prop="waterStationName"
         align="center"
         label="注水站"
         width="100"
-      ></el-table-column>
+      />
       <el-table-column
-      v-if="this.termData.wellCategory==0||this.termData.wellCategory==2||this.termData.wellCategory==4"
+        v-if="
+          this.termData.wellCategory == 0 ||
+          this.termData.wellCategory == 2 ||
+          this.termData.wellCategory == 4
+        "
         prop="distributionRoomName"
         align="center"
         label="配水间"
@@ -193,7 +171,6 @@
           <p v-if="scope.row.wellCategory == '4'">水源井</p>
         </template>
       </el-table-column>
-
       <el-table-column
         prop="wellType"
         align="center"
@@ -206,7 +183,6 @@
           <p v-if="scope.row.wellType == '2'">遗留井</p>
         </template></el-table-column
       >
-
       <el-table-column
         prop="longitude"
         align="center"
@@ -219,7 +195,7 @@
         label="纬度"
         width="120"
       />
-      <el-table-column  fixed="right" align="center" label="操作" width="150">
+      <el-table-column fixed="right" align="center" label="操作" width="150">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -399,18 +375,16 @@ export default {
     },
     //采油站下拉框数据查询
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(
-        (resp) => {
-          this.loading = false;
-          if (resp) {
-            this.orgNameData = resp.data;
-          }
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
         }
-      );
+      });
     },
     //区队（采油站）ID下拉框数据查询
     oilStationInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.oilStationIdOptions = resp.data;
@@ -456,76 +430,19 @@ export default {
           this.termData.wellName
       );
     },
-    //
-    // download2() {
-    //   var url =
-    //     "http://localhost:8692/demo/basWellInfor/export" +
-    //     "?oilStationName=" +
-    //     this.termData.oilStationName +
-    //     "&wellCategory=" +
-    //     this.termData.wellCategory +
-    //     "&wellName=" +
-    //     this.termData.wellName;
-    //   var form = '<form method="GET"></form>';
-    //   form.attr("action", url);
-    //   form.appendTo(form);
-    //   form.submit();
-    // },
-    // download3: function () {
-    //   this.$axios({
-    //     method: "get",
-    //     url:
-    //       "http://localhost:8692/demo/basWellInfor/export" +
-    //       "?oilStationName=" +
-    //       this.termData.oilStationName +
-    //       "&wellCategory=" +
-    //       this.termData.wellCategory +
-    //       "&wellName=" +
-    //       this.termData.wellName,
-    //     // headers里面设置token
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       // "token":window.sessionStorage.getItem('token')
-    //     },
-    //     data: {
-    //       department_id: parseInt(
-    //         window.sessionStorage.getItem("departmentId")
-    //       ),
-    //       startTime: this.date + "-1",
-    //       endTime: this.date + "-31",
-    //     },
-    //     // 二进制流文件，一定要设置成blob，默认是json
-    //     responseType: "blob",
-    //   }).then((res) => {
-    //     console.log(res);
-    //     if (!res.data) {
-    //       return;
-    //     }
-    //     var name = this.date + "月" + this.departmentName + "销售分析统计.xls";
-    //     var blob = new Blob([res.data]);
-    //     var url = window.URL.createObjectURL(blob);
-    //     var aLink = document.createElement("a");
-    //     aLink.style.display = "none";
-    //     aLink.href = url;
-    //     aLink.setAttribute("download", name);
-    //     document.body.appendChild(aLink);
-    //     aLink.click();
-    //     document.body.removeChild(aLink); //下载完成移除元素
-    //     window.URL.revokeObjectURL(url); //释放掉blob对象
-    //   });
-    // },
     //文件下载
     handleExport() {
-      var elemIF = document.createElement('iframe')
-      elemIF.src = "/dbznyt/basWellInfor/export" +
+      var elemIF = document.createElement("iframe");
+      elemIF.src =
+        "/dbznyt/basWellInfor/export" +
         "?oilStationName=" +
         this.termData.oilStationName +
         "&wellCategory=" +
         this.termData.wellCategory +
         "&wellName=" +
         this.termData.wellName;
-        elemIF.style.display = "none";
-      document.body.appendChild(elemIF)
+      elemIF.style.display = "none";
+      document.body.appendChild(elemIF);
     },
 
     handleRemove(file, fileList) {

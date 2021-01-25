@@ -6,16 +6,12 @@
     :before-close="addBasTeamInforClose"
   >
     <div class="dialogDiv">
-      <el-form  label-width="120px" >
+      <el-form label-width="120px">
         <el-form-item label="施工队伍名称:">
-          <el-input
-            v-model="BasTeamInfor.teamName"
-          />
+          <el-input v-model="BasTeamInfor.teamName" />
         </el-form-item>
         <el-form-item label="负责人:">
-          <el-input
-            v-model="BasTeamInfor.leader"
-          />
+          <el-input v-model="BasTeamInfor.leader" />
         </el-form-item>
         <el-form-item label="联系电话">
           <el-input
@@ -34,14 +30,11 @@
               :key="item.value"
               :label="item.label"
               :value="item.value"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="备注:">
-          <el-input
-            v-model="BasTeamInfor.remark"
-          />
+          <el-input v-model="BasTeamInfor.remark" />
         </el-form-item>
       </el-form>
     </div>
@@ -53,12 +46,7 @@
       >
         提交
       </el-button>
-      <el-button
-        type="info"
-        @click="addBasTeamInforClose()"
-      >
-        取消
-      </el-button>
+      <el-button type="info" @click="addBasTeamInforClose()"> 取消 </el-button>
     </span>
   </el-dialog>
 </template>
@@ -66,8 +54,8 @@
 export default {
   props: {
     addBasTeamInforVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -79,31 +67,31 @@ export default {
         telephone: "",
         status: "",
         active: "",
-        remark: ""
+        remark: "",
       },
       //
       activeOptions: [
         {
           value: "0",
-          label: "无效"
+          label: "无效",
         },
         {
           value: "1",
-          label: "有效"
-        }
+          label: "有效",
+        },
       ],
       statusOptions: [
         {
           value: "0",
-          label: "空闲"
+          label: "空闲",
         },
         {
           value: "1",
-          label: "施工中"
-        }
+          label: "施工中",
+        },
       ],
       //区队ID
-      oilStationIdOptions: []
+      oilStationIdOptions: [],
     };
   },
   methods: {
@@ -114,11 +102,11 @@ export default {
     // 保存修改后的信息
     saveAddBasTeamInfor() {
       this.postRequest("/basTeamInfor/basTeam", this.BasTeamInfor).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "施工队伍信息新增成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -127,7 +115,7 @@ export default {
         }
       );
     },
-  }
+  },
 };
 </script>
 
@@ -152,9 +140,8 @@ export default {
   margin: 0 0 0 240px;
 }
 .el-dialog__header {
-  background:#dadee6;
-  border-bottom: 2px solid #F2F6FC;
+  background: #dadee6;
+  border-bottom: 2px solid #f2f6fc;
   height: 15px;
-
 }
 </style>

@@ -15,16 +15,22 @@
         </el-form-item>
       </el-form>
     </div>
-      <el-button type="primary" @click="saveAddTem(addData), addTemClose()" class="saveTemButton"> 提交 </el-button>
-      <el-button type="info" @click="addTemClose()">取消</el-button>
+    <el-button
+      type="primary"
+      @click="saveAddTem(addData), addTemClose()"
+      class="saveTemButton"
+    >
+      提交
+    </el-button>
+    <el-button type="info" @click="addTemClose()">取消</el-button>
   </el-dialog>
 </template>
 <script>
 export default {
   props: {
     addTemVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -33,7 +39,7 @@ export default {
       addData: {
         templateName: "",
         formulationUnit: "",
-      }
+      },
     };
   },
   methods: {
@@ -44,11 +50,11 @@ export default {
     // 保存
     saveAddTem() {
       this.postRequest("/examine/templateInfor/insert", this.addData).then(
-        resp => {
+        (resp) => {
           if (resp) {
             this.$message({
               message: "考核模板新增成功!",
-              type: "success"
+              type: "success",
             });
             this.reload();
           } else {
@@ -56,8 +62,8 @@ export default {
           }
         }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -73,7 +79,7 @@ export default {
   margin: 0 0 0 180px;
 }
 </style>
-<style lang="less">
+<style>
 element.style {
   margin: 0;
 }

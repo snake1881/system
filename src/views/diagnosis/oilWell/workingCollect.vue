@@ -17,8 +17,7 @@
               :key="item.oilStationId"
               :label="item.oilStationName"
               :value="item.oilStationId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="单井">
@@ -34,8 +33,7 @@
               :key="item.wellId"
               :label="item.wellName"
               :value="item.wellId"
-            >
-            </el-option>
+            />
           </el-select>
         </el-form-item>
         <el-form-item>

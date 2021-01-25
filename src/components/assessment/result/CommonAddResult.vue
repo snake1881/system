@@ -36,8 +36,8 @@
 export default {
   props: {
     addResultVisible: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   inject: ["reload"],
   data() {
@@ -46,8 +46,8 @@ export default {
         takeObject: "",
         totalScore: "",
         examineDate: "",
-        remark: ""
-      }
+        remark: "",
+      },
     };
   },
   methods: {
@@ -60,19 +60,19 @@ export default {
       this.postRequest(
         "/examine/resultInfor/bizExamineResultInfor",
         this.addData
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.$message({
             message: "考核结果新增成功!",
-            type: "success"
+            type: "success",
           });
           this.reload();
         } else {
           this.$message.error("考核结果新增失败，请重新提交!");
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -82,7 +82,7 @@ export default {
   overflow: auto;
 }
 </style>
-<style lang="less" scoped>
+<style >
 .el-input {
   width: 700px;
 }

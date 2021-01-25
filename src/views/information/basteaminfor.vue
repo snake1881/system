@@ -1,23 +1,23 @@
 <template>
   <!-- 井场信息 -->
-  <div class="BasTeamInfor" >
+  <div class="BasTeamInfor">
     <!-- 条件查询 -->
     <el-form class="BasTeamInfor_form" v-model="termData" :inline="true">
       <el-form-item label="施工队伍名称">
         <el-input
           v-model="termData.teamName"
           clearable
-          style="width:150px"
+          style="width: 150px"
           size="medium"
           placeholder="请输入施工队"
-        ></el-input>
+        />
       </el-form-item>
       <el-form-item label="施工状态">
         <el-select
           v-model="termData.status"
           clearable
           filterable
-          style="width:150px"
+          style="width: 150px"
           placeholder="请选择"
           size="medium"
         >
@@ -26,8 +26,7 @@
             :key="item.value"
             :label="item.label"
             :value="item.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -50,7 +49,7 @@
       </el-form-item>
     </el-form>
     <el-table
-    class="BasTeamInfor_table"
+      class="BasTeamInfor_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
@@ -58,21 +57,24 @@
       height="85%"
       border
       lazy
-      style="width:100%; "
+      style="width: 100%"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-      <el-table-column prop="index" align="center" label="序号" width="100">
-      </el-table-column>
+      <el-table-column prop="index" align="center" label="序号" width="100" />
       <el-table-column
         prop="teamName"
         align="center"
         label="施工队名称"
         width="200"
       />
-      <el-table-column prop="leader" align="center" label="负责人" width="150">
-      </el-table-column>
+      <el-table-column
+        prop="leader"
+        align="center"
+        label="负责人"
+        width="150"
+      />
       <el-table-column
         prop="telephone"
         align="center"
@@ -97,18 +99,20 @@
             type="text"
             size="small"
             @click="editBasTeamInfor(scope.row)"
-            class="iconfont icon-bianji"/>
+            class="iconfont icon-bianji"
+          />
           <el-button
             type="text"
             size="small"
             @click="BasTeamInforDelete(scope.row)"
-            class="iconfont icon-shanchu"/>
+            class="iconfont icon-shanchu"
+          />
         </template>
       </el-table-column>
     </el-table>
 
     <!-- 分页 -->
-    <div class="BasTeamInfor_page" >
+    <div class="BasTeamInfor_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -138,13 +142,13 @@ import CommonEditBasTeamInfor from "../..//components/baseinformation/basteaminf
 export default {
   components: {
     CommonAddBasTeamInfor,
-    CommonEditBasTeamInfor
+    CommonEditBasTeamInfor,
   },
   data() {
     return {
       termData: {
         status: "",
-        teamName: ""
+        teamName: "",
       },
       file: [],
       fileList: [],
@@ -152,12 +156,12 @@ export default {
       statusOptions: [
         {
           value: "0",
-          label: "空闲"
+          label: "空闲",
         },
         {
           value: "1",
-          label: "施工中"
-        }
+          label: "施工中",
+        },
       ],
       BasTeamInforData: [],
       orgNameData: [],
@@ -169,7 +173,7 @@ export default {
       editBasTeamInforVisible: false,
       editBasTeamInforData: {},
       //新增
-      addBasTeamInforVisible: false
+      addBasTeamInforVisible: false,
     };
   },
   created() {
@@ -188,7 +192,7 @@ export default {
           this.termData.status +
           "&teamName=" +
           this.termData.teamName
-      ).then(resp => {
+      ).then((resp) => {
         if (resp) {
           this.BasTeamInforData = resp.data.records;
           this.total = resp.data.total;
@@ -206,7 +210,7 @@ export default {
           this.currentPage +
           "&pageSize=" +
           this.pageSize
-      ).then(resp => {
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
           this.BasTeamInforData = resp.data.records;
@@ -254,7 +258,7 @@ export default {
     },
     //采油站下拉框数据查询
     orgNameInit() {
-      this.getRequest("/basOilStationInfor/oilStationOptions").then(resp => {
+      this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
@@ -266,15 +270,15 @@ export default {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           this.deleteRequest("/basTeamInfor/basTeam?teamId=" + val.teamId).then(
-            resp => {
+            (resp) => {
               if (resp) {
                 this.$message({
                   type: "success",
-                  message: "删除成功!"
+                  message: "删除成功!",
                 });
               }
               this.searchBasTeamInfor();
@@ -284,11 +288,11 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -15,7 +15,7 @@
             :key="item.oilStationId"
             :label="item.oilStationName"
             :value="item.oilStationId"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -30,7 +30,7 @@
             :key="item.wellId"
             :label="item.wellName"
             :value="item.wellId"
-          ></el-option>
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -74,7 +74,7 @@
           class="tile_echarts_child"
           :key="item.inddsId"
           :id="item.inddsId"
-        ></div>
+        />
       </div>
     </div>
 
@@ -180,24 +180,11 @@ export default {
       );
     },
     //设置初始化时间
-    getNowTime() {
-      // var now = new Date();
-      // var year = now.getFullYear(); //得到年份
-      // var month = now.getMonth(); //得到月份
-      // var date = now.getDate(); //得到日期
-      // month = month + 1;
-      // month = month.toString().padStart(2, "0");
-      // date = date.toString().padStart(2, "0");
-      // var defaultDate = `${year}-${month}-${date}`;
-      // this.$set(this.logForm, "startTime", defaultDate);
-      // this.$set(this.logForm, "endTime", defaultDate);
-    },
+    getNowTime() {},
     //实例化图表
     drawLine(val) {
-      // 基于准备好的dom，初始化echarts实例
       let dom = document.getElementById(val.inddsId);
       let myChart = echarts.init(dom);
-      // 绘制图表
       myChart.setOption({
         title: {
           x: "center",
@@ -212,8 +199,7 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            type: "line",
           },
           formatter: function (params) {
             return (
@@ -249,8 +235,6 @@ export default {
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
@@ -294,16 +278,6 @@ export default {
       this.logForm.currentPage = val;
       this.searchTile();
     },
-    // //添加功图至知识库
-    // addTile(val) {
-    //   this.addTileData = val;
-    //   this.addTileVisible = true;
-    //   console.log(this.addTileData);
-    // },
-    // 关闭新增对话框
-    // addTileClose() {
-    //   this.addTileVisible = false;
-    // }
   },
 };
 </script>

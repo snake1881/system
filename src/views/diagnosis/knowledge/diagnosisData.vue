@@ -8,8 +8,7 @@
           filterable
           clearable
           placeholder="模块名称"
-        >
-        </el-input>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -46,28 +45,23 @@
         label="模块名称"
         width="140"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="diagnosisStep"
         label="诊断步骤"
         width="140"
         align="center"
-      ></el-table-column>
-      <el-table-column
-        prop="sequence"
-        label="序号"
-        width="80"
-        align="center"
-      ></el-table-column>
+      />
+      <el-table-column prop="sequence" label="序号" width="80" align="center" />
       <el-table-column
         prop="diagnosisResult"
         label="诊断结果"
         width="280"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column label="诊断依据" width="480" header-align="center">
         <template slot-scope="scope">
-          <div v-html="scope.row.diagnosisBasis"></div>
+          <div v-html="scope.row.diagnosisBasis" />
         </template>
       </el-table-column>
       <el-table-column label="操作" width="180" align="center">
@@ -87,7 +81,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <!-- 分页 -->
     <div class="diagnosisData_page">
       <el-pagination
@@ -220,38 +213,6 @@ export default {
       this.currentPage = parseInt(val);
       this.diagnosisDataInit();
     },
-    //合并表格第一列相同单元格
-    // objectOneMethod({ row, column, rowIndex, columnIndex }) {
-    //   if (columnIndex === 0) {
-    //     const _row = this.setTable(this.diagnosisData).one[rowIndex];
-    //     const _col = _row > 0 ? 1 : 0;
-    //     return {
-    //       rowspan: _row,
-    //       colspan: _col
-    //     };
-    //   }
-    // },
-    // setTable(tableData) {
-    //   let spanOneArr = [],
-    //     concatOne = 0;
-    //   tableData.forEach((item, index) => {
-    //     if (index === 0) {
-    //       spanOneArr.push(1);
-    //     } else {
-    //       if (item.modelName === tableData[index - 1].modelName) {
-    //         //第一列需合并相同内容的判断条件
-    //         spanOneArr[concatOne] += 1;
-    //         spanOneArr.push(0);
-    //       } else {
-    //         spanOneArr.push(1);
-    //         concatOne = index;
-    //       }
-    //     }
-    //   });
-    //   return {
-    //     one: spanOneArr
-    //   };
-    // }
   },
 };
 </script>

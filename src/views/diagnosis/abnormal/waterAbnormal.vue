@@ -13,8 +13,7 @@
           placeholder="选择日期"
           format="yyyy-MM-dd"
           value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -44,42 +43,39 @@
         label="采油站名称"
         width="200"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="waterTotal"
         label="总井数"
         width="150"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="openNumber"
         label="开井数"
         width="150"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="totalAllocation"
         label="总配注量"
         width="180"
         align="center"
-      ></el-table-column>
+      />
       <el-table-column
         prop="totalWaterInjection"
         label="总注水量"
         width="180"
         align="center"
-      >
-      </el-table-column>
+      />
       <el-table-column
         prop="normalNumber"
         label="正常井数"
         width="150"
         align="center"
       >
-      <template slot-scope="scope">
-          <a v-if="scope.row.normalNumber == 0">{{
-            scope.row.normalNumber
-          }}</a>
+        <template slot-scope="scope">
+          <a v-if="scope.row.normalNumber == 0">{{ scope.row.normalNumber }}</a>
           <a
             v-if="scope.row.normalNumber != 0"
             style="color: #409eff; cursor: pointer"
@@ -93,10 +89,8 @@
         label="欠注井数"
         width="150"
         align="center"
-      ><template slot-scope="scope">
-          <a v-if="scope.row.shortNumber == 0">{{
-            scope.row.shortNumber
-          }}</a>
+        ><template slot-scope="scope">
+          <a v-if="scope.row.shortNumber == 0">{{ scope.row.shortNumber }}</a>
           <a
             v-if="scope.row.shortNumber != 0"
             style="color: #409eff; cursor: pointer"
@@ -110,10 +104,8 @@
         width="150"
         align="center"
       >
-      <template slot-scope="scope">
-          <a v-if="scope.row.exceedNumber == 0">{{
-            scope.row.exceedNumber
-          }}</a>
+        <template slot-scope="scope">
+          <a v-if="scope.row.exceedNumber == 0">{{ scope.row.exceedNumber }}</a>
           <a
             v-if="scope.row.exceedNumber != 0"
             style="color: #409eff; cursor: pointer"
@@ -168,16 +160,12 @@ export default {
     this.opened();
   },
   methods: {
-    //
     opened() {
       this.waterAbnormalInit();
-      // this.coordinate();
-      // this.drawLine();
     },
     // 编辑
     waterAbnormalCollect(row, column) {
       this.waterAbnormalData.oilStationId = row.oilStationId;
-      // this.waterAbnormal.createTime=this.termForm.createTime;
       if (column.label == "正常井数") {
         this.waterAbnormalData.abnormalType = "0";
         this.waterAbnormalVisible = true;
@@ -197,15 +185,10 @@ export default {
       this.waterAbnormalVisible = false;
     },
     waterAbnormalInit() {
-      // this.waterAbnormal.createTime=this.termForm.createTime;
       if (this.waterAbnormalData.createTime === "") {
         //默认传递当前日期
         this.waterAbnormalData.createTime = this.getdate();
       }
-      // if (this.waterAbnormalData.createTime === "null"||this.waterAbnormalData.createTime === null) {
-      //   //默认传递当前日期
-      //   this.waterAbnormalData.createTime = "";
-      // };
       this.getRequest(
         "/waterAbnormalCollect/waterCollect?createTime=" +
           this.waterAbnormalData.createTime
@@ -231,8 +214,7 @@ export default {
         tooltip: {
           trigger: "axis",
           axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "shadow", // 默认为直线，可选为：'line' | 'shadow'
+            type: "shadow",
           },
           formatter: "{c}",
         },
@@ -252,7 +234,7 @@ export default {
         xAxis: {
           type: "category",
           axisTick: {
-            show: false, //隐藏x坐标轴刻度
+            show: false,
           },
           //x轴字体样式
           axisLabel: {
@@ -301,11 +283,9 @@ export default {
           {
             name: "总井数",
             type: "bar",
-            barWidth: 6, //柱体宽带
-            // data:this.coordinates[0],
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -313,10 +293,9 @@ export default {
           {
             name: "开井数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -325,10 +304,9 @@ export default {
           {
             name: "总配注量",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -337,10 +315,9 @@ export default {
           {
             name: "总注水量",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -348,10 +325,9 @@ export default {
           {
             name: "正常井数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -360,10 +336,9 @@ export default {
           {
             name: "欠注井数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -371,10 +346,9 @@ export default {
           {
             name: "超注井数",
             type: "bar",
-            barWidth: 6, //柱体宽度
+            barWidth: 6,
             itemStyle: {
               normal: {
-                //柱体圆角
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
@@ -386,9 +360,7 @@ export default {
     drawLine() {
       let chart = this.$echarts.init(this.$refs.myChart);
       this.getOption();
-      // 绘制图表
       chart.setOption(this.option, true);
-      //  }
     },
     //将坐标数据串处理为坐标点
     coordinate() {
@@ -401,7 +373,6 @@ export default {
         array[3] = this.waterAbnormal[i].totalAllocation;
         array[4] = this.waterAbnormal[i].totalWaterInjection;
         array[5] = this.waterAbnormal[i].normalNumber;
-        // array[6] = this.waterAbnormal[i].abnormalNumber;
         array[6] = this.waterAbnormal[i].shortNumber;
         array[7] = this.waterAbnormal[i].exceedNumber;
         this.coordinates[i] = array;
