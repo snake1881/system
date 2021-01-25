@@ -254,13 +254,13 @@ export default {
       // 油井
       oilWell: [],
       // 功图
-      gtDate1: "2020-08-31",
-      gtDate2: "2020-12-30",
+      gtDate1: "2020-01-01",
+      gtDate2: "",
       coordinates: [[]],
       tableData: [],
       // 载荷
-      zhDate1: "2020-08-31",
-      zhDate2: "2020-12-30",
+      zhDate1: "2020-01-01",
+      zhDate2: "",
       // 载荷曲线日期
       zhLineDate: [],
       // 载荷曲线中最小载荷
@@ -268,8 +268,8 @@ export default {
       // 载荷曲线中最大载荷
       zhLineMaxLoad: [],
       // 生产
-      proDate1: "2020-08-31",
-      proDate2: "2020-12-30",
+      proDate1: "2020-01-01",
+      proDate2: "",
       //生产曲线日期
       productProdDate: [],
       //生产曲线产油
@@ -301,7 +301,6 @@ export default {
     this.zhLineInit();
     //视频数据
     this.wellSiteVideoInit();
-    console.log(this.$route);
   },
   methods: {
     // 单井基础信息
@@ -344,6 +343,13 @@ export default {
     },
     // 功图请求接口
     gtInit() {
+      var aData = new Date();
+      this.gtDate2 =
+        aData.getFullYear() +
+        "-" +
+        (aData.getMonth() + 1) +
+        "-" +
+        aData.getDate();
       this.getRequest(
         "/wells/well/selectWellGt?sTime=" +
           this.gtDate1 +
@@ -453,6 +459,12 @@ export default {
     // 生产曲线
     proLineInit() {
       this.productProdDate = [];
+      this.proDate2 =
+        aData.getFullYear() +
+        "-" +
+        (aData.getMonth() + 1) +
+        "-" +
+        aData.getDate();
       this.getRequest(
         "/wells/well/setWellInfoProducts?sTime=" +
           this.proDate1 +
@@ -635,6 +647,12 @@ export default {
     // 动液面曲线
     fluidLevelInit() {
       this.fluidLevelDate = [];
+      this.proDate2 =
+        aData.getFullYear() +
+        "-" +
+        (aData.getMonth() + 1) +
+        "-" +
+        aData.getDate();
       this.getRequest(
         "/wells/well/selectFluids?sTime=" +
           this.proDate1 +
@@ -732,6 +750,13 @@ export default {
     // 载荷曲线
     zhLineInit() {
       this.zhLineDate = [];
+      var aData = new Date();
+      this.zhDate2 =
+        aData.getFullYear() +
+        "-" +
+        (aData.getMonth() + 1) +
+        "-" +
+        aData.getDate();
       this.getRequest(
         "/wells/well/selectZh?sTime=" +
           this.zhDate1 +
