@@ -180,6 +180,12 @@
                   <span style="color: #e65a40">{{ this.dilyWater }}</span></span
                 >
                 <span class="main_between_1_item_water1_span"
+                  >日配注(m<sup>3</sup>):
+                  <span style="color: #e65a40">{{
+                    this.drInjectionAllocation
+                  }}</span></span
+                >
+                <span class="main_between_1_item_water1_span"
                   >月注水(m<sup>3</sup>):
                   <span style="color: #e65a40">{{
                     this.monthWater
@@ -250,6 +256,8 @@ export default {
       waterOpen: "",
       // 日注水
       dilyWater: "",
+      //日配注
+      drInjectionAllocation: "",
       // 月注水
       monthWater: "",
       // 年注水
@@ -312,6 +320,18 @@ export default {
             myChart.setOption({
               tooltip: {
                 trigger: "axis",
+              },
+              toolbox: {
+                show: true,
+                feature: {
+                  // dataZoom: {
+                  //     yAxisIndex: 'none'
+                  // },
+                  // dataView: {readOnly: false},
+                  magicType: { type: ["line", "bar"] },
+                  // restore: {},
+                  saveAsImage: {},
+                },
               },
               // 折线颜色
               color: ["#FF8888", "#33FFFF", "#FF33FF", "red", "#0000FF"],
@@ -654,6 +674,7 @@ export default {
           this.waterTotal = resp.data.wellTotal;
           this.waterOpen = resp.data.wellOpen;
           this.dilyWater = resp.data.drWaterInjection;
+          this.drInjectionAllocation = resp.data.drInjectionAllocation;
           this.monthWater = resp.data.drWaterInjectionMonth;
           this.yearWater = resp.data.drWaterInjectionYear;
           this.waterNormal = resp.data.normalNum;

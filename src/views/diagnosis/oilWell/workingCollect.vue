@@ -1098,7 +1098,21 @@ export default {
               },
             },
           ],
-
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "6%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              // dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
+            },
+          },
           tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -1311,8 +1325,8 @@ export default {
             },
           ],
         });
-      };
-       if (val === 1) {
+      }
+      if (val === 1) {
         myChart.setOption({
           title: {
             x: "center",
@@ -1390,7 +1404,6 @@ export default {
           ],
         });
       }
-
     },
     drawStandardLine() {
       console.log(this.coordinates);
@@ -1618,7 +1631,7 @@ export default {
             // },
             // dataView: {readOnly: false},
             magicType: { type: ["line", "bar"] },
-            restore: {},
+            // restore: {},
             saveAsImage: {},
           },
         },
@@ -1628,20 +1641,52 @@ export default {
             // 坐标轴指示器，坐标轴触发有效
             type: "line", // 默认为直线，可选为：'line' | 'shadow'
           },
+          //自定义触发方法
           formatter: function (params) {
-            return (
-              "<div><p>时间：" +
-              params[0].value[0] +
-              "</p>" +
-              "<p>产液量：" +
-              params[0].value[1] +
-              "M<sup>3</sup><p>含水率：" +
-              params[1].value[1] * 100 +
-              "%<p>产油：" +
-              params[2].value[1] +
-              "M<sup>3</sup></p>" +
-              "</div>"
-            );
+            let result = "";
+            if (params.length === 0) {
+              return "无数据，请选择曲线！";
+            } else {
+              let result = "<div><p>时间：" + params[0].value[0];
+              console.log(result);
+              for (var i = 0; i < params.length; i++) {
+                if (params[i].componentIndex === 0) {
+                  result =
+                    result +
+                    "<p>产液量：" +
+                    params[i].value[1] +
+                    "M<sup>3</sup></p>";
+                }
+                if (params[i].componentIndex === 1) {
+                  result =
+                    result + "<p>含水率：" + params[i].value[1] * 100 + "%</p>";
+                }
+                if (params[i].componentIndex === 2) {
+                  result =
+                    result +
+                    "<p>产油：" +
+                    params[i].value[1] +
+                    "M<sup>3</sup></p>";
+                }
+              }
+              result = result + "</div>";
+              // console.log(result);
+              return result;
+            }
+
+            // return (
+            //   "<div><p>时间：" +
+            //   params[0].value[0] +
+            //   "</p>" +
+            //   "<p>产液量：" +
+            //   params[0].value[1] +
+            //   "M<sup>3</sup><p>含水率：" +
+            //   params[1].value[1] * 100 +
+            //   "%<p>产油：" +
+            //   params[2].value[1] +
+            //   "M<sup>3</sup></p>" +
+            //   "</div>"
+            // );
           },
         },
         legend: {
@@ -1792,26 +1837,62 @@ export default {
             },
             subtext: "",
           },
+          toolbox: {
+            show: true,
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              // dataView: {readOnly: false},
+              magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
+            },
+          },
           tooltip: {
             trigger: "axis",
             axisPointer: {
               // 坐标轴指示器，坐标轴触发有效
               type: "line", // 默认为直线，可选为：'line' | 'shadow'
             },
+            //自定义触发方法
             formatter: function (params) {
-              return (
-                "<div><p>时间：" +
-                params[0].value[0] +
-                "</p>" +
-                "<p >最大载荷：" +
-                params[0].value[1] +
-                "KN<p>最小载荷：" +
-                params[1].value[1] +
-                "KN<p>载荷差载荷：" +
-                params[2].value[1] +
-                "KN</p>" +
-                "</div>"
-              );
+              let result = "";
+              if (params.length === 0) {
+                return "无数据，请选择曲线！";
+              } else {
+                let result = "<div><p>时间：" + params[0].value[0] +"</p>";
+                console.log(result);
+                for (var i = 0; i < params.length; i++) {
+                  if (params[i].componentIndex === 0) {
+                    result =
+                      result + "<p >最大载荷：" + params[i].value[1] + "KN</p>";
+                  }
+                  if (params[i].componentIndex === 1) {
+                    result =
+                      result + "<p>最小载荷：" + params[i].value[1] + "KN</p>";
+                  }
+                  if (params[i].componentIndex === 2) {
+                    result =
+                      result + "载荷差载荷：" + params[i].value[1] + "KN</p>";
+                  }
+                }
+                result = result + "</div>";
+                return result;
+              }
+              // return (
+              //   "<div><p>时间：" +
+              //   params[0].value[0] +
+              //   "</p>" +
+              //   "<p >最大载荷：" +
+              //   params[0].value[1] +
+              //   "KN<p>最小载荷：" +
+              //   params[1].value[1] +
+              //   "KN<p>载荷差载荷：" +
+              //   params[2].value[1] +
+              //   "KN</p>" +
+              //   "</div>"
+              // );
             },
           },
           legend: {
