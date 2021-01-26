@@ -122,9 +122,9 @@ export default {
   },
   mounted() {},
   created() {
+    this.getdate();
     this.searchTile();
     //输入框初始化默认时间
-    this.getNowTime();
     this.queryOrgName();
   },
   methods: {
@@ -178,6 +178,27 @@ export default {
           }
         }
       );
+    },
+    //获取当前日期
+    getdate() {
+      var curDate = new Date();
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      month = month < 10 ? "0" + month : month;
+      var strDate = date.getDate();
+      strDate = strDate < 10 ? "0" + strDate : strDate;
+      this.logForm.endTime= year + "-" + month + "-" + strDate;
+      var date1 = new Date();
+      date1.setTime(date.getTime() - 1 * 24 * 60 * 60 * 1000);
+      var year1 = date1.getFullYear();
+      var month1 = date1.getMonth() + 1;
+      month1 = month1 < 10 ? "0" + month1 : month1;
+      var day1 = date1.getDate();
+      day1 = day1 < 10 ? "0" + day1 : day1;
+      this.logForm.startTime = year1 + "-" + month1 + "-" + day1;
+     
     },
     //设置初始化时间
     getNowTime() {},
