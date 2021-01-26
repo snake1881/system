@@ -1234,83 +1234,163 @@ export default {
       }
       let myChart = echarts.init(dom);
       // 绘制图表
-
-      myChart.setOption({
-        title: {
-          x: "center",
-          text:
-            "井号：" +
-            this.detailsCollect.wellName +
-            "  时间：" +
-            this.tableData.yesterdayIndicatorDiagram.acquisitionTime,
-          top: "7%",
-          textStyle: {
-            fontSize: 13,
-            fontStyle: "normal",
-            fontWeight: "bolder",
-          },
-        },
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            // 坐标轴指示器，坐标轴触发有效
-            type: "line", // 默认为直线，可选为：'line' | 'shadow'
-          },
-          formatter: function (params) {
-            return (
-              "<div><p>位移：" +
-              params[0].value[0] +
-              "M</p>" +
-              "<p>载荷：" +
-              params[0].value[1] +
-              "KN</p>" +
-              "</div>"
-            );
-          },
-        },
-        grid: {
-          left: "6%",
-          right: "3%",
-          bottom: "15%",
-          top: "20%",
-          containLabel: true,
-        },
-        xAxis: {
-          name: "位移(M)",
-          nameLocation: "middle",
-          min: 0,
-          max: 4,
-          type: "value",
-          axisLine: { onZero: false },
-          nameTextStyle: {
-            padding: [10, 0, 0, 0],
-            fontSize: 10,
-          },
-        },
-        yAxis: {
-          name: "载荷(KN)",
-          nameLocation: "middle",
-          // min: 0,
-          // max: 100,
-          type: "value",
-          axisLine: { onZero: false },
-          nameTextStyle: {
-            padding: [0, 0, 8, 0],
-            fontSize: 10,
-          },
-        },
-        series: [
-          {
-            symbol: "none",
-            data: this.coordinates,
-            type: "line",
-            smooth: true,
-            lineStyle: {
-              width: 1.5,
+      if (val === 0) {
+        myChart.setOption({
+          title: {
+            x: "center",
+            text:
+              "井号：" +
+              this.detailsCollect.wellName +
+              "  时间：" +
+              this.tableData.yesterdayIndicatorDiagram.acquisitionTime,
+            top: "7%",
+            textStyle: {
+              fontSize: 13,
+              fontStyle: "normal",
+              fontWeight: "bolder",
             },
           },
-        ],
-      });
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: function (params) {
+              return (
+                "<div><p>位移：" +
+                params[0].value[0] +
+                "M</p>" +
+                "<p>载荷：" +
+                params[0].value[1] +
+                "KN</p>" +
+                "</div>"
+              );
+            },
+          },
+          grid: {
+            left: "6%",
+            right: "3%",
+            bottom: "15%",
+            top: "20%",
+            containLabel: true,
+          },
+          xAxis: {
+            name: "位移(M)",
+            nameLocation: "middle",
+            min: 0,
+            max: 4,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [10, 0, 0, 0],
+              fontSize: 10,
+            },
+          },
+          yAxis: {
+            name: "载荷(KN)",
+            nameLocation: "middle",
+            // min: 0,
+            // max: 100,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 8, 0],
+              fontSize: 10,
+            },
+          },
+          series: [
+            {
+              symbol: "none",
+              data: this.coordinates,
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+              },
+            },
+          ],
+        });
+      };
+       if (val === 1) {
+        myChart.setOption({
+          title: {
+            x: "center",
+            text:
+              "井号：" +
+              this.detailsCollect.wellName +
+              "  时间：" +
+              this.tableData.nowIndicatorDiagram.acquisitionTime,
+            top: "7%",
+            textStyle: {
+              fontSize: 13,
+              fontStyle: "normal",
+              fontWeight: "bolder",
+            },
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: function (params) {
+              return (
+                "<div><p>位移：" +
+                params[0].value[0] +
+                "M</p>" +
+                "<p>载荷：" +
+                params[0].value[1] +
+                "KN</p>" +
+                "</div>"
+              );
+            },
+          },
+          grid: {
+            left: "6%",
+            right: "3%",
+            bottom: "15%",
+            top: "20%",
+            containLabel: true,
+          },
+          xAxis: {
+            name: "位移(M)",
+            nameLocation: "middle",
+            min: 0,
+            max: 4,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [10, 0, 0, 0],
+              fontSize: 10,
+            },
+          },
+          yAxis: {
+            name: "载荷(KN)",
+            nameLocation: "middle",
+            // min: 0,
+            // max: 100,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 8, 0],
+              fontSize: 10,
+            },
+          },
+          series: [
+            {
+              symbol: "none",
+              data: this.coordinates,
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+              },
+            },
+          ],
+        });
+      }
+
     },
     drawStandardLine() {
       console.log(this.coordinates);
