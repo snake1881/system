@@ -184,11 +184,11 @@ export default {
   height: 400px;
   overflow: auto;
 }
-</style>
-<style>
-.el-input {
+.dialogDiv .el-input {
   width: 700px;
 }
+</style>
+<style>
 .el-dialog__header {
   background: #dadee6;
   border-bottom: 2px solid #f2f6fc;
