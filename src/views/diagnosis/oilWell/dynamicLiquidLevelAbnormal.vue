@@ -102,26 +102,26 @@
       <el-table-column
         prop="fluidLevel"
         label="动液面(M)"
-        width="100"
+        width="90"
         align="center"
       />
       <el-table-column
         prop="fluidLevelStandard"
         label="标准动液面(M)"
-        width="100"
+        width="90"
         align="center"
       />
       <el-table-column
         prop="abnormalResult"
         label="异常结论"
-        width="180"
+        min-width="240"
         align="center"
         :show-overflow-tooltip="true"
       />
       <el-table-column
         prop="abnormalReason"
         label="异常原因"
-        width="120"
+        width="100"
         align="center"
       />
       <el-table-column
@@ -140,11 +140,11 @@
       <el-table-column
         prop="remark"
         label="备注"
-        width="100"
+        width="80"
         align="center"
         :show-overflow-tooltip="true"
       />
-      <el-table-column align="center" label="操作" width="140">
+      <el-table-column align="center" label="操作" min-width="120">
         <template slot-scope="scope">
           <el-button
             type="text"
