@@ -133,7 +133,7 @@
         <template slot-scope="scope">
           <p v-if="scope.row.isIntervalPump == '0'">正常</p>
           <p v-if="scope.row.isIntervalPump == '1'" style="color: red">
-            需停井恢复
+            动液面异常
           </p>
         </template>
       </el-table-column>
