@@ -6,11 +6,13 @@ import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import echarts from "echarts";
 import VueAMap from "vue-amap"
+import md5 from 'js-md5';
 
 Vue.config.productionTip = false;
 Vue.use(Element);
 Vue.prototype.$echarts = echarts;
 Vue.use(VueAMap);
+Vue.prototype.$md5 = md5;
 VueAMap.initAMapApiLoader({
   key: "add9a4acb6a222e7695d72da7e4d9ae7",
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
@@ -34,6 +36,7 @@ import { initMenu } from "./utils/menu";
 import './assets/icon/iconfont.css';
 import './vendor/Blob'
 import './vendor/Export2Excel'
+
 
 // 导航守卫
 router.beforeEach((to, from, next) => {

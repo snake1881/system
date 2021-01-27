@@ -304,7 +304,7 @@
         <div class="work_collect_item_gt_g" id="gt1" ref="dom1" />
         <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
         <div class="work_collect_item_gt_g" id="gt3" ref="dom3" />
-        <!-- <div class="work_collect_item_gt_g" id="gt4" ref="dom4" /> -->
+        <div class="work_collect_item_gt_g" id="gt4" ref="dom4" />
       </div>
       <table
         cellspacing="0"
@@ -761,6 +761,8 @@ export default {
       loadArray3: [[]],
       // tableData1: [],
       coordinates: [[]],
+      //功图叠加处理后数据
+      coordinatesOverlay:[[[]]],
       previewGtmjVisible: false,
       previewGtmjData: {},
       logForm: {
@@ -1217,14 +1219,19 @@ export default {
       ).then((resp) => {
         if (resp) {
           this.tableData = resp.data;
-          console.log(this.tableData.nowIndicatorDiagram);
-          console.log(this.tableData);
+          // console.log(this.tableData.nowIndicatorDiagram);
+          // console.log(this.tableData);
           this.coordinate(this.tableData.yesterdayIndicatorDiagram);
+          this.coordinatesOverlay[0]=this.coordinates;
           this.drawLine(0);
           this.coordinate(this.tableData.nowIndicatorDiagram);
+          this.coordinatesOverlay[1]=this.coordinates;
           this.drawLine(1);
           this.coordinate(this.tableData.standardIndicatorDiagram);
+          this.coordinatesOverlay[2]=this.coordinates;
           this.drawStandardLine();
+          this.drawOverlay();
+          console.log(this.coordinatesOverlay);
         }
       });
       this.getRequest(
@@ -1236,6 +1243,122 @@ export default {
           console.log(resp);
         }
       });
+    },
+    //汇制功图叠加
+    drawOverlay(){
+       let dom = ""; 
+       dom = document.getElementById(this.$refs.dom4.id);
+       let myChart = echarts.init(dom);
+       let series = [];
+       for(var i = 0;i<this.coordinatesOverlay.length;i++){
+         series[i]={
+              symbol: "none",
+              data: this.coordinatesOverlay[i],
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+              },
+            }
+       };
+       console.log(series);
+        myChart.setOption({
+          title: {
+            x: "center",
+            text:
+              "井号：" +
+              this.detailsCollect.wellName +
+              "（昨天，今日标准功图叠加）",
+            top: "7%",
+            textStyle: {
+              fontSize: 13,
+              fontStyle: "normal",
+              fontWeight: "bolder",
+            },
+          },
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "line", // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: function (params) {
+              console.log(params);
+              // return (
+              //   "<div><p>位移：" +
+              //   params[0].value[0] +
+              //   "M</p>" +
+              //   "<p>载荷：" +
+              //   params[0].value[1] +
+              //   "KN</p>" +
+              //   "</div>"
+              // );
+            },
+          },
+          grid: {
+            left: "6%",
+            right: "3%",
+            bottom: "15%",
+            top: "20%",
+            containLabel: true,
+          },
+          xAxis: {
+            name: "位移(M)",
+            nameLocation: "middle",
+            min: 0,
+            max: 4,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [10, 0, 0, 0],
+              fontSize: 10,
+            },
+          },
+          yAxis: {
+            name: "载荷(KN)",
+            nameLocation: "middle",
+            // min: 0,
+            // max: 100,
+            type: "value",
+            axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 8, 0],
+              fontSize: 10,
+            },
+          },
+          series: [
+            {
+              symbol: "none",
+              data: this.coordinatesOverlay[0],
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+                color:"#FF8888",
+              },
+            },
+            {
+              symbol: "none",
+              data: this.coordinatesOverlay[1],
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+                color:"#33FFFF",
+              },
+            },
+            {
+              symbol: "none",
+              data: this.coordinatesOverlay[2],
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+                color:"#FF33FF",
+              },
+            },
+          ],
+        });
     },
     //详情页面绘制昨日和今日图像
     drawLine(val) {

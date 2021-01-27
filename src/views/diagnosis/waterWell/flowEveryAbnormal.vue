@@ -53,6 +53,9 @@
           @click="searchFlowEvery()"
           >查询</el-button
         >
+        <el-button type="primary" size="small" @click="waterInjectionAllocation()"
+          >水井智能调配</el-button
+        >
       </el-form-item>
     </el-form>
     <!-- 表格数据 -->
@@ -122,10 +125,20 @@
         @current-change="handleCurrentChange"
       />
     </div>
+     <!-- 异常参数设置 -->
+    <common-water-injection-allocation
+      :waterInjectionAllocationVisible="waterInjectionAllocationVisible"
+      :waterInjectionAllocationData="waterInjectionAllocationData"
+      @waterInjectionAllocationRowClose="waterInjectionAllocationClose"
+    />
   </div>
 </template>
 <script>
+import CommonWaterInjectionAllocation from "../../../components/diagnosis/abnormal/waterabnormalcollect/CommonWaterInjectionAllocation"
 export default {
+   components: {
+    CommonWaterInjectionAllocation,
+  },
   data() {
     return {
       // 查询
@@ -146,6 +159,9 @@ export default {
       total: 0,
       // 表格加载动画
       loading: true,
+       // 异常筛选参数设置编辑
+      waterInjectionAllocationVisible: false,
+      waterInjectionAllocationData: {},
     };
   },
   created() {
@@ -228,6 +244,16 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.flowEveryInit();
+    },
+    // 异常参数筛选设置编辑
+    waterInjectionAllocation() {
+      // this.waterInjectionAllocationData = val;
+      this.waterInjectionAllocationVisible = true;
+      console.log("success");
+    },
+    // 关闭异常参数筛选编辑框
+    waterInjectionAllocationClose() {
+      this.waterInjectionAllocationVisible = false;
     },
   },
 };
