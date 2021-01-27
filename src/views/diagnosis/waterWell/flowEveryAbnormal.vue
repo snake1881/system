@@ -54,7 +54,7 @@
           >查询</el-button
         >
         <el-button type="primary" size="small" @click="waterInjectionAllocation()"
-          >异常参数设置</el-button
+          >水井智能调配</el-button
         >
       </el-form-item>
     </el-form>

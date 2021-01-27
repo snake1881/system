@@ -185,13 +185,14 @@ export default {
           "&value=" +
           this.termData.value
       ).then((resp) => {
-        if (resp) {
+        if (resp.data===0) {
+          // console.log(resp);
           this.$message({
-            message: "水井配注量修改成功!",
+            message: "水井配注量调配成功！",
             type: "success",
           });
         } else {
-          this.$message.error("水井配注量修改失败!请重试！");
+          this.$message.error("水井配注量修改失败!");
         }
       });
     },
