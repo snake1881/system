@@ -164,7 +164,10 @@
           <div class="wellsite_right_waterWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
               >瞬时注量:
-              <span style="color: #2cab6f">0</span> m<sup>3</sup>/h</span
+              <span style="color: #2cab6f" v-if="item">{{
+                item.instantaneousFlow === null ? 0 : item.instantaneousFlow
+              }}</span>
+              m<sup>3</sup>/h</span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
               >当日注水:
@@ -174,9 +177,11 @@
               m<sup>3</sup></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
-              >累计注水: <span style="color: #2cab6f">0</span> m<sup
-                >3</sup
-              ></span
+              >累计注水:
+              <span style="color: #2cab6f" v-if="item">{{
+                item.totalFlow === null ? 0 : item.totalFlow
+              }}</span>
+              m<sup>3</sup></span
             >
             <span
               class="wellsite_right_waterWell_details_dec_span"
