@@ -484,6 +484,11 @@ export default {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
+           let oilAll = {
+            oilStationId: "",
+            oilStationName: "全站",
+          };
+          this.orgNameData.push(oilAll);
         }
       });
     },

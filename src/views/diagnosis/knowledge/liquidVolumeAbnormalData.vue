@@ -218,6 +218,7 @@ export default {
     this.liqFilterConditionInit();
     this.ylYccsInit();
     this.orgNameInit();
+    this.waterSelectInit();
   },
   methods: {
     // 根据井名和日期删除
@@ -313,21 +314,36 @@ export default {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
+          let oilAll = {
+            oilStationId: "",
+            oilStationName: "全站",
+          };
+          this.orgNameData.push(oilAll);
         }
       });
     },
-    //单井下拉框初始化
-    wellOptionsInit() {
-      this.getRequest("/basWellInfor/selectWater").then((resp) => {
-        this.loading = false;
-        if (resp) {
-          this.wellOptions = resp.data;
-        }
-      });
-    },
+    // //单井下拉框初始化
+    // wellOptionsInit() {
+    //   this.getRequest("/basWellInfor/selectWater").then((resp) => {
+    //     this.loading = false;
+    //     if (resp) {
+    //       this.wellOptions = resp.data;
+    //     }
+    //   });
+    // },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+      this.getRequest("/basWellInfor/selectWaterById??oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellOptions = resp.data;
+          }
+        }
+      );
+    },
+     //单井下拉框初始化
+    waterSelectInit() {
+      this.getRequest("/basWellInfor/selectOptionsAll").then(
         (resp) => {
           if (resp) {
             this.wellOptions = resp.data;

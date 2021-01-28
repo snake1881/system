@@ -340,7 +340,7 @@ export default {
     },
     //单井下拉框初始化
     wellOptionsInit() {
-      this.getRequest("/basWellInfor/selectWater").then((resp) => {
+      this.getRequest("/basWellInfor/selectAmountLiquid").then((resp) => {
         this.loading = false;
         if (resp) {
           this.wellOptions = resp.data;
@@ -349,7 +349,7 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+      this.getRequest("/basWellInfor/selectAmountLiquidById?oidStationId=" + val).then(
         (resp) => {
           if (resp) {
             this.wellOptions = resp.data;

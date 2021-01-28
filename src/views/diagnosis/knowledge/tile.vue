@@ -124,6 +124,7 @@ export default {
   created() {
     this.getdate();
     this.searchTile();
+    this.wellInforInit();
     //输入框初始化默认时间
     this.queryOrgName();
   },
@@ -166,12 +167,27 @@ export default {
       this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         if (resp) {
           this.oilStationOptions = resp.data;
+          let oilAll = {
+            oilStationId: "",
+            oilStationName: "全站",
+          };
+          this.oilStationOptions.push(oilAll);
         }
       });
     },
-    //获取采油站井名称
+    //通过采油站获取单井下拉框数据
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+      this.getRequest("/basWellInfor/selectAllById?oidStationId=" + val).then(
+        (resp) => {
+          if (resp) {
+            this.wellNameoptions = resp.data;
+          }
+        }
+      );
+    },
+    //单井下拉框初始化
+    wellInforInit(){
+      this.getRequest("/basWellInfor/selectOptionsAll").then(
         (resp) => {
           if (resp) {
             this.wellNameoptions = resp.data;
