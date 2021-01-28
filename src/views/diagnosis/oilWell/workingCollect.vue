@@ -1109,7 +1109,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              // dataView: {readOnly: false},
+              dataView: {readOnly: false},
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1276,6 +1276,21 @@ export default {
               fontWeight: "bolder",
             },
           },
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "6%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              // dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
+            },
+          },
           tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -1387,6 +1402,21 @@ export default {
               fontWeight: "bolder",
             },
           },
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "6%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
+            },
+          },
           tooltip: {
             trigger: "axis",
             axisPointer: {
@@ -1463,6 +1493,21 @@ export default {
               fontSize: 13,
               fontStyle: "normal",
               fontWeight: "bolder",
+            },
+          },
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "6%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
             },
           },
           tooltip: {
@@ -1548,6 +1593,21 @@ export default {
             fontWeight: "bolder",
           },
         },
+        toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "6%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
+            },
+          },
         tooltip: {
           trigger: "axis",
           axisPointer: {

@@ -208,8 +208,8 @@ export default {
       let myChart = echarts.init(dom);
       myChart.setOption({
         title: {
-          x: "center",
-          text: "井号：" + val.wellName + "  时间：" + val.acquisitionTime,
+          x: "left",
+          text: "井号:" + val.wellName + " 时间:" + val.acquisitionTime,
           top: "7%",
           textStyle: {
             fontSize: 13,
@@ -217,6 +217,22 @@ export default {
             fontWeight: "bolder",
           },
         },
+        toolbox: {
+            show: true,
+            itemSize: 10,
+            itemGap : 5,
+            top: "6%",
+            right: "2%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
+            },
+          },
         tooltip: {
           trigger: "axis",
           axisPointer: {
