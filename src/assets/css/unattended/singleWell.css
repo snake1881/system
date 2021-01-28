@@ -33,9 +33,6 @@
 }
 
 .unattended_singleWell_top_information_container_video {
-    /* width: 60%;
-    border: 1px solid #dfe0e2;
-    margin: 2% 1%; */
     width: 67%;
     height: 93%;
     border: 1px solid #dfe0e2;
@@ -60,7 +57,7 @@
 
 .unattended_singleWell_container_proDaily {
     width: 100%;
-    height: 60%;
+    height: 65%;
     color: #666;
     display: flex;
     flex-direction: column;
@@ -70,7 +67,7 @@
     width: 100%;
     height: 6%;
     font-size: 16px;
-    margin: 2% 0 1% 35%;
+    margin: 1% 0 0 35%;
     color: #3161a5;
 }
 
@@ -88,6 +85,14 @@
     color: #4d4d4d;
     display: flex;
     flex-direction: column;
+}
+
+.unattended_singleWell_container_proMonth_search {
+    width: 100%;
+    height: 6%;
+    font-size: 16px;
+    margin: 0 0 2% 5%;
+    color: #3161a5;
 }
 
 /* 功图曲线 */
@@ -134,7 +139,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 1%;
-    overflow:auto;
+    overflow: auto;
     flex-wrap: wrap;
 }
 
@@ -142,7 +147,7 @@
     width: 30%;
     height: 100%;
     margin: 0 10px 0px 0.5%;
-    
+
 }
 
 .unattended_singleWell_container_left_gt_container_frame_item {

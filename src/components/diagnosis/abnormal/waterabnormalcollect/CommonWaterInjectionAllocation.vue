@@ -42,7 +42,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="配注量">
-          <el-input  v-model="termData.value" size="small" style="width: 140px">
+          <el-input v-model="termData.value" size="small" style="width: 140px">
           </el-input>
         </el-form-item>
       </el-form>
@@ -59,7 +59,6 @@
 </template>
 <script>
 import crypto from "crypto";
-import { stringify } from 'querystring';
 export default {
   props: {
     waterInjectionAllocationVisible: {
@@ -122,27 +121,15 @@ export default {
       console.log(this.time);
     },
     createSign() {
-      let uidString = toString(this.termData.uid);
-      console.log(uidString);
       let data = {
         token: "ZWQ1NDM2MGEtZTc1NS00MDRhLWJjZmEtMDhiMjg5Njg0ZTEz",
         timestamp: this.time,
         data: {
           uid: this.termData.uid,
           sn: this.termData.rn,
-          value: this.termData.value*1,
+          value: this.termData.value,
         },
       };
-      // let data = {
-      //   token: "ZWQ1NDM2MGEtZTc1NS00MDRhLWJjZmEtMDhiMjg5Njg0ZTEz",
-      //   timestamp: "2021-01-27 16:28:07",
-      //   data: {
-      //     uid: "869244040458659",
-      //     sn: 4,
-      //     value: 0.41,
-      //   },
-      // };
-      console.log(data);
       let resultArr = [];
       for (let key in data) {
         let arr = [];
@@ -183,14 +170,14 @@ export default {
     saveWaterInjectionAllocation() {
       this.getTime();
       this.createSign();
-      // console.log(this.termData);
-      // console.log(this.time);
+      console.log(this.termData);
+      console.log(this.time);
       console.log(this.sign);
       this.postRequest(
         "/waterAbnormalCollect/addGyInjection?sign=" +
           this.sign +
           "&sn=" +
-         this.termData.rn +
+          this.termData.rn +
           "&timestamp=" +
           this.time +
           "&uid=" +

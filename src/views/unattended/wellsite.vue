@@ -60,12 +60,7 @@
           allow="autoplay;encrypted-media"
           allowfullscreen
           style="height: 100%; width: 100%; margin-top: 1%"
-        >
-        </iframe>
-        <!-- <img
-          src="../../assets/images/monitor.jpg"
-          style="height: 100%; width: 100%; margin-top: 1%"
-        /> -->
+        />
       </div>
       <div class="wellsite_left_video">
         <div
@@ -164,10 +159,7 @@
           <div class="wellsite_right_waterWell_details_dec">
             <span class="wellsite_right_waterWell_details_dec_span"
               >瞬时注量:
-              <span style="color: #2cab6f" v-if="item">{{
-                item.instantaneousFlow === null ? 0 : item.instantaneousFlow
-              }}</span>
-              m<sup>3</sup>/h</span
+              <span style="color: #2cab6f">0</span> m<sup>3</sup>/h</span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
               >当日注水:
@@ -177,11 +169,9 @@
               m<sup>3</sup></span
             >
             <span class="wellsite_right_waterWell_details_dec_span"
-              >累计注水:
-              <span style="color: #2cab6f" v-if="item">{{
-                item.totalFlow === null ? 0 : item.totalFlow
-              }}</span>
-              m<sup>3</sup></span
+              >累计注水: <span style="color: #2cab6f">0</span> m<sup
+                >3</sup
+              ></span
             >
             <span
               class="wellsite_right_waterWell_details_dec_span"
@@ -255,6 +245,9 @@ export default {
           yesterday +
           "&wellSitId=" +
           this.$route.query.id
+        // "/wellSits/wellSit/WellSitList?sTime=2021-01-03" +
+        //   "&wellSitId=" +
+        //   this.$route.query.id
       ).then((resp) => {
         if (resp) {
           // 左侧井场汇总信息

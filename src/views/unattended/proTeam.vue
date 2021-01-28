@@ -370,8 +370,8 @@ export default {
       yesterday = year + "-" + month + "-" + day;
       this.getRequest(
         "/teams/team/listTeamCount?productionTeamId=1&sTime=" + yesterday
+        // "/teams/team/listTeamCount?productionTeamId=1&sTime=2021-01-03"
       ).then((resp) => {
-        console.log(resp);
         if (resp) {
           if (!(resp.data === "null")) {
             if (!(resp.data.teamInfo === "null")) {
