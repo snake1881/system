@@ -5,18 +5,14 @@
         <span class="unattended_singleWell_top_information_span">基础数据</span>
         <div class="unattended_singleWell_top_information_container">
           <div class="unattended_singleWell_top_information_container_dec">
-            <p>井号：{{ this.$route.query.name }}</p>
-            <p>采油站：{{ this.basicData.oilStationName }}</p>
+            <p>井号： {{ this.$route.query.name }}</p>
+            <p>采油站： {{ this.basicData.oilStationName }}</p>
             <p>所属井场：{{ this.basicData.wellSiteName }}井场</p>
             <p>投产日期：{{ this.basicData.productionDate }}</p>
             <p>泵径：0 m</p>
             <p>泵深：0 m</p>
           </div>
           <div class="unattended_singleWell_top_information_container_video">
-            <!-- <img
-              src="../../assets/images/video.jpg"
-              style="width: 100%; height: 100%"
-            /> -->
             <!--视频监控-->
             <iframe
               id="show-iframe"
@@ -25,8 +21,7 @@
               allow="autoplay;encrypted-media"
               allowfullscreen
               style="height: 100%; width: 100%; margin-top: 1%"
-            >
-            </iframe>
+            />
           </div>
         </div>
       </div>
@@ -75,9 +70,24 @@
           </div>
         </div>
         <div class="unattended_singleWell_container_proMonth">
-          <span class="unattended_singleWell_container_proDaily_title"
-            >当月数据</span
-          >
+          <div class="unattended_singleWell_container_proMonth_search">
+            当月数据
+            <el-date-picker
+              v-model="proMonthDate"
+              type="month"
+              placeholder="选择日期"
+              value-format="yyyy-MM"
+              size="mini"
+              style="width: 120px; margin: 0 8px"
+            />
+            <el-button
+              size="mini"
+              type="primary"
+              plain
+              @click="searchProMonth()"
+              >查询</el-button
+            >
+          </div>
           <div class="unattended_singleWell_container_proDaily_dec">
             <el-row>
               <el-col :span="12">
@@ -105,17 +115,12 @@
           <el-table-column
             prop="initiateDate"
             label="措施日期"
-            width="120"
             show-overflow-tooltip
           />
-          <el-table-column
-            prop="diagnosisResult"
-            label="诊断结果"
-            width="120"
-          />
-          <el-table-column prop="measureContent" label="措施内容" width="160" />
-          <el-table-column prop="teamName" label="措施队伍" width="120" />
-          <el-table-column prop="evaluationResult" label="措施结果" width="80">
+          <el-table-column prop="diagnosisResult" label="诊断结果" />
+          <el-table-column prop="measureContent" label="措施内容" />
+          <el-table-column prop="teamName" label="措施队伍" />
+          <el-table-column prop="evaluationResult" label="措施结果">
             <template slot-scope="scope">
               <p v-if="scope.row.evaluationResult == '0'">失败</p>
               <p v-if="scope.row.evaluationResult == '1'">正常</p>
@@ -149,6 +154,7 @@
           <el-button size="mini" type="primary" plain @click="gtInit()"
             >查询</el-button
           >
+          <!-- <el-button size="mini" type="primary" plain>导出</el-button> -->
           <div class="unattended_singleWell_container_left_gt_container">
             <div
               v-for="item in tableData"
@@ -248,7 +254,10 @@ export default {
   data() {
     return {
       // 基础数据
-      basicData: {},
+      basicData: {
+        drLiquidProdMonth: "",
+        drOilProdMonth: "",
+      },
       // 措施作业
       measureData: [],
       // 油井
@@ -284,6 +293,8 @@ export default {
       productFluidLevel: [],
       //视频信息
       videoLink: "",
+      // 生产数据
+      proMonthDate: "",
     };
   },
   mounted() {
@@ -321,6 +332,9 @@ export default {
           yesterday +
           "&wellId=" +
           this.$route.query.id
+        // "/wells/well/selectWell?sTime=2021-01-03" +
+        //   "&wellId=" +
+        //   this.$route.query.id
       ).then((resp) => {
         if (resp) {
           this.basicData = resp.data.wellInfo;
@@ -386,6 +400,16 @@ export default {
           text: val.wellName,
           textStyle: {
             fontSize: 10,
+          },
+        },
+        toolbox: {
+          top: -10,
+          show: true,
+          feature: {
+            saveAsImage: {
+              show: true,
+              excludeComponents: ["toolbox"],
+            },
           },
         },
         tooltip: {
@@ -501,18 +525,15 @@ export default {
             xAxis: {
               data: this.productProdDate,
               axisLine: {
-                //y轴
                 show: false,
               },
               axisTick: {
-                //y轴刻度线
                 show: false,
               },
-              // 文字大小与颜色
               axisLabel: {
                 textStyle: {
-                  color: "#666", //更改坐标轴文字颜色
-                  fontSize: 10, //更改坐标轴文字大小
+                  color: "#666",
+                  fontSize: 10,
                 },
               },
             },
@@ -526,21 +547,16 @@ export default {
               },
               type: "value",
               axisLine: {
-                //y轴
                 show: false,
               },
               axisTick: {
-                //y轴刻度线
                 show: false,
               },
-              max: 10,
-              min: 0,
-              splitNumber: 2,
-              // 文字大小与颜色
+              splitNumber: 3,
               axisLabel: {
                 textStyle: {
-                  color: "#666", //更改坐标轴文字颜色
-                  fontSize: 10, //更改坐标轴文字大小
+                  color: "#666",
+                  fontSize: 10,
                 },
               },
             },
@@ -582,18 +598,15 @@ export default {
             xAxis: {
               data: this.productProdDate,
               axisLine: {
-                //y轴
                 show: false,
               },
               axisTick: {
-                //y轴刻度线
                 show: false,
               },
-              // 文字大小与颜色
               axisLabel: {
                 textStyle: {
-                  color: "#666", //更改坐标轴文字颜色
-                  fontSize: 10, //更改坐标轴文字大小
+                  color: "#666",
+                  fontSize: 10,
                 },
               },
             },
@@ -607,21 +620,16 @@ export default {
               },
               type: "value",
               axisLine: {
-                //y轴
                 show: false,
               },
               axisTick: {
-                //y轴刻度线
                 show: false,
               },
-              max: 100,
-              min: 0,
-              splitNumber: 2,
-              // 文字大小与颜色
+              splitNumber: 4,
               axisLabel: {
                 textStyle: {
-                  color: "#666", //更改坐标轴文字颜色
-                  fontSize: 10, //更改坐标轴文字大小
+                  color: "#666",
+                  fontSize: 10,
                 },
               },
             },
@@ -690,18 +698,15 @@ export default {
             xAxis: {
               data: this.fluidLevelDate,
               axisLine: {
-                //y轴
                 show: false,
               },
               axisTick: {
-                //y轴刻度线
                 show: false,
               },
-              // 文字大小与颜色
               axisLabel: {
                 textStyle: {
-                  color: "#666", //更改坐标轴文字颜色
-                  fontSize: 10, //更改坐标轴文字大小
+                  color: "#666",
+                  fontSize: 10,
                 },
               },
             },
@@ -715,19 +720,16 @@ export default {
               },
               type: "value",
               axisLine: {
-                //y轴
                 show: false,
               },
               axisTick: {
-                //y轴刻度线
                 show: false,
               },
-              splitNumber: 2,
-              // 文字大小与颜色
+              splitNumber: 3,
               axisLabel: {
                 textStyle: {
-                  color: "#666", //更改坐标轴文字颜色
-                  fontSize: 10, //更改坐标轴文字大小
+                  color: "#666",
+                  fontSize: 10,
                 },
               },
             },
@@ -798,8 +800,6 @@ export default {
             },
             yAxis: {
               type: "value",
-              max: 200,
-              min: 0,
               splitNumber: 3,
               axisLabel: {
                 textStyle: {
@@ -844,6 +844,20 @@ export default {
         }
       });
     },
+    // 生产数据中当月数据查询
+    searchProMonth() {
+      this.getRequest(
+        "/wells/well/monthProduct?wellId=" +
+          this.$route.query.id +
+          "&month=" +
+          this.proMonthDate
+      ).then((resp) => {
+        if (resp) {
+          (this.basicData.drLiquidProdMonth = resp.data.LIQUID),
+            (this.basicData.drOilProdMonth = resp.data.OIL);
+        }
+      });
+    },
   },
 };
 </script>
@@ -851,3 +865,4 @@ export default {
 <style lang="less" scoped>
 @import "../../assets/css/unattended/singleWell.css";
 </style>
+

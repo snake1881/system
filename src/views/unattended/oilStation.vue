@@ -365,10 +365,12 @@ export default {
           this.$route.query.id +
           "&sTime=" +
           yesterday
+        // "/stations/station/listSitPage?oilStationId=" +
+        //   this.$route.query.id +
+        //   "&sTime=2021-01-03"
       ).then((resp) => {
         if (resp) {
           this.oilStationData = resp.data.stationOilWellInfo;
-
           if (resp.data.stationWaterWellInfo) {
             this.waterStationData = resp.data.stationWaterWellInfo;
           }
@@ -445,7 +447,6 @@ export default {
 .oilStation ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 0px rgba(83, 82, 82, 0.5);
   border-radius: 10px;
-  /* background-color: rgba(240, 240, 240, 0.5); */
 }
 
 /*定义滑块 内阴影+圆角*/

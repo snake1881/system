@@ -60,12 +60,7 @@
           allow="autoplay;encrypted-media"
           allowfullscreen
           style="height: 100%; width: 100%; margin-top: 1%"
-        >
-        </iframe>
-        <!-- <img
-          src="../../assets/images/monitor.jpg"
-          style="height: 100%; width: 100%; margin-top: 1%"
-        /> -->
+        />
       </div>
       <div class="wellsite_left_video">
         <div
@@ -250,6 +245,9 @@ export default {
           yesterday +
           "&wellSitId=" +
           this.$route.query.id
+        // "/wellSits/wellSit/WellSitList?sTime=2021-01-03" +
+        //   "&wellSitId=" +
+        //   this.$route.query.id
       ).then((resp) => {
         if (resp) {
           // 左侧井场汇总信息
