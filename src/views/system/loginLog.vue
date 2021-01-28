@@ -65,7 +65,7 @@
       <el-table-column prop="operationId" label="日志编号" width="90" />
       <el-table-column prop="moduleName" label="模块名称" width="150" />
       <el-table-column prop="operatorName" label="登录名称" width="150" />
-      <el-table-column prop="requestIp" label="登陆地址" width="150" />
+      <el-table-column prop="requestIp" label="登陆地址" min-width="150" />
       <el-table-column prop="requestLocation" label="登陆地点" width="150" />
       <el-table-column prop="channel" label="设备" width="150" />
       <el-table-column prop="operationType" label="操作类型" width="100" />

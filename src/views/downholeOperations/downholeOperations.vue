@@ -39,19 +39,19 @@
         'text-align': 'center',
       }"
     >
-      <el-table-column prop="rownum" label="序号" width="120" />
+      <el-table-column prop="rownum" label="序号" width="80" />
       <el-table-column prop="nodeName" label="当前任务" width="210" />
       <el-table-column prop="wellName" label="井号" width="210" />
-      <el-table-column prop="operationName" label="作业名称" width="210" />
+      <el-table-column prop="operationName" label="作业名称" min-width="180" />
       <el-table-column prop="operationType" label="作业类型" width="210">
         <template slot-scope="scope">
           <p v-if="scope.row.operationType == '0'">常规检泵</p>
           <p v-if="scope.row.operationType == '1'">技改井</p>
         </template>
       </el-table-column>
-      <el-table-column prop="operationState" label="状态" width="210" />
+      <el-table-column prop="operationState" label="状态" width="120" />
       <el-table-column prop="finishDate" label="完成时间" width="220" />
-      <el-table-column label="操作" width="145">
+      <el-table-column label="操作" min-width="150">
         <template slot-scope="scope">
           <!-- 编辑 -->
           <el-tooltip content="编辑" placement="top">

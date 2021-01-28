@@ -64,7 +64,7 @@
       <el-table-column prop="departmentName" label="部门名称" width="160" />
       <el-table-column prop="requestIp" label="主机" width="160" />
       <el-table-column prop="status" label="操作状态" width="160" />
-      <el-table-column prop="operationTime" label="操作时间" width="190" />
+      <el-table-column prop="operationTime" label="操作时间" min-width="190" />
     </el-table>
     <!-- 分页 -->
     <div class="role_page">

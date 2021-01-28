@@ -106,7 +106,7 @@
         label="纬度"
         width="120"
       />
-      <el-table-column align="center" label="操作" width="180">
+      <el-table-column align="center" label="操作" min-width="180">
         <template slot-scope="scope"
           ><el-button
             type="text"

@@ -93,7 +93,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="remark" align="center" label="备注" width="200" />
-      <el-table-column align="center" label="操作" width="200">
+      <el-table-column align="center" label="操作" min-width="200">
         <template slot-scope="scope"
           ><el-button
             type="text"
