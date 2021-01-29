@@ -2127,16 +2127,16 @@ export default {
         }
       );
     },
-    //查询所有工况
+    //查询所有工况\措施信息
     selectMeasure() {
+      //返回工况诊断结果
       this.getRequest("/OilDaily/queryAllMeasure").then((resp) => {
         if (resp) {
           this.confirmOptions = resp.data;
+          console.log(this.confirmOptions);
         }
       });
-    },
-    //查询功图诊断措施对照信息
-    selectMeasure() {
+      //返回工况诊断措施
       this.getRequest("/OilDaily/selectAllMeasure").then((resp) => {
         if (resp) {
           this.confirmResultOptions = resp.data;
@@ -2179,7 +2179,6 @@ export default {
     },
     //人工工况确认
     saveConfirmResult(val) {
-      console.log(this.confirmResultDate);
       this.postRequest(
         "/OilDaily/confirmResult?confirmResult=" +
           this.confirmResultDate.confirmResult +
