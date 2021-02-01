@@ -713,6 +713,13 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <div class="confirmResult_echarts">
+            <div
+              id="confirmResult_gt"
+              ref="confirmResult_dom"
+              :style="{ width: '98%', height: '220%' }"
+            />
+          </div>
         </el-form>
       </div>
       <el-button
@@ -1572,7 +1579,7 @@ export default {
     // 返回工况汇总
     back() {
       this.isShow = 1;
-      this.radio="详情";
+      this.radio = "详情";
     },
     //单选框改变方法
     radioChange() {
@@ -2035,70 +2042,70 @@ export default {
     //功图叠加数据初始化
     superpositionInit() {
       // console.log(this.detailsCollect);
-      let endTime = this.value4+" 23:59:59";
-      let startTime = this.value4+" 00:00:00";
+      let endTime = this.value4 + " 23:59:59";
+      let startTime = this.value4 + " 00:00:00";
       // startTime = startTime.substring(0, 10);
       // endTime = startTime + " 23:59:59";
       // startTime = startTime + " 00:00:00";
       // console.log(endTime);
       // console.log(startTime);
-      this.superpositionData=[],
-      this.superpositionLegend=[],
-      this.superpositionCoordinatesData=[[[]]],
-      this.getRequest(
-        "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
-          endTime +
-          "&startTime=" +
-          startTime +
-          "&wellId=" +
-          this.detailsCollect.wellId
-      ).then((resp) => {
-        if (resp) {
-          this.superpositionData = resp.data;
-          for (var i = 0; i < this.superpositionData.length; i++) {
-            this.coordinate(this.superpositionData[i]);
-            this.superpositionLegend[i] = this.superpositionData[
-              i
-            ].acquisitionTime;
-            this.superpositionCoordinatesData[i] = this.coordinates;
+      (this.superpositionData = []),
+        (this.superpositionLegend = []),
+        (this.superpositionCoordinatesData = [[[]]]),
+        this.getRequest(
+          "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
+            endTime +
+            "&startTime=" +
+            startTime +
+            "&wellId=" +
+            this.detailsCollect.wellId
+        ).then((resp) => {
+          if (resp) {
+            this.superpositionData = resp.data;
+            for (var i = 0; i < this.superpositionData.length; i++) {
+              this.coordinate(this.superpositionData[i]);
+              this.superpositionLegend[i] = this.superpositionData[
+                i
+              ].acquisitionTime;
+              this.superpositionCoordinatesData[i] = this.coordinates;
+            }
+            this.drawSuperpositionData();
           }
-          this.drawSuperpositionData();
-        }
-      });
+        });
     },
     //按照时间段查询功图叠加
     superpositionSearch() {
       console.log(this.value4);
-      let endTime = this.value4+" 23:59:59";
-      let startTime = this.value4+" 00:00:00";
+      let endTime = this.value4 + " 23:59:59";
+      let startTime = this.value4 + " 00:00:00";
       // startTime = startTime.substring(0, 10);
       // endTime = startTime + " 23:59:59";
       // startTime = startTime + " 00:00:00";
       console.log(endTime);
       console.log(startTime);
-      this.superpositionData=[],
-      this.superpositionLegend=[],
-      this.superpositionCoordinatesData=[[[]]],
-      this.getRequest(
-         "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
-          endTime +
-          "&startTime=" +
-          startTime +
-          "&wellId=" +
-          this.detailsCollect.wellId
-      ).then((resp) => {
-        if (resp) {
-          this.superpositionData = resp.data;
-          for (var i = 0; i < this.superpositionData.length; i++) {
-            this.coordinate(this.superpositionData[i]);
-            this.superpositionLegend[i] = this.superpositionData[
-              i
-            ].acquisitionTime;
-            this.superpositionCoordinatesData[i] = this.coordinates;
+      (this.superpositionData = []),
+        (this.superpositionLegend = []),
+        (this.superpositionCoordinatesData = [[[]]]),
+        this.getRequest(
+          "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
+            endTime +
+            "&startTime=" +
+            startTime +
+            "&wellId=" +
+            this.detailsCollect.wellId
+        ).then((resp) => {
+          if (resp) {
+            this.superpositionData = resp.data;
+            for (var i = 0; i < this.superpositionData.length; i++) {
+              this.coordinate(this.superpositionData[i]);
+              this.superpositionLegend[i] = this.superpositionData[
+                i
+              ].acquisitionTime;
+              this.superpositionCoordinatesData[i] = this.coordinates;
+            }
+            this.drawSuperpositionData();
           }
-          this.drawSuperpositionData();
-        }
-      });
+        });
     },
     //汇制功图叠加
     drawSuperpositionData() {
@@ -2258,6 +2265,90 @@ export default {
     confirmResult(val) {
       this.confirmResultVisible = true;
       this.confirmResultDate = val;
+      //延迟到DOM更新之后再执行绘制图形
+      this.$nextTick(function () {
+        //处理数据为坐标
+        this.coordinate(val);
+        //将处理后的坐标添加到对象中
+        this.$set(val, "coordinates", this.coordinates);
+        //实例化echarts
+        this.confirmResultDrawLine(val);
+        console.log(log);
+      });
+    },
+    //实例化图表
+    confirmResultDrawLine(val) {
+      let dom = document.getElementById(this.$refs.confirmResult_dom.id);
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: "井号：" + val.wellName + "  时间：" + val.acquisitionTime,
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          left: "3%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          nameLocation: "middle",
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 6, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.coordinates,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
     },
     confirmResultClose() {
       this.confirmResultVisible = false;
@@ -2330,7 +2421,7 @@ export default {
   margin: 0 0 10px 160px;
 }
 .confirmResultDiv {
-  height: 320px;
+  height: 420px;
   overflow: auto;
 }
 .confirmResultDiv .el-input {
