@@ -349,13 +349,13 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/selectAmountLiquidById?oidStationId=" + val).then(
-        (resp) => {
-          if (resp) {
-            this.wellOptions = resp.data;
-          }
+      this.getRequest(
+        "/basWellInfor/selectAmountLiquidById?oilStationId=" + val
+      ).then((resp) => {
+        if (resp) {
+          this.wellOptions = resp.data;
         }
-      );
+      });
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

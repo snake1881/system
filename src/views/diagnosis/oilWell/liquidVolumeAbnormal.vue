@@ -484,7 +484,7 @@ export default {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
-           let oilAll = {
+          let oilAll = {
             oilStationId: "",
             oilStationName: "全站",
           };
@@ -503,13 +503,17 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
-        (resp) => {
-          if (resp) {
-            this.wellOptions = resp.data;
+      if (val === "") {
+        this.wellOptionsInit();
+      } else {
+        this.getRequest("/basWellInfor/selectAllById?oilStationId=" + val).then(
+          (resp) => {
+            if (resp) {
+              this.wellOptions = resp.data;
+            }
           }
-        }
-      );
+        );
+      }
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

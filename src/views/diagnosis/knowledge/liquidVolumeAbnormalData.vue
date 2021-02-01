@@ -333,7 +333,7 @@ export default {
     // },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/selectWaterById??oidStationId=" + val).then(
+      this.getRequest("/basWellInfor/selectWaterById?oilStationId=" + val).then(
         (resp) => {
           if (resp) {
             this.wellOptions = resp.data;

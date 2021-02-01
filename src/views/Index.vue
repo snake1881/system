@@ -26,6 +26,7 @@
               <div id="well2" class="main_between_1_item_water2" />
             </div>
             <div class="main_between_1_item_well_dec">
+              <div class="main_between_1_item_well_dec_container3"/>
               <div class="main_between_1_item_well_dec_container1">
                 <span class="main_between_1_item_water1_span"
                   >总井数(口<sup></sup>):
@@ -36,6 +37,7 @@
                   <span style="color: #e65a40">{{ this.wellOpen }}</span></span
                 >
               </div>
+              <div class="main_between_1_item_well_dec_container3"/>
               <div class="main_between_1_item_well_dec_container2">
                 <span class="main_between_1_item_water1_span"
                   >日产液(m<sup>3</sup>):
@@ -44,9 +46,13 @@
                   }}</span></span
                 >
                 <span class="main_between_1_item_water1_span"
-                  >日含水:
+                  >日产油(m<sup>3</sup>):
+                  <span style="color: #e65a40">{{ this.dailyOil }}</span></span
+                >
+                <span class="main_between_1_item_water1_span"
+                  >综合含水(%):
                   <span style="color: #e65a40">{{
-                    this.drWaterContent + "%"
+                    this.drWaterContent 
                   }}</span></span
                 >
                 <!-- <span class="main_between_1_item_water1_span"
@@ -62,11 +68,8 @@
                   }}</span></span
                 > -->
               </div>
-              <div class="main_between_1_item_well_dec_container3">
-                <span class="main_between_1_item_water1_span"
-                  >日产油(m<sup>3</sup>):
-                  <span style="color: #e65a40">{{ this.dailyOil }}</span></span
-                >
+              <!-- <div class="main_between_1_item_well_dec_container3"> -->
+                
                 <!-- <span class="main_between_1_item_water1_span"
                   >月产油(m<sup>3</sup>):
                   <span style="color: #e65a40">{{ this.monthOil }}</span></span
@@ -75,7 +78,7 @@
                   >年产油(m<sup>3</sup>):
                   <span style="color: #e65a40">{{ this.yearOil }}</span></span
                 > -->
-              </div>
+              <!-- </div> -->
             </div>
           </div>
         </div>

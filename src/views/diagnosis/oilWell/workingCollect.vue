@@ -1321,15 +1321,30 @@ export default {
           title: {
             x: "center",
             text:
-              "井号：" +
+              "井号:" +
               this.detailsCollect.wellName +
-              "  时间：" +
+              " 时间:" +
               this.tableData.yesterdayIndicatorDiagram.acquisitionTime,
             top: "7%",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
               fontWeight: "bolder",
+            },
+          },
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "2%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              // dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
             },
           },
           tooltip: {
@@ -1399,15 +1414,30 @@ export default {
           title: {
             x: "center",
             text:
-              "井号：" +
+              "井号:" +
               this.detailsCollect.wellName +
-              "  时间：" +
+              " 时间:" +
               this.tableData.nowIndicatorDiagram.acquisitionTime,
             top: "7%",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
               fontWeight: "bolder",
+            },
+          },
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "2%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              // dataView: {readOnly: false},
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
             },
           },
           tooltip: {
@@ -1493,6 +1523,21 @@ export default {
             fontWeight: "bolder",
           },
         },
+        toolbox: {
+          show: true,
+          itemSize: 10,
+          top: "6%",
+          right: "2%",
+          feature: {
+            // dataZoom: {
+            //     yAxisIndex: 'none'
+            // },
+            // dataView: {readOnly: false},
+            // magicType: { type: ["line", "bar"] },
+            // restore: {},
+            saveAsImage: {},
+          },
+        },
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -1572,7 +1617,7 @@ export default {
     // 返回工况汇总
     back() {
       this.isShow = 1;
-      this.radio="详情";
+      this.radio = "详情";
     },
     //单选框改变方法
     radioChange() {
@@ -2035,70 +2080,70 @@ export default {
     //功图叠加数据初始化
     superpositionInit() {
       // console.log(this.detailsCollect);
-      let endTime = this.value4+" 23:59:59";
-      let startTime = this.value4+" 00:00:00";
+      let endTime = this.value4 + " 23:59:59";
+      let startTime = this.value4 + " 00:00:00";
       // startTime = startTime.substring(0, 10);
       // endTime = startTime + " 23:59:59";
       // startTime = startTime + " 00:00:00";
       // console.log(endTime);
       // console.log(startTime);
-      this.superpositionData=[],
-      this.superpositionLegend=[],
-      this.superpositionCoordinatesData=[[[]]],
-      this.getRequest(
-        "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
-          endTime +
-          "&startTime=" +
-          startTime +
-          "&wellId=" +
-          this.detailsCollect.wellId
-      ).then((resp) => {
-        if (resp) {
-          this.superpositionData = resp.data;
-          for (var i = 0; i < this.superpositionData.length; i++) {
-            this.coordinate(this.superpositionData[i]);
-            this.superpositionLegend[i] = this.superpositionData[
-              i
-            ].acquisitionTime;
-            this.superpositionCoordinatesData[i] = this.coordinates;
+      (this.superpositionData = []),
+        (this.superpositionLegend = []),
+        (this.superpositionCoordinatesData = [[[]]]),
+        this.getRequest(
+          "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
+            endTime +
+            "&startTime=" +
+            startTime +
+            "&wellId=" +
+            this.detailsCollect.wellId
+        ).then((resp) => {
+          if (resp) {
+            this.superpositionData = resp.data;
+            for (var i = 0; i < this.superpositionData.length; i++) {
+              this.coordinate(this.superpositionData[i]);
+              this.superpositionLegend[i] = this.superpositionData[
+                i
+              ].acquisitionTime;
+              this.superpositionCoordinatesData[i] = this.coordinates;
+            }
+            this.drawSuperpositionData();
           }
-          this.drawSuperpositionData();
-        }
-      });
+        });
     },
     //按照时间段查询功图叠加
     superpositionSearch() {
       console.log(this.value4);
-      let endTime = this.value4+" 23:59:59";
-      let startTime = this.value4+" 00:00:00";
+      let endTime = this.value4 + " 23:59:59";
+      let startTime = this.value4 + " 00:00:00";
       // startTime = startTime.substring(0, 10);
       // endTime = startTime + " 23:59:59";
       // startTime = startTime + " 00:00:00";
       console.log(endTime);
       console.log(startTime);
-      this.superpositionData=[],
-      this.superpositionLegend=[],
-      this.superpositionCoordinatesData=[[[]]],
-      this.getRequest(
-         "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
-          endTime +
-          "&startTime=" +
-          startTime +
-          "&wellId=" +
-          this.detailsCollect.wellId
-      ).then((resp) => {
-        if (resp) {
-          this.superpositionData = resp.data;
-          for (var i = 0; i < this.superpositionData.length; i++) {
-            this.coordinate(this.superpositionData[i]);
-            this.superpositionLegend[i] = this.superpositionData[
-              i
-            ].acquisitionTime;
-            this.superpositionCoordinatesData[i] = this.coordinates;
+      (this.superpositionData = []),
+        (this.superpositionLegend = []),
+        (this.superpositionCoordinatesData = [[[]]]),
+        this.getRequest(
+          "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
+            endTime +
+            "&startTime=" +
+            startTime +
+            "&wellId=" +
+            this.detailsCollect.wellId
+        ).then((resp) => {
+          if (resp) {
+            this.superpositionData = resp.data;
+            for (var i = 0; i < this.superpositionData.length; i++) {
+              this.coordinate(this.superpositionData[i]);
+              this.superpositionLegend[i] = this.superpositionData[
+                i
+              ].acquisitionTime;
+              this.superpositionCoordinatesData[i] = this.coordinates;
+            }
+            this.drawSuperpositionData();
           }
-          this.drawSuperpositionData();
-        }
-      });
+        });
     },
     //汇制功图叠加
     drawSuperpositionData() {
@@ -2190,6 +2235,11 @@ export default {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
+          let oilAll = {
+            oilStationId: "",
+            oilStationName: "全站",
+          };
+          this.orgNameData.push(oilAll);
         }
       });
     },
@@ -2204,7 +2254,10 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+      if (val === "") {
+        this.wellOptionsInit;
+      }
+      this.getRequest("/basWellInfor/selectAllById?oilStationId=" + val).then(
         (resp) => {
           if (resp) {
             this.wellOptions = resp.data;

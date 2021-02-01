@@ -177,23 +177,25 @@ export default {
     },
     //通过采油站获取单井下拉框数据
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/selectAllById?oidStationId=" + val).then(
-        (resp) => {
-          if (resp) {
-            this.wellNameoptions = resp.data;
+      if (val==='') {
+        this.wellInforInit();
+      } else {
+        this.getRequest("/basWellInfor/selectAllById?oilStationId=" + val).then(
+          (resp) => {
+            if (resp) {
+              this.wellNameoptions = resp.data;
+            }
           }
-        }
-      );
+        );
+      }
     },
     //单井下拉框初始化
-    wellInforInit(){
-      this.getRequest("/basWellInfor/selectOptionsAll").then(
-        (resp) => {
-          if (resp) {
-            this.wellNameoptions = resp.data;
-          }
+    wellInforInit() {
+      this.getRequest("/basWellInfor/selectOptionsAll").then((resp) => {
+        if (resp) {
+          this.wellNameoptions = resp.data;
         }
-      );
+      });
     },
     //获取当前日期
     getdate() {
@@ -205,7 +207,7 @@ export default {
       month = month < 10 ? "0" + month : month;
       var strDate = date.getDate();
       strDate = strDate < 10 ? "0" + strDate : strDate;
-      this.logForm.endTime= year + "-" + month + "-" + strDate;
+      this.logForm.endTime = year + "-" + month + "-" + strDate;
       var date1 = new Date();
       date1.setTime(date.getTime() - 1 * 24 * 60 * 60 * 1000);
       var year1 = date1.getFullYear();
@@ -214,7 +216,6 @@ export default {
       var day1 = date1.getDate();
       day1 = day1 < 10 ? "0" + day1 : day1;
       this.logForm.startTime = year1 + "-" + month1 + "-" + day1;
-     
     },
     //设置初始化时间
     getNowTime() {},
@@ -225,12 +226,27 @@ export default {
       myChart.setOption({
         title: {
           x: "center",
-          text: "井号：" + val.wellName + "  时间：" + val.acquisitionTime,
+          text: "井号:" + val.wellName + " 时间:" + val.acquisitionTime,
           top: "7%",
           textStyle: {
             fontSize: 13,
             fontStyle: "normal",
             fontWeight: "bolder",
+          },
+        },
+        toolbox: {
+          show: true,
+          itemSize: 10,
+          top: "6%",
+          right: "2%",
+          feature: {
+            // dataZoom: {
+            //     yAxisIndex: 'none'
+            // },
+            // dataView: {readOnly: false},
+            // magicType: { type: ["line", "bar"] },
+            // restore: {},
+            saveAsImage: {},
           },
         },
         tooltip: {
