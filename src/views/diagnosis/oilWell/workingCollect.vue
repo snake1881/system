@@ -713,6 +713,13 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <div class="confirmResult_echarts">
+            <div
+              id="confirmResult_gt"
+              ref="confirmResult_dom"
+              :style="{ width: '98%', height: '220%' }"
+            />
+          </div>
         </el-form>
       </div>
       <el-button
@@ -2311,6 +2318,90 @@ export default {
     confirmResult(val) {
       this.confirmResultVisible = true;
       this.confirmResultDate = val;
+      //延迟到DOM更新之后再执行绘制图形
+      this.$nextTick(function () {
+        //处理数据为坐标
+        this.coordinate(val);
+        //将处理后的坐标添加到对象中
+        this.$set(val, "coordinates", this.coordinates);
+        //实例化echarts
+        this.confirmResultDrawLine(val);
+        console.log(log);
+      });
+    },
+    //实例化图表
+    confirmResultDrawLine(val) {
+      let dom = document.getElementById(this.$refs.confirmResult_dom.id);
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: "井号：" + val.wellName + "  时间：" + val.acquisitionTime,
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          left: "3%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          nameLocation: "middle",
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 6, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.coordinates,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
     },
     confirmResultClose() {
       this.confirmResultVisible = false;
@@ -2383,7 +2474,7 @@ export default {
   margin: 0 0 10px 160px;
 }
 .confirmResultDiv {
-  height: 320px;
+  height: 420px;
   overflow: auto;
 }
 .confirmResultDiv .el-input {
