@@ -1180,7 +1180,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              // dataView: {readOnly: false},
+              dataView: {readOnly: false},
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1326,13 +1326,12 @@ export default {
       if (val === 0) {
         myChart.setOption({
           title: {
-            x: "center",
+            x: "left",
             text:
-              "井号:" +
-              this.detailsCollect.wellName +
-              " 时间:" +
+             "井号:"+ this.detailsCollect.wellName +
+              " 时间:"+
               this.tableData.yesterdayIndicatorDiagram.acquisitionTime,
-            top: "7%",
+            top: "6%",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
@@ -1348,7 +1347,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              // dataView: {readOnly: false},
+              dataView: {readOnly: false},
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1419,13 +1418,12 @@ export default {
       if (val === 1) {
         myChart.setOption({
           title: {
-            x: "center",
+            x: "left",
             text:
-              "井号:" +
-              this.detailsCollect.wellName +
-              " 时间:" +
+              "井号:"+this.detailsCollect.wellName +
+             " 时间:"+
               this.tableData.nowIndicatorDiagram.acquisitionTime,
-            top: "7%",
+            top: "6%",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
@@ -1441,7 +1439,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              // dataView: {readOnly: false},
+              dataView: {readOnly: false},
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1521,9 +1519,9 @@ export default {
       // 绘制图表
       myChart.setOption({
         title: {
-          x: "center",
+          x: "left",
           text: this.detailsCollect.diagnosisResult + "标准功图",
-          top: "7%",
+          top: "6%",
           textStyle: {
             fontSize: 13,
             fontStyle: "normal",
@@ -1539,7 +1537,7 @@ export default {
             // dataZoom: {
             //     yAxisIndex: 'none'
             // },
-            // dataView: {readOnly: false},
+            dataView: {readOnly: false},
             // magicType: { type: ["line", "bar"] },
             // restore: {},
             saveAsImage: {},

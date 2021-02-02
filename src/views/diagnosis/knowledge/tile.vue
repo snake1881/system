@@ -225,7 +225,7 @@ export default {
       let myChart = echarts.init(dom);
       myChart.setOption({
         title: {
-          x: "center",
+          x: "left",
           text: "井号:" + val.wellName + " 时间:" + val.acquisitionTime,
           top: "7%",
           textStyle: {
@@ -243,7 +243,7 @@ export default {
             // dataZoom: {
             //     yAxisIndex: 'none'
             // },
-            // dataView: {readOnly: false},
+            dataView: {readOnly: false},
             // magicType: { type: ["line", "bar"] },
             // restore: {},
             saveAsImage: {},
