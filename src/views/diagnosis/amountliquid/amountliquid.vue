@@ -162,6 +162,12 @@
         label="24小时产液量"
         width="140"
       />
+       <el-table-column
+        prop="waterContent"
+        align="center"
+        label="含水率(%)"
+        width="100"
+      />
       <el-table-column align="center" label="操作" width="130" fixed="right">
         <template slot-scope="scope">
           <el-button
