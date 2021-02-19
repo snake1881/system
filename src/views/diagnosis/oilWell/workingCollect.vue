@@ -84,6 +84,7 @@
       <!-- 表格数据 -->
       <el-table
         class="work_collect_table"
+        ref="work_collect_table"
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
@@ -92,6 +93,7 @@
         border
         style="width: 100%"
         @expand-change="rowCollectInit"
+        @row-click="rowChange"
         @selection-change="handleSelectionChange"
         :expand-row-keys="expands"
         :row-key="getRowKeys"
@@ -100,7 +102,7 @@
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column width="35" type="expand">
+        <el-table-column width="0" type="expand">
           <template slot-scope="scope">
             <div
               class="work_collect_item_detail"
@@ -797,6 +799,8 @@ export default {
       detailsCollect: [],
       // 设置row-key只展示一行
       expands: [],
+      // 展开上一次ID
+      rowChangeId: "",
       // 功图叠加对话框标记
       dialogTableVisible: false,
       // 功图叠加加载动画
@@ -981,6 +985,16 @@ export default {
     // 只展开一行放入当前行id
     getRowKeys(row) {
       return row.inddsId;
+    },
+    rowChange(row) {
+      // console.log(row);
+      if (this.rowChangeId !== this.getRowKeys(row)) {
+        this.$refs.work_collect_table.toggleRowExpansion(row, true);
+        this.rowChangeId = this.getRowKeys(row);
+      } else {
+        this.$refs.work_collect_table.toggleRowExpansion(row, false);
+        this.rowChangeId = '';
+      }
     },
     // 控制展开与关闭行
     rowCollectInit(row, expandedRows) {
@@ -1180,7 +1194,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              dataView: {readOnly: false},
+              dataView: { readOnly: false },
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1328,8 +1342,9 @@ export default {
           title: {
             x: "left",
             text:
-             "井号:"+ this.detailsCollect.wellName +
-              " 时间:"+
+              "井号:" +
+              this.detailsCollect.wellName +
+              " 时间:" +
               this.tableData.yesterdayIndicatorDiagram.acquisitionTime,
             top: "6%",
             textStyle: {
@@ -1347,7 +1362,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              dataView: {readOnly: false},
+              dataView: { readOnly: false },
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1420,8 +1435,9 @@ export default {
           title: {
             x: "left",
             text:
-              "井号:"+this.detailsCollect.wellName +
-             " 时间:"+
+              "井号:" +
+              this.detailsCollect.wellName +
+              " 时间:" +
               this.tableData.nowIndicatorDiagram.acquisitionTime,
             top: "6%",
             textStyle: {
@@ -1439,7 +1455,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              dataView: {readOnly: false},
+              dataView: { readOnly: false },
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1537,7 +1553,7 @@ export default {
             // dataZoom: {
             //     yAxisIndex: 'none'
             // },
-            dataView: {readOnly: false},
+            dataView: { readOnly: false },
             // magicType: { type: ["line", "bar"] },
             // restore: {},
             saveAsImage: {},

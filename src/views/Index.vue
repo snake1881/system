@@ -26,7 +26,7 @@
               <div id="well2" class="main_between_1_item_water2" />
             </div>
             <div class="main_between_1_item_well_dec">
-              <div class="main_between_1_item_well_dec_container3"/>
+              <div class="main_between_1_item_well_dec_container3" />
               <div class="main_between_1_item_well_dec_container1">
                 <span class="main_between_1_item_water1_span"
                   >总井数(口<sup></sup>):
@@ -37,7 +37,7 @@
                   <span style="color: #e65a40">{{ this.wellOpen }}</span></span
                 >
               </div>
-              <div class="main_between_1_item_well_dec_container3"/>
+              <div class="main_between_1_item_well_dec_container3" />
               <div class="main_between_1_item_well_dec_container2">
                 <span class="main_between_1_item_water1_span"
                   >日产液(m<sup>3</sup>):
@@ -52,7 +52,7 @@
                 <span class="main_between_1_item_water1_span"
                   >综合含水(%):
                   <span style="color: #e65a40">{{
-                    this.drWaterContent 
+                    this.drWaterContent
                   }}</span></span
                 >
                 <!-- <span class="main_between_1_item_water1_span"
@@ -69,8 +69,8 @@
                 > -->
               </div>
               <!-- <div class="main_between_1_item_well_dec_container3"> -->
-                
-                <!-- <span class="main_between_1_item_water1_span"
+
+              <!-- <span class="main_between_1_item_water1_span"
                   >月产油(m<sup>3</sup>):
                   <span style="color: #e65a40">{{ this.monthOil }}</span></span
                 >
@@ -120,8 +120,53 @@
       </el-card>
       <el-card class="main_middle_2" shadow="hover">
         <div class="main_middle_2_item">
-          <div class="main_middle_1_item_span">排采曲线</div>
+          <div class="main_middle_1_item_span">
+            排采曲线
+            <el-date-picker
+              v-model="collectDatePicker"
+              type="daterange"
+              editable
+              clearable
+              size="small"
+              height="3%"
+              padding="2% 2%"
+              align="center"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              @change="collectInit()"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+            >
+            </el-date-picker>
+            <el-select
+              v-model="collectLayerName"
+              clearable
+              filterable
+              placeholder="层位"
+              size="small"
+              height="3%"
+              padding="2% 2%"
+              @change="collectInit"
+            >
+              <el-option
+                v-for="item in collectLayerNameSelect"
+                :key="item.layerName"
+                :label="item.layerName"
+                :value="item.layerName"
+              />
+            </el-select>
+            <el-tooltip effect="dark" content="是否展示时间轴" placement="top">
+              <el-switch
+                v-model="collectXAxisIsShow"
+                active-color="#6772dd"
+                inactive-color="#ff4949"
+                @change="isShowChange()"
+              >
+              </el-switch>
+            </el-tooltip>
+          </div>
           <div :style="{ width: '100%', height: '6px' }"></div>
+
           <div class="main_middle_2_item_content">
             <div
               id="paicai"
@@ -289,14 +334,26 @@ export default {
       collectDailyLiquid: [],
       // 排采曲线日产油
       collectDailyOil: [],
-      // 排采曲线日注水
+      // 排采曲线日实注量
       collectDailyWater: [],
+      // 排采曲线日配注量
+      collectDailyWaterAllocation: [],
+      //排采曲线层位选择下拉框数据
+      collectLayerNameSelect: [],
+      //排采曲线时间段选择数据
+      collectDatePicker: [],
+      //排采曲线层位数据
+      collectLayerName: "",
+      //
+      collectXAxisIsShow: true,
     };
   },
   mounted() {
     this.getdate();
     // 油井情况
     this.wellInit();
+    // 排采曲线层位下拉框初始化
+    this.collectLayerNameInit();
     // 排采曲线
     this.collectInit();
     // 油水井异常情况
@@ -311,43 +368,94 @@ export default {
     hreftwo() {
       this.$router.push({ path: "/Login" });
     },
-
+    // 排采曲线层位选择下拉框数据初始化
+    collectLayerNameInit() {
+      this.getRequest("/basWellInfor/selectWaterLayerName").then((resp) => {
+        if (resp) {
+          this.collectLayerNameSelect = resp.data;
+        }
+      });
+    },
     // 排采曲线
     collectInit() {
-      this.getRequest("/homePage/drainageMining/selectDrainageMining").then(
-        (resp) => {
-          if (resp) {
-            this.colletcData(resp.data);
-            let dom = document.getElementById("paicai");
-            let myChart = echarts.init(dom);
-            myChart.setOption({
-              tooltip: {
-                trigger: "axis",
+      console.log(this.collectDatePicker[0]);
+      console.log(this.collectDatePicker[1]);
+      console.log(this.collectLayerName);
+      this.getRequest(
+        "/homePage/drainageMining/selectDrainageMining?beginDate=" +
+          this.collectDatePicker[0] +
+          "&endDate=" +
+          this.collectDatePicker[1] +
+          "&layerName=" +
+          this.collectLayerName
+      ).then((resp) => {
+        if (resp) {
+          this.colletcData(resp.data);
+          let dom = document.getElementById("paicai");
+          let myChart = echarts.init(dom);
+          myChart.setOption({
+            tooltip: {
+              trigger: "axis",
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                // dataZoom: {
+                //     yAxisIndex: 'none'
+                // },
+                // dataView: {readOnly: false},
+                magicType: { type: ["line", "bar"] },
+                // restore: {},
+                saveAsImage: {},
               },
-              toolbox: {
-                show: true,
-                feature: {
-                  // dataZoom: {
-                  //     yAxisIndex: 'none'
-                  // },
-                  // dataView: {readOnly: false},
-                  magicType: { type: ["line", "bar"] },
-                  // restore: {},
-                  saveAsImage: {},
-                },
+            },
+            // 折线颜色
+            color: [
+              "#FF8888",
+              "#33FFFF",
+              "#FF33FF",
+              "red",
+              "#0000FF",
+              "#ABABAB",
+            ],
+            legend: {
+              data: [
+                "油井开井",
+                "水井开井",
+                "日产液",
+                "日产油",
+                "日注水量",
+                "日配注量",
+              ],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
               },
-              // 折线颜色
-              color: ["#FF8888", "#33FFFF", "#FF33FF", "red", "#0000FF"],
-              legend: {
-                data: ["油井开井", "水井开井", "日产液", "日产油", "日注水"],
+            },
+            xAxis: {
+              // type:'time',
+              boundaryGap: false,
+              data: this.collectDate,
+              // 文字大小与颜色
+              axisLabel: {
+                show: this.collectXAxisIsShow,
                 textStyle: {
-                  color: "#333333",
-                  fontSize: 12,
+                  color: "#333333", //更改坐标轴文字颜色
+                  fontSize: 12, //更改坐标轴文字大小
                 },
               },
-              xAxis: {
-                boundaryGap: false,
-                data: this.collectDate,
+              // 轴线颜色
+              axisLine: {
+                lineStyle: { color: "#333333" },
+              },
+              // 网格线
+              splitLine: { show: false },
+            },
+            yAxis: [
+              // 产液量
+              {
+                name: "井口",
+                type: "value",
                 // 文字大小与颜色
                 axisLabel: {
                   textStyle: {
@@ -355,6 +463,7 @@ export default {
                     fontSize: 12, //更改坐标轴文字大小
                   },
                 },
+                splitNumber: 3,
                 // 轴线颜色
                 axisLine: {
                   lineStyle: { color: "#333333" },
@@ -362,91 +471,225 @@ export default {
                 // 网格线
                 splitLine: { show: false },
               },
-              yAxis: [
-                // 产液量
-                {
-                  name: "井口",
-                  type: "value",
-                  // 文字大小与颜色
-                  axisLabel: {
-                    textStyle: {
-                      color: "#333333", //更改坐标轴文字颜色
-                      fontSize: 12, //更改坐标轴文字大小
-                    },
+              // 开井情况
+              {
+                name: "吨(m)",
+                type: "value",
+                // 文字大小与颜色
+                axisLabel: {
+                  textStyle: {
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
                   },
-                  splitNumber: 3,
-                  // 轴线颜色
-                  axisLine: {
-                    lineStyle: { color: "#333333" },
-                  },
-                  // 网格线
-                  splitLine: { show: false },
                 },
-                // 开井情况
-                {
-                  name: "吨(m)",
-                  type: "value",
-                  // 文字大小与颜色
-                  axisLabel: {
-                    textStyle: {
-                      color: "#333333", //更改坐标轴文字颜色
-                      fontSize: 12, //更改坐标轴文字大小
-                    },
-                  },
-                  splitNumber: 3,
-                  // 轴线颜色
-                  axisLine: {
-                    lineStyle: { color: "#333333" },
-                  },
-                  // 网格线
-                  splitLine: { show: false },
+                splitNumber: 3,
+                // 轴线颜色
+                axisLine: {
+                  lineStyle: { color: "#333333" },
                 },
-              ],
-              grid: {
-                width: "90%",
-                height: "68%",
-                left: "5%",
-                top: "20%",
+                // 网格线
+                splitLine: { show: false },
               },
-              series: [
-                {
-                  name: "油井开井",
-                  type: "line",
-                  data: this.collectOil,
-                  yAxisIndex: 0,
-                },
-                {
-                  name: "水井开井",
-                  type: "line",
-                  data: this.collectWater,
-                  yAxisIndex: 0,
-                },
-                {
-                  name: "日产液",
-                  type: "line",
-                  data: this.collectDailyLiquid,
-                  yAxisIndex: 1,
-                },
-                {
-                  name: "日产油",
-                  type: "line",
-                  data: this.collectDailyOil,
-                  yAxisIndex: 1,
-                },
-                {
-                  name: "日注水",
-                  type: "line",
-                  data: this.collectDailyWater,
-                  yAxisIndex: 1,
-                },
-              ],
-            });
-          }
+            ],
+            grid: {
+              width: "90%",
+              height: "68%",
+              left: "5%",
+              top: "20%",
+            },
+            series: [
+              {
+                name: "油井开井",
+                type: "line",
+                data: this.collectOil,
+                yAxisIndex: 0,
+              },
+              {
+                name: "水井开井",
+                type: "line",
+                data: this.collectWater,
+                yAxisIndex: 0,
+              },
+              {
+                name: "日产液",
+                type: "line",
+                data: this.collectDailyLiquid,
+                yAxisIndex: 1,
+              },
+              {
+                name: "日产油",
+                type: "line",
+                data: this.collectDailyOil,
+                yAxisIndex: 1,
+              },
+              {
+                name: "日注水",
+                type: "line",
+                data: this.collectDailyWater,
+                yAxisIndex: 1,
+              },
+              {
+                name: "日配注量",
+                type: "line",
+                data: this.collectDailyWaterAllocation,
+                yAxisIndex: 1,
+              },
+            ],
+          });
         }
-      );
+      });
+    },
+    isShowChange() {
+      console.log(this.collectXAxisIsShow);
+      let dom = document.getElementById("paicai");
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        tooltip: {
+          trigger: "axis",
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            // dataZoom: {
+            //     yAxisIndex: 'none'
+            // },
+            // dataView: {readOnly: false},
+            magicType: { type: ["line", "bar"] },
+            // restore: {},
+            saveAsImage: {},
+          },
+        },
+        // 折线颜色
+        color: ["#FF8888", "#33FFFF", "#FF33FF", "red", "#0000FF", "ABABAB"],
+        legend: {
+          data: [
+            "油井开井",
+            "水井开井",
+            "日产液",
+            "日产油",
+            "日实注量",
+            "日配注量",
+          ],
+          textStyle: {
+            color: "#333333",
+            fontSize: 12,
+          },
+        },
+        xAxis: {
+          // type:'time',
+          boundaryGap: false,
+          data: this.collectDate,
+          // 文字大小与颜色
+          axisLabel: {
+            show: this.collectXAxisIsShow,
+            textStyle: {
+              color: "#333333", //更改坐标轴文字颜色
+              fontSize: 12, //更改坐标轴文字大小
+            },
+          },
+          // 轴线颜色
+          axisLine: {
+            lineStyle: { color: "#333333" },
+          },
+          // 网格线
+          splitLine: { show: false },
+        },
+        yAxis: [
+          // 产液量
+          {
+            name: "井口",
+            type: "value",
+            // 文字大小与颜色
+            axisLabel: {
+              textStyle: {
+                color: "#333333", //更改坐标轴文字颜色
+                fontSize: 12, //更改坐标轴文字大小
+              },
+            },
+            splitNumber: 3,
+            // 轴线颜色
+            axisLine: {
+              lineStyle: { color: "#333333" },
+            },
+            // 网格线
+            splitLine: { show: false },
+          },
+          // 开井情况
+          {
+            name: "吨(m)",
+            type: "value",
+            // 文字大小与颜色
+            axisLabel: {
+              textStyle: {
+                color: "#333333", //更改坐标轴文字颜色
+                fontSize: 12, //更改坐标轴文字大小
+              },
+            },
+            splitNumber: 3,
+            // 轴线颜色
+            axisLine: {
+              lineStyle: { color: "#333333" },
+            },
+            // 网格线
+            splitLine: { show: false },
+          },
+        ],
+        grid: {
+          width: "90%",
+          height: "68%",
+          left: "5%",
+          top: "20%",
+        },
+        series: [
+          {
+            name: "油井开井",
+            type: "line",
+            data: this.collectOil,
+            yAxisIndex: 0,
+          },
+          {
+            name: "水井开井",
+            type: "line",
+            data: this.collectWater,
+            yAxisIndex: 0,
+          },
+          {
+            name: "日产液",
+            type: "line",
+            data: this.collectDailyLiquid,
+            yAxisIndex: 1,
+          },
+          {
+            name: "日产油",
+            type: "line",
+            data: this.collectDailyOil,
+            yAxisIndex: 1,
+          },
+          {
+            name: "日实注量",
+            type: "line",
+            data: this.collectDailyWater,
+            yAxisIndex: 1,
+          },
+          {
+            name: "日配注量",
+            type: "line",
+            data: this.collectDailyWaterAllocation,
+            yAxisIndex: 1,
+          },
+        ],
+      });
+      console.log(myChart);
     },
     // 排采曲线数据
     colletcData(val) {
+      this.collectDate = [];
+      this.collectOil = [];
+      this.collectWater = [];
+      this.collectDailyLiquid = [];
+      this.collectDailyOil = [];
+      this.collectDailyWater = [];
+      this.collectDailyWaterAllocation = [];
       for (var i = 0; i < val.length; i++) {
         this.collectDate[i] = val[i].prodDate;
         this.collectOil[i] = val[i].oilWellOpen;
@@ -454,6 +697,7 @@ export default {
         this.collectDailyLiquid[i] = val[i].liquidProd;
         this.collectDailyOil[i] = val[i].oilProd;
         this.collectDailyWater[i] = val[i].waterInjection;
+        this.collectDailyWaterAllocation[i] = val[i].waterAllocation;
       }
     },
     // 油井情况初始化
@@ -881,9 +1125,27 @@ export default {
       if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
       }
+      //计算一年前日期
+      var lastYearDate = new Date();
+      lastYearDate.setTime(date.getTime() - 1000 * 60 * 60 * 24 * 365);
+      var lastYear = lastYearDate.getFullYear();
+      var lastYearMonth = lastYearDate.getMonth() + 1;
+      var lastYearCurDate = lastYearDate.getDate();
+
+      if (lastYearMonth >= 1 && lastYearMonth <= 9) {
+        lastYearMonth = "0" + lastYearMonth;
+      }
+      if (lastYearCurDate >= 0 && lastYearCurDate <= 9) {
+        lastYearCurDate = "0" + lastYearCurDate;
+      }
+      var lastYeatCurrrentDate =
+        lastYear + "-" + lastYearMonth + "-" + lastYearCurDate;
       var currentdate = year + "-" + month + "-" + strDate;
       this.sysDate = currentdate;
       this.wellDate = currentdate;
+      //排采曲线时间段选择初始化
+      this.collectDatePicker[0] = lastYeatCurrrentDate;
+      this.collectDatePicker[1] = currentdate;
     },
   },
 };
