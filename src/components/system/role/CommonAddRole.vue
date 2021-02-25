@@ -25,7 +25,7 @@
         <div class="addMenuDescription">
           <el-form-item label-width="菜单权限">
             <el-tree
-              :data="roleData.menu"
+              :data="addTreeData"
               show-checkbox
               empty-text="暂无数据"
               ref="tree"
@@ -53,6 +53,9 @@ export default {
     addRoleVisible: {
       type: Boolean,
     },
+    addTreeData: {
+      type: Array,
+    },
   },
   inject: ["reload"],
   data() {
@@ -71,21 +74,10 @@ export default {
       },
     };
   },
-  created() {
-    this.treeInIt();
-  },
   methods: {
     // 对话框父子组件传值
     addRoleClose() {
       this.$emit("roleRowClose");
-    },
-    // 菜单树
-    treeInIt() {
-      this.getRequest("/system/sysModule/getSysModuleTree").then((resp) => {
-        if (resp) {
-          this.roleData.menu = resp.data;
-        }
-      });
     },
     // 点击树节点选择对应菜单权限
     getCheckedKeys() {
