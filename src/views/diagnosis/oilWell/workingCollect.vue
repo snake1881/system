@@ -84,6 +84,7 @@
       <!-- 表格数据 -->
       <el-table
         class="work_collect_table"
+        ref="work_collect_table"
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
@@ -92,6 +93,7 @@
         border
         style="width: 100%"
         @expand-change="rowCollectInit"
+        @row-click="rowChange"
         @selection-change="handleSelectionChange"
         :expand-row-keys="expands"
         :row-key="getRowKeys"
@@ -100,7 +102,7 @@
         :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
       >
         <el-table-column type="selection" width="55" />
-        <el-table-column width="35" type="expand">
+        <el-table-column width="0" type="expand">
           <template slot-scope="scope">
             <div
               class="work_collect_item_detail"
@@ -274,7 +276,7 @@
           <el-radio-button label="液量曲线"></el-radio-button>
           <el-radio-button label="载荷曲线"></el-radio-button>
           <el-radio-button label="功图平铺"></el-radio-button>
-          <el-radio-button label="重新诊断"></el-radio-button>
+          <el-radio-button label="功图叠加"></el-radio-button>
         </el-radio-group>
       </div>
       <table cellspacing="0" class="work_collect_item_detail_table">
@@ -302,9 +304,9 @@
 
       <div class="work_collect_item_gt">
         <div class="work_collect_item_gt_g" id="gt1" ref="dom1" />
-        <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
         <div class="work_collect_item_gt_g" id="gt3" ref="dom3" />
-        <div class="work_collect_item_gt_g" id="gt4" ref="dom4" />
+        <div class="work_collect_item_gt_g" id="gt2" ref="dom2" />
+        <!-- <div class="work_collect_item_gt_g" id="gt4" ref="dom4" /> -->
       </div>
       <table
         cellspacing="0"
@@ -385,7 +387,7 @@
           <el-radio-button label="液量曲线"></el-radio-button>
           <el-radio-button label="载荷曲线"></el-radio-button>
           <el-radio-button label="功图平铺"></el-radio-button>
-          <el-radio-button label="重新诊断"></el-radio-button>
+          <el-radio-button label="功图叠加"></el-radio-button>
         </el-radio-group>
       </div>
       <div v-if="isShow == 3" class="tile_echarts">
@@ -530,7 +532,7 @@
           <el-radio-button label="液量曲线"></el-radio-button>
           <el-radio-button label="载荷曲线"></el-radio-button>
           <el-radio-button label="功图平铺"></el-radio-button>
-          <el-radio-button label="重新诊断"></el-radio-button>
+          <el-radio-button label="功图叠加"></el-radio-button>
         </el-radio-group>
       </div>
       <!-- <div :style="{ height: '100px' }"></div> -->
@@ -574,7 +576,7 @@
           <el-radio-button label="液量曲线"></el-radio-button>
           <el-radio-button label="载荷曲线"></el-radio-button>
           <el-radio-button label="功图平铺"></el-radio-button>
-          <el-radio-button label="重新诊断"></el-radio-button>
+          <el-radio-button label="功图叠加"></el-radio-button>
         </el-radio-group>
       </div>
       <!-- <div :style="{ height: '100px' }"></div> -->
@@ -587,6 +589,61 @@
         ></div>
       </div>
     </div>
+    <!--功图叠加-->
+    <div class="work_collect_item" v-if="isShow == 6">
+      <div v-if="isShow == 6" style="margin-top: 20px"></div>
+      <div v-if="isShow == 6" class="loadLine">
+        <el-button icon="el-icon-arrow-left" type="text" @click="back()"
+          >返回</el-button
+        >
+        <el-date-picker
+          v-model="value4"
+          type="date"
+          size="small"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+          style="margin-left: 5%; width: 240px"
+          @change="superpositionSearch()"
+        >
+        </el-date-picker>
+        <!-- <el-date-picker
+        v-if="isShow == 6"
+          size="small"
+          v-model="value4"
+          type="date"
+          placeholder="选择日期"
+          format="yyyy-MM-dd"
+          value-format="yyyy-MM-dd"
+           style="margin-left: 5%; width: 240px"
+          @change="superpositionSearch()"
+        /> -->
+        <el-radio-group
+          margin:center
+          v-model="radio"
+          size="small"
+          style="margin-left: 5%"
+          @change="radioChange"
+        >
+          <el-radio-button label="详情"></el-radio-button>
+          <el-radio-button label="液量曲线"></el-radio-button>
+          <el-radio-button label="载荷曲线"></el-radio-button>
+          <el-radio-button label="功图平铺"></el-radio-button>
+          <el-radio-button label="功图叠加"></el-radio-button>
+        </el-radio-group>
+      </div>
+      <!-- <div :style="{ height: '100px' }"></div> -->
+      <div>
+        <div
+          v-if="isShow == 6"
+          class="superpositionChart"
+          id=" superpositionChart"
+          ref="superpositionChart"
+          :style="{ width: '100%', height: '600px' }"
+        ></div>
+      </div>
+    </div>
+    <!--功图叠加--->
     <el-dialog
       title="人工确认"
       :visible.sync="confirmVisible"
@@ -658,6 +715,13 @@
               ></el-option>
             </el-select>
           </el-form-item>
+          <div class="confirmResult_echarts">
+            <div
+              id="confirmResult_gt"
+              ref="confirmResult_dom"
+              :style="{ width: '98%', height: '220%' }"
+            />
+          </div>
         </el-form>
       </div>
       <el-button
@@ -735,6 +799,8 @@ export default {
       detailsCollect: [],
       // 设置row-key只展示一行
       expands: [],
+      // 展开上一次ID
+      rowChangeId: "",
       // 功图叠加对话框标记
       dialogTableVisible: false,
       // 功图叠加加载动画
@@ -762,7 +828,7 @@ export default {
       // tableData1: [],
       coordinates: [[]],
       //功图叠加处理后数据
-      coordinatesOverlay:[[[]]],
+      coordinatesOverlay: [[[]]],
       previewGtmjVisible: false,
       previewGtmjData: {},
       logForm: {
@@ -770,6 +836,12 @@ export default {
         pageSize: 8,
         total: 0,
       },
+      //功图叠加页面数据
+      superpositionData: [],
+      //功图叠加处理后数据
+      superpositionCoordinatesData: [[[]]],
+      //功图叠加示例数据
+      superpositionLegend: [],
       //人工确认
       confirmVisible: false,
       confirmDate: {},
@@ -788,6 +860,8 @@ export default {
       value2: [],
       //功图平铺时间段数据
       value3: [],
+      //功图叠加时间数据
+      value4: "",
     };
   },
   created() {
@@ -872,6 +946,7 @@ export default {
       this.value2[1] = year + "-" + month + "-" + strDate;
       this.value3[0] = year1 + "-" + month1 + "-" + day1;
       this.value3[1] = year + "-" + month + "-" + strDate;
+      this.value4 = year + "-" + month + "-" + strDate;
       return this.abnormalForm.formDate;
     },
     // 数据初始化
@@ -910,6 +985,16 @@ export default {
     // 只展开一行放入当前行id
     getRowKeys(row) {
       return row.inddsId;
+    },
+    rowChange(row) {
+      // console.log(row);
+      if (this.rowChangeId !== this.getRowKeys(row)) {
+        this.$refs.work_collect_table.toggleRowExpansion(row, true);
+        this.rowChangeId = this.getRowKeys(row);
+      } else {
+        this.$refs.work_collect_table.toggleRowExpansion(row, false);
+        this.rowChangeId = '';
+      }
     },
     // 控制展开与关闭行
     rowCollectInit(row, expandedRows) {
@@ -1109,7 +1194,7 @@ export default {
               // dataZoom: {
               //     yAxisIndex: 'none'
               // },
-              // dataView: {readOnly: false},
+              dataView: { readOnly: false },
               // magicType: { type: ["line", "bar"] },
               // restore: {},
               saveAsImage: {},
@@ -1219,18 +1304,15 @@ export default {
       ).then((resp) => {
         if (resp) {
           this.tableData = resp.data;
-          // console.log(this.tableData.nowIndicatorDiagram);
-          // console.log(this.tableData);
           this.coordinate(this.tableData.yesterdayIndicatorDiagram);
-          this.coordinatesOverlay[0]=this.coordinates;
+          this.coordinatesOverlay[0] = this.coordinates;
           this.drawLine(0);
           this.coordinate(this.tableData.nowIndicatorDiagram);
-          this.coordinatesOverlay[1]=this.coordinates;
+          this.coordinatesOverlay[1] = this.coordinates;
           this.drawLine(1);
           this.coordinate(this.tableData.standardIndicatorDiagram);
-          this.coordinatesOverlay[2]=this.coordinates;
+          this.coordinatesOverlay[2] = this.coordinates;
           this.drawStandardLine();
-          this.drawOverlay();
           console.log(this.coordinatesOverlay);
         }
       });
@@ -1243,122 +1325,6 @@ export default {
           console.log(resp);
         }
       });
-    },
-    //汇制功图叠加
-    drawOverlay(){
-       let dom = ""; 
-       dom = document.getElementById(this.$refs.dom4.id);
-       let myChart = echarts.init(dom);
-       let series = [];
-       for(var i = 0;i<this.coordinatesOverlay.length;i++){
-         series[i]={
-              symbol: "none",
-              data: this.coordinatesOverlay[i],
-              type: "line",
-              smooth: true,
-              lineStyle: {
-                width: 1.5,
-              },
-            }
-       };
-       console.log(series);
-        myChart.setOption({
-          title: {
-            x: "center",
-            text:
-              "井号：" +
-              this.detailsCollect.wellName +
-              "（昨天，今日标准功图叠加）",
-            top: "7%",
-            textStyle: {
-              fontSize: 13,
-              fontStyle: "normal",
-              fontWeight: "bolder",
-            },
-          },
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              // 坐标轴指示器，坐标轴触发有效
-              type: "line", // 默认为直线，可选为：'line' | 'shadow'
-            },
-            formatter: function (params) {
-              console.log(params);
-              // return (
-              //   "<div><p>位移：" +
-              //   params[0].value[0] +
-              //   "M</p>" +
-              //   "<p>载荷：" +
-              //   params[0].value[1] +
-              //   "KN</p>" +
-              //   "</div>"
-              // );
-            },
-          },
-          grid: {
-            left: "6%",
-            right: "3%",
-            bottom: "15%",
-            top: "20%",
-            containLabel: true,
-          },
-          xAxis: {
-            name: "位移(M)",
-            nameLocation: "middle",
-            min: 0,
-            max: 4,
-            type: "value",
-            axisLine: { onZero: false },
-            nameTextStyle: {
-              padding: [10, 0, 0, 0],
-              fontSize: 10,
-            },
-          },
-          yAxis: {
-            name: "载荷(KN)",
-            nameLocation: "middle",
-            // min: 0,
-            // max: 100,
-            type: "value",
-            axisLine: { onZero: false },
-            nameTextStyle: {
-              padding: [0, 0, 8, 0],
-              fontSize: 10,
-            },
-          },
-          series: [
-            {
-              symbol: "none",
-              data: this.coordinatesOverlay[0],
-              type: "line",
-              smooth: true,
-              lineStyle: {
-                width: 1.5,
-                color:"#FF8888",
-              },
-            },
-            {
-              symbol: "none",
-              data: this.coordinatesOverlay[1],
-              type: "line",
-              smooth: true,
-              lineStyle: {
-                width: 1.5,
-                color:"#33FFFF",
-              },
-            },
-            {
-              symbol: "none",
-              data: this.coordinatesOverlay[2],
-              type: "line",
-              smooth: true,
-              lineStyle: {
-                width: 1.5,
-                color:"#FF33FF",
-              },
-            },
-          ],
-        });
     },
     //详情页面绘制昨日和今日图像
     drawLine(val) {
@@ -1374,17 +1340,32 @@ export default {
       if (val === 0) {
         myChart.setOption({
           title: {
-            x: "center",
+            x: "left",
             text:
-              "井号：" +
+              "井号:" +
               this.detailsCollect.wellName +
-              "  时间：" +
+              " 时间:" +
               this.tableData.yesterdayIndicatorDiagram.acquisitionTime,
-            top: "7%",
+            top: "6%",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
               fontWeight: "bolder",
+            },
+          },
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "2%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              dataView: { readOnly: false },
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
             },
           },
           tooltip: {
@@ -1452,17 +1433,32 @@ export default {
       if (val === 1) {
         myChart.setOption({
           title: {
-            x: "center",
+            x: "left",
             text:
-              "井号：" +
+              "井号:" +
               this.detailsCollect.wellName +
-              "  时间：" +
+              " 时间:" +
               this.tableData.nowIndicatorDiagram.acquisitionTime,
-            top: "7%",
+            top: "6%",
             textStyle: {
               fontSize: 13,
               fontStyle: "normal",
               fontWeight: "bolder",
+            },
+          },
+          toolbox: {
+            show: true,
+            itemSize: 10,
+            top: "6%",
+            right: "2%",
+            feature: {
+              // dataZoom: {
+              //     yAxisIndex: 'none'
+              // },
+              dataView: { readOnly: false },
+              // magicType: { type: ["line", "bar"] },
+              // restore: {},
+              saveAsImage: {},
             },
           },
           tooltip: {
@@ -1539,13 +1535,28 @@ export default {
       // 绘制图表
       myChart.setOption({
         title: {
-          x: "center",
+          x: "left",
           text: this.detailsCollect.diagnosisResult + "标准功图",
-          top: "7%",
+          top: "6%",
           textStyle: {
             fontSize: 13,
             fontStyle: "normal",
             fontWeight: "bolder",
+          },
+        },
+        toolbox: {
+          show: true,
+          itemSize: 10,
+          top: "6%",
+          right: "2%",
+          feature: {
+            // dataZoom: {
+            //     yAxisIndex: 'none'
+            // },
+            dataView: { readOnly: false },
+            // magicType: { type: ["line", "bar"] },
+            // restore: {},
+            saveAsImage: {},
           },
         },
         tooltip: {
@@ -1627,9 +1638,11 @@ export default {
     // 返回工况汇总
     back() {
       this.isShow = 1;
+      this.radio = "详情";
     },
     //单选框改变方法
     radioChange() {
+      console.log(this.radio);
       if (this.radio === "详情") {
         this.details(1);
       } else if (this.radio === "功图平铺") {
@@ -1639,6 +1652,8 @@ export default {
         this.amountLiquid();
       } else if (this.radio === "载荷曲线") {
         this.intoLoad();
+      } else if (this.radio === "功图叠加") {
+        this.superpositionCreated();
       }
     },
     //跳转液量曲线页面调用方法
@@ -1913,24 +1928,6 @@ export default {
         }
       });
     },
-    // laodCoordinates() {
-    //   this.amountArray = [[[]]];
-    //   this.amountArray[0] = [[]];
-    //   this.amountArray[1] = [[]];
-    //   this.amountArray[2] = [[]];
-    //   for (var i = 0; i < this.amountLiquidData.length; i++) {
-    //     this.amountArray[0][i] = [];
-    //     this.amountArray[1][i] = [];
-    //     this.amountArray[2][i] = [];
-    //     this.data[0][i][0] = this.amountLiquidData[i].prodDate;
-    //     this.data[1][i][0] = this.amountLiquidData[i].prodDate;
-    //     this.data[2][i][0] = this.amountLiquidData[i].prodDate;
-    //     this.data[0][i][1] = this.amountLiquidData[i].dym;
-    //     this.data[1][i][1] = this.amountLiquidData[i].dym;
-    //     this.data[2][i][1] = this.amountLiquidData[i].dym;
-    //   }
-    //   return this.amountArray;
-    // },
     //载荷曲线数据处理并绘图
     loadDraw() {
       this.loadArray1 = [[]];
@@ -1984,7 +1981,7 @@ export default {
               if (params.length === 0) {
                 return "无数据，请选择曲线！";
               } else {
-                let result = "<div><p>时间：" + params[0].value[0] +"</p>";
+                let result = "<div><p>时间：" + params[0].value[0] + "</p>";
                 console.log(result);
                 for (var i = 0; i < params.length; i++) {
                   if (params[i].componentIndex === 0) {
@@ -2080,10 +2077,6 @@ export default {
         });
       }
     },
-    //跳转载荷曲线调用方法
-    // loadLine() {
-    //   this.isShow = 5;
-    // },
     //跳转功图平铺页面调用方法
     previewGtmj() {
       this.isShow = 3;
@@ -2099,12 +2092,175 @@ export default {
     previewGtmjClose() {
       this.previewGtmjVisible = false;
     },
+    //跳转功图叠加调用方法
+    superpositionCreated() {
+      this.isShow = 6;
+      console.log(this.isShow);
+      this.superpositionInit();
+    },
+    //功图叠加数据初始化
+    superpositionInit() {
+      // console.log(this.detailsCollect);
+      let endTime = this.value4 + " 23:59:59";
+      let startTime = this.value4 + " 00:00:00";
+      // startTime = startTime.substring(0, 10);
+      // endTime = startTime + " 23:59:59";
+      // startTime = startTime + " 00:00:00";
+      // console.log(endTime);
+      // console.log(startTime);
+      (this.superpositionData = []),
+        (this.superpositionLegend = []),
+        (this.superpositionCoordinatesData = [[[]]]),
+        this.getRequest(
+          "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
+            endTime +
+            "&startTime=" +
+            startTime +
+            "&wellId=" +
+            this.detailsCollect.wellId
+        ).then((resp) => {
+          if (resp) {
+            this.superpositionData = resp.data;
+            for (var i = 0; i < this.superpositionData.length; i++) {
+              this.coordinate(this.superpositionData[i]);
+              this.superpositionLegend[i] = this.superpositionData[
+                i
+              ].acquisitionTime;
+              this.superpositionCoordinatesData[i] = this.coordinates;
+            }
+            this.drawSuperpositionData();
+          }
+        });
+    },
+    //按照时间段查询功图叠加
+    superpositionSearch() {
+      console.log(this.value4);
+      let endTime = this.value4 + " 23:59:59";
+      let startTime = this.value4 + " 00:00:00";
+      // startTime = startTime.substring(0, 10);
+      // endTime = startTime + " 23:59:59";
+      // startTime = startTime + " 00:00:00";
+      console.log(endTime);
+      console.log(startTime);
+      (this.superpositionData = []),
+        (this.superpositionLegend = []),
+        (this.superpositionCoordinatesData = [[[]]]),
+        this.getRequest(
+          "/diagnosis/knowledge/gttile/selectGtSuperposition?endTime=" +
+            endTime +
+            "&startTime=" +
+            startTime +
+            "&wellId=" +
+            this.detailsCollect.wellId
+        ).then((resp) => {
+          if (resp) {
+            this.superpositionData = resp.data;
+            for (var i = 0; i < this.superpositionData.length; i++) {
+              this.coordinate(this.superpositionData[i]);
+              this.superpositionLegend[i] = this.superpositionData[
+                i
+              ].acquisitionTime;
+              this.superpositionCoordinatesData[i] = this.coordinates;
+            }
+            this.drawSuperpositionData();
+          }
+        });
+    },
+    //汇制功图叠加
+    drawSuperpositionData() {
+      let dom = "";
+      dom = document.getElementById(this.$refs.superpositionChart.id);
+      let myChart = echarts.init(dom);
+      let seriesSuperposition = [];
+      console.log(this.superpositionData);
+      for (var i = 0; i < this.superpositionCoordinatesData.length; i++) {
+        seriesSuperposition[i] = {
+          symbol: "none",
+          name: this.superpositionData[i].acquisitionTime,
+          data: this.superpositionCoordinatesData[i],
+          type: "line",
+          smooth: true,
+          lineStyle: {
+            width: 1.5,
+          },
+        };
+      }
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: "井号：" + this.detailsCollect.wellName + "功图叠加",
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        legend: { data: this.superpositionLegend },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: "line", // 默认为直线，可选为：'line' | 'shadow'
+          },
+          formatter: function (params) {
+            // console.log(params);
+            // return (
+            //   "<div><p>位移：" +
+            //   params[0].value[0] +
+            //   "M</p>" +
+            //   "<p>载荷：" +
+            //   params[0].value[1] +
+            //   "KN</p>" +
+            //   "</div>"
+            // );
+          },
+        },
+        grid: {
+          left: "6%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          nameLocation: "middle",
+          // min: 0,
+          // max: 100,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 8, 0],
+            fontSize: 10,
+          },
+        },
+        series: seriesSuperposition,
+      });
+    },
     //采油站下拉框初始化
     orgNameInit() {
       this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
         this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
+          let oilAll = {
+            oilStationId: "",
+            oilStationName: "全站",
+          };
+          this.orgNameData.push(oilAll);
         }
       });
     },
@@ -2119,7 +2275,10 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
+      if (val === "") {
+        this.wellOptionsInit;
+      }
+      this.getRequest("/basWellInfor/selectAllById?oilStationId=" + val).then(
         (resp) => {
           if (resp) {
             this.wellOptions = resp.data;
@@ -2127,16 +2286,16 @@ export default {
         }
       );
     },
-    //查询所有工况
+    //查询所有工况\措施信息
     selectMeasure() {
+      //返回工况诊断结果
       this.getRequest("/OilDaily/queryAllMeasure").then((resp) => {
         if (resp) {
           this.confirmOptions = resp.data;
+          console.log(this.confirmOptions);
         }
       });
-    },
-    //查询功图诊断措施对照信息
-    selectMeasure() {
+      //返回工况诊断措施
       this.getRequest("/OilDaily/selectAllMeasure").then((resp) => {
         if (resp) {
           this.confirmResultOptions = resp.data;
@@ -2173,13 +2332,96 @@ export default {
     confirmResult(val) {
       this.confirmResultVisible = true;
       this.confirmResultDate = val;
+      //延迟到DOM更新之后再执行绘制图形
+      this.$nextTick(function () {
+        //处理数据为坐标
+        this.coordinate(val);
+        //将处理后的坐标添加到对象中
+        this.$set(val, "coordinates", this.coordinates);
+        //实例化echarts
+        this.confirmResultDrawLine(val);
+        console.log(log);
+      });
+    },
+    //实例化图表
+    confirmResultDrawLine(val) {
+      let dom = document.getElementById(this.$refs.confirmResult_dom.id);
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: "井号：" + val.wellName + "  时间：" + val.acquisitionTime,
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          left: "3%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          nameLocation: "middle",
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 6, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.coordinates,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
     },
     confirmResultClose() {
       this.confirmResultVisible = false;
     },
     //人工工况确认
     saveConfirmResult(val) {
-      console.log(this.confirmResultDate);
       this.postRequest(
         "/OilDaily/confirmResult?confirmResult=" +
           this.confirmResultDate.confirmResult +
@@ -2246,7 +2488,7 @@ export default {
   margin: 0 0 10px 160px;
 }
 .confirmResultDiv {
-  height: 320px;
+  height: 420px;
   overflow: auto;
 }
 .confirmResultDiv .el-input {

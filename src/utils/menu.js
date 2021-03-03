@@ -4,7 +4,7 @@ export const initMenu = (router, store) => {
     if (store.state.routes.length > 0) {
         return;
     }
-    getRequest("/system/sysModule/getSysModuleTree").then(resp => {
+    getRequest("/system/sysModule/getSysModuleTree?moduleType=1").then(resp => {
         if (resp) {
             let fmtRoutes = formatRoutes(resp.data);
             let menu = [{

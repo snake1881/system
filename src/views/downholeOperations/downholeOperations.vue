@@ -370,8 +370,10 @@ export default {
         if (resp) {
           //施工过程信息信息数据
           this.constructionData = resp.data.constructionProcessList;
-          //默认显示第一次上报信息
-          this.constNumData = resp.data.constructionProcessList[0];
+          //如果存在施工信息，默认显示第一次上报信息
+          if (this.constructionData.length > 0) {
+            this.constNumData = resp.data.constructionProcessList[0];
+          }
         }
       });
       // 获取效果评价信息

@@ -94,7 +94,7 @@
       <el-table-column prop="readbackFlow" label="流量回读(M3/D)" width="140" />
       <el-table-column
         prop="instantaneousFlow"
-        label="瞬时流量(M3/S)"
+        label="瞬时流量(M3/H)"
         width="140"
       />
       <el-table-column prop="totalFlow" label="当前累计流量(M3)" width="140" />

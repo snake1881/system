@@ -126,8 +126,8 @@ export default {
         timestamp: this.time,
         data: {
           uid: this.termData.uid,
-          sn: this.termData.rn,
-          value: this.termData.value,
+          sn: this.termData.rn*1,
+          value: this.termData.value*1,
         },
       };
       let resultArr = [];

@@ -79,7 +79,7 @@
 }
 
 .main_between_1_item_well_dec_container3 {
-    width: 36%;
+    width: 10%;
     height: 100%;
     margin-left: 1%;
     display: flex;
@@ -133,8 +133,8 @@
 .main_between_1_item_water1_span {
     color: #333333;
     font-family: "Microsoft Yahei";
-    font-size: 12px;
-    margin: -0.5% 0;
+    font-size: 16px;
+    margin: 5% 1%;
 }
 
 /* 油井异常情况 */

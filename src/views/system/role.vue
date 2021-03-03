@@ -107,12 +107,14 @@
     <!-- 新增 -->
     <common-add-role
       :addRoleVisible="addRoleVisible"
+      :addTreeData="treeData"
       @roleRowClose="addRoleClose"
     />
     <!-- 编辑 -->
     <common-edit-role
       :editRoleVisible="editRoleVisible"
       :editData="editRoleData"
+      :editTreeData="treeData"
       @roleRowClose="editRoleClose"
     />
   </div>
@@ -148,6 +150,8 @@ export default {
       total: 0,
       // 表格加载动画
       loading: true,
+      //权限数据树
+      treeData: []
     };
   },
   created() {
@@ -196,7 +200,7 @@ export default {
     // 新增
     addRole() {
       this.addRoleVisible = true;
-      this.roleInit();
+      this.treeInIt();
     },
     // 关闭新增对话框
     addRoleClose() {
@@ -269,6 +273,7 @@ export default {
     editRole(val) {
       this.editRoleVisible = true;
       this.editRoleData = val;
+      this.treeInIt();
     },
     // 关闭编辑对话框
     editRoleClose() {
@@ -283,6 +288,16 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.roleInit();
+    },
+    // 菜单树
+    treeInIt() {
+      this.treeData = [];
+      this.getRequest("/system/sysModule/getSysModuleTree").then((resp) => {
+        if (resp) {
+          this.treeData = resp.data;
+          console.log(this.treeData);
+        }
+      });
     },
   },
 };

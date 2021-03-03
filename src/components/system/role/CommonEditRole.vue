@@ -4,6 +4,7 @@
     :visible.sync="editRoleVisible"
     width="40%"
     :before-close="editRoleClose"
+    @opened="opened"
   >
     <div class="editRoleDiv">
       <el-form :model="editData" label-width="80px">
@@ -23,14 +24,17 @@
       <!-- 树形结构 -->
       <div class="editMenuDescription">
         <el-tree
-          :data="treeData"
+          :data="editTreeData"
           show-checkbox
           empty-text="暂无数据"
           ref="tree"
           highlight-current
+          :expand-on-click-node="false"
+          :default-checked-keys="editData.menuIds"
+          :check-strictly="true"
           :props="defaultProps"
           node-key="moduleId"
-          @check="getCheckedKeys()"
+          @check="getCheckedKeys"
         />
       </div>
     </div>
@@ -52,6 +56,9 @@ export default {
     editData: {
       type: Object,
     },
+    editTreeData: {
+      type: Array,
+    },
   },
   data() {
     return {
@@ -59,33 +66,61 @@ export default {
       defaultProps: {
         children: "children",
         label: "moduleName",
+        disabled: this.isDisabled,
       },
+      menuIds: [],
     };
   },
-  created() {
-    this.treeInIt();
-  },
   methods: {
+    opened(){
+      // this.isCheck = true  //重点：给数节点赋值之前 先设置为true
+      // this.$refs.tree.setCheckedKeys(this.editTreeData.menuIds) //给树节点赋值
+      // this.isCheck= false //重点： 赋值完成后 设置为false
+    },
     // 对话框父子组件传值
     editRoleClose() {
       this.$emit("roleRowClose");
     },
-    // 菜单树
-    treeInIt() {
-      this.getRequest("/system/sysModule/getSysModuleTree").then((resp) => {
-        if (resp) {
-          this.treeData = resp.data;
-        }
-      });
-    },
     // 点击树节点选择对应菜单权限
-    getCheckedKeys() {
-      this.editData.menuIds = this.$refs.tree
+    getCheckedKeys(currentObj, treeStatus) {
+      this.menuIds = this.$refs.tree
         .getCheckedKeys()
         .concat(this.$refs.tree.getHalfCheckedKeys());
+
+      // 用于：父子节点严格互不关联时，父节点勾选变化时通知子节点同步变化，实现单向关联。
+      let selected = treeStatus.checkedKeys.indexOf(currentObj.moduleId); // -1未选中
+      //如果选中
+      if (selected !== -1) {
+        //子节点只要被选中父节点就被选中
+        this.selectedParent(currentObj);
+        //父节点只要被选中统一处理子节点为相同的勾选状态
+        this.uniteChildSame(currentObj, true);
+      } else {
+        //未选中 处理子节点全部未选中
+        if (currentObj.children.length !== 0) {
+          this.uniteChildSame(currentObj, false);
+        }
+      }
     },
-    // 保存修改后的信息
+    //统一处理子节点为相同的勾选状态
+    uniteChildSame(treeList, isSelected) {
+      this.$refs.tree.setChecked(treeList.moduleId, isSelected);
+      for (let i = 0; i < treeList.children.length; i++) {
+        this.uniteChildSame(treeList.children[i], isSelected);
+      }
+    },
+    //统一处理父节点为选中
+    selectedParent(currentObj) {
+      let currentNode = this.$refs.tree.getNode(currentObj);
+      if (currentNode.parent.key !== undefined) {
+        this.$refs.tree.setChecked(currentNode.parent, true);
+        this.selectedParent(currentNode.parent);
+      }
+    },
+    //保存修改后的信息
     saveEditRole() {
+      this.editData.menuIds = this.menuIds;
+      console.log(this.menuIds);
       this.putRequest("/system/sysRole/update", this.editData).then((resp) => {
         if (resp) {
           this.$message({

@@ -163,27 +163,34 @@
             :show-overflow-tooltip="true"
           />
           <el-table-column
-            prop="drWellheadPressure"
-            label="油压"
-            width="80"
+            prop="drPumpPressure"
+            label="泵压(MPA)"
+            width="100"
+            align="center"
+          />
+          <el-table-column
+            prop="separatorPressure"
+            label="分水器压力(MPA)"
+            width="150"
             align="center"
           />
           <el-table-column
             prop="drPipePressure"
-            label="管压"
-            width="80"
+            label="管压(MPA)"
+            width="100"
             align="center"
           />
+          <el-table-column
+            prop="drWellheadPressure"
+            label="油压(MPA)"
+            width="100"
+            align="center"
+          />
+          
           <el-table-column
             prop="drCasingPressure"
-            label="套压"
-            width="80"
-            align="center"
-          />
-          <el-table-column
-            prop="drPumpPressure"
-            label="泵压"
-            width="80"
+            label="套压(MPA)"
+            width="100"
             align="center"
           />
           <el-table-column

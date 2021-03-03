@@ -162,6 +162,12 @@
         label="24小时产液量"
         width="140"
       />
+       <el-table-column
+        prop="waterContent"
+        align="center"
+        label="含水率(%)"
+        width="100"
+      />
       <el-table-column align="center" label="操作" width="130" fixed="right">
         <template slot-scope="scope">
           <el-button
@@ -341,7 +347,7 @@ export default {
     },
     //单井下拉框初始化
     wellOptionsInit() {
-      this.getRequest("/basWellInfor/selectWater").then((resp) => {
+      this.getRequest("/basWellInfor/selectAmountLiquid").then((resp) => {
         this.loading = false;
         if (resp) {
           this.wellOptions = resp.data;
@@ -350,13 +356,13 @@ export default {
     },
     //单井根据采油站变化
     queryWellNameByOrgName(val) {
-      this.getRequest("/basWellInfor/listByStation?oidStationId=" + val).then(
-        (resp) => {
-          if (resp) {
-            this.wellOptions = resp.data;
-          }
+      this.getRequest(
+        "/basWellInfor/selectAmountLiquidById?oilStationId=" + val
+      ).then((resp) => {
+        if (resp) {
+          this.wellOptions = resp.data;
         }
-      );
+      });
     },
     // 分页，页码大小改变
     handleSizeChange(val) {
