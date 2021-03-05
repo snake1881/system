@@ -45,55 +45,57 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 消息通知 -->
-      <el-popover
-        placement="bottom"
-        class="container_right_notice"
-        trigger="click"
-      >
-        <el-tabs type="border-card">
-          <el-tab-pane label="未读">
-            <el-scrollbar class="container_right_notice_scrollbar">
-              <!-- 未阅读信息展示 end -->
-              <template v-for="(item, index) in lists">
-                <div
-                  v-if="item.msgState == '未通知'"
-                  class="container_right_notice_content"
-                  :key="index"
-                >
-                  <el-button type="text" @click="goToDetail()">
-                    {{ item.msgContent }}
-                    {{ item.msgTime }}
-                  </el-button>
-                </div>
-              </template>
-            </el-scrollbar>
-          </el-tab-pane>
-          <el-tab-pane label="已读">
-            <el-scrollbar class="container_right_notice_scrollbar">
-              <template v-for="(item, index) in lists">
-                <div
-                  v-if="item.msgState == '已阅读'"
-                  class="container_right_notice_content"
-                  :key="index"
-                >
-                  <el-button type="text"
-                    >{{ item.msgContent }} {{ item.msgTime }}</el-button
+      <el-badge :value="unRead" class="container_right_notice">
+        <el-popover placement="bottom" trigger="click" @show="messageInit()">
+          <el-tabs type="border-card" >
+            <el-tab-pane label="未读">
+              <el-scrollbar  class="container_right_notice_scrollbar">
+                <!-- 未阅读信息展示 end -->
+                <template v-for="(item, index) in lists">
+                  <div
+                    v-if="item.MsgState == '未读'"
+                    class="container_right_notice_content"
+                    :key="index"
                   >
-                </div>
-              </template>
-            </el-scrollbar>
-          </el-tab-pane>
-          <el-button
-            @click="gotoReceiveNotice()"
-            class="container_right_notice_button"
-            type="text"
-            >查看全部通知</el-button
-          >
-        </el-tabs>
-        <el-badge slot="reference" :max="99" class="container_right_badge">
-          <el-button class="iconfont icon-xiaoxi" @click="cancelNoticeNum()" />
-        </el-badge>
-      </el-popover>
+                    <el-button type="text" @click="goToDetail(item)">
+                      {{ item.Title }}
+                      {{ item.Time }}
+                    </el-button>
+                  </div>
+                </template>
+              </el-scrollbar>
+            </el-tab-pane>
+            <el-tab-pane label="已读">
+              <el-scrollbar class="container_right_notice_scrollbar">
+                <template v-for="(item, index) in lists">
+                  <div
+                    v-if="item.MsgState == '已读'"
+                    class="container_right_notice_content"
+                    :key="index"
+                  >
+                    <el-button type="text" @click="goToDetail(item)"
+                      >{{ item.Title }} {{ item.Time }}</el-button
+                    >
+                  </div>
+                </template>
+              </el-scrollbar>
+            </el-tab-pane>
+            <el-button
+              @click="gotoReceiveNotice()"
+              class="container_right_notice_button"
+              type="text"
+              >查看全部通知</el-button
+            >
+          </el-tabs>
+          <el-badge slot="reference" :max="99" class="container_right_badge">
+            <el-button
+              class="iconfont icon-xiaoxi"
+              @click="cancelNoticeNum()"
+            />
+          </el-badge>
+        </el-popover>
+      </el-badge>
+
       <!-- 退出 -->
       <el-button
         class="iconfont icon-tuichu container_right_out"
@@ -109,41 +111,15 @@ export default {
       // 通知总数
       // noticeNum: 10,
       // 通知详细
-      lists: [
-        {
-          msgState: "未通知",
-          msgContent: "开发科李科长已通过你的合同审批",
-          msgTime: "2020/5/21",
-        },
-        {
-          msgState: "未通知",
-          msgContent: "开发科李科长已通过你的合同审批",
-          msgTime: "2020/6/11",
-        },
-        {
-          msgState: "未通知",
-          msgContent: "开发科李科长已通过你的合同审批",
-          msgTime: "2020/6/1",
-        },
-        {
-          msgState: "未通知",
-          msgContent: "开发科李科长已通过你的合同审批",
-          msgTime: "2020/7/12",
-        },
-        {
-          msgState: "未通知",
-          msgContent: "开发科李科长已通过你的合同审批",
-          msgTime: "2020/6/1",
-        },
-        {
-          msgState: "未通知",
-          msgContent: "开发科李科长已通过你的合同审批",
-          msgTime: "2020/7/12",
-        },
-      ],
+      lists: [],
       // 用户名
       username: this.$store.state.currentUser.username,
+      //未接收消息
+      unRead: 0,
     };
+  },
+  created() {
+    this.messageInit();
   },
   methods: {
     // 跳转到所有通知页面
@@ -163,15 +139,25 @@ export default {
       this.noticeNum = null;
     },
     // 跳转到通知详情
-    goToDetail() {
+    goToDetail(val) {
+      //若当前页面为通知详情页面则刷新数据
+      if (this.$route.path == "/detailsNotice") {
+        this.$router.push({ path: "/" });
+      }
       this.$router.push({
         name: "消息详情",
         params: {
-          msg: this.lists[0].msgContent,
-          sendUser: this.$store.state.currentUser.username,
-          title: this.lists[0].msgState,
+          msg: val.Message,
+          sendUser: val.Sender,
+          title: val.Title,
+          key: val.key,
         },
       });
+       //消息设置为已读
+      var value = JSON.parse(window.localStorage.getItem(val.key));
+      value.MsgState = "已读";
+      window.localStorage.setItem(val.key,JSON.stringify(value));
+      this.messageInit();
     },
     // 退出系统
     logout() {
@@ -191,6 +177,35 @@ export default {
             message: "已取消删除",
           });
         });
+    },
+    messageInit() {
+      //从本地中读取历史消息并排序,展示未读信息数量
+      if (localStorage.length) {
+        this.unRead = 0;
+        this.lists = [];
+        var historyMessage = {};
+        var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
+        let array = [];
+        for (var i = 0; i < localStorage.length; i++) {
+          var keyBegin = localStorage.key(i);
+          if (keyBegin.startsWith("historyMessage" + userId)) {
+            array.push(keyBegin.replace("historyMessage" + userId, ""));
+          }
+        }
+        array = array.sort();
+        for (var i = 0; i < array.length; i++) {
+          historyMessage = JSON.parse(
+            localStorage.getItem("historyMessage" + userId + array[i])
+          );
+          this.lists[i] = historyMessage;
+          if (historyMessage.MsgState == "未读") {
+            this.unRead = this.unRead + 1;
+          }
+          this.lists[i].key = "historyMessage" + userId + array[i];
+        }
+        window.sessionStorage.setItem("unRead", JSON.stringify(this.unRead));
+        return this.lists;
+      }
     },
   },
 };

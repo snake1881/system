@@ -24,10 +24,19 @@ export default {
       noticeData:{}  
     }
   },
-  created(){},
+  created(){
+    console.log("================================")
+    this.open();
+  },
   methods:{
     // 确认收到
-    open(){}
+    open(){
+      //修改信息状态
+      var key = this.$route.params.key;
+      var value = JSON.parse(window.localStorage.getItem(key));
+      value.MsgState = "已读";
+      window.localStorage.setItem(key,JSON.stringify(value));
+    }
   }
 }
 </script>

@@ -73,6 +73,7 @@
   </div>
 </template>
 <script>
+import websocket from "../utils/websocket.js"
 export default {
   data() {
     return {
@@ -134,6 +135,7 @@ export default {
                   "user",
                   JSON.stringify(resp.data)
                 );
+                websocket.Init();
                 this.$router.replace("/Home");
               } else {
                 this.$message("密码错误，请重新输入");
