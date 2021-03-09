@@ -1,7 +1,7 @@
 import store from '@/store'
 import { _ } from 'core-js';
-import { from } from 'core-js/fn/array';
-import { construct } from 'core-js/fn/reflect';
+// import { from } from 'core-js/fn/array';
+// import { construct } from 'core-js/fn/reflect';
 import { Notification } from 'element-ui';
 import { Message } from 'element-ui'
 import { baseWsUrl} from '../main'

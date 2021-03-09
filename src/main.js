@@ -44,7 +44,8 @@ Vue.use(hasNoPermission)
 Vue.use(hasAnyPermission)
 Vue.use(hasRole)
 Vue.use(hasAnyRole)
-import { lastIndexOf } from "core-js/fn/array";
+
+// import { lastIndexOf } from "core-js/fn/array";
 
 //WebSocketurl
 //部署到定边的时候将url改为'ws://+"定边服务器地址"+:8692/dbznyt/socket/'
