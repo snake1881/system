@@ -34,6 +34,7 @@
           type="primary"
           icon="el-icon-search"
           size="small"
+          v-hasPermission="['information:wellStation:list']"
           @click="searchBaseWellSite()"
           >查询</el-button
         >
@@ -43,6 +44,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
+          v-hasPermission="['information:wellStation:add']"
           @click="addBaseWellSite()"
           >新增</el-button
         >
@@ -117,12 +119,14 @@
           ><el-button
             type="text"
             size="small"
+            v-hasPermission="['information:wellStation:update']"
             @click="editBaseWellSite(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['information:wellStation:delete']"
             @click="BaseWellSiteDelete(scope.row)"
             class="iconfont icon-shanchu"
           />

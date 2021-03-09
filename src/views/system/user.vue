@@ -38,6 +38,7 @@
             type="primary"
             icon="el-icon-search"
             size="small"
+            v-hasPermission="['sys:user:list']"
             @click="getUserByName()"
             >查询</el-button
           >
@@ -45,6 +46,7 @@
             type="primary"
             icon="el-icon-plus"
             size="small"
+            v-hasPermission="['sys:user:add']"
             @click="addUser()"
             >新增</el-button
           >
@@ -52,6 +54,7 @@
             type="primary"
             icon="el-icon-delete"
             size="small"
+            v-hasPermission="['sys:user:delete']"
             @click="dleteUser()"
             >批量删除</el-button
           >
@@ -94,12 +97,14 @@
             <el-button
               type="text"
               size="small"
+              v-hasPermission="['sys:user:update']"
               @click="editUser(scope.row)"
               class="iconfont icon-bianji"
             />
             <el-button
               type="text"
               size="small"
+              v-hasPermission="['sys:user:delete']"
               @click="sinDelete(scope.row)"
               class="iconfont icon-shanchu"
             />

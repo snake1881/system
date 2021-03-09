@@ -33,6 +33,7 @@
           type="primary"
           icon="el-icon-search"
           size="small"
+          v-hasPermission="['sys:loginLog:list']"
           @click="searchLog()"
           >查询</el-button
         >
@@ -42,6 +43,7 @@
           type="primary"
           icon="el-icon-download"
           size="small"
+          v-hasPermission="['sys:loginLog:export']"
           @click="fileOpen()"
           >导出</el-button
         >

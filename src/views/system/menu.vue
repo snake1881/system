@@ -1,7 +1,7 @@
 <template>
   <div class="menu">
     <div class="menu_top">
-      <el-button id="menu_top_btn" type="text" class="el-icon-plus" @click="addAllMenu()">新增</el-button>
+      <el-button id="menu_top_btn" type="text" class="el-icon-plus" v-hasPermission="['sys:menu:add']" @click="addAllMenu()">新增</el-button>
     </div>
     <el-table
       v-loading="loading"
@@ -10,7 +10,7 @@
       :data="menuData"
       row-key="moduleId"
       border
-      default-expand-all
+      :default-expand-all="false"
       :tree-props="{
         children: 'children',
         hasChildren: 'hasChildren'
@@ -34,9 +34,9 @@
       <el-table-column prop="permissionMark" label="权限标识" min-width="180" />
       <el-table-column label="操作" min-width="150">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addMenu(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px"/>
-          <el-button type="text" size="small" @click="editMenu(scope.row)" class="iconfont icon-bianji" />
-          <el-button type="text" size="small" @click="dleteMenu(scope.row)" class="iconfont icon-shanchu"/>
+          <el-button type="text" size="small" v-hasPermission="['sys:menu:add']" @click="addMenu(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px"/>
+          <el-button type="text" size="small" v-hasPermission="['sys:menu:update']" @click="editMenu(scope.row)" class="iconfont icon-bianji" />
+          <el-button type="text" size="small" v-hasPermission="['sys:menu:delete']" @click="dleteMenu(scope.row)" class="iconfont icon-shanchu"/>
         </template>
       </el-table-column>
     </el-table>

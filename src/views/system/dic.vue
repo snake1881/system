@@ -23,6 +23,7 @@
             type="primary"
             icon="el-icon-search"
             size="small"
+            v-hasPermission="['sys:dic:list']"
             @click="searchDictionary()"
             >查询</el-button
           >
@@ -30,6 +31,7 @@
             type="primary"
             icon="el-icon-plus"
             size="small"
+            v-hasPermission="['sys:dic:add']"
             @click="addDic()"
             >新增</el-button
           >
@@ -37,6 +39,7 @@
             type="primary"
             icon="el-icon-delete"
             size="small"
+            v-hasPermission="['sys:dic:delete']"
             @click="selectdelete()"
             >批量删除</el-button
           >
@@ -69,18 +72,21 @@
             <el-button
               type="text"
               size="small"
+              v-hasPermission="['sys:dic:update']"
               @click="editDic(scope.row)"
               class="iconfont icon-bianji"
             />
             <el-button
               type="text"
               size="small"
+              v-hasPermission="['sys:dic:delete']"
               @click="sinDelete(scope.row)"
               class="iconfont icon-shanchu"
             />
             <el-button
               type="text"
               size="small"
+              v-hasPermission="['sys:dic:detail']"
               @click="detailsDic(scope.row)"
               class="iconfont icon-xiangqing"
             />

@@ -34,6 +34,7 @@
           type="primary"
           icon="el-icon-search"
           size="small"
+          v-hasPermission="['information:team:list']"
           @click="searchBasTeamInfor()"
           >查询</el-button
         >
@@ -43,6 +44,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
+          v-hasPermission="['information:team:add']"
           @click="addBasTeamInfor()"
           >新增</el-button
         >
@@ -98,12 +100,14 @@
           ><el-button
             type="text"
             size="small"
+            v-hasPermission="['information:team:update']"
             @click="editBasTeamInfor(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['information:team:delete']"
             @click="BasTeamInforDelete(scope.row)"
             class="iconfont icon-shanchu"
           />

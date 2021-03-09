@@ -14,6 +14,7 @@
           type="primary"
           icon="el-icon-search"
           size="small"
+          v-hasPermission="['sys:post:list']"
           @click="searchPost()"
           >查询</el-button
         >
@@ -21,6 +22,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
+          v-hasPermission="['sys:post:add']"
           @click="addPost()"
           >新增</el-button
         >
@@ -53,12 +55,14 @@
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['sys:post:update']"
             @click="editPost(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['sys:post:delete']"
             @click="dletePost(scope.row)"
             class="iconfont icon-shanchu"
           />

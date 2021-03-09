@@ -34,6 +34,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
+          v-hasPermission="['sys:role:add']"
           @click="addRole()"
           >新增</el-button
         >
@@ -41,6 +42,7 @@
           type="primary"
           icon="el-icon-delete"
           size="small"
+          v-hasPermission="['sys:role:delete']"
           @click="deleteRole()"
           >批量删除</el-button
         >
@@ -80,12 +82,14 @@
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['sys:role:update']"
             @click="editRole(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['sys:role:delete']"
             @click="dlete(scope.row)"
             class="iconfont icon-shanchu"
           />

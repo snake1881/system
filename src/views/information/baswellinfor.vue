@@ -50,6 +50,7 @@
           type="primary"
           icon="el-icon-search"
           size="small"
+          v-hasPermission="['information:well:list']"
           @click="searchBaseWellInfor()"
           >查询</el-button
         >
@@ -59,6 +60,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
+          v-hasPermission="['information:well:add']"
           @click="addBaseWellInfor()"
           >新增</el-button
         >
@@ -68,6 +70,7 @@
           size="small"
           type="primary"
           icon="el-icon-download"
+          v-hasPermission="['information:well:export']"
           @click="handleExport()"
           >导出</el-button
         >
@@ -84,7 +87,7 @@
           :on-exceed="handleExceed"
           :file-list="fileList"
         >
-          <el-button size="small" icon="el-icon-upload2" type="primary"
+          <el-button size="small" icon="el-icon-upload2" type="primary" v-hasPermission="['information:well:import']"
             >导入</el-button
           >
         </el-upload>
@@ -200,12 +203,14 @@
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['information:well:update']"
             @click="editBaseWellInfor(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['information:well:delete']"
             @click="BaseWellInforDelete(scope.row)"
             class="iconfont icon-shanchu"
           />

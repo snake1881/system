@@ -1,7 +1,7 @@
 <template>
   <div class="dept">
     <div class="dept_top">
-      <el-button id="dept_top_btn" type="text" class="el-icon-plus" @click="addAllDept()">新增</el-button>
+      <el-button id="dept_top_btn" type="text" class="el-icon-plus" v-hasPermission="['sys:dept:add']" @click="addAllDept()">新增</el-button>
     </div>
     <el-table
       v-loading="loading"
@@ -32,9 +32,9 @@
       <el-table-column prop="createTime" label="创建时间" min-width="180" />
       <el-table-column label="操作" min-width="120">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addDept(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px" />
-          <el-button type="text" size="small" @click="editDept(scope.row)" class="iconfont icon-bianji" />
-          <el-button type="text" size="small" @click="dleteDept(scope.row)" class="iconfont icon-shanchu" />
+          <el-button type="text" size="small" v-hasPermission="['sys:dept:add']" @click="addDept(scope.row)" class="iconfont icon-xinzeng" style="font-size:17px" />
+          <el-button type="text" size="small" v-hasPermission="['sys:dept:update']" @click="editDept(scope.row)" class="iconfont icon-bianji" />
+          <el-button type="text" size="small" v-hasPermission="['sys:dept:delete']" @click="dleteDept(scope.row)" class="iconfont icon-shanchu" />
         </template>
       </el-table-column>
     </el-table>

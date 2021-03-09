@@ -37,6 +37,13 @@ import './assets/icon/iconfont.css';
 import './vendor/Blob'
 import './vendor/Export2Excel'
 
+import { hasPermission, hasNoPermission, hasAnyPermission, hasRole, hasAnyRole } from './utils/permissionDirect';
+
+Vue.use(hasPermission)
+Vue.use(hasNoPermission)
+Vue.use(hasAnyPermission)
+Vue.use(hasRole)
+Vue.use(hasAnyRole)
 
 // 导航守卫
 router.beforeEach((to, from, next) => {

@@ -34,6 +34,7 @@
           type="primary"
           icon="el-icon-search"
           size="small"
+          v-hasPermission="['information:waterStation:list']"
           @click="searchBaseWaterStation()"
           >查询</el-button
         >
@@ -43,6 +44,7 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
+          v-hasPermission="['information:waterStation:add']"
           @click="addBaseWaterStation()"
           >新增</el-button
         >
@@ -111,12 +113,14 @@
           ><el-button
             type="text"
             size="small"
+            v-hasPermission="['information:waterStation:update']"
             @click="editBaseWaterStation(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
+            v-hasPermission="['information:waterStation:delete']"
             @click="BaseWaterStationDelete(scope.row)"
             class="iconfont icon-shanchu"
           />
