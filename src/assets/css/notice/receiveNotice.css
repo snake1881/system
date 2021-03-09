@@ -1,16 +1,26 @@
 .receiveNotice {
     width: 70%;
-    height: 100px;
+    height: 100%;
     background-color: white;
     margin: 0 15%;
+  }
+  .receiver_card{
+    height: 100%;
+    overflow:auto;
+    box-shadow: never;
   }
   .receiveNotice_span{
       font-size: 25px;
       font-weight: 800;
+      margin:0 10px 30px 0;
       color: rgb(19, 19, 20);
   }
+  .receiver_notices{
+    height: 100%;
+    overflow:auto;
+  }
   .receiveNotice_container {
-    height: 50px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -18,11 +28,11 @@
     border-bottom: 1px solid rgb(209, 208, 208);
   }
   .receiveNotice_container_button{
-    margin:0 10px 15px 0;
+    margin:0 10px 30px 0;
   }
   .receiveNotice_container_detail{
       display: flex;
       justify-content: center ;
       flex-direction: row;
-      margin-bottom:15px
+      margin-bottom:30px
   }

@@ -327,6 +327,7 @@ export default {
           "&pageSize=" +
           this.pageSize
       ).then((resp) => {
+        this.loading = false;
         if (resp) {
           this.dymData = resp.data.records;
           this.total = resp.data.total;

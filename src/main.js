@@ -6,19 +6,19 @@ import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import echarts from "echarts";
 import VueAMap from "vue-amap"
-import md5 from 'js-md5';
+import md5 from 'js-md5';
 
 Vue.config.productionTip = false;
 Vue.use(Element);
 Vue.prototype.$echarts = echarts;
 Vue.use(VueAMap);
-Vue.prototype.$md5 = md5;
+Vue.prototype.$md5 = md5;
 VueAMap.initAMapApiLoader({
-  key: "add9a4acb6a222e7695d72da7e4d9ae7",
-  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
-  // 默认高德 sdk 版本为 1.4.4
-  v: "1.4.4",
-  uiVersion:"1.0"
+    key: "add9a4acb6a222e7695d72da7e4d9ae7",
+    plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+    // 默认高德 sdk 版本为 1.4.4
+    v: "1.4.4",
+    uiVersion: "1.0"
 });
 // axios引用
 import { postRequest } from "./utils/request";
@@ -44,6 +44,12 @@ Vue.use(hasNoPermission)
 Vue.use(hasAnyPermission)
 Vue.use(hasRole)
 Vue.use(hasAnyRole)
+import { lastIndexOf } from "core-js/fn/array";
+
+//WebSocketurl
+//部署到定边的时候将url改为'ws://+"定边服务器地址"+:8692/dbznyt/socket/'
+export const baseWsUrl = "ws://192.168.0.189:8692/dbznyt/socket/";
+Vue.prototype.UnReadQuantity = window.sessionStorage.getItem("unRead");
 
 // 导航守卫
 router.beforeEach((to, from, next) => {
