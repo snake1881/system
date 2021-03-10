@@ -49,7 +49,8 @@ Vue.use(hasAnyRole)
 
 //WebSocketurl
 //部署到定边的时候将url改为'ws://+"定边服务器地址"+:8692/dbznyt/socket/'
-export const baseWsUrl = "ws://192.168.0.189:8692/dbznyt/socket/";
+export const baseWsUrl = "ws://192.168.0.115:8692/dbznyt/socket/";
+// export const baseWsUrl = "ws://192.168.101.22:8692/dbznyt/socket/";
 Vue.prototype.UnReadQuantity = window.sessionStorage.getItem("unRead");
 
 // 导航守卫

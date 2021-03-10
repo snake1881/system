@@ -61,11 +61,13 @@
       <el-table-column type="selection" width="55" />
       <!-- <el-table-column prop="operationId" label="日志编号" width="100" /> -->
       <el-table-column prop="moduleName" label="模块名称" width="180" />
-      <el-table-column prop="operationType" label="操作类型" width="160" />
-      <el-table-column prop="operatorName" label="操作人员" width="170" />
+      <el-table-column prop="operationType" label="操作类型" max-width="100" />
+      <el-table-column prop="operationDetail" label="操作描述" width="160" />
+      <el-table-column prop="operatorName" label="操作人员" max-width="100" />
+      <el-table-column prop="requestUrl" label="请求URL" min-width="180" />
       <!-- <el-table-column prop="departmentName" label="部门名称" width="160" /> -->
       <el-table-column prop="requestIp" label="主机" width="160" />
-      <el-table-column prop="status" label="操作状态" width="160" >
+      <el-table-column prop="status" label="操作状态" max-width="100" >
         <template slot-scope="scope">
           <p v-if="scope.row.status == '0'">正常</p>
           <p v-if="scope.row.status == '1'">异常</p>

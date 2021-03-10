@@ -45,12 +45,12 @@
         'text-align': 'center',
       }"
     >
-      <el-table-column :show-overflow-tooltip="true" prop="positionId" label="岗位编号" width="200" />
-      <el-table-column prop="positionCode" label="岗位编码" width="290" />
-      <el-table-column prop="positionName" label="岗位名称" width="290" />
-      <el-table-column prop="sequence" label="显示顺序" width="170" />
-      <el-table-column prop="createTime" label="创建时间" width="300" />
-      <el-table-column label="操作" width="80">
+      <el-table-column :show-overflow-tooltip="true" prop="positionId" label="岗位编号" max-width="80" />
+      <el-table-column prop="positionCode" label="岗位编码" max-width="100" />
+      <el-table-column prop="positionName" label="岗位名称" width="180" />
+      <el-table-column prop="sequence" label="显示顺序" max-idth="80" />
+      <el-table-column prop="createTime" label="创建时间" width="240" />
+      <el-table-column label="操作" min-width="80">
         <template slot-scope="scope">
           <el-button
             type="text"

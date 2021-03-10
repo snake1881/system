@@ -63,11 +63,11 @@
         }"
         @selection-change="handleSelectionChange"
       >
-        <el-table-column type="selection" width="125" />
-        <el-table-column prop="codeTName" label="编码名称" width="360" />
-        <el-table-column prop="codeType" label="编码类型" width="360" />
-        <el-table-column prop="createTime" label="创建时间" width="370" />
-        <el-table-column label="操作" width="120">
+        <el-table-column type="selection" width="60" />
+        <el-table-column prop="codeTName" label="编码名称" max-width="180" />
+        <el-table-column prop="codeType" label="编码类型" width="150" />
+        <el-table-column prop="createTime" label="创建时间" max-width="240" />
+        <el-table-column label="操作" min-width="120">
           <template slot-scope="scope">
             <el-button
               type="text"
