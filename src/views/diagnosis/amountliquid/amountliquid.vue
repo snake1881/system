@@ -262,6 +262,7 @@ export default {
         "产液量",
         "日累产液",
         "24小时产液量",
+        "含水率(%)",
       ];
       const filterVal = [
         "wellName",
@@ -276,6 +277,7 @@ export default {
         "hourProd",
         "dayProd",
         "liquidProd",
+        "waterContent",
       ];
       const list = this.selectData;
       const data = this.formatJson(filterVal, list);
