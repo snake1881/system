@@ -17,8 +17,8 @@
           class="receiveNotice_container_button"
         />
         <el-button
-         @click="gotoDetailsNotice(item)"
-         type="text"
+          @click="gotoDetailsNotice(item)"
+          type="text"
           style="
             white-space: nowrap;
             margin-right: 30px;
@@ -28,12 +28,12 @@
             overflow: hidden; /*超出宽度部分隐藏*/
             text-overflow: ellipsis; /*超出部分以点号代替*/
           "
-         >
-          标题：{{ item.Title }}
+        >
+          标题：{{ item.title }}
         </el-button>
         <el-button
-         @click="gotoDetailsNotice(item)"
-         type="text"
+          @click="gotoDetailsNotice(item)"
+          type="text"
           style="
             white-space: nowrap;
             margin-right: 30px;
@@ -43,10 +43,11 @@
             overflow: hidden; /*超出宽度部分隐藏*/
             text-overflow: ellipsis; /*超出部分以点号代替*/
           "
-         >
-          内容：{{ item.Message }}
+        >
+          内容：{{ item.content }}
         </el-button>
         <span
+          v-if="item.state"
           @click="gotoDetailsNotice(item)"
           style="
             white-space: nowrap;
@@ -56,7 +57,20 @@
             overflow: hidden; /*超出宽度部分隐藏*/
             text-overflow: ellipsis; /*超出部分以点号代替*/
           "
-          >状态：{{ item.MsgState }}</span
+          >状态：已读</span
+        >
+        <span
+          v-if="!item.state"
+          @click="gotoDetailsNotice(item)"
+          style="
+            white-space: nowrap;
+            margin-right: 30px;
+            width: 10%;
+            margin-bottom: 30px;
+            overflow: hidden; /*超出宽度部分隐藏*/
+            text-overflow: ellipsis; /*超出部分以点号代替*/
+          "
+          >状态：未读</span
         >
         <el-button
           style="margin-bottom: 30px"
@@ -64,7 +78,6 @@
           type="danger"
           size="medium"
           class="iconfont icon-shanchu"
-          
         ></el-button>
       </div>
     </el-card>
@@ -83,26 +96,42 @@ export default {
   methods: {
     // 初始化所有通知
     noticeInit() {
+      this.getRequest(
+        "/ChatRecord/chatList?receiveId=" +
+          JSON.parse(window.sessionStorage.getItem("user")).userId
+      ).then((resp) => {
+        this.loading = false;
+        if (resp) {
+          console.log(resp.data);
+          this.noticeData = resp.data;
+          //  console.log(this.unRead);
+          //  this.lists.forEach(item=>{
+          //   if(!item.state){
+          //     this.unRead +=1;
+          //   }
+          // })
+        }
+      });
       //从本地中读取历史消息并排序
-      if (localStorage.length) {
-        this.noticeData = [];
-        var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
-        let array = [];
-        for (var i = 0; i < localStorage.length; i++) {
-          var keyBegin = localStorage.key(i);
-          if (keyBegin.startsWith("historyMessage" + userId)) {
-            array.push(keyBegin.replace("historyMessage" + userId, ""));
-          }
-        }
-        array = array.sort();
-        for (var i = 0; i < array.length; i++) {
-          this.noticeData[i] = JSON.parse(
-            localStorage.getItem("historyMessage" + userId + array[i])
-          );
-          this.noticeData[i].key = "historyMessage" + userId + array[i];
-        }
-        return this.noticeData;
-      }
+      // if (localStorage.length) {
+      //   this.noticeData = [];
+      //   var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
+      //   let array = [];
+      //   for (var i = 0; i < localStorage.length; i++) {
+      //     var keyBegin = localStorage.key(i);
+      //     if (keyBegin.startsWith("historyMessage" + userId)) {
+      //       array.push(keyBegin.replace("historyMessage" + userId, ""));
+      //     }
+      //   }
+      //   array = array.sort();
+      //   for (var i = 0; i < array.length; i++) {
+      //     this.noticeData[i] = JSON.parse(
+      //       localStorage.getItem("historyMessage" + userId + array[i])
+      //     );
+      //     this.noticeData[i].key = "historyMessage" + userId + array[i];
+      //   }
+      //   return this.noticeData;
+      // }
     },
     // 详情
     gotoDetailsNotice(val) {
@@ -125,11 +154,18 @@ export default {
         type: "warning",
       })
         .then(() => {
-          window.localStorage.removeItem(val.key);
-          this.$message({
-            type: "success",
-            message: "删除成功!",
+          this.putRequest(
+            "/ChatRecord/changeActive?id=" + val.chatRecordId
+          ).then((resp) => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
+              this.noticeInit();
+            }
           });
+          // window.localStorage.removeItem(val.key);
         })
         .catch(() => {
           this.$message({

@@ -14,13 +14,13 @@
           </el-tag>
         </el-form-item>
         <el-form-item label="标题">
-          <el-input v-model="noticeData.title" />
+          <el-input v-model="noticeData.chatRecord.title" />
         </el-form-item>
         <el-form-item label="内容">
-          <el-input type="textarea" v-model="noticeData.content" />
+          <el-input type="textarea" v-model="noticeData.chatRecord.content" />
         </el-form-item>
         <el-form-item label="发送人">
-          <el-input disabled v-model="noticeData.userName" />
+          <el-input disabled v-model="noticeData.chatRecord.userName" />
         </el-form-item>
         <el-form-item>
           <el-button @click="sendNotice()">发送</el-button>
@@ -63,10 +63,13 @@ export default {
     return {
       // 通知内容
       noticeData: {
-        title: "",
-        content: "",
-        userId: "",
-        userName: "",
+        chatRecord: {
+          title: "",
+          content: "",
+          sendId: "",
+          sendName: "",
+          time: "",
+        },
         receiverList: [{}],
       },
       // 选择接收人
@@ -86,12 +89,13 @@ export default {
     };
   },
   created() {
-    this.noticeData.userId = JSON.parse(
+    this.noticeData.chatRecord.sendId = JSON.parse(
       window.sessionStorage.getItem("user")
     ).userId;
-    this.noticeData.userName = JSON.parse(
+    this.noticeData.chatRecord.sendName = JSON.parse(
       window.sessionStorage.getItem("user")
-    ).userName;
+    ).username;
+    console.log(this.noticeData);
     this.userInit();
   },
   methods: {
@@ -108,29 +112,26 @@ export default {
       // 调用前端的方法（可以传json格式数据）
       // websocket.Send(toUserId,this.message);
       // 调用后端方法（只可以传string类型的参数）
-     let list = [];
-    //  list = this.reveiverDepaetmentList;
-    console.log(this.reveiverDepaetmentList);
-     this.reveiverDepaetmentList.forEach(items=>{
-       if(items.userName){
-         let user = {
-             name:items.userName,
-             userId:items.userId
-           }
-        list.push(user);
-       }else{
-         items.userList.forEach(item=>{
-           let user = {
-             name:item.userName,
-             userId:item.userId
-           }
+      let list = [];
+      this.reveiverDepaetmentList.forEach((items) => {
+        if (items.userName) {
+          let user = {
+            name: items.userName,
+            userId: items.userId,
+          };
           list.push(user);
-         })
-       }
-     })
-     console.log(list);
-     this.noticeData.receiverList =list;
-     console.log(this.noticeData.receiverList)
+        } else {
+          items.userList.forEach((item) => {
+            let user = {
+              name: item.userName,
+              userId: item.userId,
+            };
+            list.push(user);
+          });
+        }
+      });
+      this.noticeData.receiverList = list;
+      this.noticeData.chatRecord.time = new Date().getTime;
       this.postRequest("/webSocket/send", this.noticeData).then((resp) => {
         if (resp) {
           this.$message({
@@ -146,8 +147,6 @@ export default {
     handleNodeClick(data) {
       console.log(data);
       if (data.userId) {
-        console.log("员工");
-        console.log(data)
         var user = {
           name: data.userName,
           userId: data.userId,
@@ -155,8 +154,6 @@ export default {
         this.receiverLabelList.push(user);
         this.reveiverDepaetmentList.push(data);
       } else {
-        console.log("部门");
-        console.log(data)
         var user = {
           name: data.departmentName,
           userId: "部门",
@@ -164,12 +161,10 @@ export default {
         this.reveiverDepaetmentList.push(data);
         this.receiverLabelList.push(user);
       }
-      console.log(this.receiverLabelList)
     },
     // 删除接收人
     handelClosed(val) {
-      console.log(val);
-      this.reveiverDepaetmentList.splice(val,1);
+      this.reveiverDepaetmentList.splice(val, 1);
       this.receiverLabelList.splice(val, 1);
     },
     // 搜索

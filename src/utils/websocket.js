@@ -13,6 +13,7 @@ var ws;
 var tt;
 var lockReconnect = false;//避免重复连接
 var userId;
+var userName;
 
 export const unRead =parseInt(window.sessionStorage.getItem("unRead"));
 
@@ -21,6 +22,7 @@ var websocket = {
     Init: function () {
         var _self = this;
         this.userId = JSON.parse(window.sessionStorage.getItem("user")).userId//缓存中取出用户id
+        this.userName = JSON.parse(window.sessionStorage.getItem("user")).userName//缓存中取出用户id
         if ("WebSocket" in window) {
             ws = new WebSocket(baseWsUrl + this.userId);
         } else if ("MozWebSocket" in window) {
@@ -32,23 +34,28 @@ var websocket = {
 
         ws.onmessage = function (e) {
             console.log("接收消息:" + e.data)
-            var time = new Date().getTime();
-            var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
+            // var time = new Date().getTime();
+            // var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
             //将接收到的消息存储在localStorage
-            var string = "{\"Title\":\"欢迎\",\"Message\":\"欢迎" + userId + "加入聊天\"}";
-            var string1 = "心跳检测正常" + userId;
-            if (string != e.data && string1 != e.data) {
-                console.log("将接收到的消息存储在localStorage");
-                console.log(this.UnReadQuantity);
-                this.UnReadQuantity = parseInt( sessionStorage.getItem("unRead"));
-                var unRead =parseInt( sessionStorage.getItem("unRead"));
-                localStorage.setItem("historyMessage" + userId + time, e.data);
-                this.UnReadQuantity = this.UnReadQuantity+1;
-                this.unRead = this.unRead +1;
-                unRead = unRead+1;
-                sessionStorage.setItem("unRead",unRead);
-                console.log(this.UnReadQuantity);
-            }
+            // var string = "{\"Title\":\"欢迎\",\"Message\":\"欢迎" + userId + "加入聊天\"}";
+            // var string1 = "心跳检测正常" + userId;
+            // if (string != e.data && string1 != e.data) {
+            //     console.log("将接收到的消息存储在localStorage");
+            //     console.log(this.UnReadQuantity);
+            //     this.UnReadQuantity = parseInt( sessionStorage.getItem("unRead"));
+            //     var unRead =parseInt( sessionStorage.getItem("unRead"));
+            //     localStorage.setItem("historyMessage" + userId + time, e.data);
+            //     this.UnReadQuantity = this.UnReadQuantity+1;
+            //     this.unRead = this.unRead +1;
+            //     unRead = unRead+1;
+            //     sessionStorage.setItem("unRead",unRead);
+            //     console.log(this.UnReadQuantity);
+            // }
+            // this.getRequest("/ChatRecord/countUnread?receiveId="+userId).then(resp=>{
+            //     if(resp){
+            //         this.unRead = resp.data;
+            //     }
+            // })
             Message({
                 message: '收到新的通知，请查看！',
                 type: 'success',
@@ -62,10 +69,15 @@ var websocket = {
                 message: '连接已关闭',
                 type: 'error',
             });
-            reconnect(userId);
+            // reconnect(userId);
         }
 
         ws.onopen = function () {
+            // this.putRequest("/ChatRecord/changeState?chatRecordId="+this.userId).then(resp=>{
+            //     if (resp) {
+            //       console.log(resp.data);
+            //     }
+            //   })
             console.log("连接成功")
             Message({
                 message: 'webSocket连接成功',
@@ -141,7 +153,7 @@ function reconnect(sname) {
         console.log("执行断线重连...")
         websocket.Init(sname);
         lockReconnect = false;
-    }, 4000);
+    }, 1000);
 }
 
 //心跳检测

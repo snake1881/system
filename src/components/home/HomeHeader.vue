@@ -45,7 +45,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <!-- 消息通知 -->
-      <el-badge :value="unRead" class="container_right_notice">
+      <el-badge :value="this.unRead" class="container_right_notice">
         <el-popover placement="bottom" trigger="click" @show="messageInit()">
           <el-tabs type="border-card" >
             <el-tab-pane label="未读">
@@ -53,13 +53,13 @@
                 <!-- 未阅读信息展示 end -->
                 <template v-for="(item, index) in lists">
                   <div
-                    v-if="item.MsgState == '未读'"
+                    v-if="!item.state"
                     class="container_right_notice_content"
                     :key="index"
                   >
                     <el-button type="text" @click="goToDetail(item)">
-                      {{ item.Title }}
-                      {{ item.Time }}
+                      {{ item.title }}
+                      {{ getStandardTime(item.time) }}
                     </el-button>
                   </div>
                 </template>
@@ -69,12 +69,13 @@
               <el-scrollbar class="container_right_notice_scrollbar">
                 <template v-for="(item, index) in lists">
                   <div
-                    v-if="item.MsgState == '已读'"
+                    v-if="item.state"
                     class="container_right_notice_content"
                     :key="index"
                   >
                     <el-button type="text" @click="goToDetail(item)"
-                      >{{ item.Title }} {{ item.Time }}</el-button
+                      > {{ item.title }}
+                      {{ getStandardTime(item.time) }}</el-button
                     >
                   </div>
                 </template>
@@ -105,6 +106,7 @@
   </div>
 </template>
 <script>
+import {unRead}  from '../../main'
 export default {
   data() {
     return {
@@ -146,12 +148,7 @@ export default {
       }
       this.$router.push({
         name: "消息详情",
-        params: {
-          msg: val.Message,
-          sendUser: val.Sender,
-          title: val.Title,
-          key: val.key,
-        },
+        params: val,
       });
        //消息设置为已读
       var value = JSON.parse(window.localStorage.getItem(val.key));
@@ -179,34 +176,76 @@ export default {
         });
     },
     messageInit() {
+      this.unRead = 0;
+      console.log(unRead);
+       this.getRequest("/ChatRecord/chatList?receiveId="+JSON.parse(window.sessionStorage.getItem("user")).userId).then(resp => {
+        this.loading = false;
+        if (resp) {
+         this.lists = resp.data;
+         this.lists.forEach(item=>{
+          if(!item.state){
+            this.unRead +=1;
+          }
+        })
+        }
+      });
+      unRead =this.unRead;
       //从本地中读取历史消息并排序,展示未读信息数量
-      if (localStorage.length) {
-        this.unRead = 0;
-        this.lists = [];
-        var historyMessage = {};
-        var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
-        let array = [];
-        for (var i = 0; i < localStorage.length; i++) {
-          var keyBegin = localStorage.key(i);
-          if (keyBegin.startsWith("historyMessage" + userId)) {
-            array.push(keyBegin.replace("historyMessage" + userId, ""));
-          }
-        }
-        array = array.sort();
-        for (var i = 0; i < array.length; i++) {
-          historyMessage = JSON.parse(
-            localStorage.getItem("historyMessage" + userId + array[i])
-          );
-          this.lists[i] = historyMessage;
-          if (historyMessage.MsgState == "未读") {
-            this.unRead = this.unRead + 1;
-          }
-          this.lists[i].key = "historyMessage" + userId + array[i];
-        }
-        window.sessionStorage.setItem("unRead", JSON.stringify(this.unRead));
-        return this.lists;
-      }
+      // if (localStorage.length) {
+      //   this.unRead = 0;
+      //   this.lists = [];
+      //   var historyMessage = {};
+      //   var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
+      //   let array = [];
+      //   for (var i = 0; i < localStorage.length; i++) {
+      //     var keyBegin = localStorage.key(i);
+      //     if (keyBegin.startsWith("historyMessage" + userId)) {
+      //       array.push(keyBegin.replace("historyMessage" + userId, ""));
+      //     }
+      //   }
+      //   array = array.sort();
+      //   for (var i = 0; i < array.length; i++) {
+      //     historyMessage = JSON.parse(
+      //       localStorage.getItem("historyMessage" + userId + array[i])
+      //     );
+      //     this.lists[i] = historyMessage;
+      //     if (historyMessage.MsgState == "未读") {
+      //       this.unRead = this.unRead + 1;
+      //     }
+      //     this.lists[i].key = "historyMessage" + userId + array[i];
+      //   }
+      //   window.sessionStorage.setItem("unRead", JSON.stringify(this.unRead));
+      //   return this.lists;
+      // }
     },
+    //获取时间
+			getStandardTime(val) {
+				var date = new Date(val);
+				var seperator1 = "-";
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var strDate = date.getDate();
+				var hour = date.getHours();
+				var minute = date.getMinutes();
+				var second = date.getSeconds();
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				}
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				}
+				if (hour >= 0 && hour <= 9) {
+					hour = "0" + hour;
+				}
+				if (minute >= 0 && minute <= 9) {
+					minute = "0" + minute;
+				}
+				if (second >= 0 && second <= 9) {
+					second = "0" + second;
+				}
+				var currentdate = year + "-" + month + "-" + strDate + " " + hour + ":" + minute + ":" + second;
+				return currentdate;
+			},
   },
 };
 </script>
