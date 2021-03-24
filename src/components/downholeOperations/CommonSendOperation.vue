@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="sendData.wellId + '井 井下作业派工'"
+    :title="sendData.wellName + '井 井下作业派工'"
     :visible.sync="sendOperVisible"
     width="55%"
     :before-close="sendOperClose"

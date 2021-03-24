@@ -26,11 +26,13 @@ import { putRequest } from "./utils/request";
 import { deleteRequest } from "./utils/request";
 import { getRequest } from "./utils/request";
 import { postKeyValueRequest } from "./utils/request";
+import { uploadFile } from "./utils/request";
 Vue.prototype.getRequest = getRequest;
 Vue.prototype.deleteRequest = deleteRequest;
 Vue.prototype.putRequest = putRequest;
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.postKeyValueRequest = postKeyValueRequest;
+Vue.prototype.uploadFile = uploadFile;
 import { initMenu } from "./utils/menu";
 
 import './assets/icon/iconfont.css';
@@ -49,8 +51,10 @@ Vue.use(hasAnyRole)
 
 //WebSocketurl
 //部署到定边的时候将url改为'ws://+"定边服务器地址"+:8692/dbznyt/socket/'
-export const baseWsUrl = "ws://192.168.0.115:8692/dbznyt/socket/";
+// export const baseWsUrl = "ws://192.168.0.115:8692/dbznyt/socket/";
 // export const baseWsUrl = "ws://192.168.101.22:8692/dbznyt/socket/";
+// export const baseWsUrl = "ws://10.168.101.22:8692/dbznyt/socket/";
+export const baseWsUrl = "ws://10.21.11.222:8692/dbznyt/socket/";
 Vue.prototype.UnReadQuantity = window.sessionStorage.getItem("unRead");
 
 // 导航守卫

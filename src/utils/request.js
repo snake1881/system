@@ -85,3 +85,16 @@ export const getRequest = (url) => {
     url: `${base}${url}`
   });
 };
+export const uploadFile = (url, params) => {
+  return axios({
+    method: "post",
+    url: `${base}${url}`,
+    data: params,
+    //请求头信息
+    headers: {'Content-Type': "multipart/form-data"},
+    // //跨域请求时是否需要使用凭证
+    // withCredentials: true,
+    // // 返回数据类型
+    // responseType: 'json', //default
+  });
+};

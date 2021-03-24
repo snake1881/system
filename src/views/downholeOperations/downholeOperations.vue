@@ -127,6 +127,15 @@
               class="el-icon-turn-off"
             />
           </el-tooltip>
+          <!-- 下载 -->
+          <el-tooltip content="下载" placement="top">
+            <el-button
+              type="text"
+              size="small"
+              @click="downloadOperation(scope.row)"
+              class="el-icon-download"
+            />
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -426,6 +435,18 @@ export default {
           }
         }
       );
+    },
+    // 下载
+    downloadOperation(val){
+      // 获取作业下载链接(维护为动态获取)
+      let url =  "http://localhost:9000/measure/1616488126750_%E6%B5%8B%E8%AF%95-123%28%E6%96%AD%E6%9D%86%29.doc?Content-Disposition=attachment%3B%20filename%3D%221616488126750_%E6%B5%8B%E8%AF%95-123%28%E6%96%AD%E6%9D%86%29.doc%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210323%2F%2Fs3%2Faws4_request&X-Amz-Date=20210323T094620Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=cb1e166d3bf568e403f194477f86f4f1c155397103d055e81979522aa2b849c9";
+      // 创建a标签
+      let link = document.createElement('a');
+      // href链接
+      link.setAttribute('href', url);
+      // 自执行点击事件
+      link.click();
+      document.body.removeChild(link)
     },
     // 进度
     scheduleOperation(val) {
