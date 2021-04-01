@@ -182,7 +182,6 @@ export default {
     },
     messageInit() {
       this.unRead = 0;
-      console.log(unRead);
       this.getRequest(
         "/ChatRecord/chatList?receiveId=" +
           JSON.parse(window.sessionStorage.getItem("user")).userId
