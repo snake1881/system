@@ -13,11 +13,11 @@
           type="warning"
           icon="el-icon-place"
           circle
-          @click="gotoDetailsNotice(item)"
+          @click="goToDetail(item)"
           class="receiveNotice_container_button"
         />
         <el-button
-          @click="gotoDetailsNotice(item)"
+          @click="goToDetail(item)"
           type="text"
           style="
             white-space: nowrap;
@@ -32,7 +32,7 @@
           标题：{{ item.title }}
         </el-button>
         <el-button
-          @click="gotoDetailsNotice(item)"
+          @click="goToDetail(item)"
           type="text"
           style="
             white-space: nowrap;
@@ -48,7 +48,7 @@
         </el-button>
         <span
           v-if="item.state"
-          @click="gotoDetailsNotice(item)"
+          @click="goToDetail(item)"
           style="
             white-space: nowrap;
             margin-right: 30px;
@@ -61,7 +61,7 @@
         >
         <span
           v-if="!item.state"
-          @click="gotoDetailsNotice(item)"
+          @click="goToDetail(item)"
           style="
             white-space: nowrap;
             margin-right: 30px;
@@ -134,14 +134,14 @@ export default {
       // }
     },
     // 详情
-    gotoDetailsNotice(val) {
+    goToDetail(val) {
       this.$router.push({
         name: "消息详情",
         params: {
-          key: val.key,
-          msg: val.Message,
-          sendUser: val.Sender,
-          title: val.Title,
+          key: val.chatRecordId,
+          msg: val.content,
+          sendUser: val.sendId,
+          title: val.title,
         },
       });
     },
