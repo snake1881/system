@@ -44,14 +44,23 @@
 export default {
   props: {
     routerNumber: {
-      type: Number,
+      type: String,
     },
   },
   data() {
     return {
       // 导航栏内容
-      menus: this.$store.state.routes[0].children[this.routerNumber],
+      menus: [],
     };
+  },
+  created() {
+    console.log(this.$store.state.routes[0].children);
+    console.log(this.routerNumber);
+    for (var i = 0; i < this.$store.state.routes[0].children.length; i++) {
+      if (this.routerNumber == this.$store.state.routes[0].children[i].name) {
+        this.menus = this.$store.state.routes[0].children[i];
+      }
+    }
   },
 };
 </script>

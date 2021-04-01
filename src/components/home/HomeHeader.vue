@@ -47,9 +47,9 @@
       <!-- 消息通知 -->
       <el-badge :value="this.unRead" class="container_right_notice">
         <el-popover placement="bottom" trigger="click" @show="messageInit()">
-          <el-tabs type="border-card" >
+          <el-tabs type="border-card">
             <el-tab-pane label="未读">
-              <el-scrollbar  class="container_right_notice_scrollbar">
+              <el-scrollbar class="container_right_notice_scrollbar">
                 <!-- 未阅读信息展示 end -->
                 <template v-for="(item, index) in lists">
                   <div
@@ -73,8 +73,8 @@
                     class="container_right_notice_content"
                     :key="index"
                   >
-                    <el-button type="text" @click="goToDetail(item)"
-                      > {{ item.title }}
+                    <el-button type="text" @click="goToDetail(item)">
+                      {{ item.title }}
                       {{ getStandardTime(item.time) }}</el-button
                     >
                   </div>
@@ -106,7 +106,7 @@
   </div>
 </template>
 <script>
-import {unRead}  from '../../main'
+import { unRead } from "../../main";
 export default {
   data() {
     return {
@@ -150,10 +150,10 @@ export default {
         name: "消息详情",
         params: val,
       });
-       //消息设置为已读
+      //消息设置为已读
       var value = JSON.parse(window.localStorage.getItem(val.key));
       value.MsgState = "已读";
-      window.localStorage.setItem(val.key,JSON.stringify(value));
+      window.localStorage.setItem(val.key, JSON.stringify(value));
       this.messageInit();
     },
     // 退出系统
@@ -166,7 +166,12 @@ export default {
         .then(() => {
           // 清空token
           window.sessionStorage.clear();
+          // 清空浏览器缓存在localStorage的数据
+          window.localStorage.clear();
+          // 跳转到登录页
           this.$router.push("/");
+          // 刷新页面
+          window.location.reload();
         })
         .catch(() => {
           this.$message({
@@ -178,18 +183,21 @@ export default {
     messageInit() {
       this.unRead = 0;
       console.log(unRead);
-       this.getRequest("/ChatRecord/chatList?receiveId="+JSON.parse(window.sessionStorage.getItem("user")).userId).then(resp => {
+      this.getRequest(
+        "/ChatRecord/chatList?receiveId=" +
+          JSON.parse(window.sessionStorage.getItem("user")).userId
+      ).then((resp) => {
         this.loading = false;
         if (resp) {
-         this.lists = resp.data;
-         this.lists.forEach(item=>{
-          if(!item.state){
-            this.unRead +=1;
-          }
-        })
+          this.lists = resp.data;
+          this.lists.forEach((item) => {
+            if (!item.state) {
+              this.unRead += 1;
+            }
+          });
         }
       });
-      unRead =this.unRead;
+      unRead = this.unRead;
       //从本地中读取历史消息并排序,展示未读信息数量
       // if (localStorage.length) {
       //   this.unRead = 0;
@@ -219,33 +227,44 @@ export default {
       // }
     },
     //获取时间
-			getStandardTime(val) {
-				var date = new Date(val);
-				var seperator1 = "-";
-				var year = date.getFullYear();
-				var month = date.getMonth() + 1;
-				var strDate = date.getDate();
-				var hour = date.getHours();
-				var minute = date.getMinutes();
-				var second = date.getSeconds();
-				if (month >= 1 && month <= 9) {
-					month = "0" + month;
-				}
-				if (strDate >= 0 && strDate <= 9) {
-					strDate = "0" + strDate;
-				}
-				if (hour >= 0 && hour <= 9) {
-					hour = "0" + hour;
-				}
-				if (minute >= 0 && minute <= 9) {
-					minute = "0" + minute;
-				}
-				if (second >= 0 && second <= 9) {
-					second = "0" + second;
-				}
-				var currentdate = year + "-" + month + "-" + strDate + " " + hour + ":" + minute + ":" + second;
-				return currentdate;
-			},
+    getStandardTime(val) {
+      var date = new Date(val);
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      var hour = date.getHours();
+      var minute = date.getMinutes();
+      var second = date.getSeconds();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      if (hour >= 0 && hour <= 9) {
+        hour = "0" + hour;
+      }
+      if (minute >= 0 && minute <= 9) {
+        minute = "0" + minute;
+      }
+      if (second >= 0 && second <= 9) {
+        second = "0" + second;
+      }
+      var currentdate =
+        year +
+        "-" +
+        month +
+        "-" +
+        strDate +
+        " " +
+        hour +
+        ":" +
+        minute +
+        ":" +
+        second;
+      return currentdate;
+    },
   },
 };
 </script>

@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       // 侧边栏显示
-      router1: 4,
+      router1: "系统管理",
     };
   },
   methods: {},

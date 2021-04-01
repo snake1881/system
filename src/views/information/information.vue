@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       // 侧边栏显示
-      router7: 5,
+      router7: "基础信息",
     };
   },
 };

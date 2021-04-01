@@ -317,6 +317,7 @@ export default {
     },
     // 查看
     checkOperation(val) {
+      console.log(val);
       this.checkOperVisible = true;
       this.checkOperData = val;
       this.nodalPoint = val.nodeSequence;
@@ -341,11 +342,11 @@ export default {
       });
       // 获取本次派工信息
       this.getRequest(
-        "/operation/dispatchInfo/selectNowDispatchByWellName?wellId=" +
-          val.wellId
+        "/operation/dispatchInfo/selectNowDispatchByOperationId?wellOperationId=" +
+          val.wellOperationId
       ).then((resp) => {
         if (resp) {
-          //上次作业信息数据
+          //本次作业信息数据
           this.sendNowOperData = resp.data;
         }
       });
@@ -359,16 +360,16 @@ export default {
           this.sendLastOperData = resp.data;
         }
       });
-      // 获取本次派工信息
-      this.getRequest(
-        "/operation/dispatchInfo/selectNowDispatchByWellName?wellId=" +
-          val.wellId
-      ).then((resp) => {
-        if (resp) {
-          //上次作业信息数据
-          this.sendNowOperData = resp.data;
-        }
-      });
+      // // 获取本次派工信息
+      // this.getRequest(
+      //   "/operation/dispatchInfo/selectNowDispatchByWellName?wellId=" +
+      //     val.wellId
+      // ).then((resp) => {
+      //   if (resp) {
+      //     //上次作业信息数据
+      //     this.sendNowOperData = resp.data;
+      //   }
+      // });
       // 获取施工过程信息
       this.getRequest(
         "/operation/constructionProcess/selectConstructionByNodeId?operationId=" +
@@ -439,7 +440,7 @@ export default {
     // 下载
     downloadOperation(val){
       // 获取作业下载链接(维护为动态获取)
-      let url =  "http://localhost:9000/measure/1616488126750_%E6%B5%8B%E8%AF%95-123%28%E6%96%AD%E6%9D%86%29.doc?Content-Disposition=attachment%3B%20filename%3D%221616488126750_%E6%B5%8B%E8%AF%95-123%28%E6%96%AD%E6%9D%86%29.doc%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210323%2F%2Fs3%2Faws4_request&X-Amz-Date=20210323T094620Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=cb1e166d3bf568e403f194477f86f4f1c155397103d055e81979522aa2b849c9";
+      let url =  "http://10.21.11.222:9000/measure/1616576074253_%E5%AE%9A1719-3%28%E6%96%AD%E6%9D%86%29.doc?Content-Disposition=attachment%3B%20filename%3D%221616576074253_%E5%AE%9A1719-3%28%E6%96%AD%E6%9D%86%29.doc%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210324%2F%2Fs3%2Faws4_request&X-Amz-Date=20210324T090636Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=e3507c718869bf17283417474a64c0c19008fdfb3940bc150bd68fb187994d0c";
       // 创建a标签
       let link = document.createElement('a');
       // href链接
