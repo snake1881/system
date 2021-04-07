@@ -138,7 +138,7 @@ export default {
                 websocket.Init();
                 this.$router.replace("/Home");
               } else {
-                this.$message("密码错误，请重新输入");
+                this.$message("账号或密码错误，请重新输入");
               }
             }
           });

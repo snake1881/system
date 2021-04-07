@@ -89,8 +89,18 @@
         />
         <el-table-column prop="email" label="邮箱" width="130" />
         <el-table-column prop="phone" label="手机" width="130" />
-        <el-table-column prop="status" label="状态" max-width="80" />
-        <el-table-column prop="sex" label="性别" max-width="60" />
+        <el-table-column prop="status" label="状态" max-width="80">
+          <template slot-scope="scope">
+            <a v-if="scope.row.status == '0'">停用</a>
+            <a v-if="scope.row.status == '1'">正常</a>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sex" label="性别" max-width="60">
+          <template slot-scope="scope">
+            <a v-if="scope.row.sex == '0'">男</a>
+            <a v-if="scope.row.sex == '1'">女</a>
+          </template>
+        </el-table-column>
         <el-table-column prop="createTime" label="创建时间" width="160" />
         <el-table-column label="操作" min-width="130">
           <template slot-scope="scope">
@@ -310,6 +320,15 @@ export default {
     },
     // 编辑用户信息
     editUser(val) {
+      // 获取角色id集合
+      this.getRequest(
+        "/system/sysUser/queryByUserId?userId=" + val.userId
+      ).then((resp) => {
+        if (resp) {
+          val.roleIds = resp.data;
+        }
+      });
+      console.log(val);
       this.editUserVisible = true;
       this.editUserData = val;
     },

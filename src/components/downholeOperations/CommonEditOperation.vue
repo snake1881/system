@@ -133,7 +133,6 @@ export default {
     // 上传文件之前的钩子
     handleBefore(file) {
       this.files = file;
-      console.log(this.files);
       // 返回false不会自动上传
       return false;
     },
