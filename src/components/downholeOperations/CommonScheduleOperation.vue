@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="scheduleData.wellId + '井进度填报'"
+    :title="scheduleData.wellName + '井 进度填报'"
     :visible.sync="scheduleOperVisible"
     width="55%"
     :before-close="scheduleOperClose"
@@ -10,7 +10,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="井号:">
-              <el-input v-model="scheduleData.wellId" />
+              <el-input v-model="scheduleData.wellName" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -45,14 +45,14 @@
             <img width="100%" :src="dialogImageUrl" alt="正在加载" />
           </el-dialog>
         </el-form-item>
-        <el-form-item label="附件:">
+        <!-- <el-form-item label="附件:">
           <el-upload class="upload-demo" drag action="" multiple>
             <i class="el-icon-upload" />
             <div class="el-upload__text">
               将文件拖到此处，或<em>点击上传</em>
             </div>
           </el-upload>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </div>
     <el-button

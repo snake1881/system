@@ -3,6 +3,7 @@
     :title="editData.wellName + '井 井下作业编辑'"
     :visible.sync="editOperVisible"
     width="43%"
+    @opened="getFileList"
     :before-close="editOperClose"
   >
     <div class="editDiv">
@@ -76,17 +77,18 @@ export default {
       fileList: [
         // {
         //   name: "food.jpeg",
-        //   url:
-        //     "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
+        //   url: "",
         // },
         // {
         //   name: "food2.jpeg",
-        //   url:
-        //     "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
+        //   url: "",
         // },
       ],
       files: "",
     };
+  },
+  created() {
+    // this.getFileList();
   },
   methods: {
     // 对话框父子组件传值
@@ -115,18 +117,36 @@ export default {
       this.$refs.upload.submit();
       let fileFormData = new FormData();
       fileFormData.append("file", this.files);
-      console.log(this.files);
+      console.log(this.editData);
       this.uploadFile(
-        "/file/commonFileUpload",
+        "/file/commonFileUpload?moduleId=" + this.editData.wellOperationId,
         fileFormData
       ).then((resp) => {
-        if (resp) {
+        if (resp.code == 200) {
           this.$message({
-            message: "上传成功!",
+            message: resp.message,
             type: "success",
           });
         } else {
           this.$message.error("上传失败，请重新上传!");
+        }
+      });
+    },
+    // 获取文件列表
+    getFileList() {
+      this.fileList = [];
+      this.getRequest(
+        "/file/selectFileByModuleId?moduleId=" + this.editData.wellOperationId
+      ).then((resp) => {
+        console.log(resp);
+        if (resp.code == 200 && resp.data.length > 0) {
+          for (var i = 0; i < resp.data.length; i++) {
+            this.fileList.push({
+              name: resp.data[i].fileName,
+              url: resp.data[i].filePath,
+            });
+          }
+          console.log(this.fileList);
         }
       });
     },
@@ -137,13 +157,9 @@ export default {
       return false;
     },
     // 文件列表移除文件时的钩子
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
+    handleRemove(file, fileList) {},
     // 点击文件列表中已上传的文件时的钩子
-    handlePreview(file) {
-      console.log(file);
-    },
+    handlePreview(file) {},
   },
 };
 </script>
