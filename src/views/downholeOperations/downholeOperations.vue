@@ -318,7 +318,6 @@ export default {
     },
     // 查看
     checkOperation(val) {
-      console.log(val);
       this.checkOperVisible = true;
       this.checkOperData = val;
       this.nodalPoint = val.nodeSequence;
@@ -327,6 +326,7 @@ export default {
         "/operation/operationNode/queryOperAllNodeSource?wellOperationId=" +
           val.wellOperationId
       ).then((resp) => {
+        console.log(resp);
         if (resp) {
           //各节点信息数据
           if (resp.data.submitTime == null) resp.data.submitTime = "";
@@ -346,9 +346,16 @@ export default {
         "/operation/dispatchInfo/selectNowDispatchByOperationId?wellOperationId=" +
           val.wellOperationId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length === undefined) {
           //本次作业信息数据
           this.sendNowOperData = resp.data;
+        } else {
+          this.sendNowOperData = {
+            lastOperationName: "",
+            lastTeamName: "",
+            formNum: "",
+            remark: ""
+          };
         }
       });
       // 获取上次派工信息
@@ -356,21 +363,18 @@ export default {
         "/operation/dispatchInfo/selectLastDispatchByWellName?wellId=" +
           val.wellId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length === undefined) {
           //上次作业信息数据
           this.sendLastOperData = resp.data;
+        } else {
+          this.sendLastOperData = {
+            lastOperationName: "",
+            lastTeamName: "",
+            lastFinishDate: "",
+            dateCount: ""
+          };
         }
       });
-      // // 获取本次派工信息
-      // this.getRequest(
-      //   "/operation/dispatchInfo/selectNowDispatchByWellName?wellId=" +
-      //     val.wellId
-      // ).then((resp) => {
-      //   if (resp) {
-      //     //上次作业信息数据
-      //     this.sendNowOperData = resp.data;
-      //   }
-      // });
       // 获取施工过程信息
       this.getRequest(
         "/operation/constructionProcess/selectConstructionByNodeId?operationId=" +
@@ -378,9 +382,11 @@ export default {
           "&wellId=" +
           val.wellId
       ).then((resp) => {
-        if (resp) {
+        console.log(resp);
+        if (resp.code === 200) {
           //施工过程信息信息数据
           this.constructionData = resp.data.constructionProcessList;
+          console.log(this.constructionData);
           //如果存在施工信息，默认显示第一次上报信息
           if (this.constructionData.length > 0) {
             this.constNumData = resp.data.constructionProcessList[0];
@@ -392,9 +398,15 @@ export default {
         "/operation/measureEffectEvaluation/selectEffectById?operationNodeId=" +
           val.operationNodeId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length === undefined) {
           //上次作业信息数据
           this.measureEffectData = resp.data;
+        }else {
+          this.measureEffectData = {
+              evaluationResult: "",
+              evaluationDate: "",
+              resultDesc: ""
+          };
         }
       });
     },
@@ -412,7 +424,7 @@ export default {
         "/operation/dispatchInfo/selectLastDispatchByWellName?wellId=" +
           val.wellId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length > 0) {
           //上次作业信息数据
           this.sendLastOperData = resp.data;
         }
@@ -438,7 +450,7 @@ export default {
         }
       );
     },
-    // // 下载
+    // 下载
     downloadOperation(val) {
       this.getRequest(
         "/file/selectFileByModuleId?moduleId=" + val.wellOperationId

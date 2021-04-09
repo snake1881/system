@@ -105,10 +105,7 @@
                 >
                 <span
                   class="checkOperDiv_submit_table_container_details_content_span"
-                  ><i
-                    class="el-icon-paperclip"
-                    style="font-size: 17px; color: #2670f7"
-                  />钻井施工.docx</span
+                  ><el-link type="primary"  @click="downloadOperation()">点击下载</el-link></span
                 >
               </div>
             </div>
@@ -165,7 +162,7 @@
                   >备注:</span
                 >
                 <span
-                  class="checkOperDiv_submit_table_container_details_name_span"
+                  class="checkOperDiv_submit_table_container_details_name_span" 
                   >附件(下载、预览):</span
                 >
               </div>
@@ -210,10 +207,7 @@
                 >
                 <span
                   class="checkOperDiv_submit_table_container_details_content_span"
-                  ><i
-                    class="el-icon-paperclip"
-                    style="font-size: 17px; color: #2670f7"
-                  />钻井施工.docx</span
+                  ><el-link type="primary"  @click="downloadOperation()">点击下载</el-link></span
                 >
               </div>
             </div>
@@ -294,10 +288,7 @@
                 ></span>
                 <span
                   class="checkOperDiv_submit_table_container_details_content_span"
-                  ><i
-                    class="el-icon-paperclip"
-                    style="font-size: 17px; color: #2670f7"
-                  />钻井施工.docx</span
+                  ><el-link type="primary"  @click="downloadOperation()">点击下载</el-link></span
                 >
               </div>
             </div>
@@ -493,6 +484,95 @@ export default {
     constNum(val1, val2) {
       this.constNumData = val1;
       this.currentIndex = val2;
+    },
+    // 下载
+    downloadOperation() {
+      this.getRequest(
+        "/file/selectFileByModuleId?moduleId=" + this.checkData.wellOperationId
+      ).then((resp) => {
+        console.log(resp);
+        if (resp.code == 200) {
+          if (resp.data.length > 0) {
+            let url = resp.data[0].filePath;
+            let fileName = resp.data[0].fileName;
+            let fType = resp.data[0].fileSuffix;
+            // 判断是否为chrome里的图片
+            if (this.isImageInChromeNotEdge(fType)) {
+              this.ImgtodataURL(url, fileName, fType);
+            } else {
+              this.downloadNormalFile(url);
+            }
+          } else {
+            this.$message.error("文件不存在，请上传文件！");
+          }
+        } else {
+          this.$message.error("下载失败,请重新下载！");
+        }
+      });
+    },
+    isImageInChromeNotEdge(fType) {
+      let bool = false;
+      if (
+        window.navigator.userAgent.indexOf("Chrome") !== -1 &&
+        window.navigator.userAgent.indexOf("Edge") === -1
+      )
+        (fType === "jpg" ||
+          fType === "gif" ||
+          fType === "png" ||
+          fType === "bmp" ||
+          fType === "jpeg" ||
+          fType === "svg") &&
+          (bool = true);
+      return bool;
+    },
+    // 普通文件下载
+    downloadNormalFile(url) {
+      // 创建标签
+      let link = document.createElement("a");
+      // href链接
+      link.setAttribute("href", url);
+      // 添加到页面中，为兼容Firefox浏览器
+      document.body.appendChild(link);
+      // 自执行点击事件
+      link.click();
+      // 从页面移除
+      document.body.removeChild(link);
+    },
+    // 图片文件下载
+    ImgtodataURL(url, fileName, fileType) {
+      this.getBase64(url, fileType, (_baseUrl) => {
+        // 创建隐藏的可下载链接
+        var link = document.createElement("a");
+        link.download = fileName;
+        link.style.display = "none";
+        // 图片转base64地址
+        link.href = _baseUrl;
+        // 添加到页面中，为兼容Firefox浏览器
+        document.body.appendChild(link);
+        // 自执行点击事件
+        link.click();
+        // 从页面移除
+        document.body.removeChild(link);
+      });
+    },
+    // 图片转base64地址
+    getBase64(url, fileType, callback) {
+      // 通过构造函数来创建的 img 实例，在赋予 src 值后就会立刻下载图片
+      var Img = new Image(),
+        dataURL = "";
+      Img.src = url;
+      Img.setAttribute("crossOrigin", "Anonymous");
+      Img.onload = function () {
+        // 要先确保图片完整获取到，这是个异步事件
+        var canvas = document.createElement("canvas"), //创建canvas元素
+          width = Img.width, //确保canvas的尺寸和图片一样
+          height = Img.height;
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(Img, 0, 0, width, height); //将图片绘制到canvas中
+        dataURL = canvas.toDataURL("image/" + fileType); //转换图片为dataURL
+        callback ? callback(dataURL) : null;
+      };
     },
   },
 };
