@@ -10,13 +10,30 @@
         <el-form-item label="登录名称">
           <el-input v-model="addData.loginName" />
         </el-form-item>
-        <el-form-item label="用户名称">
-          <el-input v-model="addData.userName" />
+        <el-row class="rowInput">
+          <el-col :span="10">
+            <el-form-item label="用户名称">
+              <el-input v-model="addData.userName" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="用户编号">
+              <el-input v-model="addData.userNum" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="用户角色">
+          <el-select v-model="addData.roleIds" multiple style="width: 420px;">
+            <el-option
+              v-for="item in roleData"
+              :key="item.roleId"
+              :label="item.roleName"
+              :value="item.roleId"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="用户编号">
-          <el-input v-model="addData.userNum" />
-        </el-form-item>
-        <el-form-item label="手机">
+        <el-form-item label="手机号码">
           <el-input v-model="addData.phone" />
         </el-form-item>
         <el-form-item label="部门名称">
@@ -37,7 +54,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="9">
             <el-form-item label="状态">
               <el-select v-model="addData.status">
                 <el-option label="停用" value="0" />
@@ -76,6 +93,7 @@ export default {
         phone: "",
         sex: "",
         status: "",
+        roleIds: []
         // character: ""
       },
       // 部门选择
@@ -89,10 +107,13 @@ export default {
       deptments: [],
       // 部门名称选择框，值为当前选中部门ID及其对应的所有父级部门ID
       deptmentIds: [],
+      // 角色选择
+      roleData: [],
     };
   },
   created() {
     this.treeInIt();
+    this.roleInit();
   },
   methods: {
     // 对话框父子组件传值
@@ -119,6 +140,15 @@ export default {
         if (resp) {
           this.deparmentData = resp.data;
           this.deptments = deptInit(resp.data);
+        }
+      });
+    },
+    // 角色下拉信息
+    roleInit() {
+      this.getRequest("/system/sysRole/queryRoleAll").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.roleData = resp.data.records;
         }
       });
     },
@@ -165,6 +195,10 @@ export const deptInit = (val) => {
 }
 .dialogAddDiv .el-input {
   width: 420px;
+  height: 2px;
+}
+.dialogAddDiv .rowInput .el-input {
+  width: 165px;
   height: 2px;
 }
 .saveUserButton {

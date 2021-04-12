@@ -3,6 +3,7 @@
     :title="editData.wellName + '井 井下作业编辑'"
     :visible.sync="editOperVisible"
     width="43%"
+    @opened="getFileList"
     :before-close="editOperClose"
   >
     <div class="editDiv">
@@ -28,13 +29,12 @@
         <el-form-item label="附件:">
           <el-upload
             class="upload-demo"
-            ref="upload"
-            action="/file"
+            action="#"
+            :http-request="selectFile"
             :before-upload="handleBefore"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :file-list="fileList"
-            :auto-upload="false"
           >
             <el-button slot="trigger" size="small" type="primary"
               >选取文件</el-button
@@ -46,7 +46,6 @@
               @click="submitUpload"
               >上传到服务器</el-button
             >
-            <div slot="tip" class="el-upload__tip"></div>
           </el-upload>
         </el-form-item>
       </el-form>
@@ -73,20 +72,13 @@ export default {
   },
   data() {
     return {
-      fileList: [
-        // {
-        //   name: "food.jpeg",
-        //   url:
-        //     "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-        // },
-        // {
-        //   name: "food2.jpeg",
-        //   url:
-        //     "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-        // },
-      ],
-      files: "",
+      // 文件列表
+      fileList: [],
+      // 临时存放文件信息
+      fileParam: "",
     };
+  },
+  created() {
   },
   methods: {
     // 对话框父子组件传值
@@ -111,18 +103,16 @@ export default {
     },
     // 手动上传至服务器
     submitUpload() {
-      // 调用文件上传前钩子
-      this.$refs.upload.submit();
+      // 将文件添加到formData对象中
       let fileFormData = new FormData();
-      fileFormData.append("file", this.files);
-      console.log(this.files);
+      fileFormData.append("file", this.fileParam.file);
       this.uploadFile(
-        "/file/commonFileUpload",
+        "/file/commonFileUpload?moduleId=" + this.editData.wellOperationId,
         fileFormData
       ).then((resp) => {
-        if (resp) {
+        if (resp.code == 200) {
           this.$message({
-            message: "上传成功!",
+            message: resp.message,
             type: "success",
           });
         } else {
@@ -130,21 +120,34 @@ export default {
         }
       });
     },
+    // 获取文件列表
+    getFileList() {
+      this.fileList = [];
+      this.getRequest(
+        "/file/selectFileByModuleId?moduleId=" + this.editData.wellOperationId
+      ).then((resp) => {
+        if (resp.code == 200 && resp.data.length > 0) {
+          for (var i = 0; i < resp.data.length; i++) {
+            this.fileList.push({
+              name: resp.data[i].fileName,
+              url: resp.data[i].filePath,
+            });
+          }
+        }
+      });
+    },
+    // 覆盖默认的上传行为，自定义上传的实现
+    selectFile(param){
+      // 将选取文件赋值
+      this.fileParam = param;
+    },
     // 上传文件之前的钩子
     handleBefore(file) {
-      this.files = file;
-      console.log(this.files);
-      // 返回false不会自动上传
-      return false;
     },
     // 文件列表移除文件时的钩子
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
+    handleRemove(file, fileList) {},
     // 点击文件列表中已上传的文件时的钩子
-    handlePreview(file) {
-      console.log(file);
-    },
+    handlePreview(file) {},
   },
 };
 </script>

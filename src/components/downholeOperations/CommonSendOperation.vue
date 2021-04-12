@@ -3,6 +3,7 @@
     :title="sendData.wellName + '井 井下作业派工'"
     :visible.sync="sendOperVisible"
     width="55%"
+    @opened="getFileList"
     :before-close="sendOperClose"
   >
     <div class="sendOpereDiv">
@@ -66,18 +67,25 @@
           <legend>附件</legend>
           <el-form-item>
             <el-upload
-              action="#"
-              multiple
-              :show-file-list="true"
-              :on-preview="handlePreview"
-              :http-request="handleUpload"
-              :file-list="fileLists"
+            class="upload-demo"
+            action="#"
+            :http-request="selectFile"
+            :before-upload="handleBefore"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+          >
+            <el-button slot="trigger" size="small" type="primary"
+              >选取文件</el-button
             >
-              <i
-                class="el-icon-upload"
-                style="font-size: 30px; margin-left: -15%"
-              />
-            </el-upload>
+            <el-button
+              style="margin-left: 10px"
+              size="small"
+              type="success"
+              @click="submitUpload"
+              >上传到服务器</el-button
+            >
+          </el-upload>
           </el-form-item>
         </fieldset>
       </el-form>
@@ -118,7 +126,9 @@ export default {
         remark: "",
       },
       // 文件列表
-      fileLists: [],
+      fileList: [],
+      // 临时存放文件信息
+      fileParam: "",
     };
   },
   created() {
@@ -172,24 +182,53 @@ export default {
         }
       );
     },
-    // 文件上传前的判断
-    handlePreview() {},
-    // 上传文件
-    handleUpload(params) {
-      // 获取要上传的file对象
-      let fileObj = params.file;
-      let fd = new FormData();
-      // 将文件对象添加到fd对象中
-      fd.append("file", fileObj);
-      this.postRequest("/", fd).then((resp) => {
-        if (resp) {
+    // 覆盖默认的上传行为，自定义上传的实现
+    selectFile(param){
+      // 将选取文件赋值
+      this.fileParam = param;
+    },
+    // 手动上传至服务器
+    submitUpload() {
+      // 将文件添加到formData对象中
+      let fileFormData = new FormData();
+      fileFormData.append("file", this.fileParam.file);
+      this.uploadFile(
+        "/file/commonFileUpload?moduleId=" + this.sendData.wellOperationId,
+        fileFormData
+      ).then((resp) => {
+        if (resp.code == 200) {
           this.$message({
-            message: "上传成功",
+            message: resp.message,
             type: "success",
           });
+        } else {
+          this.$message.error("上传失败，请重新上传!");
         }
       });
     },
+    // 获取文件列表
+    getFileList() {
+      this.fileList = [];
+      this.getRequest(
+        "/file/selectFileByModuleId?moduleId=" + this.sendData.wellOperationId
+      ).then((resp) => {
+        if (resp.code == 200 && resp.data.length > 0) {
+          for (var i = 0; i < resp.data.length; i++) {
+            this.fileList.push({
+              name: resp.data[i].fileName,
+              url: resp.data[i].filePath,
+            });
+          }
+        }
+      });
+    },
+    // 上传文件之前的钩子
+    handleBefore(file) {
+    },
+    // 文件列表移除文件时的钩子
+    handleRemove(file, fileList) {},
+    // 点击文件列表中已上传的文件时的钩子
+    handlePreview(file) {},
   },
 };
 </script>
@@ -228,7 +267,7 @@ export default {
 }
 .sendOpereDiv_doc {
   width: 90%;
-  height: 10%;
+  height: 15%;
   color: #2670f7;
   font-size: 14px;
   border: 1px solid #ebeef5;

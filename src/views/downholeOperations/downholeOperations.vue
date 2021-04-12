@@ -45,8 +45,8 @@
       <el-table-column prop="operationName" label="作业名称" width="210" />
       <el-table-column prop="operationType" label="作业类型" width="210">
         <template slot-scope="scope">
-          <p v-if="scope.row.operationType == '0'">常规检泵</p>
-          <p v-if="scope.row.operationType == '1'">技改井</p>
+          <a v-if="scope.row.operationType == '0'">常规检泵</a>
+          <a v-if="scope.row.operationType == '1'">技改井</a>
         </template>
       </el-table-column>
       <el-table-column prop="operationState" label="状态" width="180" />
@@ -303,21 +303,21 @@ export default {
     submitOperation(val) {
       this.putRequest("/operation/operationNode/submitOperation", val).then(
         (resp) => {
-          if (resp) {
+          console.log(resp);
+          if (resp.code == 200) {
             this.$message({
               message: "提交成功!",
               type: "success",
             });
             this.operationInit();
           } else {
-            this.$message.error("提交失败，请重新提交!");
+            this.$message.error(resp.message);
           }
         }
       );
     },
     // 查看
     checkOperation(val) {
-      console.log(val);
       this.checkOperVisible = true;
       this.checkOperData = val;
       this.nodalPoint = val.nodeSequence;
@@ -326,6 +326,7 @@ export default {
         "/operation/operationNode/queryOperAllNodeSource?wellOperationId=" +
           val.wellOperationId
       ).then((resp) => {
+        console.log(resp);
         if (resp) {
           //各节点信息数据
           if (resp.data.submitTime == null) resp.data.submitTime = "";
@@ -345,9 +346,16 @@ export default {
         "/operation/dispatchInfo/selectNowDispatchByOperationId?wellOperationId=" +
           val.wellOperationId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length === undefined) {
           //本次作业信息数据
           this.sendNowOperData = resp.data;
+        } else {
+          this.sendNowOperData = {
+            lastOperationName: "",
+            lastTeamName: "",
+            formNum: "",
+            remark: ""
+          };
         }
       });
       // 获取上次派工信息
@@ -355,21 +363,18 @@ export default {
         "/operation/dispatchInfo/selectLastDispatchByWellName?wellId=" +
           val.wellId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length === undefined) {
           //上次作业信息数据
           this.sendLastOperData = resp.data;
+        } else {
+          this.sendLastOperData = {
+            lastOperationName: "",
+            lastTeamName: "",
+            lastFinishDate: "",
+            dateCount: ""
+          };
         }
       });
-      // // 获取本次派工信息
-      // this.getRequest(
-      //   "/operation/dispatchInfo/selectNowDispatchByWellName?wellId=" +
-      //     val.wellId
-      // ).then((resp) => {
-      //   if (resp) {
-      //     //上次作业信息数据
-      //     this.sendNowOperData = resp.data;
-      //   }
-      // });
       // 获取施工过程信息
       this.getRequest(
         "/operation/constructionProcess/selectConstructionByNodeId?operationId=" +
@@ -377,9 +382,11 @@ export default {
           "&wellId=" +
           val.wellId
       ).then((resp) => {
-        if (resp) {
+        console.log(resp);
+        if (resp.code === 200) {
           //施工过程信息信息数据
           this.constructionData = resp.data.constructionProcessList;
+          console.log(this.constructionData);
           //如果存在施工信息，默认显示第一次上报信息
           if (this.constructionData.length > 0) {
             this.constNumData = resp.data.constructionProcessList[0];
@@ -391,9 +398,15 @@ export default {
         "/operation/measureEffectEvaluation/selectEffectById?operationNodeId=" +
           val.operationNodeId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length === undefined) {
           //上次作业信息数据
           this.measureEffectData = resp.data;
+        }else {
+          this.measureEffectData = {
+              evaluationResult: "",
+              evaluationDate: "",
+              resultDesc: ""
+          };
         }
       });
     },
@@ -411,7 +424,7 @@ export default {
         "/operation/dispatchInfo/selectLastDispatchByWellName?wellId=" +
           val.wellId
       ).then((resp) => {
-        if (resp) {
+        if (resp.code === 200 && resp.data.length > 0) {
           //上次作业信息数据
           this.sendLastOperData = resp.data;
         }
@@ -438,16 +451,93 @@ export default {
       );
     },
     // 下载
-    downloadOperation(val){
-      // 获取作业下载链接(维护为动态获取)
-      let url =  "http://10.21.11.222:9000/measure/1616576074253_%E5%AE%9A1719-3%28%E6%96%AD%E6%9D%86%29.doc?Content-Disposition=attachment%3B%20filename%3D%221616576074253_%E5%AE%9A1719-3%28%E6%96%AD%E6%9D%86%29.doc%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=minioadmin%2F20210324%2F%2Fs3%2Faws4_request&X-Amz-Date=20210324T090636Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=e3507c718869bf17283417474a64c0c19008fdfb3940bc150bd68fb187994d0c";
-      // 创建a标签
-      let link = document.createElement('a');
+    downloadOperation(val) {
+      this.getRequest(
+        "/file/selectFileByModuleId?moduleId=" + val.wellOperationId
+      ).then((resp) => {
+        console.log(resp);
+        if (resp.code == 200) {
+          if (resp.data.length > 0) {
+            let url = resp.data[0].filePath;
+            let fileName = resp.data[0].fileName;
+            let fType = resp.data[0].fileSuffix;
+            // 判断是否为chrome里的图片
+            if (this.isImageInChromeNotEdge(fType)) {
+              this.ImgtodataURL(url, fileName, fType);
+            } else {
+              this.downloadNormalFile(url);
+            }
+          } else {
+            this.$message.error("文件不存在，请上传文件！");
+          }
+        } else {
+          this.$message.error("下载失败,请重新下载！");
+        }
+      });
+    },
+    isImageInChromeNotEdge(fType) {
+      let bool = false;
+      if (
+        window.navigator.userAgent.indexOf("Chrome") !== -1 &&
+        window.navigator.userAgent.indexOf("Edge") === -1
+      )
+        (fType === "jpg" ||
+          fType === "gif" ||
+          fType === "png" ||
+          fType === "bmp" ||
+          fType === "jpeg" ||
+          fType === "svg") &&
+          (bool = true);
+      return bool;
+    },
+    // 普通文件下载
+    downloadNormalFile(url) {
+      // 创建标签
+      let link = document.createElement("a");
       // href链接
-      link.setAttribute('href', url);
+      link.setAttribute("href", url);
+      // 添加到页面中，为兼容Firefox浏览器
+      document.body.appendChild(link);
       // 自执行点击事件
       link.click();
-      document.body.removeChild(link)
+      // 从页面移除
+      document.body.removeChild(link);
+    },
+    // 图片文件下载
+    ImgtodataURL(url, fileName, fileType) {
+      this.getBase64(url, fileType, (_baseUrl) => {
+        // 创建隐藏的可下载链接
+        var link = document.createElement("a");
+        link.download = fileName;
+        link.style.display = "none";
+        // 图片转base64地址
+        link.href = _baseUrl;
+        // 添加到页面中，为兼容Firefox浏览器
+        document.body.appendChild(link);
+        // 自执行点击事件
+        link.click();
+        // 从页面移除
+        document.body.removeChild(link);
+      });
+    },
+    // 图片转base64地址
+    getBase64(url, fileType, callback) {
+      // 通过构造函数来创建的 img 实例，在赋予 src 值后就会立刻下载图片
+      var Img = new Image(),
+        dataURL = "";
+      Img.src = url;
+      Img.setAttribute("crossOrigin", "Anonymous");
+      Img.onload = function () {
+        // 要先确保图片完整获取到，这是个异步事件
+        var canvas = document.createElement("canvas"), //创建canvas元素
+          width = Img.width, //确保canvas的尺寸和图片一样
+          height = Img.height;
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext("2d").drawImage(Img, 0, 0, width, height); //将图片绘制到canvas中
+        dataURL = canvas.toDataURL("image/" + fileType); //转换图片为dataURL
+        callback ? callback(dataURL) : null;
+      };
     },
     // 进度
     scheduleOperation(val) {

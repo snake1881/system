@@ -12,11 +12,11 @@
         </el-form-item>
       </el-form>
       <el-form>
-        <el-form-item style="padding-left: 50px" label="昵称">
-          <span>{{ this.user.username }}</span>
+        <el-form-item style="padding-left: 50px" label="账号:">
+          <span>{{ this.user.loginName }}</span>
         </el-form-item>
-        <el-form-item style="padding-left: 50px" label="ID">
-          <span>{{ this.user.userId }}</span>
+        <el-form-item style="padding-left: 50px" label="姓名:">
+          <span>{{ this.user.username }}</span>
         </el-form-item>
         <el-form-item style="padding-left: 50px">
           <el-button type="primary" @click="changePassword()">修改密码</el-button>
