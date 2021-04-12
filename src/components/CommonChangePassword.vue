@@ -6,22 +6,22 @@
     :before-close="changePasswordClose"
   >
     <div class="changePasswordDiv"></div>
-    <el-form :model="passwordData" label-width="100px">
-      <el-form-item label="旧密码：">
+    <el-form :model="passwordData" :rules="rules" label-width="100px">
+      <el-form-item label="旧密码：" prop="oldPassword">
         <el-input
           type="password"
           placeholder="输入旧密码"
           v-model="passwordData.oldPassword"
         />
       </el-form-item>
-      <el-form-item label="新密码：">
+      <el-form-item label="新密码：" prop="newPassword">
         <el-input
           type="password"
           placeholder="输入新密码"
           v-model="passwordData.newPassword"
         />
       </el-form-item>
-      <el-form-item label="确认密码：">
+      <el-form-item label="确认密码：" prop="commitPassword">
         <el-input
           v-model="passwordData.commitPassword"
           type="password"
@@ -32,7 +32,8 @@
     <el-button
       type="primary"
       @click="changePassword(), changePasswordClose()"
-      class="addAllMenuButton"
+      style="margin: 0 0 0 180px"
+      class="changePassword"
       >提交</el-button
     >
     <el-button type="info" @click="changePasswordClose()">取消</el-button>
@@ -47,12 +48,40 @@ export default {
   },
   inject: ["reload"],
   data() {
+    var checkOld = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("旧密码不能为空！"));
+      }
+    };
+    var checkNew = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入新密码！"));
+      } else if (value !== this.passwordData.commitPassword) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
+    var checkCommit = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.passwordData.newPassword) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       passwordData: {
         userId: "",
         oldPassword: "",
         newPassword: "",
         commitPassword: "",
+      },
+      rules: {
+        oldPassword: [{ validator: checkOld, trigger: "blur" }],
+        newPassword: [{ validator: checkNew, trigger: "blur" }],
+        commitPassword: [{ validator: checkCommit, trigger: "blur" }],
       },
     };
   },
@@ -73,11 +102,6 @@ export default {
           type: "error",
           message: "请输入原密码!",
         });
-        // this.$refs.uToast.show({
-        //   title: "请输入原密码",
-        //   icon: false,
-        //   type: "error",
-        // });
       } else if (
         this.passwordData.newPassword === null ||
         this.passwordData.newPassword.length < 1
@@ -86,11 +110,6 @@ export default {
           type: "error",
           message: "请输入新密码!",
         });
-        // this.$refs.uToast.show({
-        //   title: "请输入新密码",
-        //   icon: false,
-        //   type: "error",
-        // });
       } else if (
         this.passwordData.commitPassword === null ||
         this.passwordData.commitPassword.length < 1
@@ -99,24 +118,13 @@ export default {
           type: "error",
           message: "请确认新密码!",
         });
-        // this.$refs.uToast.show({
-        //   title: "请确认新密码",
-        //   icon: false,
-        //   type: "error",
-        // });
       } else if (
         this.passwordData.newPassword !== this.passwordData.commitPassword
       ) {
         this.$message({
           type: "error",
-          message: "输入密码不一致!请重确认!",
+          message: "输入密码不一致!请重新确认!",
         });
-        // this.errorMessage = "输入密码不一致";
-        /* this.$refs.uToast.show({
-						title: '新密码与确认密码不一致',
-						icon: false,
-						type: 'error'
-					}) */
       } else {
         let differPassword = {
           oldPass: this.passwordData.oldPassword,
@@ -132,6 +140,11 @@ export default {
             this.$message({
               type: "success",
               message: "密码修改成功！",
+            });
+          } else {
+            this.$message({
+              type: "error",
+              message: "旧密码错误！请重新输入！",
             });
           }
         });

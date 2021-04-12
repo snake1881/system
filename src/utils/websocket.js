@@ -2,9 +2,9 @@ import store from '@/store'
 import { _ } from 'core-js';
 // import { from } from 'core-js/fn/array';
 // import { construct } from 'core-js/fn/reflect';
-import { Notification } from 'element-ui';
+// import { Notification } from 'element-ui';
 import { Message } from 'element-ui'
-import { baseWsUrl} from '../main'
+import { baseWsUrl } from '../main' //ws通信地址
 // var baseUrl = baseUrl;
 
 //部署到定边的时候将url改为'ws://+"定边服务器地址"+:8692/dbznyt/socket/'
@@ -15,7 +15,6 @@ var lockReconnect = false;//避免重复连接
 var userId;
 var userName;
 
-export const unRead =parseInt(window.sessionStorage.getItem("unRead"));
 
 
 var websocket = {
@@ -34,33 +33,23 @@ var websocket = {
 
         ws.onmessage = function (e) {
             console.log("接收消息:" + e.data)
-            // var time = new Date().getTime();
-            // var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
-            //将接收到的消息存储在localStorage
-            // var string = "{\"Title\":\"欢迎\",\"Message\":\"欢迎" + userId + "加入聊天\"}";
-            // var string1 = "心跳检测正常" + userId;
-            // if (string != e.data && string1 != e.data) {
-            //     console.log("将接收到的消息存储在localStorage");
-            //     console.log(this.UnReadQuantity);
-            //     this.UnReadQuantity = parseInt( sessionStorage.getItem("unRead"));
-            //     var unRead =parseInt( sessionStorage.getItem("unRead"));
-            //     localStorage.setItem("historyMessage" + userId + time, e.data);
-            //     this.UnReadQuantity = this.UnReadQuantity+1;
-            //     this.unRead = this.unRead +1;
-            //     unRead = unRead+1;
-            //     sessionStorage.setItem("unRead",unRead);
-            //     console.log(this.UnReadQuantity);
-            // }
-            // this.getRequest("/ChatRecord/countUnread?receiveId="+userId).then(resp=>{
-            //     if(resp){
-            //         this.unRead = resp.data;
-            //     }
-            // })
-            Message({
-                message: '收到新的通知，请查看！',
-                type: 'success',
-                duration: 800,
-            });
+            var time = new Date().getTime();
+            var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
+            //接收消息时弹出消息弹窗
+            var string = "{\"Title\":\"欢迎\",\"Message\":\"欢迎" + userId + "加入聊天\"}";
+            var string1 = "心跳检测正常" + userId;
+            if (string != e.data && string1 != e.data) {
+                Message({
+                    message: '收到新的通知，请查看！',
+                    type: 'success',
+                    duration: 800,
+                });
+            }
+            //处理心跳测试成功消息
+            else if (string1 == e.data) {
+                console.log("心跳检测正常！");
+                heartCheck.start();
+            }
         }
 
         ws.onclose = function () {
@@ -73,11 +62,6 @@ var websocket = {
         }
 
         ws.onopen = function () {
-            // this.putRequest("/ChatRecord/changeState?chatRecordId="+this.userId).then(resp=>{
-            //     if (resp) {
-            //       console.log(resp.data);
-            //     }
-            //   })
             console.log("连接成功")
             Message({
                 message: 'webSocket连接成功',
@@ -125,7 +109,7 @@ var websocket = {
     }
 }
 
-export default websocket
+export default websocket;
 
 //根据消息标识做不同的处理
 function messageHandle(message) {
@@ -147,17 +131,18 @@ function reconnect(sname) {
         return;
     };
     lockReconnect = true;
-    //没连接上会一直重连，设置延迟避免请求过多
+    //没连接上会一直重连，设置延迟避免请求过多，延迟设置两分钟。
     tt && clearTimeout(tt);
     tt = setTimeout(function () {
         console.log("执行断线重连...")
         websocket.Init(sname);
         lockReconnect = false;
-    }, 1000);
+    }, 120000);
 }
 
 //心跳检测
 var heartCheck = {
+    //每三分钟进行一次心跳检测
     timeout: 1000 * 60 * 3,
     timeoutObj: null,
     serverTimeoutObj: null,
@@ -167,19 +152,20 @@ var heartCheck = {
         var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
         this.timeoutObj && clearTimeout(this.timeoutObj);
         this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj);
-        this.timeoutObj = setTimeout(function () {
-            //这里发送一个心跳，后端收到后，返回一个心跳消息，
-            //onmessage拿到返回的心跳就说明连接正常
-            console.log('心跳检测...');
-            ws.send("HeartBeat:" + userId);
-            self.serverTimeoutObj = setTimeout(function () {
-                if (ws.readyState != 1) {
-                    ws.close();
-                }
-                // createWebSocket();
-            }, self.timeout);
-
-        }, this.timeout)
+      
+            this.timeoutObj = setTimeout(function () {
+                //这里发送一个心跳，后端收到后，返回一个心跳消息，
+                //onmessage拿到返回的心跳就说明连接正常
+                console.log('心跳检测...');
+                ws.send("HeartBeat:" + userId);
+                self.serverTimeoutObj = setTimeout(function () {
+                    if (ws.readyState != 1) {
+                        ws.close();
+                  
+                    }
+                }, self.timeout);
+            }, this.timeout)
+      
     }
 }
 

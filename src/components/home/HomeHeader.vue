@@ -106,7 +106,7 @@
   </div>
 </template>
 <script>
-import { unRead } from "../../main";
+
 export default {
   data() {
     return {
@@ -150,10 +150,6 @@ export default {
         name: "消息详情",
         params: val,
       });
-      //消息设置为已读
-      var value = JSON.parse(window.localStorage.getItem(val.key));
-      value.MsgState = "已读";
-      window.localStorage.setItem(val.key, JSON.stringify(value));
       this.messageInit();
     },
     // 退出系统
@@ -196,7 +192,7 @@ export default {
           });
         }
       });
-      unRead = this.unRead;
+      // unRead = this.unRead;
       //从本地中读取历史消息并排序,展示未读信息数量
       // if (localStorage.length) {
       //   this.unRead = 0;
