@@ -1,0 +1,10 @@
+/* 对话框 */
+.el-dialog__header,
+.el-dialog__body {
+    border-bottom: 1px solid #e6e7e9;
+}
+
+.el-dialog__title {
+    font-size: 16px;
+    color: #3c4a54;
+}

@@ -1,0 +1,13 @@
+.contrastChart {
+    height: 100%;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.contrastChart_form {
+    width: 90%;
+    height: 7%;
+    padding-left: 1%;
+    padding-top: 5px;
+    background-color: white;
+}

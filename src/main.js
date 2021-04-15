@@ -57,6 +57,27 @@ Vue.use(hasAnyRole)
 export const baseWsUrl = "ws://10.21.11.222:8692/dbznyt/socket/";
 Vue.prototype.UnReadQuantity = window.sessionStorage.getItem("unRead");
 
+
+// 公共样式
+import './assets/css/common.css';
+
+
+// 获取当天日期yyyy-mm-dd
+Vue.prototype.getTime = function(){
+    var date = new Date();
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    return currentdate;
+}
 // 导航守卫
 router.beforeEach((to, from, next) => {
     if (to.path === "/") {
