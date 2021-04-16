@@ -247,7 +247,7 @@ export default {
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.electricDataInit();
+      this.searchElectricData();
     },
   },
 };
