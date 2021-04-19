@@ -354,7 +354,7 @@ export default {
             lastOperationName: "",
             lastTeamName: "",
             formNum: "",
-            remark: ""
+            remark: "",
           };
         }
       });
@@ -371,7 +371,7 @@ export default {
             lastOperationName: "",
             lastTeamName: "",
             lastFinishDate: "",
-            dateCount: ""
+            dateCount: "",
           };
         }
       });
@@ -383,14 +383,27 @@ export default {
           val.wellId
       ).then((resp) => {
         console.log(resp);
-        if (resp.code === 200) {
+        if (resp.code === 200 && resp.data.constructionProcessList.length > 0) {
+          // 无图片时设为默认图片
+          for (var i = 0; i < resp.data.constructionProcessList.length; i++) {
+            if (resp.data.constructionProcessList[i].urlAddressList === null) {
+              resp.data.constructionProcessList[i].urlAddressList = [
+                "http://10.21.11.222:9000/zhyt/延长石油.jpg",
+              ];
+            }
+          }
           //施工过程信息信息数据
           this.constructionData = resp.data.constructionProcessList;
-          console.log(this.constructionData);
           //如果存在施工信息，默认显示第一次上报信息
-          if (this.constructionData.length > 0) {
-            this.constNumData = resp.data.constructionProcessList[0];
-          }
+          this.constNumData = resp.data.constructionProcessList[0];
+        } else {
+          this.constructionData = [];
+          this.constNumData = {
+            recordDate: "",
+            recorder: "",
+            progressDesc: "",
+            urlAddressList: ["http://10.21.11.222:9000/zhyt/延长石油.jpg"],
+          };
         }
       });
       // 获取效果评价信息
@@ -401,11 +414,11 @@ export default {
         if (resp.code === 200 && resp.data.length === undefined) {
           //上次作业信息数据
           this.measureEffectData = resp.data;
-        }else {
+        } else {
           this.measureEffectData = {
-              evaluationResult: "",
-              evaluationDate: "",
-              resultDesc: ""
+            evaluationResult: "",
+            evaluationDate: "",
+            resultDesc: "",
           };
         }
       });

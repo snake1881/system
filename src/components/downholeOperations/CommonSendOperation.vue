@@ -60,7 +60,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="备注">
-            <el-input v-model="dispathchInfoData.remark" type="textarea" />
+            <el-input v-model="dispathchInfoData.remark" type="textarea" :autosize="true" style="max-height: 50px;" />
           </el-form-item>
         </fieldset>
         <fieldset class="sendOpereDiv_doc">
@@ -193,7 +193,7 @@ export default {
       let fileFormData = new FormData();
       fileFormData.append("file", this.fileParam.file);
       this.uploadFile(
-        "/file/commonFileUpload?moduleId=" + this.sendData.wellOperationId,
+        "/file/commonFilesUpload?moduleId=" + this.sendData.wellOperationId,
         fileFormData
       ).then((resp) => {
         if (resp.code == 200) {

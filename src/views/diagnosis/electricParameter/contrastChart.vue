@@ -8,7 +8,7 @@
       <el-form-item>
         <el-select
           placeholder="采油站"
-          v-model="contrastChartForm.oilStation"
+          v-model="contrastChartForm.oilStationId"
           size="medium"
         >
           <el-option
@@ -19,7 +19,15 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item> </el-form-item>
+      <el-form-item>
+        <el-date-picker
+          type="date"
+          placeholder="时间"
+          v-model="contrastChartForm.testTime"
+          value-format="yyyy-MM-dd"
+          size="medium"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
@@ -34,34 +42,54 @@
       :data="contrastChartTable"
       height="85%"
       border
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
       :header-cell-style="{ 'text-align': 'center' }"
       :cell-style="{ 'text-align': 'center', padding: 6 + 'px' }"
     >
       <el-table-column type="index" label="序号" width="80" />
       <el-table-column label="井号" prop="wellName" width="100" />
-      <el-table-column label="测试时间" prop="testTime" width="120" />
+      <el-table-column label="测试时间" prop="testTime" width="180" />
       <el-table-column label="冲程" prop="stroke" />
       <el-table-column label="冲次" prop="frequency" width="100" />
       <el-table-column label="示功图">
         <el-table-column label="最大负荷" prop="maxLoad" />
         <el-table-column label="最小负荷" prop="minLoad" width="100" />
-        <el-table-column label="产液量" prop="liquidProd" />
-        <el-table-column label="图形" width="200" prop="a" />
-        <el-table-column label="工况诊断结果" width="110" />
+        <el-table-column label="产液量" prop="liquidProd" width="110" />
+        <el-table-column label="图形" width="200">
+          <template slot-scope="scope">
+            <div id="gt" style="width: 200px; height: 100px" />
+            <el-button @click="currentLineData(scope.row)">点击</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="工况诊断结果"
+          width="120"
+          prop="diagnosisResult"
+        />
       </el-table-column>
       <el-table-column label="电流图">
         <el-table-column label="上行最大" prop="maxElectric" />
         <el-table-column label="下行最大" prop="minElectric" />
         <el-table-column
           label="平衡度"
-          prop="tPhaseEqualizationRatio"
+          prop="tphaseEqualizationRatio"
           width="100"
         />
-        <el-table-column label="图形" width="200" prop="b" />
+        <el-table-column label="图形" width="200">
+          <template slot-scope="scope">
+            <div id="dc" style="width: 200px; height: 100px" />
+            <el-button @click="currentLineData(scope.row)">点击</el-button>
+          </template>
+        </el-table-column>
       </el-table-column>
       <el-table-column label="控制" fixed="right">
-        <template>
-          <el-button type="text" size="small" @click="showContrastChart()"
+        <template slot-scope="scope">
+          <el-button
+            type="text"
+            size="small"
+            @click="showContrastChart(scope.row)"
             >显示</el-button
           >
         </template>
@@ -100,79 +128,25 @@
   </div>
 </template>
 <script>
+let echarts = require("echarts/lib/echarts");
 export default {
   data() {
     return {
       // 搜索
       contrastChartForm: {
-        oilStation: "",
+        oilStationId: "",
+        testTime: "",
       },
       // 表格加载动画
       loading: true,
-      contrastChartTable: [
-        {
-          wellName: "定1764-1",
-          testTime: "2121-04-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          minLoad: "24.3KN",
-          maxLoad: "50.6kn",
-          liquidProd: "3.4T",
-          a: "示功图图形",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29%",
-          b: "电流图图形",
-        },
-        {
-          wellName: "定1764-1",
-          testTime: "2121-04-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          minLoad: "24.3KN",
-          maxLoad: "50.6kn",
-          liquidProd: "3.4T",
-          a: "示功图图形",
-
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29%",
-          b: "电流图图形",
-        },
-        {
-          wellName: "定1764-1",
-          testTime: "2121-04-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          minLoad: "24.3KN",
-          maxLoad: "50.6kn",
-          liquidProd: "3.4T",
-          a: "示功图图形",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29%",
-          b: "电流图图形",
-        },
-        {
-          wellName: "定1764-1",
-          testTime: "2121-04-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          minLoad: "24.3KN",
-          maxLoad: "50.6kn",
-          liquidProd: "3.4T",
-          a: "示功图图形",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29%",
-          b: "电流图图形",
-        },
-      ],
+      contrastChartTable: [],
+      // 表格内图形纵坐标
+      gtData: [[]],
+      dcData: [[]],
       // 所有采油站
       oilStationOptions: [],
       // 放大显示
       contrastChartVisible: false,
-      // 分页
       // 分页
       currentPage: 1,
       pageSize: 10,
@@ -181,6 +155,77 @@ export default {
   },
   created() {
     this.queryOrgName();
+    this.contrastChartInit();
+  },
+  watch: {
+    contrastChartTable() {
+      this.$nextTick(() => {
+        console.log(this.contrastChartTable);
+      });
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      this.contrastChartTable.forEach((item) => {
+        this.coordinate(item);
+        //将处理后的坐标添加到对象中
+        this.$set(item, "coordinates", this.coordinates);
+        // 画功图图形
+        let dom = document.getElementById(item + "gt");
+        let myChart = echarts.init(dom);
+        myChart.setOption({
+          tooltip: {
+            trigger: "axis",
+            axisPointer: {
+              type: "line",
+            },
+            formatter: function (params) {
+              return (
+                "<div><p>位移：" +
+                params[0].value[0] +
+                "M</p>" +
+                "<p>载荷：" +
+                params[0].value[1] +
+                "KN</p>" +
+                "</div>"
+              );
+            },
+          },
+          grid: {
+            width: "120px",
+            height: "60px",
+            top: "25%",
+            left: "30px",
+          },
+          xAxis: {
+            min: 0,
+            max: 4,
+            type: "value",
+          },
+          yAxis: {
+            name: "载荷(KN)",
+            type: "value",
+            max: 80,
+            min: 0,
+            splitNumber: 3,
+            nameTextStyle: {
+              fontSize: 10,
+            },
+          },
+          series: [
+            {
+              symbol: "none",
+              data: item.data.coordinates,
+              type: "line",
+              smooth: true,
+              lineStyle: {
+                width: 1.5,
+              },
+            },
+          ],
+        });
+      });
+    });
   },
   methods: {
     //获取所有采油站信息
@@ -197,10 +242,16 @@ export default {
       });
     },
     // 查询
-    searchContrastChart() {},
-    contrastChartInit() {
+    searchContrastChart() {
       this.getRequest(
-        "/?current=" + this.currentPage + "&pageSize=" + this.pageSize
+        "/contrast/electric/selectElectricContrast?currentPage=" +
+          this.currentPage +
+          "&oilStationId=" +
+          this.contrastChartForm.oilStationId +
+          "&pageSize=" +
+          this.pageSize +
+          "&sTime=" +
+          this.contrastChartForm.testTime
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -211,8 +262,175 @@ export default {
         }
       });
     },
+    // 页面初始化
+    contrastChartInit() {
+      var time = this.getTime();
+      this.getRequest(
+        "/contrast/electric/selectElectricContrast?currentPage=" +
+          this.currentPage +
+          "&oilStationId=" +
+          "" +
+          "&pageSize=" +
+          this.pageSize +
+          "&sTime=" +
+          time
+      ).then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.contrastChartTable = resp.data.records;
+          this.total = resp.data.total;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+        }
+      });
+    },
+    // 获取表格当前行数据
+    currentLineData(val) {
+      this.$nextTick(function () {
+        //处理数据为坐标
+        this.coordinate(val);
+        //将处理后的坐标添加到对象中
+        this.$set(val, "gtData", this.gtData);
+        this.$set(val, "dcData", this.dcData);
+        this.gtLine(val);
+      });
+    },
+    //实例化图形
+    gtLine(val) {
+      // 功图图形
+      let dom = document.getElementById("gt");
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          width: "120px",
+          height: "60px",
+          top: "25%",
+          left: "30px",
+        },
+        xAxis: {
+          min: 0,
+          max: 4,
+          type: "value",
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          type: "value",
+          max: 80,
+          min: 0,
+          splitNumber: 3,
+          nameTextStyle: {
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.gtData,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+      //  电参图形
+      let dom2 = document.getElementById("dc");
+      let myChart2 = echarts.init(dom2);
+      myChart2.setOption({
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          width: "120px",
+          height: "60px",
+          top: "25%",
+          left: "30px",
+        },
+        xAxis: {
+          min: 0,
+          max: 4,
+          type: "value",
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          type: "value",
+          max: 80,
+          min: 0,
+          splitNumber: 3,
+          nameTextStyle: {
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.dcData,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+    },
+    //处理功图及电参坐标
+    coordinate(val) {
+      this.gtData = [[]];
+      this.dcData = [[]];
+      //   功图坐标
+      var displacementArray = val.displacementSet.split(";");
+      var disploadArray = val.loadSet.split(";");
+      for (var i = 0; i < displacementArray.length; i++) {
+        this.gtData[i] = [];
+        this.gtData[i][0] = parseFloat(displacementArray[i]);
+        this.gtData[i][1] = parseFloat(disploadArray[i]);
+      }
+      //   电参坐标
+      var electricitySet = val.electricitySet.split(";");
+      var displacementSetElect = val.displacementSetElect.split(";");
+      for (var j = 0; j < displacementSetElect.length; j++) {
+        this.dcData[j] = [];
+        this.dcData[j][0] = parseFloat(displacementSetElect[j]);
+        this.dcData[j][1] = parseFloat(electricitySet[j]);
+      }
+      return this.gtData, this.dcData;
+    },
     // 放大显示
-    showContrastChart() {
+    showContrastChart(val) {
+      console.log(val);
       this.contrastChartVisible = true;
     },
     contrastChartClose() {

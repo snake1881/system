@@ -30,14 +30,19 @@
           </el-col>
         </el-row>
         <el-form-item label="进度描述:">
-          <el-input v-model="constructionData.progressDesc" type="textarea" />
+          <el-input
+            v-model="constructionData.progressDesc"
+            type="textarea"
+            :autosize="true"
+            style="max-height: 50px"
+          />
         </el-form-item>
         <el-form-item label="现场照片:">
           <el-upload
             action="#"
-            list-type="picture-card"
+            :http-request="selectFile"
             :on-preview="handlePictureCardPreview"
-            :auto-upload="false"
+            list-type="picture-card"
           >
             <i class="el-icon-plus" />
           </el-upload>
@@ -90,6 +95,9 @@ export default {
         recordDate: "",
         recorder: "",
       },
+      fileList: [],
+      // 临时存放文件信息
+      fileParam: "",
     };
   },
   methods: {
@@ -106,13 +114,45 @@ export default {
         "/operation/constructionProcess/insert",
         this.constructionData
       ).then((resp) => {
-        if (resp) {
+        console.log(resp);
+        if (resp.code === 200) {
           this.$message({
             message: "进度提交成功!",
             type: "success",
           });
+          // 上传图片
+          this.submitUpload(resp.data.conspId);
         } else {
           this.$message.error("进度提交失败，请重新提交!");
+        }
+      });
+    },
+    // 覆盖默认的上传行为，自定义上传的实现
+    selectFile(param) {
+      // 将选取文件赋值
+      this.fileList.push(param);
+      console.log(this.fileList);
+    },
+    // 手动上传至服务器
+    submitUpload(moduleId) {
+      // 将文件添加到formData对象中
+      let fileFormData = new FormData();
+      this.fileList.forEach(function (param) {
+        console.log(param);
+        fileFormData.append("files", param.file);
+      });
+      this.uploadFile(
+        "/file/commonFilesUpload?moduleId=" + moduleId,
+        fileFormData
+      ).then((resp) => {
+        console.log(resp);
+        if (resp.code == 200) {
+          this.$message({
+            message: resp.message,
+            type: "success",
+          });
+        } else {
+          this.$message.error("上传失败，请重新上传!");
         }
       });
     },
