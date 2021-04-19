@@ -105,7 +105,9 @@
                 >
                 <span
                   class="checkOperDiv_submit_table_container_details_content_span"
-                  ><el-link type="primary"  @click="downloadOperation()">点击下载</el-link></span
+                  ><el-link type="primary" @click="downloadOperation()"
+                    >点击下载</el-link
+                  ></span
                 >
               </div>
             </div>
@@ -162,7 +164,7 @@
                   >备注:</span
                 >
                 <span
-                  class="checkOperDiv_submit_table_container_details_name_span" 
+                  class="checkOperDiv_submit_table_container_details_name_span"
                   >附件(下载、预览):</span
                 >
               </div>
@@ -207,7 +209,9 @@
                 >
                 <span
                   class="checkOperDiv_submit_table_container_details_content_span"
-                  ><el-link type="primary"  @click="downloadOperation()">点击下载</el-link></span
+                  ><el-link type="primary" @click="downloadOperation()"
+                    >点击下载</el-link
+                  ></span
                 >
               </div>
             </div>
@@ -279,16 +283,19 @@
                 <span
                   class="checkOperDiv_submit_table_container_details_content_span"
                 >
-                  <el-image
-                    style="width: 8%; height: 100%"
-                    :src="url"
-                    :preview-src-list="srcList"
-                  >
-                  </el-image
+                  <div class="demo-image__preview">
+                    <el-image
+                      style="width: 8%; height: 100%;"
+                      :src="constNumData.urlAddressList[0]"
+                      :preview-src-list="constNumData.urlAddressList"
+                      :z-index="3500"                   >
+                    </el-image></div
                 ></span>
                 <span
                   class="checkOperDiv_submit_table_container_details_content_span"
-                  ><el-link type="primary"  @click="downloadOperation()">点击下载</el-link></span
+                  ><el-link type="primary" @click="downloadOperation()"
+                    >点击下载</el-link
+                  ></span
                 >
               </div>
             </div>
@@ -400,11 +407,10 @@ export default {
   data() {
     return {
       checkNode: this.checkData.nodeSequence,
-      url:
-        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3510575800,971773302&fm=26&gp=0.jpg",
-      srcList: [
-        "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3510575800,971773302&fm=26&gp=0.jpg",
-      ],
+      constNumImageUrl: {
+        url: "http://10.21.11.222:9000/zhyt/延长石油.jpg",
+        srcList: ["http://10.21.11.222:9000/zhyt/延长石油.jpg"],
+      },
       currentIndex: 0,
     };
   },
@@ -655,12 +661,12 @@ export default {
 .checkOperDiv_submit_table_container_details_name_span {
   font-size: 13px;
   margin: 2% 0 0 10%;
-  height: 8%;
+  height: 12%;
 }
 .checkOperDiv_submit_table_container_details_content_span {
   font-size: 13px;
   margin: 1.5% 0 0 0;
-  height: 7.5%;
+  height: 11.5%;
 }
 .checkOperButton {
   height: 5%;
