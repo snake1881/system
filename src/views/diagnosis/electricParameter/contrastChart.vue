@@ -59,8 +59,7 @@
         <el-table-column label="产液量" prop="liquidProd" width="110" />
         <el-table-column label="图形" width="200">
           <template slot-scope="scope">
-            <div id="gt" style="width: 200px; height: 100px" />
-            <el-button @click="currentLineData(scope.row)">点击</el-button>
+            <div :id="scope.row.elepaId" style="width: 200px; height: 100px" />
           </template>
         </el-table-column>
         <el-table-column
@@ -79,8 +78,10 @@
         />
         <el-table-column label="图形" width="200">
           <template slot-scope="scope">
-            <div id="dc" style="width: 200px; height: 100px" />
-            <el-button @click="currentLineData(scope.row)">点击</el-button>
+            <div
+              :id="scope.row.elepaId + '1'"
+              style="width: 200px; height: 100px"
+            />
           </template>
         </el-table-column>
       </el-table-column>
@@ -151,82 +152,83 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 0,
+      index: 1,
     };
   },
   created() {
     this.queryOrgName();
     this.contrastChartInit();
   },
-  watch: {
-    contrastChartTable() {
-      this.$nextTick(() => {
-        console.log(this.contrastChartTable);
-      });
-    },
-  },
-  mounted() {
-    setTimeout(() => {
-      this.contrastChartTable.forEach((item) => {
-        this.coordinate(item);
-        //将处理后的坐标添加到对象中
-        this.$set(item, "coordinates", this.coordinates);
-        // 画功图图形
-        let dom = document.getElementById(item + "gt");
-        let myChart = echarts.init(dom);
-        myChart.setOption({
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "line",
-            },
-            formatter: function (params) {
-              return (
-                "<div><p>位移：" +
-                params[0].value[0] +
-                "M</p>" +
-                "<p>载荷：" +
-                params[0].value[1] +
-                "KN</p>" +
-                "</div>"
-              );
-            },
-          },
-          grid: {
-            width: "120px",
-            height: "60px",
-            top: "25%",
-            left: "30px",
-          },
-          xAxis: {
-            min: 0,
-            max: 4,
-            type: "value",
-          },
-          yAxis: {
-            name: "载荷(KN)",
-            type: "value",
-            max: 80,
-            min: 0,
-            splitNumber: 3,
-            nameTextStyle: {
-              fontSize: 10,
-            },
-          },
-          series: [
-            {
-              symbol: "none",
-              data: item.data.coordinates,
-              type: "line",
-              smooth: true,
-              lineStyle: {
-                width: 1.5,
-              },
-            },
-          ],
-        });
-      });
-    });
-  },
+  // watch: {
+  //   contrastChartTable() {
+  //     this.$nextTick(() => {
+  //       console.log(this.contrastChartTable);
+  //     });
+  //   },
+  // },
+  // mounted() {
+  //   setTimeout(() => {
+  //     this.contrastChartTable.forEach((item) => {
+  //       this.coordinate(item);
+  //       //将处理后的坐标添加到对象中
+  //       this.$set(item, "coordinates", this.coordinates);
+  //       // 画功图图形
+  //       let dom = document.getElementById(item + "gt");
+  //       let myChart = echarts.init(dom);
+  //       myChart.setOption({
+  //         tooltip: {
+  //           trigger: "axis",
+  //           axisPointer: {
+  //             type: "line",
+  //           },
+  //           formatter: function (params) {
+  //             return (
+  //               "<div><p>位移：" +
+  //               params[0].value[0] +
+  //               "M</p>" +
+  //               "<p>载荷：" +
+  //               params[0].value[1] +
+  //               "KN</p>" +
+  //               "</div>"
+  //             );
+  //           },
+  //         },
+  //         grid: {
+  //           width: "120px",
+  //           height: "60px",
+  //           top: "25%",
+  //           left: "30px",
+  //         },
+  //         xAxis: {
+  //           min: 0,
+  //           max: 4,
+  //           type: "value",
+  //         },
+  //         yAxis: {
+  //           name: "载荷(KN)",
+  //           type: "value",
+  //           max: 80,
+  //           min: 0,
+  //           splitNumber: 3,
+  //           nameTextStyle: {
+  //             fontSize: 10,
+  //           },
+  //         },
+  //         series: [
+  //           {
+  //             symbol: "none",
+  //             data: item.data.coordinates,
+  //             type: "line",
+  //             smooth: true,
+  //             lineStyle: {
+  //               width: 1.5,
+  //             },
+  //           },
+  //         ],
+  //       });
+  //     });
+  //   });
+  // },
   methods: {
     //获取所有采油站信息
     queryOrgName() {
@@ -259,6 +261,18 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.contrastChartTable.forEach((element) => {
+            //延迟到DOM更新之后再执行绘制图形
+            this.$nextTick(function () {
+              //处理数据为坐标
+              this.coordinate(element);
+              //将处理后的坐标添加到对象中
+              this.$set(element, "gtData", this.gtData);
+              this.$set(element, "dcData", this.dcData);
+              //实例化功图/电参echarts
+              this.drawLine(element);
+            });
+          });
         }
       });
     },
@@ -281,7 +295,143 @@ export default {
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
+          this.contrastChartTable.forEach((element) => {
+            //延迟到DOM更新之后再执行绘制图形
+            this.$nextTick(function () {
+              //处理数据为坐标
+              this.coordinate(element);
+              //将处理后的坐标添加到对象中
+              this.$set(element, "gtData", this.gtData);
+              this.$set(element, "dcData", this.dcData);
+              //实例化功图/电参echarts
+              this.drawLine(element);
+            });
+          });
         }
+      });
+    },
+    // 表单画图
+    drawLine(val) {
+      // 画功图图形/电参图形
+      let domGt = document.getElementById(val.elepaId);
+      let domDc = document.getElementById(val.elepaId + '1');
+      let myChartGt = echarts.init(domGt);
+      let myChartDc = echarts.init(domDc);
+      myChartGt.setOption({
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          width: "65%",
+          height: "42%",
+          top: "26%",
+          left: "12%",
+        },
+        xAxis: {
+          name: "位移(M)",
+          min: 0,
+          max: 4,
+          type: "value",
+          nameLocation: "middle",
+          nameTextStyle: {
+            padding: [8, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          type: "value",
+          max: 80,
+          min: 0,
+          splitNumber: 3,
+          nameTextStyle: {
+            padding: [0, 0, -10, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.gtData,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+      myChartDc.setOption({
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          width: "65%",
+          height: "42%",
+          top: "26%",
+          left: "12%",
+        },
+        xAxis: {
+          name: "位移(M)",
+          min: 0,
+          max: 4,
+          type: "value",
+          nameLocation: "middle",
+          nameTextStyle: {
+            padding: [8, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          type: "value",
+          max: 80,
+          min: 0,
+          splitNumber: 3,
+          nameTextStyle: {
+            padding: [0, 0, -10, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.dcData,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
       });
     },
     // 获取表格当前行数据
@@ -410,7 +560,7 @@ export default {
     coordinate(val) {
       this.gtData = [[]];
       this.dcData = [[]];
-      //   功图坐标
+      // 功图坐标
       var displacementArray = val.displacementSet.split(";");
       var disploadArray = val.loadSet.split(";");
       for (var i = 0; i < displacementArray.length; i++) {
