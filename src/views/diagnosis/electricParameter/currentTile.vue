@@ -4,6 +4,8 @@
       <el-form-item>
         <el-select
           placeholder="采油站"
+          filterable
+          clearable
           v-model="currentTileForm.oilStation"
           size="medium"
         >
@@ -18,6 +20,8 @@
       <el-form-item>
         <el-select
           placeholder="井号"
+          filterable
+          clearable
           v-model="currentTileForm.wellId"
           size="medium"
         >
@@ -59,10 +63,14 @@
     <div class="currentTile_charts">
       <div
         class="currentTile_charts_content"
-        v-for="(item, index) in currentTileTable"
-        :key="index"
+        v-for="item in currentTileTable"
+        :key="item.elepaId"
       >
-        <div class="currentTile_charts_content_left">电流平铺图形</div>
+        <div
+          class="currentTile_charts_content_left"
+          :key="item.elepaId"
+          :id="item.elepaId"
+        ></div>
         <div class="currentTile_charts_content_right">
           <span class="currentTile_charts_content_right_span"
             >隶属单位：{{ item.oilStationName }}</span
@@ -87,67 +95,49 @@
             >下行最大：{{ item.minElectric }}</span
           >
           <span class="currentTile_charts_content_right_span"
-            >平衡度：{{ item.tPhaseEqualizationRatio }}</span
+            >平衡度：{{ item.tphaseEqualizationRatio }}</span
           >
           <div>
             <el-button
               type="primary"
               size="mini"
               plain
-              @click="showCurrentTile()"
+              @click="showCurrentTile(item)"
               >放大显示</el-button
             >
           </div>
         </div>
       </div>
     </div>
+
     <!-- 分页 -->
-    <div class="currentTile_page">底部分页</div>
-    <!-- 放大显示 -->
-    <el-dialog
-      title="电流图形"
-      width="45%"
-      center
-      :visible="showCurrentTileVisible"
-      :before-close="showCurrentTileClose"
-    >
-      <el-row>
-        <el-button type="info" plain size="small" style="float: right"
-          >电流图叠加</el-button
-        >
-      </el-row>
-      <div class="currentTileDidlog">
-        <div class="currentTile_charts_content_left">电流平铺图形</div>
-        <div class="currentTile_charts_content_right">
-          <span class="currentTile_charts_content_right_span"
-            >隶属单位：1766站</span
-          >
-          <span class="currentTile_charts_content_right_span"
-            >井号：定1764-1</span
-          >
-          <span class="currentTile_charts_content_right_span">冲程：4m </span>
-          <span class="currentTile_charts_content_right_span"
-            >冲次：3.77/min</span
-          >
-          <span class="currentTile_charts_content_right_span"
-            >测试日期：2021/4/14
-          </span>
-          <span class="currentTile_charts_content_right_span"
-            >上行最大：26.6A</span
-          >
-          <span class="currentTile_charts_content_right_span"
-            >下行最大：36.2A</span
-          >
-          <span class="currentTile_charts_content_right_span"
-            >平衡度：136.29%</span
-          >
-        </div>
-      </div>
-    </el-dialog>
+    <div class="currentTile_page">
+      <el-pagination
+        :current-page.sync="currentTileForm.currentPage"
+        :page-size="currentTileForm.pageSize"
+        :total="total"
+        :page-sizes="[8, 16, 32, 48, 60]"
+        layout="total, prev, pager, next, jumper, sizes"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
+    <!-- 查看功图 -->
+    <cunnrent-tile-enlarge
+      :currentTileVisible="showCurrentTileVisible"
+      :currentElectricryData="currentElectricryData"
+      @showCurrentTileClose="showCurrentTileClose"
+    />
   </div>
 </template>
+
 <script>
+import cunnrentTileEnlarge from "../../../components/diagnosis/electricParameter/cunnrentTileEnlarge";
+let echarts = require("echarts/lib/echarts");
 export default {
+   components: {
+    cunnrentTileEnlarge,
+  },
   data() {
     return {
       currentTileForm: {
@@ -155,120 +145,71 @@ export default {
         wellId: "",
         startTime: "",
         endTime: "",
+        currentPage: 1,
+        pageSize: 8,
       },
-      currentTileTable: [
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021/4/14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021-4-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021-4-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021-4-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021-4-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021-4-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021-4-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-        {
-          wellId: "1",
-          oilStationName: "1766站",
-          wellName: "定1764-1",
-          //   井号
-          testTime: "2021-4-14",
-          stroke: "4m",
-          frequency: "3.77/min",
-          maxElectric: "26.6A",
-          minElectric: "36.2A",
-          tPhaseEqualizationRatio: "136.29",
-        },
-      ],
+      //电流图总数目
+      total: 0,
+      currentTileTable: [],
       // 所有采油站
       oilStationOptions: [],
       // 所有井号
       wellNameoptions: [],
       //   放大显示
       showCurrentTileVisible: false,
+      //绘图数据处理
+      coordinates: [[]],
+      //放大显示数据
+      currentElectricryData: {},
     };
   },
   created() {
     this.queryOrgName();
     this.wellInforInit();
+    this.searchCurrentTile();
   },
   methods: {
+    // previewGtmj(val) {
+    //   this.currentElectricryData = val;
+    //   this.showCurrentTileVisible = true;
+    // },
+    // // 关闭功图
+    // previewGtmjClose() {
+    //   this.showCurrentTileVisible = false;
+    // },
     //搜索
-    searchCurrentTile() {},
+    searchCurrentTile() {
+      this.getRequest(
+        "/tile/electric/selectElectTile?beginTime=" +
+          this.currentTileForm.startTime +
+          "&currentPage=" +
+          this.currentTileForm.currentPage +
+          "&endTime=" +
+          this.currentTileForm.endTime +
+          "&oilStationId=" +
+          this.currentTileForm.oilStation +
+          "&pageSize=" +
+          this.currentTileForm.pageSize +
+          "&wellId=" +
+          this.currentTileForm.wellId
+      ).then((resp) => {
+        if (resp) {
+          this.currentTileTable = resp.data.records;
+          this.total = resp.data.total;
+          this.currentTileTable.forEach((element) => {
+            //延迟到DOM更新之后再执行绘制图形
+            this.$nextTick(function () {
+              //处理数据为坐标
+              this.coordinate(element);
+              //将处理后的坐标添加到对象中
+              this.$set(element, "coordinates", this.coordinates);
+              //实例化echarts
+              this.drawLine(element);
+            });
+          });
+        }
+      });
+    },
     //获取所有采油站信息
     queryOrgName() {
       this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
@@ -290,12 +231,113 @@ export default {
         }
       });
     },
+    //实例化图表
+    drawLine(val) {
+      // let _self = this;
+      let dom = document.getElementById(val.elepaId);
+      let myChart = echarts.init(dom);
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: "电流(A)/位移(M)",
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>电流：" +
+              params[0].value[1] +
+              "</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          left: "3%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 250, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          nameLocation: "middle",
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 3, 0],
+            fontSize: 8,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: val.coordinates,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+    },
+    //将坐标数据串处理为坐标点
+    coordinate(val) {
+      //每次处理之前保证坐标数组集合为空
+      this.coordinates = [[]];
+      var displacementSetElectArray = val.displacementSetElect.split(";");
+      var electricitySetArray = val.electricitySet.split(";");
+      for (var i = 0; i < displacementSetElectArray.length; i++) {
+        this.coordinates[i] = [];
+        this.coordinates[i][0] = parseFloat(displacementSetElectArray[i]);
+        this.coordinates[i][1] = parseFloat(electricitySetArray[i]);
+      }
+      return this.coordinates;
+    },
+
     // 放大显示图形
-    showCurrentTile() {
+    showCurrentTile(val) {
+      // console.log(val);
+      this.currentElectricryData = val;
+      // this.currentDrawLine();
       this.showCurrentTileVisible = true;
     },
     showCurrentTileClose() {
       this.showCurrentTileVisible = false;
+    },
+    // 分页，页码大小改变
+    handleSizeChange(val) {
+      this.currentTileForm.pageSize = val;
+      this.searchCurrentTile();
+    },
+    // 分页，当前页改变
+    handleCurrentChange(val) {
+      this.currentTileForm.currentPage = val;
+      this.searchCurrentTile();
     },
   },
 };

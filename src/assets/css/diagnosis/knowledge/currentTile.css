@@ -7,23 +7,32 @@
 .currentTile_form {
     width: 90%;
     height: 7%;
-    padding-left: 1%;
+    padding-left: 3%;
     padding-top: 5px;
     background-color: white;
 }
 
 .currentTile_charts {
     width: 100%;
-    height: 85%;
+    padding-top: 5px;
+    height:88%;
+    overflow-x:auto;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: 0px 0px;
+    bottom:20px;
 }
 
+.currentTile_charts_child{
+    padding: 0px 5px;
+    position: relative;
+    z-index: 1;
+}
 .currentTile_charts_content {
     width: 24%;
     height: 45%;
-    margin: 1% 0 0 0.8%;
+    margin: 0% 0 0 0.5%;
     display: flex;
     flex-direction: row;
     border: solid #C0C4CC 1px;
@@ -42,12 +51,13 @@
 }
 
 .currentTile_charts_content_right_span {
-    margin: 2.8% 1%;
+    margin: 1% 1%;
+    display: inline-block;
 
 }
 
 .currentTile_page {
-    height: 7%;
+    height: 5%;
 }
 
 .currentTileDidlog {
