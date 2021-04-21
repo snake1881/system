@@ -80,22 +80,22 @@
           >
 
           <span class="currentTile_charts_content_right_span"
-            >冲程： {{ item.stroke }}</span
+            >冲程： {{ item.stroke }}m</span
           >
           <span class="currentTile_charts_content_right_span"
-            >冲次：{{ item.frequency }}</span
+            >冲次：{{ item.frequency }}/min</span
           >
           <span class="currentTile_charts_content_right_span"
             >测试日期： {{ item.testTime }}</span
           >
           <span class="currentTile_charts_content_right_span"
-            >上行最大：{{ item.maxElectric }}</span
+            >上行最大：{{ item.maxElectric }} A</span
           >
           <span class="currentTile_charts_content_right_span"
-            >下行最大：{{ item.minElectric }}</span
+            >下行最大：{{ item.minElectric }} A</span
           >
           <span class="currentTile_charts_content_right_span"
-            >平衡度：{{ item.tphaseEqualizationRatio }}</span
+            >平衡度：{{ item.tphaseEqualizationRatio }}%</span
           >
           <div>
             <el-button
