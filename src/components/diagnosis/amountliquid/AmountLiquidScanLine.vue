@@ -9,6 +9,83 @@
     @opened="opens"
     :before-close="previewDymClose"
   >
+    <el-form :inline="true">
+      <el-form-item width="80">
+        <el-select
+          v-model="termForm.oilStationId"
+          clearable
+          filterable
+          placeholder="采油站"
+          size="mini"
+          @change="queryWellNameByOrgName"
+        >
+          <el-option
+            v-for="item in orgNameData"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationId"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-select
+          v-model="termForm.wellId"
+          clearable
+          filterable
+          placeholder="单井"
+          size="mini"
+        >
+          <el-option
+            v-for="item in wellOptions"
+            :key="item.wellId"
+            :label="item.wellName"
+            :value="item.wellId"
+          />
+        </el-select>
+      </el-form-item>
+      <!-- <el-form-item>
+        <el-date-picker
+          type="date"
+          filterable
+          clearable
+          placeholder="开始时间"
+          v-model="termForm.beginTime"
+          value-format="yyyy-MM-dd hh:mm:ss"
+          size="mini"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-date-picker
+          type="date"
+          filterable
+          clearable
+          placeholder="结束时间"
+          v-model="termForm.endTime"
+          value-format="yyyy-MM-dd hh:mm:ss"
+          size="mini"
+        />
+      </el-form-item> -->
+      <el-form-item>
+        <el-date-picker
+      v-model="value1"
+      type="datetimerange"
+      size="mini"
+       value-format="yyyy-MM-dd HH:mm:ss"
+      range-separator="至"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期">
+    </el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="mini"
+          @click="lineListSearch()"
+          >查询</el-button
+        >
+      </el-form-item>
+    </el-form>
     <div
       class="chart"
       id="myChart"
@@ -35,8 +112,16 @@ export default {
       yAxis: [],
       data: [[]],
       isColor: true,
-
-      value2: [],
+      wellOptions:[],
+      orgNameData:[],
+      termForm: {
+        beginTime: "",
+        endTime: "",
+        oilStationId: "",
+        wellId: "",
+      },
+      value1: [],
+      wellName:"",
     };
   },
   methods: {
@@ -48,15 +133,47 @@ export default {
       this.drawLine();
     },
     gtDataInit() {
+      this.termForm.endTime = this.previewData.acquisitionTime;
+      this.termForm.beginTime = this.previewData.acquisitionTime;
+      this.termForm.beginTime = this.termForm.beginTime.substring(0,10)+" 00:00:00";
+       this.value1[0] = this.termForm.beginTime;
+      this.value1[1] = this.termForm.endTime;
+      this.termForm.wellId  = this.previewData.wellId;
+      console.log(this.termForm.beginTime);
       this.getRequest(
         "/mountLiquid/liquidList?endTime=" +
-          this.previewData.acquisitionTime +
+          this.termForm.endTime +
+          "&beginTime=" +
+          this.termForm.beginTime +
           "&wellId=" +
-          this.previewData.wellId
+          this.termForm.wellId
       ).then((resp) => {
         if (resp) {
           this.tableData = [];
           this.tableData = resp.data;
+          this.wellName = resp.data[0].wellName;
+          // this.termForm.oilStationId = resp.data[0].oilStationId;
+          this.coordinate();
+          this.$nextTick(() => {
+            this.drawLine();
+          });
+        }
+      });
+    },
+    lineListSearch(){
+      this.getRequest(
+        "/mountLiquid/liquidList?endTime=" +
+          this.termForm.endTime +
+          "&beginTime=" +
+          this.termForm.beginTime +
+          "&wellId=" +
+          this.termForm.wellId
+      ).then((resp) => {
+        if (resp) {
+          this.tableData = [];
+          this.tableData = resp.data;
+          this.wellName = resp.data[0].wellName;
+          // this.termForm.oilStationId = resp.data[0].oilStationId;
           this.coordinate();
           this.$nextTick(() => {
             this.drawLine();
@@ -66,14 +183,16 @@ export default {
     },
     drawLine() {
       let myChart = this.$echarts.init(document.getElementById("myChart"));
+      myChart.clear();
       myChart.setOption({
         title: {
           x: "center",
           text:
-            this.previewData.wellName +
-            "号井  至" +
-            this.previewData.acquisitionTime +
-            "  24小时内" +
+            this.wellName +
+            "号井  " +
+            this.termForm.beginTime +
+            " 至 " +
+            this.termForm.endTime+
             "产液量曲线",
           top: "7%",
           textStyle: {
@@ -163,14 +282,50 @@ export default {
       }
       return this.data;
     },
-
+    //采油站下拉框初始化
+    orgNameInit() {
+      this.getRequest("/basOilStationInfor/selectWater").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.orgNameData = resp.data;
+        }
+      });
+    },
+    //单井下拉框初始化
+    wellOptionsInit() {
+      this.getRequest("/basWellInfor/selectAmountLiquid").then((resp) => {
+        this.loading = false;
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
+    //单井根据采油站变化
+    queryWellNameByOrgName(val) {
+      this.getRequest(
+        "/basWellInfor/selectAmountLiquidById?oilStationId=" + val
+      ).then((resp) => {
+        if (resp) {
+          this.wellOptions = resp.data;
+        }
+      });
+    },
     opens() {
+      this.termForm.oilStationId = this.previewData.oilStationId;
+      this.termForm.wellId = this.previewData.wellId;
       this.gtDataInit();
+      this.orgNameInit();
+      this.wellOptionsInit();
+
     },
   },
   watch: {
-    value2() {
-      this.gtDataInit();
+    value1() {
+      this.termForm.beginTime = this.value1[0];
+       this.termForm.endTime = this.value1[1];
+       console.log(this.value1);
+       console.log(this.termForm);
+      this.lineListSearch();
     },
   },
 };

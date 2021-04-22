@@ -838,10 +838,10 @@ export default {
               yAxis: {
                 type: "category",
                 data: [
-                  "动液面异常",
-                  "液量异常",
-                  "含水异常",
-                  "工况异常",
+                  "供液不足",
+                  "严重供液不足",
+                  "载荷异常",
+                  "漏失,断杆",
                   "正常井",
                 ],
                 // 文字大小与颜色
@@ -861,11 +861,11 @@ export default {
               dataset: {
                 source: [
                   ["score", "number", "wellName"],
-                  [1, resp.data.wellNormal, "正常井"],
-                  [31, resp.data.wellLiquid, "液量异常"],
-                  [57, resp.data.waterCut, "含水异常"],
-                  [77, resp.data.wellDiagnosis, "工况异常"],
-                  [99, resp.data.fluidLevel, "动液面异常"],
+                  [1, resp.data.wellOpen, "正常井"],
+                  [31, resp.data.oneLevel, "漏失,断杆"],
+                  [57, resp.data.twoLevel, "载荷异常"],
+                  [77, resp.data.threeLevel, "严重供液不足"],
+                  [99, resp.data.fourLevel, "供液不足"],
                 ],
               },
               visualMap: {
