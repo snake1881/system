@@ -724,7 +724,7 @@ export default {
               formatter: "{a} <br/>{b} : {c} ({d}%)",
             },
             // 图形颜色
-            color: ["#2670f7", "#acabab"],
+            color: ["#574AA3", "#ACABAB"],
             series: [
               {
                 type: "pie",
@@ -764,7 +764,7 @@ export default {
               formatter: "{a} <br/>{b} : {c} ({d}%)",
             },
             // 图形颜色
-            color: ["#57c5d9", "#acabab"],
+            color: ["#574AA3", "#acabab"],
             series: [
               {
                 type: "pie",
