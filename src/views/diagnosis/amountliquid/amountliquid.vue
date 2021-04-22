@@ -34,14 +34,26 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="日期">
+      <el-form-item>
         <el-date-picker
-          v-model="termForm.prodDate"
+          type="datetime"
+          filterable
+          clearable
+          placeholder="开始时间"
+          v-model="termForm.beginTime"
+          value-format="yyyy-MM-dd HH:mm:ss"
           size="medium"
-          type="date"
-          placeholder="选择日期"
-          format="yyyy-MM-dd"
-          value-format="yyyy-MM-dd"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-date-picker
+          type="datetime"
+          filterable
+          clearable
+          placeholder="结束时间"
+          v-model="termForm.endTime"
+          value-format="yyyy-MM-dd HH:mm:ss"
+          size="medium"
         />
       </el-form-item>
       <el-form-item>
@@ -209,7 +221,8 @@ export default {
   data() {
     return {
       termForm: {
-        prodDate: "",
+        beginTime: "",
+        endTime: "",
         oilStationId: "",
         wellId: "",
       },
@@ -289,10 +302,12 @@ export default {
     // 根据输入信息查询
     abnormalDymSearch() {
       this.getRequest(
-        "/mountLiquid/amountLiquid?acquisitionTime=" +
-          this.termForm.prodDate +
+        "/mountLiquid/amountLiquid?beginTime=" +
+          this.termForm.beginTime +
           "&current=" +
           this.currentPage +
+           "&endTime=" +
+          this.termForm.endTime +
           "&oilStationId=" +
           this.termForm.oilStationId +
           "&pageSize=" +
