@@ -106,15 +106,113 @@
     >
       <el-row>
         <el-col :span="9">
-          <el-button>示功图</el-button>
+          <el-button @click="innerGt()">示功图</el-button>
         </el-col>
         <el-col :span="9">
-          <el-button>电流图</el-button>
+          <el-button @click="innerDc()">电流图</el-button>
         </el-col>
         <el-col :span="6">
           <el-button @click="contrastChartClose">取消</el-button>
         </el-col>
       </el-row>
+      <el-dialog
+        width="40%"
+        title="示功图图形"
+        @open="gtOpen()"
+        :visible="innerGtVisible"
+        :before-close="innerGtClose"
+        append-to-body
+      >
+        <el-row>
+          <el-button
+            type="success"
+            plain
+            size="small"
+            style="float: right"
+            @click="gtOverlap()"
+            >示功图叠加</el-button
+          >
+          <el-button
+            type="success"
+            plain
+            size="small"
+            style="float: right"
+            @click="gtEnlarge()"
+            >示功图放大</el-button
+          >
+        </el-row>
+        <div class="gtDialog" v-if="gtFlag === 1">
+          <div class="gtDialog_left">
+            <div id="gt" style="height: 300px; width: 300px" />
+          </div>
+          <div class="gtDialog_right">
+            <span class="gtDialog_right_span"
+              >隶属单位：{{ currentData.oilStationName }}</span
+            >
+            <span class="gtDialog_right_span"
+              >井号：{{ currentData.wellName }}</span
+            >
+            <span class="gtDialog_right_span"
+              >冲程：{{ currentData.stroke }}m
+            </span>
+            <span class="gtDialog_right_span"
+              >冲次：{{ currentData.frequency }}/min</span
+            >
+            <span class="gtDialog_right_span"
+              >测试日期：{{ currentData.testTime }}
+            </span>
+            <span class="gtDialog_right_span"
+              >最大负荷：{{ currentData.maxLoad }}KN</span
+            >
+            <span class="gtDialog_right_span"
+              >最小负荷：{{ currentData.minLoad }}KN</span
+            >
+          </div>
+        </div>
+        <div v-if="gtFlag === 2">
+          <div id="gt2" style="height: 300px; width: 500px" />
+        </div>
+      </el-dialog>
+      <el-dialog
+        width="40%"
+        title="电流图图形"
+        @open="dcOpen()"
+        :visible="innerDcVisible"
+        :before-close="innerDcClose"
+        append-to-body
+      >
+        <div class="gtDialog">
+          <div class="gtDialog_left">
+            <div id="dc" style="height: 300px; width: 300px" />
+          </div>
+          <div class="gtDialog_right">
+            <span class="gtDialog_right_span"
+              >隶属单位：{{ currentData.oilStationName }}</span
+            >
+            <span class="gtDialog_right_span"
+              >井号：{{ currentData.wellName }}</span
+            >
+            <span class="gtDialog_right_span"
+              >冲程：{{ currentData.stroke }}m
+            </span>
+            <span class="gtDialog_right_span"
+              >冲次：{{ currentData.frequency }}/min</span
+            >
+            <span class="gtDialog_right_span"
+              >测试日期：{{ currentData.testTime }}
+            </span>
+            <span class="gtDialog_right_span"
+              >上行最大：{{ currentData.maxElectric }}A</span
+            >
+            <span class="gtDialog_right_span"
+              >下行最大：{{ currentData.minElectric }}A</span
+            >
+            <span class="gtDialog_right_span"
+              >平衡度：{{ currentData.tphaseEqualizationRatio }}%</span
+            >
+          </div>
+        </div>
+      </el-dialog>
     </el-dialog>
     <!-- 分页 -->
     <el-pagination
@@ -148,6 +246,17 @@ export default {
       oilStationOptions: [],
       // 放大显示
       contrastChartVisible: false,
+      innerGtVisible: false,
+      innerDcVisible: false,
+      currentData: {},
+      gtFlag: 1,
+
+      electricryList: [],
+      coordinates: [[]],
+      //功图叠加处理后数据
+      superpositionCoordinatesData: [[[]]],
+      //功图叠加示例数据
+      superpositionLegend: [],
       // 分页
       currentPage: 1,
       pageSize: 10,
@@ -159,76 +268,6 @@ export default {
     this.queryOrgName();
     this.contrastChartInit();
   },
-  // watch: {
-  //   contrastChartTable() {
-  //     this.$nextTick(() => {
-  //       console.log(this.contrastChartTable);
-  //     });
-  //   },
-  // },
-  // mounted() {
-  //   setTimeout(() => {
-  //     this.contrastChartTable.forEach((item) => {
-  //       this.coordinate(item);
-  //       //将处理后的坐标添加到对象中
-  //       this.$set(item, "coordinates", this.coordinates);
-  //       // 画功图图形
-  //       let dom = document.getElementById(item + "gt");
-  //       let myChart = echarts.init(dom);
-  //       myChart.setOption({
-  //         tooltip: {
-  //           trigger: "axis",
-  //           axisPointer: {
-  //             type: "line",
-  //           },
-  //           formatter: function (params) {
-  //             return (
-  //               "<div><p>位移：" +
-  //               params[0].value[0] +
-  //               "M</p>" +
-  //               "<p>载荷：" +
-  //               params[0].value[1] +
-  //               "KN</p>" +
-  //               "</div>"
-  //             );
-  //           },
-  //         },
-  //         grid: {
-  //           width: "120px",
-  //           height: "60px",
-  //           top: "25%",
-  //           left: "30px",
-  //         },
-  //         xAxis: {
-  //           min: 0,
-  //           max: 4,
-  //           type: "value",
-  //         },
-  //         yAxis: {
-  //           name: "载荷(KN)",
-  //           type: "value",
-  //           max: 80,
-  //           min: 0,
-  //           splitNumber: 3,
-  //           nameTextStyle: {
-  //             fontSize: 10,
-  //           },
-  //         },
-  //         series: [
-  //           {
-  //             symbol: "none",
-  //             data: item.data.coordinates,
-  //             type: "line",
-  //             smooth: true,
-  //             lineStyle: {
-  //               width: 1.5,
-  //             },
-  //           },
-  //         ],
-  //       });
-  //     });
-  //   });
-  // },
   methods: {
     //获取所有采油站信息
     queryOrgName() {
@@ -296,14 +335,10 @@ export default {
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
           this.contrastChartTable.forEach((element) => {
-            //延迟到DOM更新之后再执行绘制图形
             this.$nextTick(function () {
-              //处理数据为坐标
               this.coordinate(element);
-              //将处理后的坐标添加到对象中
               this.$set(element, "gtData", this.gtData);
               this.$set(element, "dcData", this.dcData);
-              //实例化功图/电参echarts
               this.drawLine(element);
             });
           });
@@ -314,7 +349,7 @@ export default {
     drawLine(val) {
       // 画功图图形/电参图形
       let domGt = document.getElementById(val.elepaId);
-      let domDc = document.getElementById(val.elepaId + '1');
+      let domDc = document.getElementById(val.elepaId + "1");
       let myChartGt = echarts.init(domGt);
       let myChartDc = echarts.init(domDc);
       myChartGt.setOption({
@@ -411,135 +446,13 @@ export default {
           },
         },
         yAxis: {
-          name: "载荷(KN)",
+          name: "电流(A)",
           type: "value",
           max: 80,
           min: 0,
           splitNumber: 3,
           nameTextStyle: {
             padding: [0, 0, -10, 0],
-            fontSize: 10,
-          },
-        },
-        series: [
-          {
-            symbol: "none",
-            data: val.dcData,
-            type: "line",
-            smooth: true,
-            lineStyle: {
-              width: 1.5,
-            },
-          },
-        ],
-      });
-    },
-    // 获取表格当前行数据
-    currentLineData(val) {
-      this.$nextTick(function () {
-        //处理数据为坐标
-        this.coordinate(val);
-        //将处理后的坐标添加到对象中
-        this.$set(val, "gtData", this.gtData);
-        this.$set(val, "dcData", this.dcData);
-        this.gtLine(val);
-      });
-    },
-    //实例化图形
-    gtLine(val) {
-      // 功图图形
-      let dom = document.getElementById("gt");
-      let myChart = echarts.init(dom);
-      myChart.setOption({
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "line",
-          },
-          formatter: function (params) {
-            return (
-              "<div><p>位移：" +
-              params[0].value[0] +
-              "M</p>" +
-              "<p>载荷：" +
-              params[0].value[1] +
-              "KN</p>" +
-              "</div>"
-            );
-          },
-        },
-        grid: {
-          width: "120px",
-          height: "60px",
-          top: "25%",
-          left: "30px",
-        },
-        xAxis: {
-          min: 0,
-          max: 4,
-          type: "value",
-        },
-        yAxis: {
-          name: "载荷(KN)",
-          type: "value",
-          max: 80,
-          min: 0,
-          splitNumber: 3,
-          nameTextStyle: {
-            fontSize: 10,
-          },
-        },
-        series: [
-          {
-            symbol: "none",
-            data: val.gtData,
-            type: "line",
-            smooth: true,
-            lineStyle: {
-              width: 1.5,
-            },
-          },
-        ],
-      });
-      //  电参图形
-      let dom2 = document.getElementById("dc");
-      let myChart2 = echarts.init(dom2);
-      myChart2.setOption({
-        tooltip: {
-          trigger: "axis",
-          axisPointer: {
-            type: "line",
-          },
-          formatter: function (params) {
-            return (
-              "<div><p>位移：" +
-              params[0].value[0] +
-              "M</p>" +
-              "<p>载荷：" +
-              params[0].value[1] +
-              "KN</p>" +
-              "</div>"
-            );
-          },
-        },
-        grid: {
-          width: "120px",
-          height: "60px",
-          top: "25%",
-          left: "30px",
-        },
-        xAxis: {
-          min: 0,
-          max: 4,
-          type: "value",
-        },
-        yAxis: {
-          name: "载荷(KN)",
-          type: "value",
-          max: 80,
-          min: 0,
-          splitNumber: 3,
-          nameTextStyle: {
             fontSize: 10,
           },
         },
@@ -580,11 +493,281 @@ export default {
     },
     // 放大显示
     showContrastChart(val) {
-      console.log(val);
+      this.currentData = val;
       this.contrastChartVisible = true;
+    },
+    // 内部功图对话框
+    innerGt() {
+      this.innerGtVisible = true;
+    },
+    innerGtClose() {
+      this.innerGtVisible = false;
+      this.gtFlag = 1;
+    },
+    gtChart() {
+      var domGt = document.getElementById("gt");
+      let myChartGt = echarts.init(domGt);
+      myChartGt.setOption({
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          width: "65%",
+          height: "42%",
+          top: "26%",
+          left: "12%",
+        },
+        xAxis: {
+          name: "位移(M)",
+          min: 0,
+          max: 4,
+          type: "value",
+          nameLocation: "middle",
+          nameTextStyle: {
+            padding: [8, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          type: "value",
+          max: 90,
+          min: 0,
+          splitNumber: 3,
+          nameTextStyle: {
+            padding: [0, 0, -10, 0],
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: this.currentData.gtData,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+    },
+    gtOpen() {
+      const t = this;
+      setTimeout(() => {
+        t.gtChart();
+      }, 0);
+    },
+    // 内部电流图对话框
+    innerDc() {
+      this.innerDcVisible = true;
+    },
+    innerDcClose() {
+      this.innerDcVisible = false;
+    },
+    dcChart() {
+      var domGt = document.getElementById("dc");
+      let myChartGt = echarts.init(domGt);
+      myChartGt.setOption({
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+          formatter: function (params) {
+            return (
+              "<div><p>位移：" +
+              params[0].value[0] +
+              "M</p>" +
+              "<p>载荷：" +
+              params[0].value[1] +
+              "KN</p>" +
+              "</div>"
+            );
+          },
+        },
+        grid: {
+          width: "65%",
+          height: "42%",
+          top: "26%",
+          left: "12%",
+        },
+        xAxis: {
+          name: "位移(M)",
+          min: 0,
+          max: 4,
+          type: "value",
+          nameTextStyle: {
+            padding: [8, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "电流(A)",
+          type: "value",
+          max: 80,
+          min: 0,
+          splitNumber: 3,
+          nameTextStyle: {
+            fontSize: 10,
+          },
+        },
+        series: [
+          {
+            symbol: "none",
+            data: this.currentData.dcData,
+            type: "line",
+            smooth: true,
+            lineStyle: {
+              width: 1.5,
+            },
+          },
+        ],
+      });
+    },
+    dcOpen() {
+      const t = this;
+      setTimeout(() => {
+        t.dcChart();
+      }, 0);
     },
     contrastChartClose() {
       this.contrastChartVisible = false;
+    },
+    // 示功图叠加按钮
+    gtOverlap() {
+      this.gtFlag = 2;
+      let time = this.currentData.testTime.substr(0, 10);
+      this.electricryList = [];
+      this.coordinates = [[]];
+      this.superpositionCoordinatesData = [[[]]];
+      this.superpositionLegend = [];
+      this.getRequest(
+        "/contrast/electric/selectGtLarge?sTime=" +
+          time +
+          "&wellId=" +
+          this.currentData.wellId
+      ).then((resp) => {
+        if (resp) {
+          this.electricryList = resp.data;
+          for (var i = 0; i < this.electricryList.length; i++) {
+            this.coordinate2(this.electricryList[i]);
+            this.superpositionLegend[i] = this.electricryList[
+              i
+            ].acquisitionTime;
+            this.superpositionCoordinatesData[i] = this.coordinates;
+          }
+          this.drawSuperposition();
+        }
+      });
+    },
+    coordinate2(val) {
+      //每次处理之前保证坐标数组集合为空
+      this.coordinates = [[]];
+      var displacementSetElectArray = val.displacementSet.split(";");
+      var electricitySetArray = val.loadSet.split(";");
+      for (var i = 0; i < displacementSetElectArray.length; i++) {
+        this.coordinates[i] = [];
+        this.coordinates[i][0] = parseFloat(displacementSetElectArray[i]);
+        this.coordinates[i][1] = parseFloat(electricitySetArray[i]);
+      }
+      return this.coordinates;
+    },
+    //汇制功图叠加
+    drawSuperposition() {
+      var dom = "";
+      dom = document.getElementById("gt2");
+      let myChart = echarts.init(dom);
+      myChart.clear();
+      let seriesSuperposition = [];
+      for (var i = 0; i < this.superpositionCoordinatesData.length; i++) {
+        seriesSuperposition[i] = {
+          symbol: "none",
+          name: this.electricryList[i].acquisitionTime,
+          data: this.superpositionCoordinatesData[i],
+          type: "line",
+          smooth: true,
+          lineStyle: {
+            width: 1.5,
+          },
+        };
+      }
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: "井号：" + this.electricryList[0].wellName + "功图叠加",
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        legend: {
+          type: "scroll",
+          data: this.superpositionLegend,
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+        },
+        grid: {
+          left: "6%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "载荷(KN)",
+          nameLocation: "middle",
+          // min: 0,
+          // max: 100,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 8, 0],
+            fontSize: 10,
+          },
+        },
+        series: seriesSuperposition,
+      });
+    },
+    // 示功图放大按钮
+    gtEnlarge() {
+      this.gtFlag = 1;
+      const t = this;
+      setTimeout(() => {
+        t.gtChart();
+      }, 0);
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

@@ -11,3 +11,29 @@
     padding-top: 5px;
     background-color: white;
 }
+
+.gtDialog {
+    width: 98%;
+    height: 98%;
+    margin: 1% 1%;
+    display: flex;
+    flex-direction: row;
+    border: solid #C0C4CC 1px;
+}
+
+.gtDialog_left {
+    width: 55%;
+}
+
+.gtDialog_right {
+    width: 45%;
+    font-size: 13px;
+    color: #303133;
+    display: flex;
+    flex-direction: column;
+}
+
+.gtDialog_right_span {
+    margin: 2.8% 1%;
+
+}
