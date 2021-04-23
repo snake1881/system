@@ -313,6 +313,7 @@ export default {
             name: "总井数",
             type: "bar",
             barWidth: 18,
+            color:"#1E3B5F",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -329,6 +330,7 @@ export default {
             name: "开井数",
             type: "bar",
             barWidth: 18,
+            color:"#40E0F8",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -340,6 +342,7 @@ export default {
             name: "总配注量",
             type: "bar",
             barWidth: 18,
+            color:"#AEDFFE",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -351,6 +354,7 @@ export default {
             name: "总注水量",
             type: "bar",
             barWidth:18,
+            color:"#0606FF",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -361,6 +365,7 @@ export default {
             name: "正常井数",
             type: "bar",
             barWidth: 18,
+            color:"#0088FC",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -372,6 +377,7 @@ export default {
             name: "欠注井数",
             type: "bar",
             barWidth: 18,
+            color:"#B5B3BD",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -382,6 +388,7 @@ export default {
             name: "超注井数",
             type: "bar",
             barWidth: 18,
+            color:"#F02D2E",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],

@@ -354,6 +354,7 @@ export default {
             name: "总井数",
             type: "bar",
             barWidth: 14,
+            color:"#640200",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -364,6 +365,7 @@ export default {
             name: "开井数",
             type: "bar",
             barWidth: 14,
+            color:"#FF9595",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -374,6 +376,7 @@ export default {
             name: "总产液量",
             type: "bar",
             barWidth: 14,
+            color:"#FF00FF",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -384,6 +387,7 @@ export default {
             name: "总产液量(昨)",
             type: "bar",
             barWidth: 14,
+            color:"#FF00FF",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -394,6 +398,7 @@ export default {
             name: "液量异常数",
             type: "bar",
             barWidth: 14,
+            color:"#490872",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -404,6 +409,7 @@ export default {
             name: "含水异常数",
             type: "bar",
             barWidth: 14,
+            color:"#3D6B19",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -414,6 +420,7 @@ export default {
             name: "工况异常数",
             type: "bar",
             barWidth: 14,
+            color:"#F53201",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -424,6 +431,7 @@ export default {
             name: "动液面异常数",
             type: "bar",
             barWidth: 14,
+            color:"#632686",
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
