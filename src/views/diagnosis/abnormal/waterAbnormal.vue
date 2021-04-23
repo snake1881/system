@@ -41,37 +41,37 @@
       <el-table-column
         prop="oilStationName"
         label="采油站名称"
-        width="200"
+        min-width="15%"
         align="center"
       />
       <el-table-column
         prop="waterTotal"
         label="总井数"
-        width="150"
+        min-width="10%"
         align="center"
       />
       <el-table-column
         prop="openNumber"
         label="开井数"
-        width="150"
+        min-width="10%"
         align="center"
       />
       <el-table-column
         prop="totalAllocation"
         label="总配注量"
-        width="180"
+        min-width="10%"
         align="center"
       />
       <el-table-column
         prop="totalWaterInjection"
         label="总注水量"
-        width="180"
+        min-width="10%"
         align="center"
       />
       <el-table-column
         prop="normalNumber"
         label="正常井数"
-        width="150"
+        min-width="10%"
         align="center"
       >
         <template slot-scope="scope">
@@ -87,7 +87,7 @@
       <el-table-column
         prop="shortNumber"
         label="欠注井数"
-        width="150"
+        min-width="10%"
         align="center"
         ><template slot-scope="scope">
           <a v-if="scope.row.shortNumber == 0">{{ scope.row.shortNumber }}</a>
@@ -101,7 +101,7 @@
       <el-table-column
         prop="exceedNumber"
         label="超注井数"
-        width="150"
+        min-width="10%"
         align="center"
       >
         <template slot-scope="scope">
@@ -216,7 +216,36 @@ export default {
           axisPointer: {
             type: "shadow",
           },
-          formatter: "{c}",
+          formatter: function (params) {
+            return (
+              "<div><p>采油站：" +
+              params[0].value[0] +
+              "</p>" +
+              "<p>总井数：" +
+              params[0].value[1] +
+              "口</p>" +
+              "<p>开井数：" +
+              params[0].value[2] +
+              "口</p>" +
+              "<p>总配注量：" +
+              params[0].value[3] +
+              "m<sup>3</sup></p>" +
+              "<p>总注水量：" +
+              params[0].value[4] +
+              "m<sup>3</sup></p>" +
+              "<p>正常井数：" +
+              params[0].value[5] +
+              "口</p>" +
+              "<p>欠注井数：" +
+              params[0].value[6] +
+              "口</p>" +
+              "<p>超注井数：" +
+              params[0].value[7] +
+              "口</p>" +
+              "</div>"
+            );
+          },
+          // formatter: "{c}",
         },
         legend: {
           top: "10%",
@@ -283,39 +312,45 @@ export default {
           {
             name: "总井数",
             type: "bar",
-            barWidth: 6,
+            barWidth: 18,
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
+            //柱状图上数据（解决数据重叠后可以使用）
+            //  label: {
+            //     show: true,
+            //     position: 'top',
+            //     fontSize:'8'
+            // },
           },
           {
             name: "开井数",
             type: "bar",
-            barWidth: 6,
+            barWidth: 18,
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
           },
-          ,
+          
           {
             name: "总配注量",
             type: "bar",
-            barWidth: 6,
+            barWidth: 18,
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
               },
             },
           },
-          ,
+          
           {
             name: "总注水量",
             type: "bar",
-            barWidth: 6,
+            barWidth:18,
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -325,7 +360,7 @@ export default {
           {
             name: "正常井数",
             type: "bar",
-            barWidth: 6,
+            barWidth: 18,
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -336,7 +371,7 @@ export default {
           {
             name: "欠注井数",
             type: "bar",
-            barWidth: 6,
+            barWidth: 18,
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
@@ -346,7 +381,7 @@ export default {
           {
             name: "超注井数",
             type: "bar",
-            barWidth: 6,
+            barWidth: 18,
             itemStyle: {
               normal: {
                 barBorderRadius: [10, 10, 0, 0],
