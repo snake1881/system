@@ -1007,9 +1007,14 @@ export default {
           this.expands.push(row.inddsId);
           this.loadCollect = [];
           this.loadCollectLoad = true;
+          var beginTime ="";
+          beginTime =  row.acquisitionTime;
+          beginTime = beginTime.substring(0,10)+" 00:00:00";
           this.getRequest(
-            "/mountLiquid/liquidList?endTime=" +
+            "/mountLiquid/liquidListDesc?endTime=" +
               row.acquisitionTime +
+              "&beginTime="+
+              beginTime +
               "&wellId=" +
               row.wellId
           ).then((resp) => {
