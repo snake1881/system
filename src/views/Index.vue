@@ -648,7 +648,7 @@ export default {
             grid: {
               width: "90%",
               height: "75%",
-              top: 20,
+              top: 30,
               left: 50,
             },
             xAxis: {
