@@ -92,35 +92,9 @@
       </el-card>
     </div>
     <div class="main_middle">
-      <el-card class="main_middle_1" shadow="hover">
-        <div class="main_middle_1_item">
-          <div class="main_middle_1_item_span">GIS地图</div>
-          <!-- 
-          amap-manager： 地图管理对象
-          vid：地图容器节点的ID
-          zooms： 地图显示的缩放级别范围，在PC上，默认范围[3,18]，取值范围[3-18]；在移动设备上，默认范围[3-19]，取值范围[3-19]
-          center： 地图中心点坐标值
-          plugin：地图使用的插件
-          events： 事件
-           -->
-          <!-- <el-amap
-            ref="map"
-            vid="amapDemo"
-            :amap-manager="amapManager"
-            :zoom="zoom"
-            :center="center"
-            :plugin="plugin"
-            class="amap-demo"
-          /> -->
-          <img
-            src="../assets/images/index_gis.jpg"
-            style="height: 100%; width: 100%"
-          />
-        </div>
-      </el-card>
       <el-card class="main_middle_2" shadow="hover">
         <div class="main_middle_2_item">
-          <div class="main_middle_1_item_span">
+          <div class="main_middle_2_item_span">
             排采曲线
             <el-date-picker
               v-model="collectDatePicker"
@@ -165,14 +139,19 @@
               </el-switch>
             </el-tooltip>
           </div>
-          <div :style="{ width: '100%', height: '6px' }"></div>
-
           <div class="main_middle_2_item_content">
-            <div
-              id="paicai"
-              ref="Echart"
-              class="main_middle_2_item_content_collect"
-            />
+            <!-- 油井开井 -->
+            <div id="collectOil" class="paicaiChart" />
+            <!-- 水井开井 -->
+            <div id="collectWater" class="paicaiChart" />
+            <!-- 日产液 -->
+            <div id="collectDailyLiquid" class="paicaiChart" />
+            <!-- 日产油 -->
+            <div id="collectDailyOil" class="paicaiChart" />
+            <!-- 日注水量 -->
+            <div id="collectDailyWater" class="paicaiChart" />
+            <!-- 日配注量 -->
+            <div id="collectDailyWaterAllocation" class="paicaiChart" />
           </div>
         </div>
       </el-card>
@@ -364,7 +343,6 @@ export default {
     this.measureInit();
   },
   methods: {
-    //
     hreftwo() {
       this.$router.push({ path: "/Login" });
     },
@@ -378,9 +356,6 @@ export default {
     },
     // 排采曲线
     collectInit() {
-      console.log(this.collectDatePicker[0]);
-      console.log(this.collectDatePicker[1]);
-      console.log(this.collectLayerName);
       this.getRequest(
         "/homePage/drainageMining/selectDrainageMining?beginDate=" +
           this.collectDatePicker[0] +
@@ -391,52 +366,355 @@ export default {
       ).then((resp) => {
         if (resp) {
           this.colletcData(resp.data);
-          let dom = document.getElementById("paicai");
-          let myChart = echarts.init(dom);
-          myChart.setOption({
+          // 油井开井
+          let myChart1 = echarts.init(collectOil);
+          myChart1.setOption({
             tooltip: {
               trigger: "axis",
             },
             toolbox: {
               show: true,
               feature: {
-                // dataZoom: {
-                //     yAxisIndex: 'none'
-                // },
-                // dataView: {readOnly: false},
                 magicType: { type: ["line", "bar"] },
-                // restore: {},
                 saveAsImage: {},
               },
             },
             // 折线颜色
-            color: [
-              "#FF8888",
-              "#33FFFF",
-              "#FF33FF",
-              "red",
-              "#0000FF",
-              "#ABABAB",
-            ],
+            color: ["#FF9595"],
+            grid: {
+              width: "90%",
+              height: "75%",
+              top: 20,
+              left: 50,
+            },
             legend: {
-              data: [
-                "油井开井",
-                "水井开井",
-                "日产液",
-                "日产油",
-                "日注水量",
-                "日配注量",
-              ],
+              data: ["油井开井"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
               },
             },
             xAxis: {
-              // type:'time',
+              show: false,
+              data: this.collectDate,
+            },
+            yAxis: {
+              name: "油井数(口)",
+              type: "value",
+              axisLabel: {
+                textStyle: {
+                  color: "#333333", //更改坐标轴文字颜色
+                  fontSize: 12, //更改坐标轴文字大小
+                },
+              },
+              nameLocation: "middle",
+              nameTextStyle: {
+                padding: [0, 0, 15, 0],
+                fontSize: 12,
+              },
+              splitNumber: 4,
+              axisLine: {
+                lineStyle: { color: "#333333" },
+              },
+              splitLine: { show: false },
+            },
+            series: [
+              {
+                name: "油井开井",
+                type: "line",
+                data: this.collectOil,
+                yAxisIndex: 0,
+              },
+            ],
+          });
+          // 水井开井
+          let myChart2 = echarts.init(collectWater);
+          myChart2.setOption({
+            tooltip: {
+              trigger: "axis",
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                magicType: { type: ["line", "bar"] },
+                saveAsImage: {},
+              },
+            },
+            legend: {
+              data: ["水井开井"],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
+              },
+            },
+            // 折线颜色
+            color: ["#40E0F8"],
+            grid: {
+              width: "90%",
+              height: "75%",
+              top: 20,
+              left: 50,
+            },
+            xAxis: {
+              show: false,
+              data: this.collectDate,
+            },
+            yAxis: [
+              {
+                name: "水井数(口)",
+                type: "value",
+                axisLabel: {
+                  textStyle: {
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
+                  },
+                },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
+                splitNumber: 4,
+                // 轴线颜色
+                axisLine: {
+                  lineStyle: { color: "#333333" },
+                },
+                // 网格线
+                splitLine: { show: false },
+              },
+            ],
+            series: [
+              {
+                name: "水井开井",
+                type: "line",
+                data: this.collectWater,
+                yAxisIndex: 0,
+              },
+            ],
+          });
+          // 日产液
+          let myChart3 = echarts.init(collectDailyLiquid);
+          myChart3.setOption({
+            tooltip: {
+              trigger: "axis",
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                magicType: { type: ["line", "bar"] },
+                saveAsImage: {},
+              },
+            },
+            legend: {
+              data: ["日产液"],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
+              },
+            },
+            // 折线颜色
+            color: ["#FF00FF"],
+            grid: {
+              width: "90%",
+              height: "75%",
+              top: 20,
+              left: 50,
+            },
+            xAxis: {
+              show: false,
+              data: this.collectDate,
+            },
+            yAxis: [
+              {
+                name: "日产液(m^3)",
+                type: "value",
+                // 文字大小与颜色
+                axisLabel: {
+                  textStyle: {
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
+                  },
+                },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
+                splitNumber: 4,
+                // 轴线颜色
+                axisLine: {
+                  lineStyle: { color: "#333333" },
+                },
+                // 网格线
+                splitLine: { show: false },
+              },
+            ],
+            series: [
+              {
+                name: "日产液",
+                type: "line",
+                data: this.collectDailyLiquid,
+              },
+            ],
+          });
+          // 日产油
+          let myChart4 = echarts.init(collectDailyOil);
+          myChart4.setOption({
+            tooltip: {
+              trigger: "axis",
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                magicType: { type: ["line", "bar"] },
+                saveAsImage: {},
+              },
+            },
+            legend: {
+              data: ["日产油"],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
+              },
+            },
+            // 折线颜色
+            color: ["#FF0000"],
+            grid: {
+              width: "90%",
+              height: "75%",
+              top: 20,
+              left: 50,
+            },
+            xAxis: {
+              show: false,
+              data: this.collectDate,
+            },
+            yAxis: [
+              // 开井情况
+              {
+                name: "吨(t)",
+                type: "value",
+                // 文字大小与颜色
+                axisLabel: {
+                  textStyle: {
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
+                  },
+                },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
+                splitNumber: 4,
+                // 轴线颜色
+                axisLine: {
+                  lineStyle: { color: "#333333" },
+                },
+                // 网格线
+                splitLine: { show: false },
+              },
+            ],
+            series: [
+              {
+                name: "日产油",
+                type: "line",
+                data: this.collectDailyOil,
+              },
+            ],
+          });
+          // 日注水量
+          let myChart5 = echarts.init(collectDailyWater);
+          myChart5.setOption({
+            tooltip: {
+              trigger: "axis",
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                magicType: { type: ["line", "bar"] },
+                saveAsImage: {},
+              },
+            },
+            legend: {
+              data: ["日注水量"],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
+              },
+            },
+            // 折线颜色
+            color: ["#0606FF"],
+            grid: {
+              width: "90%",
+              height: "75%",
+              top: 20,
+              left: 50,
+            },
+            xAxis: {
+              show: false,
+              data: this.collectDate,
+            },
+            yAxis: [
+              {
+                name: "日注水(m^3)",
+                type: "value",
+                axisLabel: {
+                  textStyle: {
+                    color: "#333333", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
+                  },
+                },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
+                splitNumber: 4,
+                axisLine: {
+                  lineStyle: { color: "#333333" },
+                },
+                splitLine: { show: false },
+              },
+            ],
+            series: [
+              {
+                name: "日注水量",
+                type: "line",
+                data: this.collectDailyWater,
+              },
+            ],
+          });
+          // 日配注量
+          let myChart6 = echarts.init(collectDailyWaterAllocation);
+          myChart6.setOption({
+            tooltip: {
+              trigger: "axis",
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                magicType: { type: ["line", "bar"] },
+                saveAsImage: {},
+              },
+            },
+            legend: {
+              data: ["日配注量"],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
+              },
+            },
+            color: ["#AEDFFE"],
+            grid: {
+              width: "90%",
+              height: "55%",
+              top: 20,
+              left: 50,
+            },
+            xAxis: {
               boundaryGap: false,
               data: this.collectDate,
-              // 文字大小与颜色
               axisLabel: {
                 show: this.collectXAxisIsShow,
                 textStyle: {
@@ -452,87 +730,32 @@ export default {
               splitLine: { show: false },
             },
             yAxis: [
-              // 产液量
               {
-                name: "井口",
+                name: "日配注(m^3)",
                 type: "value",
-                // 文字大小与颜色
                 axisLabel: {
                   textStyle: {
                     color: "#333333", //更改坐标轴文字颜色
                     fontSize: 12, //更改坐标轴文字大小
                   },
                 },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
                 splitNumber: 3,
-                // 轴线颜色
                 axisLine: {
                   lineStyle: { color: "#333333" },
                 },
-                // 网格线
-                splitLine: { show: false },
-              },
-              // 开井情况
-              {
-                name: "吨(m)",
-                type: "value",
-                // 文字大小与颜色
-                axisLabel: {
-                  textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
-                    fontSize: 12, //更改坐标轴文字大小
-                  },
-                },
-                splitNumber: 3,
-                // 轴线颜色
-                axisLine: {
-                  lineStyle: { color: "#333333" },
-                },
-                // 网格线
                 splitLine: { show: false },
               },
             ],
-            grid: {
-              width: "90%",
-              height: "68%",
-              left: "5%",
-              top: "20%",
-            },
             series: [
-              {
-                name: "油井开井",
-                type: "line",
-                data: this.collectOil,
-                yAxisIndex: 0,
-              },
-              {
-                name: "水井开井",
-                type: "line",
-                data: this.collectWater,
-                yAxisIndex: 0,
-              },
-              {
-                name: "日产液",
-                type: "line",
-                data: this.collectDailyLiquid,
-                yAxisIndex: 1,
-              },
-              {
-                name: "日产油",
-                type: "line",
-                data: this.collectDailyOil,
-                yAxisIndex: 1,
-              },
-              {
-                name: "日注水",
-                type: "line",
-                data: this.collectDailyWater,
-                yAxisIndex: 1,
-              },
               {
                 name: "日配注量",
                 type: "line",
                 data: this.collectDailyWaterAllocation,
-                yAxisIndex: 1,
               },
             ],
           });
@@ -1155,9 +1378,6 @@ export default {
 @import "../assets/css/home/index.css";
 </style>
 <style>
-.el-main .el-vue-amap-container {
-  height: 340px;
-}
 .main .el-card__body {
   padding: 0;
 }

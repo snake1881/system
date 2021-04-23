@@ -22,6 +22,14 @@
         >
           {{ item.name }}
         </el-menu-item>
+        <el-menu-item>
+          <el-link
+            href="http://javacore.vicp.net:8891"
+            target="_blank"
+            style="text-decoration: none; font-size: 14px"
+            >海联石化</el-link
+          >
+        </el-menu-item>
       </el-menu>
     </div>
     <!-- 用户信息 -->
@@ -106,7 +114,6 @@
   </div>
 </template>
 <script>
-
 export default {
   data() {
     return {

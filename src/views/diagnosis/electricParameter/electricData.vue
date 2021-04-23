@@ -38,12 +38,22 @@
           >查询</el-button
         >
       </el-form-item>
+      <el-form-item>
+        <el-button
+          icon="el-icon-download"
+          size="mini"
+          type="primary"
+          @click="exportElectricExcel()"
+          >导出</el-button
+        >
+      </el-form-item>
     </el-form>
     <el-table
       :data="electricDataTable"
       height="85%"
       border
       v-loading="loading"
+      @selection-change="handleSelectionChange"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       :header-cell-style="{
@@ -53,6 +63,7 @@
       }"
       :cell-style="{ 'text-align': 'center', padding: 6 + 'px' }"
     >
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column type="index" label="序号" width="80" />
       <el-table-column label="站名" prop="oilStationName" />
       <el-table-column label="油井" prop="wellName" />
@@ -66,7 +77,7 @@
         prop="tphaseEqualizationRatio"
         width="100"
       />
-      <el-table-column label="操作" fixed="right">
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -79,6 +90,9 @@
             size="small"
             @click="checkElectricData(scope.row)"
             >查看曲线</el-button
+          >
+          <el-button type="text" size="small" @click="exportElectricExcel()"
+            >导出</el-button
           >
         </template>
       </el-table-column>
@@ -174,7 +188,7 @@
       :current-page.sync="currentPage"
       :page-size="pageSize"
       :total="total"
-      :page-sizes="[10, 20, 30, 40, 50]"
+      :page-sizes="[10, 20, 50, 100, 500]"
       layout="total, prev, pager, next, jumper, sizes"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -216,6 +230,8 @@ export default {
       oilPressureChart: [], // 油井压力曲线
       liquidProdChart: [], //产液量曲线
       tphaseEqualizationRatioChart: [], // 三相均衡率曲线
+      //   表格多选
+      selectData: [],
     };
   },
   created() {
@@ -322,6 +338,12 @@ export default {
         tooltip: {
           trigger: "axis",
         },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
+        },
         color: ["#2485e0"],
         xAxis: {
           data: this.electricDataTime,
@@ -374,6 +396,12 @@ export default {
       myChart2.setOption({
         tooltip: {
           trigger: "axis",
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
         },
         color: ["#2485e0"],
         xAxis: {
@@ -429,6 +457,12 @@ export default {
           trigger: "axis",
         },
         color: ["#2485e0"],
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
+        },
         xAxis: {
           data: this.electricDataTime,
           axisLine: {
@@ -480,6 +514,12 @@ export default {
       myChart4.setOption({
         tooltip: {
           trigger: "axis",
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
         },
         color: ["#2485e0"],
         xAxis: {
@@ -534,6 +574,12 @@ export default {
         tooltip: {
           trigger: "axis",
         },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
+        },
         color: ["#2485e0"],
         xAxis: {
           data: this.electricDataTime,
@@ -586,6 +632,12 @@ export default {
       myChart6.setOption({
         tooltip: {
           trigger: "axis",
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
         },
         color: ["#2485e0"],
         xAxis: {
@@ -640,6 +692,12 @@ export default {
         tooltip: {
           trigger: "axis",
         },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
+        },
         color: ["#2485e0"],
         xAxis: {
           data: this.electricDataTime,
@@ -693,6 +751,12 @@ export default {
         tooltip: {
           trigger: "axis",
         },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
+        },
         color: ["#2485e0"],
         xAxis: {
           data: this.electricDataTime,
@@ -745,6 +809,12 @@ export default {
       myChart9.setOption({
         tooltip: {
           trigger: "axis",
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            saveAsImage: {},
+          },
         },
         color: ["#2485e0"],
         xAxis: {
@@ -817,6 +887,49 @@ export default {
         this.liquidProdChart[i] = val[i].liquidProd;
         this.tphaseEqualizationRatioChart[i] = val[i].tphaseEqualizationRatio;
       }
+    },
+    // 表格多选
+    handleSelectionChange(val) {
+      this.selectData = JSON.parse(JSON.stringify(val));
+      // for (var i = 0; i < this.selectData.length; i++) {
+      //   this.selectData[i].startTime = this.timeFormat(
+      //     this.selectData[i].startTime
+      //   );
+      // }
+    },
+    // 文件导出
+    exportElectricExcel() {
+      const { export_json_to_excel } = require("@/vendor/Export2Excel");
+      const tHeader = [
+        "站名",
+        "油井",
+        "时间",
+
+        "油压",
+        "电压",
+        "上行最大",
+
+        "下行最大",
+        "平衡度",
+      ];
+      const filterVal = [
+        "oilStationName",
+        "wellName",
+        "testTime",
+
+        "oilPressure",
+        "electricVoltage",
+        "maxElectric",
+
+        "minElectric",
+        "tphaseEqualizationRatio",
+      ];
+      const list = this.selectData;
+      const data = this.formatJson(filterVal, list);
+      export_json_to_excel(tHeader, data, "电流数据");
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

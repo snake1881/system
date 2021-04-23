@@ -181,7 +181,25 @@
         :before-close="innerDcClose"
         append-to-body
       >
-        <div class="gtDialog">
+        <el-row>
+          <el-button
+            type="success"
+            plain
+            size="small"
+            style="float: right"
+            @click="dcOverlap()"
+            >电流图叠加</el-button
+          >
+          <el-button
+            type="success"
+            plain
+            size="small"
+            style="float: right"
+            @click="dcEnlarge()"
+            >电流图放大</el-button
+          >
+        </el-row>
+        <div class="gtDialog" v-if="dcFlag === 1">
           <div class="gtDialog_left">
             <div id="dc" style="height: 300px; width: 300px" />
           </div>
@@ -211,6 +229,9 @@
               >平衡度：{{ currentData.tphaseEqualizationRatio }}%</span
             >
           </div>
+        </div>
+        <div v-if="dcFlag === 2">
+          <div id="dc2" style="height: 300px; width: 500px" />
         </div>
       </el-dialog>
     </el-dialog>
@@ -250,13 +271,19 @@ export default {
       innerDcVisible: false,
       currentData: {},
       gtFlag: 1,
+      dcFlag: 1,
 
+      // 功图叠加数据
       electricryList: [],
       coordinates: [[]],
-      //功图叠加处理后数据
       superpositionCoordinatesData: [[[]]],
-      //功图叠加示例数据
       superpositionLegend: [],
+
+      // 电流图叠加数据
+      dcList: [],
+      dcCoordinates: [[]],
+      dcSuperpositionCoordinatesData: [[[]]],
+      dcSuperpositionLegend: [],
       // 分页
       currentPage: 1,
       pageSize: 10,
@@ -578,6 +605,7 @@ export default {
     },
     innerDcClose() {
       this.innerDcVisible = false;
+      this.dcFlag = 1;
     },
     dcChart() {
       var domGt = document.getElementById("dc");
@@ -665,7 +693,7 @@ export default {
         if (resp) {
           this.electricryList = resp.data;
           for (var i = 0; i < this.electricryList.length; i++) {
-            this.coordinate2(this.electricryList[i]);
+            this.coordinate2(this.electricryList[i], "gtOverlap");
             this.superpositionLegend[i] = this.electricryList[
               i
             ].acquisitionTime;
@@ -675,17 +703,31 @@ export default {
         }
       });
     },
-    coordinate2(val) {
-      //每次处理之前保证坐标数组集合为空
-      this.coordinates = [[]];
-      var displacementSetElectArray = val.displacementSet.split(";");
-      var electricitySetArray = val.loadSet.split(";");
-      for (var i = 0; i < displacementSetElectArray.length; i++) {
-        this.coordinates[i] = [];
-        this.coordinates[i][0] = parseFloat(displacementSetElectArray[i]);
-        this.coordinates[i][1] = parseFloat(electricitySetArray[i]);
+    coordinate2(val, val2) {
+      if (val2 === "gtOverlap") {
+        //示功图叠加数据处理
+        this.coordinates = [[]];
+        var displacementSetElectArray = val.displacementSet.split(";");
+        var electricitySetArray = val.loadSet.split(";");
+        for (var i = 0; i < displacementSetElectArray.length; i++) {
+          this.coordinates[i] = [];
+          this.coordinates[i][0] = parseFloat(displacementSetElectArray[i]);
+          this.coordinates[i][1] = parseFloat(electricitySetArray[i]);
+        }
+        return this.coordinates;
       }
-      return this.coordinates;
+      if (val2 === "dcOverlap") {
+        //  电流图叠加数据处理
+        this.dcCoordinates = [[]];
+        var displacementSetDcArray = val.displacementSetElect.split(";");
+        var dcSetArray = val.electricitySet.split(";");
+        for (var i = 0; i < displacementSetDcArray.length; i++) {
+          this.dcCoordinates[i] = [];
+          this.dcCoordinates[i][0] = parseFloat(displacementSetDcArray[i]);
+          this.dcCoordinates[i][1] = parseFloat(dcSetArray[i]);
+        }
+        return this.dcCoordinates;
+      }
     },
     //汇制功图叠加
     drawSuperposition() {
@@ -768,6 +810,112 @@ export default {
       setTimeout(() => {
         t.gtChart();
       }, 0);
+    },
+    // 电流图叠加按钮
+    dcOverlap() {
+      this.dcFlag = 2;
+      let time = this.currentData.testTime.substr(0, 10);
+      this.dcList = [];
+      this.dcCoordinates = [[]];
+      this.dcSuperpositionCoordinatesData = [[[]]];
+      this.dcSuperpositionLegend = [];
+      this.getRequest(
+        "/tile/electric/selectElectInWeek?testTime=" +
+          time +
+          "&wellId=" +
+          this.currentData.wellId
+      ).then((resp) => {
+        if (resp) {
+          console.log(resp.data);
+          this.dcList = resp.data;
+          for (var i = 0; i < this.dcList.length; i++) {
+            this.coordinate2(this.dcList[i], "dcOverlap");
+            this.dcSuperpositionLegend[i] = this.dcList[i].testTime;
+            this.dcSuperpositionCoordinatesData[i] = this.dcCoordinates;
+          }
+          this.drawDcSuperposition();
+        }
+      });
+    },
+    // 电流图放大按钮
+    dcEnlarge() {
+      this.dcFlag = 1;
+      const t = this;
+      setTimeout(() => {
+        t.dcChart();
+      }, 0);
+    },
+    //汇制电流图叠加
+    drawDcSuperposition() {
+      var dom = "";
+      dom = document.getElementById("dc2");
+      let myChart = echarts.init(dom);
+      myChart.clear();
+      let seriesSuperposition = [];
+      for (var i = 0; i < this.dcSuperpositionCoordinatesData.length; i++) {
+        seriesSuperposition[i] = {
+          symbol: "none",
+          name: this.dcList[i].testTime,
+          data: this.dcSuperpositionCoordinatesData[i],
+          type: "line",
+          smooth: true,
+          lineStyle: {
+            width: 1.5,
+          },
+        };
+      }
+      myChart.setOption({
+        title: {
+          x: "center",
+          text: "井号：" + this.dcList[0].wellName + "功图叠加",
+          top: "7%",
+          textStyle: {
+            fontSize: 13,
+            fontStyle: "normal",
+            fontWeight: "bolder",
+          },
+        },
+        legend: {
+          type: "scroll",
+          data: this.dcSuperpositionLegend,
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "line",
+          },
+        },
+        grid: {
+          left: "6%",
+          right: "3%",
+          bottom: "15%",
+          top: "20%",
+          containLabel: true,
+        },
+        xAxis: {
+          name: "位移(M)",
+          nameLocation: "middle",
+          min: 0,
+          max: 4,
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [10, 0, 0, 0],
+            fontSize: 10,
+          },
+        },
+        yAxis: {
+          name: "电流(A)",
+          nameLocation: "middle",
+          type: "value",
+          axisLine: { onZero: false },
+          nameTextStyle: {
+            padding: [0, 0, 8, 0],
+            fontSize: 10,
+          },
+        },
+        series: seriesSuperposition,
+      });
     },
     // 分页，页码大小改变
     handleSizeChange(val) {

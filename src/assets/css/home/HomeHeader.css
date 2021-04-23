@@ -8,7 +8,7 @@
 }
 
 .container_left {
-    width: 50%;
+    width: 40%;
     display: flex;
     flex-direction: row;
 }
@@ -27,7 +27,7 @@
 }
 
 .container_middle {
-    width: 44%;
+    width: 54%;
 }
 
 .container_right {
@@ -40,7 +40,7 @@
 .container_right_notice {
     width: 35%;
     height: 18%;
-    margin:25% 10% 1% 10%;
+    margin: 25% 10% 1% 10%;
 }
 
 .container_right_notice_scrollbar {
@@ -87,9 +87,6 @@
     margin-top: 31%;
 }
 
-.header-el-menu{
+.header-el-menu {
     background-image: linear-gradient(#4e70ad, #3e4372);
 }
-
-  
-  
