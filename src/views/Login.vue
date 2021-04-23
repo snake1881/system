@@ -129,6 +129,7 @@ export default {
         if (valid) {
           this.postKeyValueRequest("/login", this.sysUserLogin).then((resp) => {
             if (resp) {
+              console.log(resp);
               if (resp.code === 200) {
                 this.$store.commit("INIT_CURRENTHR", resp.data);
                 window.sessionStorage.setItem(
@@ -138,7 +139,7 @@ export default {
                 websocket.Init();
                 this.$router.replace("/Home");
               } else {
-                this.$message("账号或密码错误，请重新输入");
+                this.$message(resp.message);
               }
             }
           });

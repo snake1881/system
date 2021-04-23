@@ -118,13 +118,13 @@
         prop="stroke"
         align="center"
         label="冲程(M)"
-        width="90"
+        width="80"
       />
       <el-table-column
         prop="frequency"
         align="center"
         label="冲次"
-        width="90"
+        width="80"
       />
       <el-table-column
         prop="timeDiffer"
@@ -172,13 +172,19 @@
         prop="liquidProd"
         align="center"
         label="24小时产液量"
-        width="140"
+        width="120"
       />
        <el-table-column
         prop="waterContent"
         align="center"
         label="含水率(%)"
-        width="100"
+        width="90"
+      />
+      <el-table-column
+        prop="tempreTure"
+        align="center"
+        label="含水温度(℃)"
+        width="90"
       />
       <el-table-column align="center" label="操作" width="130" fixed="right">
         <template slot-scope="scope">
