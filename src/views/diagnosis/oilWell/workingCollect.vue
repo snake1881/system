@@ -993,7 +993,7 @@ export default {
         this.rowChangeId = this.getRowKeys(row);
       } else {
         this.$refs.work_collect_table.toggleRowExpansion(row, false);
-        this.rowChangeId = '';
+        this.rowChangeId = "";
       }
     },
     // 控制展开与关闭行
@@ -1007,13 +1007,13 @@ export default {
           this.expands.push(row.inddsId);
           this.loadCollect = [];
           this.loadCollectLoad = true;
-          var beginTime ="";
-          beginTime =  row.acquisitionTime;
-          beginTime = beginTime.substring(0,10)+" 00:00:00";
+          var beginTime = "";
+          beginTime = row.acquisitionTime;
+          beginTime = beginTime.substring(0, 10) + " 00:00:00";
           this.getRequest(
             "/mountLiquid/liquidListDesc?endTime=" +
               row.acquisitionTime +
-              "&beginTime="+
+              "&beginTime=" +
               beginTime +
               "&wellId=" +
               row.wellId
@@ -1175,6 +1175,7 @@ export default {
       // 基于准备好的dom，初始化echarts实例
       let dom = document.getElementById("myChart" + val);
       let myChart = this.$echarts.init(dom);
+      myChart.clear();
       // 绘制图表
       myChart.setOption(
         {
@@ -1341,6 +1342,7 @@ export default {
         dom = document.getElementById(this.$refs.dom2.id);
       }
       let myChart = echarts.init(dom);
+      myChart.clear();
       // 绘制图表
       if (val === 0) {
         myChart.setOption({
@@ -1535,6 +1537,7 @@ export default {
       let dom = "";
       dom = document.getElementById(this.$refs.dom3.id);
       let myChart = echarts.init(dom);
+      myChart.clear();
       console.log(dom);
       console.log(myChart);
       // 绘制图表
@@ -1753,6 +1756,7 @@ export default {
       let myChart = this.$echarts.init(
         document.getElementById("amountLiquidChart")
       );
+      myChart.clear();
       // 绘制图表
       myChart.setOption({
         title: {
@@ -1949,6 +1953,7 @@ export default {
         this.loadArray2[i][1] = this.loadData[i].avgMinLoad;
         this.loadArray3[i][1] = this.loadData[i].loadDiffer;
         let myChart = this.$echarts.init(document.getElementById("loadChart"));
+        myChart.clear();
         // 绘制图表
         myChart.setOption({
           title: {
@@ -2176,6 +2181,7 @@ export default {
       let dom = "";
       dom = document.getElementById(this.$refs.superpositionChart.id);
       let myChart = echarts.init(dom);
+      myChart.clear();
       let seriesSuperposition = [];
       console.log(this.superpositionData);
       for (var i = 0; i < this.superpositionCoordinatesData.length; i++) {
@@ -2352,6 +2358,7 @@ export default {
     confirmResultDrawLine(val) {
       let dom = document.getElementById(this.$refs.confirmResult_dom.id);
       let myChart = echarts.init(dom);
+      myChart.clear();
       myChart.setOption({
         title: {
           x: "center",
@@ -2465,7 +2472,6 @@ export default {
       setTimeout(() => {
         this.step();
       }, 10);
-      this.gtDataSearch();
     },
     // 功图平铺分页，当前页改变
     handleCurrentChangeGt(val) {
@@ -2474,7 +2480,6 @@ export default {
       setTimeout(() => {
         this.step();
       }, 10);
-      this.gtDataSearch();
     },
   },
 };

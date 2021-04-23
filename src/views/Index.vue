@@ -229,7 +229,23 @@
       </el-card>
       <el-card class="main_between_2" shadow="hover">
         <div class="main_between_2_item">
-          <div class="main_between_1_item_span">措施情况</div>
+          <div class="main_between_1_item_span">措施情况
+            <el-date-picker
+              v-model="measureDate"
+              type="month"
+              editable
+              clearable
+              size="mini"
+              height="3%"
+              padding="2% 2%"
+              align="center"
+              format="yyyy-MM"
+              value-format="yyyy-MM"
+              @change="measureInit()"
+              placeholder="日期"
+            >
+            </el-date-picker>
+          </div>
           <div :style="{ width: '100%', height: '6px' }"></div>
           <div id="measure" class="main_between_2_item_measure"></div>
         </div>
@@ -295,14 +311,16 @@ export default {
       waterUnder: "",
       // 超注井数
       waterOver: "",
+      //措施查询时间
+      measureDate:"",
       // 措施站
       measureStationName: [],
       // 措施井
       measureOperation: [],
-      // 措施完成井
-      measureOperationFinish: [],
-      // 措施中井
-      measureOperationNotFinish: [],
+      // 常规井
+      operationConventional: [],
+      // 技改井
+      operationTechnicalTrans: [],
       // 排采曲线日期
       collectDate: [],
       // 排采曲线油井开井
@@ -1242,7 +1260,7 @@ export default {
     },
     // 措施情况
     measureInit() {
-      this.getRequest("/homePage/measureCondition/selectMeasureCondition").then(
+      this.getRequest("/homePage/measureCondition/selectMeasureCondition?initiateDate="+this.measureDate).then(
         (resp) => {
           if (resp) {
             this.measureData(resp.data);
@@ -1256,9 +1274,9 @@ export default {
                 left: "5%",
                 top: "8%",
               },
-              color: ["#57c5d9", "#0fc75c", "#ed6741"],
+              color: ["#57c5d9", "#0fc75c"],
               legend: {
-                data: ["措施井", "措施完成井", "措施中井"],
+                data: ["技改井", "常规井"],
                 textStyle: {
                   color: "#333333",
                   fontSize: 12,
@@ -1299,25 +1317,18 @@ export default {
               },
               series: [
                 {
-                  name: "措施井",
+                  name: "技改井",
                   type: "bar",
                   stack: "使用情况",
                   barWidth: 20,
-                  data: this.measureOperation,
+                  data: this.operationTechnicalTrans,
                 },
                 {
-                  name: "措施完成井",
+                  name: "常规井",
                   type: "bar",
                   stack: "使用情况",
                   barWidth: 20,
-                  data: this.measureOperationFinish,
-                },
-                {
-                  name: "措施中井",
-                  type: "bar",
-                  stack: "使用情况",
-                  barWidth: 20,
-                  data: this.measureOperationNotFinish,
+                  data: this.operationConventional,
                 },
               ],
             });
@@ -1330,8 +1341,8 @@ export default {
       for (var i = 0; i < val.length; i++) {
         this.measureStationName[i] = val[i].oilStationName;
         this.measureOperation[i] = val[i].wellOperation;
-        this.measureOperationFinish[i] = val[i].operationFinish;
-        this.measureOperationNotFinish[i] = val[i].operationNotFinish;
+        this.operationConventional[i] = val[i].operationConventional;
+        this.operationTechnicalTrans[i] = val[i].operationTechnicalTrans;
       }
     },
     //日期初始化
