@@ -77,10 +77,10 @@
     >
       <el-table-column prop="wellName" label="井号" width="100" />
       <el-table-column prop="oilStationName" label="采油站" width="120" />
-      <el-table-column prop="injectionAllocation" label="配注量" width="100" />
-      <el-table-column prop="injectionTime" label="注水时间" width="80" />
-      <el-table-column prop="waterInjection" label="当前注水量" width="100" />
-      <el-table-column prop="startTotalFlow" label="起始累计流量" width="140" />
+      <el-table-column prop="injectionAllocation" label="配注量(m³)" width="100" />
+      <el-table-column prop="injectionTime" label="注水时间(h)" width="100"/>
+      <el-table-column prop="waterInjection" label="当前注水量(m³)" width="125" />
+      <el-table-column prop="startTotalFlow" label="起始累计流量(m³)" width="140" />
       <el-table-column
         prop="separatorPressure"
         label="分水器压力(Mpa)"
