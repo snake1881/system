@@ -51,8 +51,8 @@
       <el-table-column type="index" label="序号" width="80" />
       <el-table-column label="井号" prop="wellName" width="100" />
       <el-table-column label="测试时间" prop="testTime" width="180" />
-      <el-table-column label="冲程" prop="stroke" />
-      <el-table-column label="冲次" prop="frequency" width="100" />
+      <el-table-column label="冲程" prop="stroke" width="70" />
+      <el-table-column label="冲次" prop="frequency" width="70" />
       <el-table-column label="示功图">
         <el-table-column label="最大负荷" prop="maxLoad" />
         <el-table-column label="最小负荷" prop="minLoad" width="100" />

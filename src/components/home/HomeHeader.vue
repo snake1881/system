@@ -30,6 +30,13 @@
             >海联石化</el-link
           >
         </el-menu-item>
+        <el-menu-item>
+          <el-link
+            @click="Openxinjina()"
+            style="text-decoration: none; font-size: 14px"
+            >新吉纳</el-link
+          >
+        </el-menu-item>
       </el-menu>
     </div>
     <!-- 用户信息 -->
@@ -266,6 +273,36 @@ export default {
         ":" +
         second;
       return currentdate;
+    },
+    Openxinjina() {
+      var temForm = document.createElement("form");
+      temForm.action = "http://10.30.102.10/oauthnew/";
+      temForm.method = "post";
+      temForm.target = "_blank";
+      temForm.style.display = "none";
+
+      var opt = document.createElement("textarea");
+      opt.name = "CMD"; //参数名
+      opt.value = "Login"; //参数值
+      temForm.appendChild(opt);
+
+      opt = document.createElement("textarea");
+      opt.name = "KEY"; //参数名
+      opt.value = "6A450512-98C9-4FDF-8EA9-FC6FD6A8A8B0"; //参数值
+      temForm.appendChild(opt);
+
+      opt = document.createElement("textarea");
+      opt.name = "TOKEN"; //参数名
+      opt.value = "77CECB6611EF4223DC990AD8A5C0DFE9 "; //参数值
+      temForm.appendChild(opt);
+
+      opt = document.createElement("textarea");
+      opt.name = "USERID"; //参数名
+      opt.value = "B2EE358B-C75D-400C-9381-841EF9B05909"; //参数值
+      temForm.appendChild(opt);
+
+      document.body.appendChild(temForm);
+      temForm.submit();
     },
   },
 };
