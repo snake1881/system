@@ -512,7 +512,7 @@ export default {
               },
               x: "right",
             },
-            color: ["#2485e0", "#ec8e25"],
+            color: ["#FF0000", "#FF00FF"],
             grid: {
               width: "92%",
               height: "63%",
@@ -588,7 +588,7 @@ export default {
               },
               x: "right",
             },
-            color: ["#2485e0"],
+            color: ["#00FF00"],
             grid: {
               width: "92%",
               height: "63%",
@@ -688,7 +688,7 @@ export default {
               },
               x: "right",
             },
-            color: ["#ec8e25"],
+            color: ["#800080"],
             grid: {
               width: "90%",
               height: "62%",
