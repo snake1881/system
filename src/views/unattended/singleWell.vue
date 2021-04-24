@@ -512,7 +512,7 @@ export default {
               },
               x: "right",
             },
-            color: ["#FF0000", "#FF00FF"],
+            color: ["#FF00FF", "#FF0000"],
             grid: {
               width: "92%",
               height: "63%",
