@@ -184,7 +184,7 @@
         prop="tempreTure"
         align="center"
         label="含水温度(℃)"
-        width="90"
+        width="110"
       />
       <el-table-column align="center" label="操作" width="130" fixed="right">
         <template slot-scope="scope">
@@ -282,6 +282,7 @@ export default {
         "日累产液",
         "24小时产液量",
         "含水率(%)",
+        "含水温度(℃)",
       ];
       const filterVal = [
         "wellName",
@@ -297,6 +298,7 @@ export default {
         "dayProd",
         "liquidProd",
         "waterContent",
+        "tempreTure",
       ];
       const list = this.selectData;
       const data = this.formatJson(filterVal, list);
