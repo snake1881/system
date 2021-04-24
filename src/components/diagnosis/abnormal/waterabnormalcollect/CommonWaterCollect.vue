@@ -164,32 +164,32 @@
           />
           <el-table-column
             prop="drPumpPressure"
-            label="泵压(MPA)"
+            label="泵压(Mpa)"
             width="100"
             align="center"
           />
           <el-table-column
             prop="separatorPressure"
-            label="分水器压力(MPA)"
+            label="分水器压力(Mpa)"
             width="150"
             align="center"
           />
           <el-table-column
             prop="drPipePressure"
-            label="管压(MPA)"
+            label="管压(Mpa)"
             width="100"
             align="center"
           />
           <el-table-column
             prop="drWellheadPressure"
-            label="油压(MPA)"
+            label="油压(Mpa)"
             width="100"
             align="center"
           />
           
           <el-table-column
             prop="drCasingPressure"
-            label="套压(MPA)"
+            label="套压(Mpa)"
             width="100"
             align="center"
           />
