@@ -73,7 +73,7 @@
       }"
     >
       <el-table-column prop="wellName" label="井号" width="100" />
-      <el-table-column prop="drInjectionTime" label="生产时间" width="100" />
+      <el-table-column prop="drInjectionTime" label="生产时间(h)" width="100" />
       <el-table-column prop="abnormalType" label="诊断结果" width="100">
         <template slot-scope="scope">
           <p v-if="scope.row.abnormalType == '0'">正常</p>
@@ -84,22 +84,22 @@
       <el-table-column prop="oilStationName" label="采油站" width="120" />
       <el-table-column
         prop="drInjectionAllocation"
-        label="配注量"
+        label="配注量(m³)"
         width="100"
       />
       <el-table-column
         prop="drWaterInjection"
-        label="注水量"
+        label="注水量(m³)"
         width="100"
         show-overflow-tooltip
       />
       <el-table-column prop="abnormalReason" label="详细诊断" width="120" />
 
-      <el-table-column prop="drPumpPressure" label='泵压(M3)' width="100" ></el-table-column>
-      <el-table-column prop="separatorPressure" label="分水器压力(M3)" width="150" />
-      <el-table-column prop="drPipePressure" label="管压(M3)" width="100" />
-      <el-table-column prop="drWellheadPressure" label="油压(M3)" width="100" />
-      <el-table-column prop="drCasingPressure" label="套压(M3)" width="100" />
+      <el-table-column prop="drPumpPressure" label='泵压(Mpa)' width="100" ></el-table-column>
+      <el-table-column prop="separatorPressure" label="分水器压力(Mpa)" width="150" />
+      <el-table-column prop="drPipePressure" label="管压(Mpa)" width="100" />
+      <el-table-column prop="drWellheadPressure" label="油压(Mpa)" width="100" />
+      <el-table-column prop="drCasingPressure" label="套压(Mpa)" width="100" />
       <el-table-column
         prop="drRemark"
         label="备注"
