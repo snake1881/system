@@ -2,7 +2,7 @@
   <div class="header_container">
     <div class="container_left">
       <img class="container_left_img" src="../../assets/images/logo2.png" />
-      <span class="container_left_text">定边采油厂一体化信息平台</span>
+      <span class="container_left_text">油水井管控信息平台</span>
     </div>
     <!-- 导航栏 -->
     <div class="container_middle">
