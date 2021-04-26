@@ -1112,7 +1112,7 @@ export default {
               dataset: {
                 source: [
                   ["score", "number", "wellName"],
-                  [1, resp.data.wellOpen, "正常井"],
+                  [1, resp.data.wellNormal, "正常井"],
                   [31, resp.data.oneLevel, "漏失,断杆"],
                   [57, resp.data.twoLevel, "载荷异常"],
                   [77, resp.data.threeLevel, "严重供液不足"],
