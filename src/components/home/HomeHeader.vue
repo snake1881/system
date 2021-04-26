@@ -37,6 +37,14 @@
             >新吉纳</el-link
           >
         </el-menu-item>
+        <el-menu-item>
+          <el-link
+            href="http://mciot.net:7003/?token=OWU4MTRkMTAtMjFiMi00Zjc0LWIxOWQtMzA1YjUyNTg4NTdl"
+            target="_blank"
+            style="text-decoration: none; font-size: 14px"
+            >国仪注水</el-link
+          >
+        </el-menu-item>
       </el-menu>
     </div>
     <!-- 用户信息 -->
