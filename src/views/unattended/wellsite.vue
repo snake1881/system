@@ -120,7 +120,9 @@
                 >3</sup
               ></span
             >
-            <span class="wellsite_right_waterWell_details_dec_span"
+            <span
+              class="wellsite_right_waterWell_details_dec_span"
+              v-if="item.diagnosisResult !== null"
               >工况诊断:
               <span style="color: #2cab6f">{{
                 item.diagnosisResult
@@ -128,7 +130,13 @@
             >
             <span
               class="wellsite_right_waterWell_details_dec_span"
-              v-if="item.diagnosisResult !== '正常'"
+              v-if="item.diagnosisResult === null"
+              >工况诊断:
+              <span style="color: #e62c2c">停井修复无工况</span></span
+            >
+            <span
+              class="wellsite_right_waterWell_details_dec_span"
+              v-if="item.abnormalities !== null"
               >异常情况:
               <span style="color: #e62c2c">
                 {{ item.abnormalities }}</span
@@ -136,7 +144,7 @@
             >
             <span
               class="wellsite_right_waterWell_details_dec_span"
-              v-if="item.diagnosisResult === '正常'"
+              v-if="item.abnormalities === null"
               >异常情况: <span style="color: #e62c2c"> 无</span></span
             >
           </div>

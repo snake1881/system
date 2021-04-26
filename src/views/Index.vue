@@ -92,6 +92,15 @@
       </el-card>
     </div>
     <div class="main_middle">
+      <el-card class="main_middle_1">
+        <div class="main_middle_2_item">
+          <div class="main_middle_2_item_span">GIS地图</div>
+          <img
+            src="../assets/images/index_gis.jpg"
+            style="height: 100%; width: 100%"
+          />
+        </div>
+      </el-card>
       <el-card class="main_middle_2" shadow="hover">
         <div class="main_middle_2_item">
           <div class="main_middle_2_item_span">
@@ -229,7 +238,8 @@
       </el-card>
       <el-card class="main_between_2" shadow="hover">
         <div class="main_between_2_item">
-          <div class="main_between_1_item_span">措施情况
+          <div class="main_between_1_item_span">
+            措施情况
             <el-date-picker
               v-model="measureDate"
               type="month"
@@ -312,7 +322,7 @@ export default {
       // 超注井数
       waterOver: "",
       //措施查询时间
-      measureDate:"",
+      measureDate: "",
       // 措施站
       measureStationName: [],
       // 措施井
@@ -1260,81 +1270,82 @@ export default {
     },
     // 措施情况
     measureInit() {
-      this.getRequest("/homePage/measureCondition/selectMeasureCondition?initiateDate="+this.measureDate).then(
-        (resp) => {
-          if (resp) {
-            this.measureData(resp.data);
-            let dom = document.getElementById("measure");
-            let myChart = echarts.init(dom);
-            myChart.setOption({
-              tooltip: { trigger: "axis" },
-              grid: {
-                width: "94%",
-                height: "70%",
-                left: "5%",
-                top: "8%",
+      this.getRequest(
+        "/homePage/measureCondition/selectMeasureCondition?initiateDate=" +
+          this.measureDate
+      ).then((resp) => {
+        if (resp) {
+          this.measureData(resp.data);
+          let dom = document.getElementById("measure");
+          let myChart = echarts.init(dom);
+          myChart.setOption({
+            tooltip: { trigger: "axis" },
+            grid: {
+              width: "94%",
+              height: "70%",
+              left: "5%",
+              top: "8%",
+            },
+            color: ["#57c5d9", "#0fc75c"],
+            legend: {
+              data: ["技改井", "常规井"],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
               },
-              color: ["#57c5d9", "#0fc75c"],
-              legend: {
-                data: ["技改井", "常规井"],
+            },
+            xAxis: {
+              data: this.measureStationName,
+              splitLine: { show: false },
+              // 文字大小与颜色
+              axisLabel: {
+                show: true,
+                interval: 0, //这个一定要有，别忘记了
+                rotate: 55,
                 textStyle: {
-                  color: "#333333",
-                  fontSize: 12,
+                  color: "#333333", //更改坐标轴文字颜色
+                  fontSize: 9, //更改坐标轴文字大小
                 },
               },
-              xAxis: {
-                data: this.measureStationName,
-                splitLine: { show: false },
-                // 文字大小与颜色
-                axisLabel: {
-                  show: true,
-                  interval: 0, //这个一定要有，别忘记了
-                  rotate: 55,
-                  textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
-                    fontSize: 9, //更改坐标轴文字大小
-                  },
-                },
-                // 轴线颜色
-                axisLine: {
-                  lineStyle: { color: "#C0C4CC" },
+              // 轴线颜色
+              axisLine: {
+                lineStyle: { color: "#C0C4CC" },
+              },
+            },
+            yAxis: {
+              splitLine: { show: false },
+              // 文字大小与颜色
+              axisLabel: {
+                show: true,
+                textStyle: {
+                  color: "#333333", //更改坐标轴文字颜色
+                  fontSize: 12, //更改坐标轴文字大小
                 },
               },
-              yAxis: {
-                splitLine: { show: false },
-                // 文字大小与颜色
-                axisLabel: {
-                  show: true,
-                  textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
-                    fontSize: 12, //更改坐标轴文字大小
-                  },
-                },
-                // 轴线颜色
-                axisLine: {
-                  lineStyle: { color: "#C0C4CC" },
-                },
+              // 轴线颜色
+              axisLine: {
+                lineStyle: { color: "#C0C4CC" },
               },
-              series: [
-                {
-                  name: "技改井",
-                  type: "bar",
-                  stack: "使用情况",
-                  barWidth: 20,
-                  data: this.operationTechnicalTrans,
-                },
-                {
-                  name: "常规井",
-                  type: "bar",
-                  stack: "使用情况",
-                  barWidth: 20,
-                  data: this.operationConventional,
-                },
-              ],
-            });
-          }
+            },
+            series: [
+              {
+                name: "技改井",
+                type: "bar",
+                stack: "使用情况",
+                barWidth: 20,
+                data: this.operationTechnicalTrans,
+              },
+              {
+                name: "常规井",
+                type: "bar",
+                stack: "使用情况",
+                barWidth: 20,
+                data: this.operationConventional,
+              },
+            ],
+          });
         }
-      );
+      });
     },
     // 处理措施数据
     measureData(val) {

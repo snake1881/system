@@ -152,12 +152,13 @@
     width: 100%;
 }
 
+.main_middle_1,
 .main_middle_2 {
     width: 98%;
-    height: 97%;
-    margin: 1% 1% 0 1%;
     border: 1px solid #c0c4cc;
     background-color: #f8f8f8;
+    height: 48%;
+    margin: 1% 1% 0 1%;
 }
 
 .main_middle_2_item {
@@ -168,10 +169,10 @@
 }
 
 .main_middle_2_item_content {
-    width: 90%;
-    margin: 0 5%;
-    height: 95%;
-    /* justify-content: center; */
+    width: 96%;
+    margin: 0 2%;
+    height: 390px;
+    overflow: scroll;
 }
 
 .paicaiChart {
