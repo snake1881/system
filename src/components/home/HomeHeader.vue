@@ -22,27 +22,27 @@
         >
           {{ item.name }}
         </el-menu-item>
-        <el-menu-item>
+         <el-menu-item>
           <el-link
             href="http://javacore.vicp.net:8891"
             target="_blank"
             style="text-decoration: none; font-size: 14px"
-            >海联石化</el-link
+            >含水监测分析</el-link
           >
         </el-menu-item>
         <el-menu-item>
           <el-link
             @click="Openxinjina()"
             style="text-decoration: none; font-size: 14px"
-            >新吉纳</el-link
+            >视频监控</el-link
           >
         </el-menu-item>
         <el-menu-item>
           <el-link
-            href="http://mciot.net:7003/?token=OWU4MTRkMTAtMjFiMi00Zjc0LWIxOWQtMzA1YjUyNTg4NTdl"
+            href="http://mciot.net:7003/third.html?token=OWU4MTRkMTAtMjFiMi00Zjc0LWIxOWQtMzA1YjUyNTg4NTdl"
             target="_blank"
             style="text-decoration: none; font-size: 14px"
-            >国仪注水</el-link
+            >注水井报表</el-link
           >
         </el-menu-item>
       </el-menu>
