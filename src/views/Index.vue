@@ -36,6 +36,10 @@
                   >开井数(口<sup></sup>):
                   <span style="color: #e65a40">{{ this.wellOpen }}</span></span
                 >
+                  <span class="main_between_1_item_water1_span"
+                  >计划产液(m<sup>3</sup>):
+                  <span style="color: #e65a40">{{ this.planProduction }}</span></span
+                >
               </div>
               <div class="main_between_1_item_well_dec_container3" />
               <div class="main_between_1_item_well_dec_container2">
@@ -295,6 +299,8 @@ export default {
       monthLiquid: "",
       // 年产液
       yearLiquid: "",
+      //计划产液
+      planProduction: "",
       // 日产油
       dailyOil: "",
       // 月产油
@@ -962,6 +968,7 @@ export default {
           this.dilyLiquid = resp.data.drLiquidProd;
           this.monthLiquid = resp.data.drLiquidProdMonth;
           this.yearLiquid = resp.data.drLiquidProdYear;
+          this.planProduction = resp.data.planProduction;
           this.dailyOil = resp.data.drOilProd;
           this.monthOil = resp.data.drOilProdMonth;
           this.yearOil = resp.data.drOilProdYear;

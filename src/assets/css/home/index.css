@@ -64,21 +64,21 @@
 }
 
 .main_between_1_item_well_dec_container1 {
-    width: 25%;
+    width: 35%;
     height: 100%;
-    margin-left: 1%;
+    margin-left: -3%;
     display: flex;
     flex-direction: column;
 }
+
 
 .main_between_1_item_well_dec_container2 {
-    width: 36%;
+    width: 35%;
     height: 100%;
-    margin-left: 1%;
+    margin-left: -3%;
     display: flex;
     flex-direction: column;
 }
-
 .main_between_1_item_well_dec_container3 {
     width: 10%;
     height: 100%;

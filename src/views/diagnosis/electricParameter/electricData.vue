@@ -366,6 +366,12 @@ export default {
             fontSize: 12,
             color: "#666",
           },
+         min: function (value) {
+            return Math.round(value.min - 5);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           type: "value",
           axisLine: {
             show: false,

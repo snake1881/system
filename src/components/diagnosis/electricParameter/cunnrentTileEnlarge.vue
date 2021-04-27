@@ -211,6 +211,12 @@ export default {
         yAxis: {
           nameLocation: "middle",
           type: "value",
+           min: function (value) {
+            return Math.round(value.min - 5);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 3, 0],
@@ -320,8 +326,12 @@ export default {
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
+           min: function (value) {
+            return Math.round(value.min - 5);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
