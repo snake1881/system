@@ -570,7 +570,6 @@ export default {
     //采油站下拉框数据初始化
     orgNameInit() {
       this.getRequest("/basOilStationInfor/oilStationOptions").then((resp) => {
-        this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
         }
