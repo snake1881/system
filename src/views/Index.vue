@@ -1058,106 +1058,31 @@ export default {
             let myChart = echarts.init(dom);
             myChart.setOption({
               tooltip: {
-                trigger: "axis",
-                axisPointer: {
-                  type: "shadow",
-                },
+                trigger: "item",
+                formatter: "{b} : {c} ({d}%)",
+              },
+              color: ["#0fc75c", "#ed6741", "#fbe268", "#57c5d9", "#cabbe9"],
+              legend: {
+                top: "5%",
               },
               grid: {
                 width: "90%",
-                height: "91%",
-                left: "2%",
-                top: "5%",
-                containLabel: true,
-              },
-              xAxis: {
-                type: "value",
-                // 文字大小与颜色
-                axisLabel: {
-                  textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
-                    fontSize: 13, //更改坐标轴文字大小
-                  },
-                },
-                // 轴线颜色
-                axisLine: {
-                  lineStyle: { color: "#333333" },
-                },
-                // 网格线
-                splitLine: { show: false },
-              },
-              yAxis: {
-                type: "category",
-                data: [
-                  "供液不足",
-                  "严重供液不足",
-                  "载荷异常",
-                  "漏失,断杆",
-                  "正常井",
-                ],
-                // 文字大小与颜色
-                axisLabel: {
-                  textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
-                    fontSize: 12, //更改坐标轴文字大小
-                  },
-                },
-                // 轴线颜色
-                axisLine: {
-                  lineStyle: { color: "#333333" },
-                },
-                // 网格线
-                splitLine: { show: false },
-              },
-              dataset: {
-                source: [
-                  ["score", "number", "wellName"],
-                  [1, resp.data.wellNormal, "正常井"],
-                  [31, resp.data.oneLevel, "漏失,断杆"],
-                  [57, resp.data.twoLevel, "载荷异常"],
-                  [77, resp.data.threeLevel, "严重供液不足"],
-                  [99, resp.data.fourLevel, "供液不足"],
-                ],
-              },
-              visualMap: {
-                orient: "horizontal",
-                show: false,
-                left: "center",
-                min: 10,
-                max: 100,
-                dimension: 0,
-                inRange: {
-                  color: [
-                    "#0fc75c",
-                    "#ed6741",
-                    "#fbe268",
-                    "#57c5d9",
-                    "#cabbe9",
-                  ],
-                },
+                height: "90%",
               },
               series: [
                 {
-                  type: "bar",
-                  encode: {
-                    x: "number",
-                    y: "wellName",
-                  },
-                  barWidth: 25,
-                  itemStyle: {
-                    //上方显示数值
-                    normal: {
-                      label: {
-                        show: true, //开启显示
-                        position: "top", //在右方显示
-                        textStyle: {
-                          //数值样式
-                          color: "#333333",
-                          fontSize: 12,
-                        },
-                      },
+                  type: "pie",
+                  radius: "50%",
+                  data: [
+                    {
+                      value: resp.data.wellNormal,
+                      name: "正常井",
                     },
-                  },
+                    { value: resp.data.oneLevel, name: "漏失，断杆" },
+                    { value: resp.data.twoLevel, name: "载荷异常" },
+                    { value: resp.data.threeLevel, name: "严重供液不足" },
+                    { value: resp.data.fourLevel, name: "供液不足" },
+                  ],
                 },
               ],
             });
