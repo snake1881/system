@@ -323,6 +323,7 @@ export default {
           "&wellId=" +
           this.termForm.wellId
       ).then((resp) => {
+        this.loading = false;
         if (resp) {
           this.dymData = resp.data.records;
           this.total = resp.data.total;
@@ -364,7 +365,6 @@ export default {
     //采油站下拉框初始化
     orgNameInit() {
       this.getRequest("/basOilStationInfor/selectWater").then((resp) => {
-        this.loading = false;
         if (resp) {
           this.orgNameData = resp.data;
         }
@@ -373,7 +373,6 @@ export default {
     //单井下拉框初始化
     wellOptionsInit() {
       this.getRequest("/basWellInfor/selectAmountLiquid").then((resp) => {
-        this.loading = false;
         if (resp) {
           this.wellOptions = resp.data;
         }
