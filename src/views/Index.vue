@@ -36,10 +36,10 @@
                   >开井数(口<sup></sup>):
                   <span style="color: #e65a40">{{ this.wellTotal }}</span></span
                 >
-                  <span class="main_between_1_item_water1_span"
+                  <!-- <span class="main_between_1_item_water1_span"
                   >计划产液(m<sup>3</sup>):
-                  <span style="color: #e65a40">{{ this.planProduction }}</span></span
-                >
+                  <span style="color: #e65a40">{{ this.planProduction }}</span></span -->
+                <!-- > -->
               </div>
               <div class="main_between_1_item_well_dec_container3" />
               <div class="main_between_1_item_well_dec_container2">
@@ -431,7 +431,7 @@ export default {
               data: this.collectDate,
             },
             yAxis: {
-              name: "油井数(口)",
+              name: "油井开井数(口)",
               type: "value",
               axisLabel: {
                 textStyle: {
@@ -493,7 +493,7 @@ export default {
             },
             yAxis: [
               {
-                name: "水井数(口)",
+                name: "水井开井数(口)",
                 type: "value",
                 axisLabel: {
                   textStyle: {
@@ -558,7 +558,7 @@ export default {
             },
             yAxis: [
               {
-                name: "日产液(m^3)",
+                name: "单井平均日产液(m³)",
                 type: "value",
                 // 文字大小与颜色
                 axisLabel: {
@@ -624,7 +624,7 @@ export default {
             yAxis: [
               // 开井情况
               {
-                name: "吨(t)",
+                name: "单井平均日产油(t)",
                 type: "value",
                 // 文字大小与颜色
                 axisLabel: {
@@ -689,7 +689,7 @@ export default {
             },
             yAxis: [
               {
-                name: "日注水(m^3)",
+                name: "单井平均日注水(m³)",
                 type: "value",
                 axisLabel: {
                   textStyle: {
@@ -763,7 +763,7 @@ export default {
             },
             yAxis: [
               {
-                name: "日配注(m^3)",
+                name: "单井平均日配注(m³)",
                 type: "value",
                 axisLabel: {
                   textStyle: {

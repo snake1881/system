@@ -51,7 +51,7 @@
             href="http://javacore.vicp.net:8891"
             target="_blank"
             style="text-decoration: none; font-size: 14px"
-            >含水监测分析</el-link
+            >油井监测</el-link
           >
         </el-menu-item>
         <el-menu-item>
@@ -59,7 +59,7 @@
             href="http://mciot.net:7003/third.html?token=OWU4MTRkMTAtMjFiMi00Zjc0LWIxOWQtMzA1YjUyNTg4NTdl"
             target="_blank"
             style="text-decoration: none; font-size: 14px"
-            >注水井报表</el-link
+            >注水井监测</el-link
           >
         </el-menu-item>
         <el-menu-item>
@@ -69,23 +69,24 @@
             >视频监控</el-link
           >
         </el-menu-item>
+       
         <el-menu-item
-          index="/information/information"
-          :key="index"
-        >
-          基础信息
-        </el-menu-item>
+        index="/assessment/assessment"
+        :key="index"
+      >
+        绩效考核
+      </el-menu-item>
+      <el-menu-item
+      index="/information/information"
+      :key="index"
+    >
+      基础信息
+    </el-menu-item>
         <el-menu-item
           index="/system/system"
           :key="index"
         >
           系统管理
-        </el-menu-item>
-        <el-menu-item
-          index="/assessment/assessment"
-          :key="index"
-        >
-          绩效考核
         </el-menu-item>
       </el-menu>
     </div>
