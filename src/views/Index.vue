@@ -30,11 +30,11 @@
               <div class="main_between_1_item_well_dec_container1">
                 <span class="main_between_1_item_water1_span"
                   >总井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{ this.wellTotal }}</span></span
+                  <span style="color: #e65a40">313</span></span
                 >
                 <span class="main_between_1_item_water1_span"
                   >开井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{ this.wellOpen }}</span></span
+                  <span style="color: #e65a40">{{ this.wellTotal }}</span></span
                 >
                   <span class="main_between_1_item_water1_span"
                   >计划产液(m<sup>3</sup>):
@@ -183,13 +183,11 @@
               <div class="main_between_1_item_well_dec_container">
                 <span class="main_between_1_item_water1_span"
                   >总井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{
-                    this.waterTotal
-                  }}</span></span
+                  <span style="color: #e65a40">126</span></span
                 >
                 <span class="main_between_1_item_water1_span"
                   >开井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{ this.waterOpen }}</span></span
+                  <span style="color: #e65a40">{{this.waterTotal}}</span></span
                 >
               </div>
               <div class="main_between_1_item_well_dec_container">
