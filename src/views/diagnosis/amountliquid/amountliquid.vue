@@ -148,13 +148,13 @@
         prop="maxDisplacement"
         align="center"
         label="最大位移"
-        width="90"
+        width="80"
       />
       <el-table-column
         prop="minDisplacement"
         align="center"
         label="最小位移"
-        width="90"
+        width="80"
       />
       <el-table-column
         prop="hourProd"
@@ -184,7 +184,7 @@
         prop="tempreTure"
         align="center"
         label="含水温度(℃)"
-        width="110"
+        min-width="110"
       />
       <el-table-column align="center" label="操作" width="130" fixed="right">
         <template slot-scope="scope">

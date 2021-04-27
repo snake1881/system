@@ -151,7 +151,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <div class="oil_abnormal_page">
+    <!-- <div class="oil_abnormal_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -161,7 +161,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
       />
-    </div>
+    </div> -->
     <div id="wellChart" :style="{ width: '98%', height: '300px' }" />
     <!-- 液量含水异常查看 -->
     <common-liquid-water-collect
