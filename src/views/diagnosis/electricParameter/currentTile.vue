@@ -135,7 +135,7 @@
 import cunnrentTileEnlarge from "../../../components/diagnosis/electricParameter/cunnrentTileEnlarge";
 let echarts = require("echarts/lib/echarts");
 export default {
-   components: {
+  components: {
     cunnrentTileEnlarge,
   },
   data() {
@@ -286,6 +286,12 @@ export default {
         yAxis: {
           nameLocation: "middle",
           type: "value",
+          min: function (value) {
+            return Math.round(value.min - 2);
+          },
+          max: function (value) {
+            return Math.round(value.max + 2);
+          },
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 3, 0],
