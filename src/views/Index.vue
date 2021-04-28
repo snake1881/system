@@ -36,7 +36,7 @@
                   >开井数(口<sup></sup>):
                   <span style="color: #e65a40">{{ this.wellTotal }}</span></span
                 >
-                  <!-- <span class="main_between_1_item_water1_span"
+                <!-- <span class="main_between_1_item_water1_span"
                   >计划产液(m<sup>3</sup>):
                   <span style="color: #e65a40">{{ this.planProduction }}</span></span -->
                 <!-- > -->
@@ -105,9 +105,8 @@
               type="daterange"
               editable
               clearable
-              size="small"
+              size="mini"
               height="3%"
-              padding="2% 2%"
               align="center"
               format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
@@ -121,9 +120,8 @@
               clearable
               filterable
               placeholder="层位"
-              size="small"
+              size="mini"
               height="3%"
-              padding="2% 2%"
               @change="collectInit"
             >
               <el-option
@@ -178,7 +176,9 @@
                 >
                 <span class="main_between_1_item_water1_span"
                   >开井数(口<sup></sup>):
-                  <span style="color: #e65a40">{{this.waterTotal}}</span></span
+                  <span style="color: #e65a40">{{
+                    this.waterTotal
+                  }}</span></span
                 >
               </div>
               <div class="main_between_1_item_well_dec_container">
@@ -411,7 +411,7 @@ export default {
               left: 50,
             },
             legend: {
-              data: ["油井开井"],
+              data: ["油井开井数"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
@@ -422,7 +422,7 @@ export default {
               data: this.collectDate,
             },
             yAxis: {
-              name: "油井开井数(口)",
+              name: "井数(口)",
               type: "value",
               axisLabel: {
                 textStyle: {
@@ -443,7 +443,7 @@ export default {
             },
             series: [
               {
-                name: "油井开井",
+                name: "油井开井数",
                 type: "line",
                 data: this.collectOil,
                 yAxisIndex: 0,
@@ -464,7 +464,7 @@ export default {
               },
             },
             legend: {
-              data: ["水井开井"],
+              data: ["水井开井数"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
@@ -484,7 +484,7 @@ export default {
             },
             yAxis: [
               {
-                name: "水井开井数(口)",
+                name: "井数(口)",
                 type: "value",
                 axisLabel: {
                   textStyle: {
@@ -508,7 +508,7 @@ export default {
             ],
             series: [
               {
-                name: "水井开井",
+                name: "水井开井数",
                 type: "line",
                 data: this.collectWater,
                 yAxisIndex: 0,
@@ -529,7 +529,7 @@ export default {
               },
             },
             legend: {
-              data: ["日产液"],
+              data: ["单井平均日产液"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
@@ -549,7 +549,7 @@ export default {
             },
             yAxis: [
               {
-                name: "单井平均日产液(m³)",
+                name: "产液(m³)",
                 type: "value",
                 // 文字大小与颜色
                 axisLabel: {
@@ -574,7 +574,7 @@ export default {
             ],
             series: [
               {
-                name: "日产液",
+                name: "单井平均日产液",
                 type: "line",
                 data: this.collectDailyLiquid,
               },
@@ -594,7 +594,7 @@ export default {
               },
             },
             legend: {
-              data: ["日产油"],
+              data: ["单井平均日产油"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
@@ -615,7 +615,7 @@ export default {
             yAxis: [
               // 开井情况
               {
-                name: "单井平均日产油(t)",
+                name: "产油(t)",
                 type: "value",
                 // 文字大小与颜色
                 axisLabel: {
@@ -640,7 +640,7 @@ export default {
             ],
             series: [
               {
-                name: "日产油",
+                name: "单井平均日产油",
                 type: "line",
                 data: this.collectDailyOil,
               },
@@ -660,7 +660,7 @@ export default {
               },
             },
             legend: {
-              data: ["日注水量"],
+              data: ["单井平均日注水"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
@@ -680,7 +680,7 @@ export default {
             },
             yAxis: [
               {
-                name: "单井平均日注水(m³)",
+                name: "注水量(m³)",
                 type: "value",
                 axisLabel: {
                   textStyle: {
@@ -702,7 +702,7 @@ export default {
             ],
             series: [
               {
-                name: "日注水量",
+                name: "单井平均日注水",
                 type: "line",
                 data: this.collectDailyWater,
               },
@@ -722,7 +722,7 @@ export default {
               },
             },
             legend: {
-              data: ["日配注量"],
+              data: ["单井平均日配注量"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
@@ -731,7 +731,7 @@ export default {
             color: ["#AEDFFE"],
             grid: {
               width: "90%",
-              height: "55%",
+              height: "56%",
               top: 20,
               left: 50,
             },
@@ -754,7 +754,7 @@ export default {
             },
             yAxis: [
               {
-                name: "单井平均日配注(m³)",
+                name: "配注量(m³)",
                 type: "value",
                 axisLabel: {
                   textStyle: {
@@ -776,7 +776,7 @@ export default {
             ],
             series: [
               {
-                name: "日配注量",
+                name: "单井平均日配注量",
                 type: "line",
                 data: this.collectDailyWaterAllocation,
               },
