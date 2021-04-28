@@ -417,8 +417,12 @@ export default {
         yAxis: {
           name: "载荷(KN)",
           type: "value",
-          max: 80,
-          min: 0,
+           min: function (value) {
+            return Math.round(value.min - 2);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           splitNumber: 3,
           nameTextStyle: {
             padding: [0, 0, -10, 0],
@@ -475,8 +479,12 @@ export default {
         yAxis: {
           name: "电流(A)",
           type: "value",
-          max: 80,
-          min: 0,
+           min: function (value) {
+            return Math.round(value.min - 2);
+          },
+          max: function (value) {
+            return Math.round(value.max + 2);
+          },
           splitNumber: 3,
           nameTextStyle: {
             padding: [0, 0, -10, 0],
@@ -572,8 +580,12 @@ export default {
         yAxis: {
           name: "载荷(KN)",
           type: "value",
-          max: 90,
-          min: 0,
+          min: function (value) {
+            return Math.round(value.min - 5);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           splitNumber: 3,
           nameTextStyle: {
             padding: [0, 0, -10, 0],
@@ -647,8 +659,12 @@ export default {
         yAxis: {
           name: "电流(A)",
           type: "value",
-          max: 80,
-          min: 0,
+           min: function (value) {
+            return Math.round(value.min - 2);
+          },
+          max: function (value) {
+            return Math.round(value.max + 2);
+          },
           splitNumber: 3,
           nameTextStyle: {
             fontSize: 10,
@@ -791,8 +807,12 @@ export default {
         yAxis: {
           name: "载荷(KN)",
           nameLocation: "middle",
-          // min: 0,
-          // max: 100,
+           min: function (value) {
+            return Math.round(value.min - 5);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
@@ -908,6 +928,12 @@ export default {
           name: "电流(A)",
           nameLocation: "middle",
           type: "value",
+           min: function (value) {
+            return Math.round(value.min - 2);
+          },
+          max: function (value) {
+            return Math.round(value.max + 2);
+          },
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 8, 0],

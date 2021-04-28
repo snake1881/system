@@ -107,7 +107,7 @@
           <el-table-column
             prop="abnormalResult"
             label="异常结论"
-            width="300"
+            min-width="150"
             align="center"
             :show-overflow-tooltip="true"
           />

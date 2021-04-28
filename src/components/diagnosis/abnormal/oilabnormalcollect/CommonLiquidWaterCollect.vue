@@ -3,7 +3,7 @@
     title="液量含水异常数据详情"
     height="5%"
     :visible.sync="liquidAbnormalVisible"
-    width="93%"
+    width="90%"
     :before-close="liquidAbnormalClose"
     @opened="opened"
   >
@@ -143,24 +143,24 @@
           <el-table-column
             prop="abnormalResult"
             label="异常结论"
-            width="180"
+            width="280"
             align="center"
             :show-overflow-tooltip="true"
           />
           <el-table-column
             prop="abnormalType"
             label="异常类型"
-            width="80"
+            width="100"
             align="center"
             ><template slot-scope="scope">
-              <p v-if="scope.row.abnormalType == '0'">液量异常</p>
-              <p v-if="scope.row.abnormalType == '1'">含水异常</p>
+              <a v-if="scope.row.abnormalType == '0'">液量异常</a>
+              <a v-if="scope.row.abnormalType == '1'">含水异常</a>
             </template>
           </el-table-column>
           <el-table-column
             prop="abnormalReason"
             label="异常原因"
-            width="80"
+            min-width="100"
             align="center"
           />
           <el-table-column

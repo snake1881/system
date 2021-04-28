@@ -153,13 +153,13 @@
             align="center"
             :show-overflow-tooltip="true"
           />
-          <el-table-column
+          <!-- <el-table-column
             prop=""
             label="小时含水(%)"
             width="80"
             align="center"
             :show-overflow-tooltip="true"
-          />
+          /> -->
         </el-table>
         <div class="liqFilterCondition_page">
           <el-pagination
@@ -303,7 +303,7 @@ export default {
 <style lang="less" scoped>
 @import "../../../../assets/css/diagnosis/abnormal/waterAbnormalCollect.css";
 .dialogDiv {
-  height: 480px;
+  height: 500px;
   overflow: auto;
 }
 .dialogDiv .el-input {

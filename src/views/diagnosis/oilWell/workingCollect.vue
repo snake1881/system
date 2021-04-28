@@ -1248,6 +1248,12 @@ export default {
             nameLocation: "middle",
             // min: 0,
             // max: 100,
+            min: function (value) {
+              return Math.round(value.min - 5);
+            },
+            max: function (value) {
+              return Math.round(value.max + 5);
+            },
             type: "value",
             axisLine: { onZero: false },
             nameTextStyle: {
@@ -1415,8 +1421,12 @@ export default {
           yAxis: {
             name: "载荷(KN)",
             nameLocation: "middle",
-            // min: 0,
-            // max: 100,
+            min: function (value) {
+              return Math.round(value.min - 5);
+            },
+            max: function (value) {
+              return Math.round(value.max + 5);
+            },
             type: "value",
             axisLine: { onZero: false },
             nameTextStyle: {
@@ -1508,8 +1518,12 @@ export default {
           yAxis: {
             name: "载荷(KN)",
             nameLocation: "middle",
-            // min: 0,
-            // max: 100,
+            min: function (value) {
+              return Math.round(value.min - 5);
+            },
+            max: function (value) {
+              return Math.round(value.max + 5);
+            },
             type: "value",
             axisLine: { onZero: false },
             nameTextStyle: {
@@ -1609,6 +1623,12 @@ export default {
           nameLocation: "middle",
           // min: 0,
           // max: 100,
+          min: function (value) {
+            return Math.round(value.min - 5);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
@@ -2251,6 +2271,12 @@ export default {
           nameLocation: "middle",
           // min: 0,
           // max: 100,
+          min: function (value) {
+            return Math.round(value.min - 5);
+          },
+          max: function (value) {
+            return Math.round(value.max + 5);
+          },
           type: "value",
           axisLine: { onZero: false },
           nameTextStyle: {
@@ -2410,6 +2436,8 @@ export default {
           name: "载荷(KN)",
           nameLocation: "middle",
           type: "value",
+          min: Math.round(val.minLoad - 5),
+          max: Math.round(val.maxLoad + 5),
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],

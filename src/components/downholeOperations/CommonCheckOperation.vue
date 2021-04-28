@@ -614,7 +614,7 @@ export default {
 }
 .checkOperDiv_bottom {
   width: 98%;
-  height: 70%;
+  height: 80%;
   margin: 2% 1% 0 1%;
   display: flex;
   flex-direction: column;
@@ -670,7 +670,7 @@ export default {
 }
 .checkOperButton {
   height: 5%;
-  margin: 1.5% 0 0 42%;
+  margin: 8% 0 0 42%;
 }
 .checkActive {
   color: #2670f7;
