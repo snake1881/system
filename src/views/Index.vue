@@ -92,15 +92,6 @@
       </el-card>
     </div>
     <div class="main_middle">
-      <el-card class="main_middle_1">
-        <div class="main_middle_2_item">
-          <div class="main_middle_2_item_span">GIS地图</div>
-          <img
-            src="../assets/images/index_gis.jpg"
-            style="height: 100%; width: 100%"
-          />
-        </div>
-      </el-card>
       <el-card class="main_middle_2" shadow="hover">
         <div class="main_middle_2_item">
           <div class="main_middle_2_item_span">

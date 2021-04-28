@@ -80,7 +80,7 @@ Vue.prototype.getTime = function(){
 }
 // 导航守卫
 router.beforeEach((to, from, next) => {
-    if (to.path === "/") {
+    if (to.path === "/" || to.path === "/Survey") {
         next();
     } else {
         if (window.sessionStorage.getItem("user")) {

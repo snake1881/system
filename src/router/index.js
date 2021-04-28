@@ -12,6 +12,14 @@ const routes = [{
         hidden: true
     },
     {
+        path: "/Survey",
+        name: "系统整体概况",
+        component: () =>
+            import ("@/views/Survey.vue"),
+        hidden: true
+
+    },
+    {
         path: "/Home",
         name: "Home",
         component: () =>
@@ -25,6 +33,7 @@ const routes = [{
                 import ("@/views/Index.vue"),
             hidden: true
         },
+      
         {
             path: "/receiveNotice",
             name: "通知",

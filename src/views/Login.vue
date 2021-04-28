@@ -73,7 +73,7 @@
   </div>
 </template>
 <script>
-import websocket from "../utils/websocket.js"
+import websocket from "../utils/websocket.js";
 export default {
   data() {
     return {
@@ -137,7 +137,7 @@ export default {
                   JSON.stringify(resp.data)
                 );
                 websocket.Init();
-                this.$router.replace("/Home");
+                this.$router.replace("/Survey");
               } else {
                 this.$message(resp.message);
               }
@@ -171,7 +171,7 @@ export default {
 }
 .login .el-input__inner {
   background-color: transparent;
-  color:#303133;
+  color: #303133;
   border: 1px solid #303133;
 }
 .login .el-checkbox__inner {
