@@ -3,7 +3,7 @@
     <el-button
       @click="gotoIndex()"
       class="survey_footer"
-      type="primary"
+      type="text"
       icon="el-icon-video-play"
       size="medium "
       >进入系统</el-button
@@ -31,7 +31,7 @@ export default {
   position: fixed;
   bottom: 0;
   left: 94%;
-  top: 95%;
-  font-size: 15px;
+  top: 96%;
+  font-size: 16px;
 }
 </style>
