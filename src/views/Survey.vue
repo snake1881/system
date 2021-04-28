@@ -6,7 +6,8 @@
       type="primary"
       icon="el-icon-video-play"
       size="medium "
-    />
+      >进入系统</el-button
+    >
   </div>
 </template>
 <script>
@@ -29,8 +30,8 @@ export default {
 .survey_footer {
   position: fixed;
   bottom: 0;
-  left: 97%;
+  left: 94%;
   top: 95%;
-  font-size: 25px;
+  font-size: 15px;
 }
 </style>
