@@ -317,6 +317,8 @@ export default {
           name: "载荷(KN)",
           nameLocation: "middle",
           type: "value",
+          min: Math.round(val.minLoad - 5),
+          max: Math.round(val.maxLoad + 5),
           axisLine: { onZero: false },
           nameTextStyle: {
             padding: [0, 0, 6, 0],

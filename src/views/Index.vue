@@ -1261,14 +1261,12 @@ export default {
               {
                 name: "技改井",
                 type: "bar",
-                stack: "使用情况",
                 barWidth: 20,
                 data: this.operationTechnicalTrans,
               },
               {
                 name: "常规井",
                 type: "bar",
-                stack: "使用情况",
                 barWidth: 20,
                 data: this.operationConventional,
               },
