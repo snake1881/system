@@ -26,7 +26,7 @@
           index="/Index"
           :key="index"
         >
-          首页
+          油水井概况
         </el-menu-item>
         <el-menu-item
           index="/diagnosis/diagnosis"
