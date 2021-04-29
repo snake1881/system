@@ -1770,7 +1770,7 @@ export default {
         this.amountArray2[i][0] = this.amountLiquidData[i].oilProdDate;
         this.amountArray3[i][0] = this.amountLiquidData[i].oilProdDate;
         this.amountArray1[i][1] = this.amountLiquidData[i].drLiquidProd;
-        this.amountArray2[i][1] = this.amountLiquidData[i].drWaterCut / 100;
+        this.amountArray2[i][1] = this.amountLiquidData[i].drWaterCut;
         this.amountArray3[i][1] = this.amountLiquidData[i].drOilProd;
       }
       let myChart = this.$echarts.init(
@@ -1824,11 +1824,11 @@ export default {
                     params[i].value[1] +
                     "M<sup>3</sup></p>";
                 }
-                if (params[i].componentIndex === 1) {
-                  result =
-                    result + "<p>含水率：" + params[i].value[1] * 100 + "%</p>";
-                }
                 if (params[i].componentIndex === 2) {
+                  result =
+                    result + "<p>含水率：" + params[i].value[1] + "%</p>";
+                }
+                if (params[i].componentIndex === 1) {
                   result =
                     result +
                     "<p>产油：" +
@@ -1857,12 +1857,12 @@ export default {
           },
         },
         legend: {
-          data: ["产液量", "含水率", "产油"],
+          data: ["产液量", "产油", "含水率"],
           orient: "vertical",
           left: "80%",
         },
         grid: {
-          left: "3%",
+          left: "10%",
           right: "3%",
           bottom: "15%",
           top: "20%",
@@ -1871,23 +1871,67 @@ export default {
         xAxis: {
           nameLocation: "middle",
           type: "time",
+          splitLine: { show: false },
         },
-        yAxis: {
-          name: "动液面(M)",
-          nameLocation: "middle",
-          nameGap: 30,
-          type: "value",
-          axisLine: { onZero: false },
-          nameTextStyle: {
-            padding: [0, 0, 6, 0],
-            fontSize: 10,
+        yAxis: [
+          {
+            name: "产液量",
+            nameLocation: "middle",
+            // nameGap: 30,
+            type: "value",
+            offset: "10",
+            position: "left",
+             color: "#ed6741",
+            // axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 10, 0],
+              fontSize: 14,
+            },
+            splitLine: { show: false },
           },
-        },
+          {
+            name: "产油",
+            nameLocation: "middle",
+            // nameGap: 30,
+            type: "value",
+            offset: "60",
+            position: "left",
+            color: "#2670f7",
+            // axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 10, 0],
+              fontSize: 14,
+            },
+            splitLine: { show: false },
+            // axisLabel: {
+            //   formatter: "{value} ml",
+            // },
+          },
+          {
+            name: "含水率",
+            nameLocation: "middle",
+            // nameGap: 30,
+            type: "value",
+            offset: "120",
+            position: "left",
+            color: "#57c5d9",
+            // axisLine: { onZero: false },
+            nameTextStyle: {
+              padding: [0, 0, 10, 0],
+              fontSize: 14,
+            },
+            splitLine: { show: false },
+            // axisLabel: {
+            //   formatter: "{value} ml",
+            // },
+          },
+        ],
         series: [
           {
             name: "产液量",
             type: "line",
             smooth: true,
+            yAxisIndex: 0,
             lineStyle: {
               color: "#ed6741",
               width: 2,
@@ -1895,24 +1939,26 @@ export default {
             data: this.amountArray1,
           },
           {
-            name: "含水率",
-            type: "line",
-            smooth: true,
-            lineStyle: {
-              color: "#57c5d9",
-              width: 2,
-            },
-            data: this.amountArray2,
-          },
-          {
             name: "产油",
             type: "line",
             smooth: true,
+            yAxisIndex: 1,
             lineStyle: {
               color: "#2670f7",
               width: 2,
             },
             data: this.amountArray3,
+          },
+          {
+            name: "含水率",
+            type: "line",
+            smooth: true,
+            yAxisIndex: 2,
+            lineStyle: {
+              color: "#57c5d9",
+              width: 2,
+            },
+            data: this.amountArray2,
           },
         ],
       });
@@ -2059,17 +2105,19 @@ export default {
           },
           xAxis: {
             nameLocation: "middle",
+            splitLine: { show: false },
             type: "time",
           },
           yAxis: {
             name: "载荷(KN)",
             nameLocation: "middle",
+            splitLine: { show: false },
             nameGap: 30,
             type: "value",
             axisLine: { onZero: false },
             nameTextStyle: {
-              padding: [0, 0, 6, 0],
-              fontSize: 10,
+              padding: [0, 0, 15, 0],
+              fontSize: 16,
             },
           },
           series: [
