@@ -66,6 +66,9 @@
               <el-col :span="12">
                 <span>生产时间：{{ this.basicData.oilProdDate }}</span>
               </el-col>
+              <el-col :span="8">
+                <span style="margin:-50%;">沉没度：{{ this.basicData.submergence }} m</span>
+              </el-col>
             </el-row>
           </div>
         </div>
