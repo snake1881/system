@@ -9,7 +9,7 @@
             <p>采油站： {{ this.basicData.oilStationName }}</p>
             <p>所属井场：{{ this.basicData.wellSiteName }}井场</p>
             <p>投产日期：{{ this.basicData.productionDate }}</p>
-            <p>泵径：0 m</p>
+            <p>泵径：38mm</p>
             <p>泵深：0 m</p>
           </div>
           <div class="unattended_singleWell_top_information_container_video">
@@ -34,29 +34,29 @@
           <div class="unattended_singleWell_container_proDaily_dec">
             <el-row>
               <el-col :span="8">
-                <p>产液：{{ this.basicData.drLiquidProd }}</p>
+                <p>产液：{{ this.basicData.drLiquidProd }}m³</p>
               </el-col>
               <el-col :span="8">
-                <p>含水：{{ this.basicData.drWaterCut }}</p>
+                <p>含水：{{ this.basicData.drWaterCut }}%</p>
               </el-col>
               <el-col :span="8">
-                <p>产油：{{ this.basicData.drOilProd }}</p>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="8">
-                <span>油压：{{ this.basicData.drOilPressure }}</span>
-              </el-col>
-              <el-col :span="8">
-                <span>套压：{{ this.basicData.casingPressure }}</span>
-              </el-col>
-              <el-col :span="8">
-                <span>泵效：0</span>
+                <p>产油：{{ this.basicData.drOilProd }} m³</p>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="8">
-                <p>动液面：{{ this.basicData.fluidLevel }}</p>
+                <span>油压：{{ this.basicData.drOilPressure }} Mpa</span>
+              </el-col>
+              <el-col :span="8">
+                <span>套压：{{ this.basicData.casingPressure }} Mpa</span>
+              </el-col>
+              <el-col :span="8">
+                <span>泵效：0%</span>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="8">
+                <p>动液面：{{ this.basicData.fluidLevel }}m</p>
               </el-col>
               <el-col :span="8">
                 <p>单井状态：{{ this.basicData.drWorkState }}</p>
@@ -92,12 +92,12 @@
             <el-row>
               <el-col :span="12">
                 <p>
-                  累计产液: {{ this.basicData.drLiquidProdMonth }}m<sup>3</sup>
+                  累计产液: {{ this.basicData.drLiquidProdMonth }}m³</sup>
                 </p>
               </el-col>
               <el-col :span="12">
                 <p>
-                  累计产油: {{ this.basicData.drOilProdMonth }}m<sup>3</sup>
+                  累计产油: {{ this.basicData.drOilProdMonth }}m³</sup>
                 </p>
               </el-col>
             </el-row>
@@ -180,8 +180,8 @@
 
                 <span
                   class="unattended_singleWell_container_left_gt_container_frame_dec_span"
-                  >最大载荷: {{ item.maxLoad }} 最小载荷:
-                  {{ item.minLoad }}</span
+                  >最大载荷: {{ item.maxLoad }} KN 最小载荷:
+                  {{ item.minLoad }} KN</span
                 >
               </div>
             </div>
@@ -538,11 +538,11 @@ export default {
               },
             },
             yAxis: {
-              name: "产油产液曲线",
+              name: "日均产油(t) 日均产液(m³)",
               nameLocation: "middle",
               nameTextStyle: {
                 padding: [0, 0, 10, 0],
-                fontSize: 12,
+                fontSize: 10,
                 color: "#666",
               },
               type: "value",
@@ -611,7 +611,7 @@ export default {
               },
             },
             yAxis: {
-              name: "含水曲线",
+              name: "含水(%)",
               nameLocation: "middle",
               nameTextStyle: {
                 padding: [0, 0, 10, 0],
@@ -711,7 +711,7 @@ export default {
               },
             },
             yAxis: {
-              name: "动液面曲线",
+              name: "动液面(m)",
               nameLocation: "middle",
               nameTextStyle: {
                 padding: [0, 0, 25, 0],

@@ -1,7 +1,7 @@
 <template>
   <div class="wellsite">
     <div class="wellsite_left">
-      <span class="wellsite_left_title">{{ this.$route.query.name }}井场</span>
+      <span class="wellsite_left_title"><b style="font-size: 35px;">{{ this.$route.query.name }}井场</b></span>
       <div class="wellsite_left_dailyData">
         <p class="wellsite_left_dailyData_p">
           日产液量:

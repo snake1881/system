@@ -5,19 +5,19 @@
         <span class="proTeam_left_oilWell_title">
           <i
             class="iconfont icon-ziyuan48ldpi"
-            style="color: white; font-size: 16px; margin: 0 1% 0 25%"
+            style="color:#FF9595; font-size: 26px; margin: 0 1% 0 25%"
           />
-          油井
+          <b style="color: #FF9595;font-size: 35px;align-content: center">油井</b>
         </span>
         <span class="proTeam_left_oilWell_dec"
           >总井：<span style="color: #2cab6f">
-            {{ this.oilData.wellTeamCount }}</span
+            313</span
           >
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >开井：<span style="color: #2cab6f">
-            {{ this.oilData.wellTeamOpenCount }}</span
+            {{ this.oilData.wellTeamCount }}</span
           >
           口</span
         >
@@ -72,19 +72,19 @@
         <span class="proTeam_left_oilWell_title">
           <i
             class="iconfont icon-ziyuan50ldpi"
-            style="color: white; font-size: 16px; margin: 0 1% 0 25%"
+            style="color:#40E0F8; font-size: 26px; margin: 0 1% 0 25%"
           />
-          水井
+          <b style="color:#40E0F8;font-size: 32px;align-content: center;">水井</b>
         </span>
         <span class="proTeam_left_oilWell_dec"
           >总井：<span style="color: #2cab6f">{{
-            this.waterData.waterTeamCount
+           126
           }}</span>
           口</span
         >
         <span class="proTeam_left_oilWell_dec"
           >开井：<span style="color: #2cab6f">{{
-            this.waterData.waterTeamOpenCount
+            this.waterData.waterTeamCount
           }}</span>
           口</span
         >
@@ -111,9 +111,9 @@
         <span class="proTeam_left_oilWell_title">
           <i
             class="iconfont icon-shipin"
-            style="color: white; font-size: 18px; margin: 0 1% 0 25%"
+            style="color: white; font-size: 26px; margin: 0 1% 0 25%"
           />
-          视频</span
+          <b style="color:white;font-size: 32px;align-content: center;">视频</b></span
         >
         <span class="proTeam_left_oilWell_dec"
           >正常：<span style="color: #2cab6f">{{ this.videoData }}</span>

@@ -8,9 +8,9 @@
         <span class="oilStation_left_oilWell_title">
           <i
             class="iconfont icon-ziyuan48ldpi"
-            style="color: white; font-size: 16px; margin: 0 1% 0 25%"
+            style="color:#FF9595; font-size: 26px; margin: 0 1% 0 25%"
           />
-          油井</span
+          <b style="color: #FF9595;font-size: 30px;align-content: center">油井</b></span
         >
         <span class="oilStation_left_oilWell_dec"
           >总井：<span style="color: #2cab6f">{{
@@ -79,9 +79,9 @@
         <span class="oilStation_left_oilWell_title">
           <i
             class="iconfont icon-ziyuan50ldpi"
-            style="color: white; font-size: 16px; margin: 0 1% 0 25%"
+            style="color: #40E0F8; font-size: 26px; margin: 0 1% 0 24%"
           />
-          水井
+          <b style="color:#40E0F8;font-size: 30px;align-content: center;">水井</b>
         </span>
         <span class="oilStation_left_oilWell_dec"
           >总井：<span style="color: #2cab6f">
@@ -118,9 +118,9 @@
         <span class="oilStation_left_oilWell_title">
           <i
             class="iconfont icon-shipin"
-            style="color: white; font-size: 16px; margin: 0 1% 0 25%"
+            style="color: white; font-size: 26px; margin: 0 1% 0 24%"
           />
-          视频</span
+          <b style="color:white;font-size: 30px;align-content: center;">视频</b></span</span
         >
         <span class="oilStation_left_oilWell_dec"
           >正常：<span style="color: #2cab6f">{{ this.stationVideo }}</span>
