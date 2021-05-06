@@ -1211,7 +1211,7 @@ export default {
                 trigger: "item",
                 formatter: "{b} : {c} ({d}%)",
               },
-              color: ["#0fc75c", "#ed6741", "#fbe268", "#57c5d9", "#cabbe9"],
+              color: ["#0fc75c", "#ed6741", "#ACABAB", "#57c5d9", "#cabbe9"],
               legend: {
                 top: "5%",
               },

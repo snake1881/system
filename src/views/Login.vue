@@ -6,7 +6,7 @@
           class="login-container-title-image"
           src="../assets/images/logo2.png"
         />
-        <h3 class="login-container-title-text">定边采油厂一体化信息平台</h3>
+        <h3 class="login-container-title-text">油水井管控信息平台</h3>
       </div>
       <div class="login-container-form">
         <div class="login-container-form-left">
