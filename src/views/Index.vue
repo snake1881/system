@@ -144,16 +144,19 @@
           <div class="main_middle_2_item_content">
             <!-- 油井开井 -->
             <div id="collectOil" class="paicaiChart" />
-            <!-- 水井开井 -->
-            <div id="collectWater" class="paicaiChart" />
+
             <!-- 日产液 -->
             <div id="collectDailyLiquid" class="paicaiChart" />
             <!-- 日产油 -->
-            <div id="collectDailyOil" class="paicaiChart" />
+            <!-- <div id="collectDailyOil" class="paicaiChart" /> -->
+            <!-- 水井开井 -->
+            <div id="collectWater" class="paicaiChart" />
             <!-- 日注水量 -->
             <div id="collectDailyWater" class="paicaiChart" />
             <!-- 日配注量 -->
-            <div id="collectDailyWaterAllocation" class="paicaiChart" />
+            <!-- <div id="collectDailyWaterAllocation" class="paicaiChart" /> -->
+            <!-- 综合含水率 -->
+            <div id="waterContent" class="paicaiChart" />
           </div>
         </div>
       </el-card>
@@ -340,6 +343,8 @@ export default {
       collectDailyWater: [],
       // 排采曲线日配注量
       collectDailyWaterAllocation: [],
+      // 排采曲线综合含水
+      waterContent: [],
       //排采曲线层位选择下拉框数据
       collectLayerNameSelect: [],
       //排采曲线时间段选择数据
@@ -413,7 +418,7 @@ export default {
             legend: {
               data: ["油井开井数"],
               textStyle: {
-                color: "#333333",
+                color: "#FF9595",
                 fontSize: 12,
               },
             },
@@ -421,26 +426,28 @@ export default {
               show: false,
               data: this.collectDate,
             },
-            yAxis: {
-              name: "井数(口)",
-              type: "value",
-              axisLabel: {
-                textStyle: {
-                  color: "#333333", //更改坐标轴文字颜色
-                  fontSize: 12, //更改坐标轴文字大小
+            yAxis: [
+              {
+                name: "井数(口)",
+                type: "value",
+                axisLabel: {
+                  textStyle: {
+                    color: "#FF9595", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
+                  },
                 },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
+                splitNumber: 4,
+                axisLine: {
+                  lineStyle: { color: "#FF9595" },
+                },
+                splitLine: { show: false },
               },
-              nameLocation: "middle",
-              nameTextStyle: {
-                padding: [0, 0, 15, 0],
-                fontSize: 12,
-              },
-              splitNumber: 4,
-              axisLine: {
-                lineStyle: { color: "#333333" },
-              },
-              splitLine: { show: false },
-            },
+            ],
             series: [
               {
                 name: "油井开井数",
@@ -466,7 +473,7 @@ export default {
             legend: {
               data: ["水井开井数"],
               textStyle: {
-                color: "#333333",
+                color: "#40E0F8",
                 fontSize: 12,
               },
             },
@@ -488,7 +495,7 @@ export default {
                 type: "value",
                 axisLabel: {
                   textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
+                    color: "#40E0F8", //更改坐标轴文字颜色
                     fontSize: 12, //更改坐标轴文字大小
                   },
                 },
@@ -500,7 +507,7 @@ export default {
                 splitNumber: 4,
                 // 轴线颜色
                 axisLine: {
-                  lineStyle: { color: "#333333" },
+                  lineStyle: { color: "#40E0F8" },
                 },
                 // 网格线
                 splitLine: { show: false },
@@ -529,14 +536,14 @@ export default {
               },
             },
             legend: {
-              data: ["单井平均日产液"],
+              data: ["单井平均日产液", "单井平均日产油"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
               },
             },
             // 折线颜色
-            color: ["#FF00FF"],
+            color: ["#FF00FF", "#FF0000"],
             grid: {
               width: "90%",
               height: "75%",
@@ -551,10 +558,16 @@ export default {
               {
                 name: "产液(m³)",
                 type: "value",
+                min: function (value) {
+                  return Math.round(value.min - 5);
+                },
+                max: function (value) {
+                  return Math.round(value.max + 5);
+                },
                 // 文字大小与颜色
                 axisLabel: {
                   textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
+                    color: "#FF00FF", //更改坐标轴文字颜色
                     fontSize: 12, //更改坐标轴文字大小
                   },
                 },
@@ -566,7 +579,36 @@ export default {
                 splitNumber: 4,
                 // 轴线颜色
                 axisLine: {
-                  lineStyle: { color: "#333333" },
+                  lineStyle: { color: "#FF00FF" },
+                },
+                // 网格线
+                splitLine: { show: false },
+              },
+              {
+                name: "产油(t)",
+                type: "value",
+                min: function (value) {
+                  return Math.round(value.min - 2);
+                },
+                max: function (value) {
+                  return Math.round(value.max + 5);
+                },
+                // 文字大小与颜色
+                axisLabel: {
+                  textStyle: {
+                    color: "#FF0000", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
+                  },
+                },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
+                splitNumber: 4,
+                // 轴线颜色
+                axisLine: {
+                  lineStyle: { color: "#FF0000" },
                 },
                 // 网格线
                 splitLine: { show: false },
@@ -577,75 +619,82 @@ export default {
                 name: "单井平均日产液",
                 type: "line",
                 data: this.collectDailyLiquid,
+                yAxisIndex: 0, // 相对应的坐标轴
               },
-            ],
-          });
-          // 日产油
-          let myChart4 = echarts.init(collectDailyOil);
-          myChart4.setOption({
-            tooltip: {
-              trigger: "axis",
-            },
-            toolbox: {
-              show: true,
-              feature: {
-                magicType: { type: ["line", "bar"] },
-                saveAsImage: {},
-              },
-            },
-            legend: {
-              data: ["单井平均日产油"],
-              textStyle: {
-                color: "#333333",
-                fontSize: 12,
-              },
-            },
-            // 折线颜色
-            color: ["#FF0000"],
-            grid: {
-              width: "90%",
-              height: "75%",
-              top: 20,
-              left: 50,
-            },
-            xAxis: {
-              show: false,
-              data: this.collectDate,
-            },
-            yAxis: [
-              // 开井情况
-              {
-                name: "产油(t)",
-                type: "value",
-                // 文字大小与颜色
-                axisLabel: {
-                  textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
-                    fontSize: 12, //更改坐标轴文字大小
-                  },
-                },
-                nameLocation: "middle",
-                nameTextStyle: {
-                  padding: [0, 0, 15, 0],
-                  fontSize: 12,
-                },
-                splitNumber: 4,
-                // 轴线颜色
-                axisLine: {
-                  lineStyle: { color: "#333333" },
-                },
-                // 网格线
-                splitLine: { show: false },
-              },
-            ],
-            series: [
               {
                 name: "单井平均日产油",
                 type: "line",
                 data: this.collectDailyOil,
+                yAxisIndex: 1, // 相对应的坐标轴
               },
             ],
           });
+          // // 日产油
+          // let myChart4 = echarts.init(collectDailyOil);
+          // myChart4.setOption({
+          //   tooltip: {
+          //     trigger: "axis",
+          //   },
+          //   toolbox: {
+          //     show: true,
+          //     feature: {
+          //       magicType: { type: ["line", "bar"] },
+          //       saveAsImage: {},
+          //     },
+          //   },
+          //   legend: {
+          //     data: ["单井平均日产油"],
+          //     textStyle: {
+          //       color: "#333333",
+          //       fontSize: 12,
+          //     },
+          //   },
+          //   // 折线颜色
+          //   color: ["#FF0000"],
+          //   grid: {
+          //     width: "90%",
+          //     height: "75%",
+          //     top: 20,
+          //     left: 50,
+          //   },
+          //   xAxis: {
+          //     show: false,
+          //     data: this.collectDate,
+          //   },
+          //   yAxis: [
+          //     // 开井情况
+          //     {
+          //       name: "产油(t)",
+          //       type: "value",
+          //       // 文字大小与颜色
+          //       axisLabel: {
+          //         textStyle: {
+          //           color: "#333333", //更改坐标轴文字颜色
+          //           fontSize: 12, //更改坐标轴文字大小
+          //         },
+          //       },
+          //       nameLocation: "middle",
+          //       nameTextStyle: {
+          //         padding: [0, 0, 15, 0],
+          //         fontSize: 12,
+          //       },
+          //       splitNumber: 4,
+          //       // 轴线颜色
+          //       axisLine: {
+          //         lineStyle: { color: "#333333" },
+          //       },
+          //       // 网格线
+          //       splitLine: { show: false },
+          //     },
+          //   ],
+          //   series: [
+          //     {
+          //       name: "单井平均日产油",
+          //       type: "line",
+          //       data: this.collectDailyOil,
+          //     },
+          //   ],
+          // });
           // 日注水量
           let myChart5 = echarts.init(collectDailyWater);
           myChart5.setOption({
@@ -660,14 +709,14 @@ export default {
               },
             },
             legend: {
-              data: ["单井平均日注水"],
+              data: ["单井平均日注水", "单井平均日配注量"],
               textStyle: {
                 color: "#333333",
                 fontSize: 12,
               },
             },
             // 折线颜色
-            color: ["#0606FF"],
+            color: ["#0606FF", "#AEDFFE"],
             grid: {
               width: "90%",
               height: "75%",
@@ -684,7 +733,7 @@ export default {
                 type: "value",
                 axisLabel: {
                   textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
+                    color: "#0606FF", //更改坐标轴文字颜色
                     fontSize: 12, //更改坐标轴文字大小
                   },
                 },
@@ -695,70 +744,16 @@ export default {
                 },
                 splitNumber: 4,
                 axisLine: {
-                  lineStyle: { color: "#333333" },
+                  lineStyle: { color: "#0606FF" },
                 },
                 splitLine: { show: false },
               },
-            ],
-            series: [
-              {
-                name: "单井平均日注水",
-                type: "line",
-                data: this.collectDailyWater,
-              },
-            ],
-          });
-          // 日配注量
-          let myChart6 = echarts.init(collectDailyWaterAllocation);
-          myChart6.setOption({
-            tooltip: {
-              trigger: "axis",
-            },
-            toolbox: {
-              show: true,
-              feature: {
-                magicType: { type: ["line", "bar"] },
-                saveAsImage: {},
-              },
-            },
-            legend: {
-              data: ["单井平均日配注量"],
-              textStyle: {
-                color: "#333333",
-                fontSize: 12,
-              },
-            },
-            color: ["#AEDFFE"],
-            grid: {
-              width: "90%",
-              height: "56%",
-              top: 20,
-              left: 50,
-            },
-            xAxis: {
-              boundaryGap: false,
-              data: this.collectDate,
-              axisLabel: {
-                show: this.collectXAxisIsShow,
-                textStyle: {
-                  color: "#333333", //更改坐标轴文字颜色
-                  fontSize: 12, //更改坐标轴文字大小
-                },
-              },
-              // 轴线颜色
-              axisLine: {
-                lineStyle: { color: "#333333" },
-              },
-              // 网格线
-              splitLine: { show: false },
-            },
-            yAxis: [
               {
                 name: "配注量(m³)",
                 type: "value",
                 axisLabel: {
                   textStyle: {
-                    color: "#333333", //更改坐标轴文字颜色
+                    color: "#AEDFFE", //更改坐标轴文字颜色
                     fontSize: 12, //更改坐标轴文字大小
                   },
                 },
@@ -769,19 +764,163 @@ export default {
                 },
                 splitNumber: 3,
                 axisLine: {
-                  lineStyle: { color: "#333333" },
+                  lineStyle: { color: "#AEDFFE" },
                 },
                 splitLine: { show: false },
               },
             ],
             series: [
               {
+                name: "单井平均日注水",
+                type: "line",
+                data: this.collectDailyWater,
+                yAxisIndex: 0, // 相对应的坐标轴
+              },
+              {
                 name: "单井平均日配注量",
                 type: "line",
                 data: this.collectDailyWaterAllocation,
+                yAxisIndex: 1, // 相对应的坐标轴
               },
             ],
           });
+          // 综合含水率
+          let myChartWater = echarts.init(waterContent);
+          myChartWater.setOption({
+            tooltip: {
+              trigger: "axis",
+            },
+            toolbox: {
+              show: true,
+              feature: {
+                magicType: { type: ["line", "bar"] },
+                saveAsImage: {},
+              },
+            },
+            // 折线颜色
+            color: ["#5555FF"],
+            grid: {
+              width: "90%",
+              height: "75%",
+              top: 20,
+              left: 50,
+            },
+            legend: {
+              data: ["综合含水率(%)"],
+              textStyle: {
+                color: "#333333",
+                fontSize: 12,
+              },
+            },
+            xAxis: {
+              show: false,
+              data: this.collectDate,
+            },
+            yAxis: [
+              {
+                name: "综合含水率(%)",
+                type: "value",
+                axisLabel: {
+                  textStyle: {
+                    color: "#5555FF", //更改坐标轴文字颜色
+                    fontSize: 12, //更改坐标轴文字大小
+                  },
+                },
+                nameLocation: "middle",
+                nameTextStyle: {
+                  padding: [0, 0, 15, 0],
+                  fontSize: 12,
+                },
+                splitNumber: 4,
+                axisLine: {
+                  lineStyle: { color: "#5555FF" },
+                },
+                splitLine: { show: false },
+              },
+            ],
+            series: [
+              {
+                name: "综合含水率(%)",
+                type: "line",
+                data: this.waterContent,
+                yAxisIndex: 0,
+              },
+            ],
+          });
+          // // 日配注量
+          // let myChart6 = echarts.init(collectDailyWaterAllocation);
+          // myChart6.setOption({
+          //   tooltip: {
+          //     trigger: "axis",
+          //   },
+          //   toolbox: {
+          //     show: true,
+          //     feature: {
+          //       magicType: { type: ["line", "bar"] },
+          //       saveAsImage: {},
+          //     },
+          //   },
+          //   legend: {
+          //     data: ["单井平均日配注量"],
+          //     textStyle: {
+          //       color: "#333333",
+          //       fontSize: 12,
+          //     },
+          //   },
+          //   color: ["#AEDFFE"],
+          //   grid: {
+          //     width: "90%",
+          //     height: "56%",
+          //     top: 20,
+          //     left: 50,
+          //   },
+          //   xAxis: {
+          //     boundaryGap: false,
+          //     data: this.collectDate,
+          //     axisLabel: {
+          //       show: this.collectXAxisIsShow,
+          //       textStyle: {
+          //         color: "#333333", //更改坐标轴文字颜色
+          //         fontSize: 12, //更改坐标轴文字大小
+          //       },
+          //     },
+          //     // 轴线颜色
+          //     axisLine: {
+          //       lineStyle: { color: "#333333" },
+          //     },
+          //     // 网格线
+          //     splitLine: { show: false },
+          //   },
+          //   yAxis: [
+          //     {
+          //       name: "配注量(m³)",
+          //       type: "value",
+          //       axisLabel: {
+          //         textStyle: {
+          //           color: "#333333", //更改坐标轴文字颜色
+          //           fontSize: 12, //更改坐标轴文字大小
+          //         },
+          //       },
+          //       nameLocation: "middle",
+          //       nameTextStyle: {
+          //         padding: [0, 0, 15, 0],
+          //         fontSize: 12,
+          //       },
+          //       splitNumber: 3,
+          //       axisLine: {
+          //         lineStyle: { color: "#333333" },
+          //       },
+          //       splitLine: { show: false },
+          //     },
+          //   ],
+          //   series: [
+          //     {
+          //       name: "单井平均日配注量",
+          //       type: "line",
+          //       data: this.collectDailyWaterAllocation,
+          //     },
+          //   ],
+          // });
         }
       });
     },
@@ -936,6 +1075,7 @@ export default {
       this.collectDailyOil = [];
       this.collectDailyWater = [];
       this.collectDailyWaterAllocation = [];
+      this.waterContent = [];
       for (var i = 0; i < val.length; i++) {
         this.collectDate[i] = val[i].prodDate;
         this.collectOil[i] = val[i].oilWellOpen;
@@ -944,6 +1084,7 @@ export default {
         this.collectDailyOil[i] = val[i].oilProd;
         this.collectDailyWater[i] = val[i].waterInjection;
         this.collectDailyWaterAllocation[i] = val[i].waterAllocation;
+        this.waterContent[i] = val[i].waterContent;
       }
     },
     // 油井情况初始化
