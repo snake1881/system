@@ -813,8 +813,21 @@ export default {
               },
             },
             xAxis: {
-              show: false,
+              boundaryGap: false,
               data: this.collectDate,
+              axisLabel: {
+                show: this.collectXAxisIsShow,
+                textStyle: {
+                  color: "#333333", //更改坐标轴文字颜色
+                  fontSize: 12, //更改坐标轴文字大小
+                },
+              },
+              // 轴线颜色
+              axisLine: {
+                lineStyle: { color: "#333333" },
+              },
+              // 网格线
+              splitLine: { show: false },
             },
             yAxis: [
               {
