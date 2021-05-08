@@ -76,12 +76,12 @@
       >
         绩效考核
       </el-menu-item>
-      <el-menu-item
+      <!-- <el-menu-item
       index="/information/information"
       :key="index"
     >
       基础信息
-    </el-menu-item>
+    </el-menu-item> -->
         <el-menu-item
           index="/system/system"
           :key="index"

@@ -1,31 +1,31 @@
 <template>
-  <!-- 井场信息 -->
-  <div class="BasTeamInfor">
+  <!-- 注水站信息-->
+  <div class="BaseWaterStation">
     <!-- 条件查询 -->
-    <el-form class="BasTeamInfor_form" v-model="termData" :inline="true">
-      <el-form-item label="施工队伍名称">
+    <el-form class="BaseWaterStation_form" v-model="termData" :inline="true">
+      <el-form-item label="注水站名称">
         <el-input
-          v-model="termData.teamName"
+          v-model="termData.waterStationName"
           clearable
           style="width: 150px"
           size="medium"
-          placeholder="请输入施工队"
+          placeholder="井号"
         />
       </el-form-item>
-      <el-form-item label="施工状态">
+      <el-form-item label="采油站">
         <el-select
-          v-model="termData.status"
+          v-model="termData.oilStationId"
           clearable
           filterable
           style="width: 150px"
-          placeholder="请选择"
+          placeholder="全区"
           size="medium"
         >
           <el-option
-            v-for="item in statusOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="item in orgNameData"
+            :key="item.oilStationId"
+            :label="item.oilStationName"
+            :value="item.oilStationId"
           />
         </el-select>
       </el-form-item>
@@ -34,8 +34,8 @@
           type="primary"
           icon="el-icon-search"
           size="small"
-          v-hasPermission="['information:team:list']"
-          @click="searchBasTeamInfor()"
+          v-hasPermission="['information:waterStation:list']"
+          @click="searchBaseWaterStation()"
           >查询</el-button
         >
       </el-form-item>
@@ -44,18 +44,18 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          v-hasPermission="['information:team:add']"
-          @click="addBasTeamInfor()"
+          v-hasPermission="['information:waterStation:add']"
+          @click="addBaseWaterStation()"
           >新增</el-button
         >
       </el-form-item>
     </el-form>
     <el-table
-      class="BasTeamInfor_table"
+      class="BaseWaterStation_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
-      :data="BasTeamInforData"
+      :data="BaseWaterStationData"
       height="85%"
       border
       lazy
@@ -64,51 +64,64 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-      <el-table-column prop="index" align="center" label="序号" width="100" />
+      <el-table-column prop="index" align="center" label="序号" min-width="5%" />
       <el-table-column
-        prop="teamName"
+        prop="waterStationName"
         align="center"
-        label="施工队名称"
-        width="200"
+        label="注水站名称"
+        min-width="12%"
       />
       <el-table-column
-        prop="leader"
+        prop="oilStationName"
         align="center"
-        label="负责人"
-        width="150"
+        label="采油站"
+        min-width="12%"
       />
       <el-table-column
-        prop="telephone"
+        prop="injectionScale"
         align="center"
-        label="联系电话"
-        width="200"
+        label="注水规模(M3)"
+        min-width="12%"
       />
       <el-table-column
-        prop="status"
+        prop="startDate"
         align="center"
-        label="施工状态"
-        width="140"
-      >
-        <template slot-scope="scope">
-          <p v-if="scope.row.status == '0'">空闲</p>
-          <p v-if="scope.row.status == '1'">施工中</p>
-        </template>
-      </el-table-column>
-      <el-table-column prop="remark" align="center" label="备注" width="200" />
-      <el-table-column align="center" label="操作" width="200">
+        label="投用日期"
+        min-width="12%"
+      />
+
+      <el-table-column
+        prop="altitude"
+        align="center"
+        label="海拔高度"
+        min-width="12%"
+      />
+      <el-table-column
+        prop="longitude"
+        align="center"
+        label="经度"
+        min-width="12%"
+      />
+      <el-table-column
+        prop="latitude"
+        align="center"
+        label="纬度"
+        min-width="12%"
+      />
+      <el-table-column align="center" label="操作" min-width="10%">
         <template slot-scope="scope"
           ><el-button
             type="text"
             size="small"
-            v-hasPermission="['information:team:update']"
-            @click="editBasTeamInfor(scope.row)"
+            v-hasPermission="['information:waterStation:update']"
+            @click="editBaseWaterStation(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
-            v-hasPermission="['information:team:delete']"
-            @click="BasTeamInforDelete(scope.row)"
+            v-hasPermission="['information:waterStation:delete']"
+            @click="BaseWaterStationDelete(scope.row)"
             class="iconfont icon-shanchu"
           />
         </template>
@@ -116,7 +129,7 @@
     </el-table>
 
     <!-- 分页 -->
-    <div class="BasTeamInfor_page">
+    <div class="BaseWaterStation_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -128,77 +141,78 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-BasTeamInfor
-      :addBasTeamInforVisible="addBasTeamInforVisible"
-      @BasTeamInforRowClose="addBasTeamInforClose"
+    <common-add-BaseWaterStation
+      :addBaseWaterStationVisible="addBaseWaterStationVisible"
+      @BaseWaterStationRowClose="addBaseWaterStationClose"
     />
     <!-- 编辑 -->
-    <common-edit-BasTeamInfor
-      :editBasTeamInforVisible="editBasTeamInforVisible"
-      :editData="editBasTeamInforData"
-      @BasTeamInforRowClose="editBasTeamInforClose"
+    <common-edit-BaseWaterStation
+      :editBaseWaterStationVisible="editBaseWaterStationVisible"
+      :editData="editBaseWaterStationData"
+      @BaseWaterStationRowClose="editBaseWaterStationClose"
     />
   </div>
 </template>
 <script>
-import CommonAddBasTeamInfor from "../..//components/baseinformation/basteaminfor/CommonAddBaseTeamInfor";
-import CommonEditBasTeamInfor from "../..//components/baseinformation/basteaminfor/CommonEditBaseTeamInfor";
+import CommonAddBaseWaterStation from "../../..//components/baseinformation/basewaterstation/CommonAddBaseWaterStation";
+import CommonEditBaseWaterStation from "../../..//components/baseinformation/basewaterstation/CommonEditBaseWaterStation";
 export default {
   components: {
-    CommonAddBasTeamInfor,
-    CommonEditBasTeamInfor,
+    CommonAddBaseWaterStation,
+    CommonEditBaseWaterStation,
   },
   data() {
     return {
       termData: {
-        status: "",
-        teamName: "",
+        waterStationName: "",
+        oilStationId: "",
       },
       file: [],
       fileList: [],
       loading: true,
-      statusOptions: [
+      wellCategoryOptions: [
         {
           value: "0",
-          label: "空闲",
+          label: "注水井",
         },
         {
           value: "1",
-          label: "施工中",
+          label: "油井",
         },
       ],
-      BasTeamInforData: [],
+
+      BaseWaterStationData: [],
       orgNameData: [],
       // 分页数据
       currentPage: 1,
       pageSize: 10,
       total: 0,
       // 编辑
-      editBasTeamInforVisible: false,
-      editBasTeamInforData: {},
+      editBaseWaterStationVisible: false,
+      editBaseWaterStationData: {},
       //新增
-      addBasTeamInforVisible: false,
+      addBaseWaterStationVisible: false,
     };
   },
   created() {
     this.orgNameInit();
-    this.BasTeamInforInit();
+    this.BaseWaterStationInit();
   },
   methods: {
     // 根据输入信息查询
-    searchBasTeamInfor() {
+    searchBaseWaterStation() {
       this.getRequest(
-        "/basTeamInfor/basTeamInfor?current=" +
+        "/basWaterStationInfor/byTerm?current=" +
           this.currentPage +
+          "&oilStationId=" +
+          this.termData.oilStationId +
           "&pageSize=" +
           this.pageSize +
-          "&status=" +
-          this.termData.status +
-          "&teamName=" +
-          this.termData.teamName
+          "&waterStationName=" +
+          this.termData.waterStationName
       ).then((resp) => {
         if (resp) {
-          this.BasTeamInforData = resp.data.records;
+          this.BaseWaterStationData = resp.data.records;
           this.total = resp.data.total;
           this.filterData = resp.data.records;
           this.currentPage = resp.data.current;
@@ -208,16 +222,16 @@ export default {
       });
     },
     //表格数据初始化
-    BasTeamInforInit() {
+    BaseWaterStationInit() {
       this.getRequest(
-        "/basTeamInfor/basTeamInfor?current=" +
+        "/basWaterStationInfor/byTerm?current=" +
           this.currentPage +
           "&pageSize=" +
           this.pageSize
       ).then((resp) => {
         this.loading = false;
         if (resp) {
-          this.BasTeamInforData = resp.data.records;
+          this.BaseWaterStationData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
@@ -228,34 +242,34 @@ export default {
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.searchBasTeamInfor();
+      this.searchBaseWaterStation();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.searchBasTeamInfor();
+      this.searchBaseWaterStation();
     },
     // 编辑
-    editBasTeamInfor(val) {
-      this.editBasTeamInforData = val;
-      this.editBasTeamInforVisible = true;
+    editBaseWaterStation(val) {
+      this.editBaseWaterStationData = val;
+      this.editBaseWaterStationVisible = true;
     },
     // 关闭编辑框
-    editBasTeamInforClose() {
-      this.editBasTeamInforVisible = false;
+    editBaseWaterStationClose() {
+      this.editBaseWaterStationVisible = false;
     },
     //新增
-    addBasTeamInfor() {
-      this.addBasTeamInforVisible = true;
-      this.BasTeamInforInit();
+    addBaseWaterStation() {
+      this.addBaseWaterStationVisible = true;
+      this.BaseWaterStationInit();
     },
     //关闭新增框
-    addBasTeamInforClose() {
-      this.addBasTeamInforVisible = false;
+    addBaseWaterStationClose() {
+      this.addBaseWaterStationVisible = false;
     },
     //获取序号
     getIndex() {
-      this.BasTeamInforData.forEach((item, index) => {
+      this.BaseWaterStationData.forEach((item, index) => {
         item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         return item;
       });
@@ -270,24 +284,25 @@ export default {
       });
     },
     //删除某行数据（逻辑删除）
-    BasTeamInforDelete(val) {
+    BaseWaterStationDelete(val) {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
         .then(() => {
-          this.deleteRequest("/basTeamInfor/basTeam?teamId=" + val.teamId).then(
-            (resp) => {
-              if (resp) {
-                this.$message({
-                  type: "success",
-                  message: "删除成功!",
-                });
-              }
-              this.searchBasTeamInfor();
+          this.deleteRequest(
+            "/basWaterStationInfor/waterStation?waterStationId=" +
+              val.waterStationId
+          ).then((resp) => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "删除成功!",
+              });
             }
-          );
+            this.searchBaseWaterStation();
+          });
         })
         .catch(() => {
           this.$message({
@@ -300,5 +315,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/css/information/teaminfor.css";
+@import "../../../assets/css/information/waterstationinfor.css";
 </style>
