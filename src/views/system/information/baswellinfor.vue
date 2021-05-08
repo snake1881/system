@@ -112,19 +112,19 @@
         prop="wellName"
         align="center"
         label="井号"
-        width="100"
+        min-width="5%"
       />
       <el-table-column
         prop="wellSiteName"
         align="center"
         label="井场"
-        width="150"
+        min-width="10%"
       />
       <el-table-column
         prop="oilStationName"
         align="center"
         label="采油站"
-        width="150"
+        min-width="10%"
       />
       <el-table-column
         v-if="
@@ -135,7 +135,7 @@
         prop="waterStationName"
         align="center"
         label="注水站"
-        width="100"
+        min-width="10%"
       />
       <el-table-column
         v-if="
@@ -146,25 +146,25 @@
         prop="distributionRoomName"
         align="center"
         label="配水间"
-        width="100"
+        min-width="10%"
       />
       <el-table-column
         prop="wellDepth"
         align="center"
         label="井深"
-        width="100"
+        min-width="5%"
       />
       <el-table-column
         prop="productionDate"
         align="center"
         label="投产日期"
-        width="140"
+        min-width="10%"
       />
       <el-table-column
         prop="wellCategory"
         align="center"
         label="井类别"
-        width="100"
+        min-width="5%"
       >
         <template slot-scope="scope">
           <p v-if="scope.row.wellCategory == '0'">注水井</p>
@@ -178,7 +178,7 @@
         prop="wellType"
         align="center"
         label="井类型"
-        width="100"
+        min-width="5%"
       >
         <template slot-scope="scope">
           <p v-if="scope.row.wellType == '0'">旧井</p>
@@ -190,15 +190,15 @@
         prop="longitude"
         align="center"
         label="经度"
-        width="120"
+        min-width="10%"
       />
       <el-table-column
         prop="latitude"
         align="center"
         label="纬度"
-        width="120"
+        min-width="10%"
       />
-      <el-table-column fixed="right" align="center" label="操作" width="150">
+      <el-table-column fixed="right" align="center" label="操作" min-width="10%">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -243,8 +243,8 @@
   </div>
 </template>
 <script>
-import CommonAddBaseWellInfor from "../..//components/baseinformation/basewell/CommonAddBaseWellInfor";
-import CommonEditBaseWellInfor from "../..//components/baseinformation/basewell/CommonEditBaseWellInfor";
+import CommonAddBaseWellInfor from "../../..//components/baseinformation/basewell/CommonAddBaseWellInfor";
+import CommonEditBaseWellInfor from "../../..//components/baseinformation/basewell/CommonEditBaseWellInfor";
 export default {
   components: {
     CommonAddBaseWellInfor,
@@ -489,5 +489,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/css/information/wellinfor.css";
+@import "../../../assets/css/information/wellinfor.css";
 </style>
