@@ -131,7 +131,7 @@
                 :value="item.layerName"
               />
             </el-select>
-            <el-tooltip effect="dark" content="是否展示时间轴" placement="top">
+            <!-- <el-tooltip effect="dark" content="是否展示时间轴" placement="top">
               <el-switch
                 v-model="collectXAxisIsShow"
                 active-color="#6772dd"
@@ -139,7 +139,7 @@
                 @change="isShowChange()"
               >
               </el-switch>
-            </el-tooltip>
+            </el-tooltip> -->
           </div>
           <div class="main_middle_2_item_content">
             <!-- 油井开井 -->
