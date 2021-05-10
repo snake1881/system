@@ -165,14 +165,14 @@
       <el-table-column
         prop="dayProd"
         align="center"
-        label="日累产液"
-        width="90"
+        label="实际累计液量"
+        min-width="120"
       />
       <el-table-column
         prop="liquidProd"
         align="center"
-        label="24小时产液量"
-        width="120"
+        label="24小时预测液量"
+        min-width="140"
       />
        <el-table-column
         prop="waterContent"
