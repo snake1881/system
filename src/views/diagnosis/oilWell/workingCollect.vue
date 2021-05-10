@@ -1887,6 +1887,12 @@ export default {
               padding: [0, 0, 10, 0],
               fontSize: 14,
             },
+                          min: function (value) {
+            return Math.round(value.min - 50);
+          },
+          max: function (value) {
+            return Math.round(value.max + 50);
+          },
             splitLine: { show: false },
           },
           {
@@ -1920,6 +1926,12 @@ export default {
               padding: [0, 0, 10, 0],
               fontSize: 14,
             },
+                          min: function (value) {
+            return Math.round(value.min - 50);
+          },
+          max: function (value) {
+            return Math.round(value.max + 50);
+          },
             splitLine: { show: false },
             // axisLabel: {
             //   formatter: "{value} ml",

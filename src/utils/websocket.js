@@ -1,8 +1,14 @@
 import store from '@/store'
 import { _ } from 'core-js';
+
+import router from "../router";
+
 // import { from } from 'core-js/fn/array';
 // import { construct } from 'core-js/fn/reflect';
 // import { Notification } from 'element-ui';
+import { Alert } from 'element-ui'
+import { confirm } from 'element-ui'
+import { MessageBox } from 'element-ui';
 import { Message } from 'element-ui'
 import { baseWsUrl } from '../main' //ws通信地址
 // var baseUrl = baseUrl;
@@ -32,18 +38,39 @@ var websocket = {
         }
 
         ws.onmessage = function (e) {
-            console.log("接收消息:" + e.data)
+            console.log("接收消息:" + JSON.parse(e.data))
             var time = new Date().getTime();
             var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
             //接收消息时弹出消息弹窗
             var string = "{\"Title\":\"欢迎\",\"Message\":\"欢迎" + userId + "加入聊天\"}";
             var string1 = "心跳检测正常" + userId;
             if (string != e.data && string1 != e.data) {
-                Message({
-                    message: '收到新的通知，请查看！',
-                    type: 'success',
-                    duration: 800,
-                });
+                var resu = JSON.parse(e.data);
+                console.log(resu);
+                if (null != resu.type && "" != resu.type) {
+                    // console.log(resu.content);
+                    console.log(resu.content.length);
+                   MessageBox.confirm('当前'+ resu.content.length +'口井存在异常！', '异常报警', {
+                        confirmButtonText: '查看详情',
+                        cancelButtonText: '已收到！',
+                        type: 'error'
+                      }).then(() => {
+                          console.log("跳转页面");
+                        router.push({ path: "/diagnosis/alarmpush/alarmpush" });
+                      }).catch(() => {
+                        Message({
+                          type: 'info',
+                          message: '收到异常信息！'
+                        });          
+                      });
+
+                } else {
+                    Message({
+                        message: '收到新的通知，请查看！',
+                        type: 'success',
+                        duration: 800,
+                    });
+                }
             }
             //处理心跳测试成功消息
             else if (string1 == e.data) {
@@ -152,20 +179,20 @@ var heartCheck = {
         var userId = JSON.parse(window.sessionStorage.getItem("user")).userId;
         this.timeoutObj && clearTimeout(this.timeoutObj);
         this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj);
-      
-            this.timeoutObj = setTimeout(function () {
-                //这里发送一个心跳，后端收到后，返回一个心跳消息，
-                //onmessage拿到返回的心跳就说明连接正常
-                console.log('心跳检测...');
-                ws.send("HeartBeat:" + userId);
-                self.serverTimeoutObj = setTimeout(function () {
-                    if (ws.readyState != 1) {
-                        ws.close();
-                  
-                    }
-                }, self.timeout);
-            }, this.timeout)
-      
+
+        this.timeoutObj = setTimeout(function () {
+            //这里发送一个心跳，后端收到后，返回一个心跳消息，
+            //onmessage拿到返回的心跳就说明连接正常
+            console.log('心跳检测...');
+            ws.send("HeartBeat:" + userId);
+            self.serverTimeoutObj = setTimeout(function () {
+                if (ws.readyState != 1) {
+                    ws.close();
+
+                }
+            }, self.timeout);
+        }, this.timeout)
+
     }
 }
 
