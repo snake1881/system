@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18324183",
+      "name": "报警推送设置",
+      "font_class": "baojingtuisongshezhi",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
       "icon_id": "5772921",
       "name": "施工队",
       "font_class": "shigongdui",
