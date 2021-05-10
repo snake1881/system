@@ -183,7 +183,7 @@
       <el-table-column
         prop="tempreTure"
         align="center"
-        label="含水温度(℃)"
+        label="井口温度(℃)"
         min-width="110"
       />
       <el-table-column align="center" label="操作" width="130" fixed="right">

@@ -1,0 +1,23 @@
+.AlarmPush {
+    width: 100%;
+    height: 94%;
+}
+
+.AlarmPush_form {
+    width: 99%;
+    height: 8%;
+    padding-left: 1%;
+    padding-top: 5px;
+    background-color: white;
+}
+
+.AlarmPush_table {
+    width: 100%;
+    height: 87%;
+}
+
+.AlarmPush_page {
+    width: 100%;
+    height: 4%;
+    background-color:  white;
+}
