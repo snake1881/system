@@ -166,13 +166,13 @@
         prop="dayProd"
         align="center"
         label="实际累计液量"
-        min-width="120"
+        min-width="80"
       />
       <el-table-column
         prop="liquidProd"
         align="center"
         label="24小时预测液量"
-        min-width="140"
+        min-width="120"
       />
        <el-table-column
         prop="waterContent"
