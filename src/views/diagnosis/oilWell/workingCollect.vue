@@ -1875,8 +1875,9 @@ export default {
         },
         yAxis: [
           {
-            name: "产液量",
+            name: "产\n液\n量" ,
             nameLocation: "middle",
+            nameRotate: 0,
             // nameGap: 30,
             type: "value",
             offset: "10",
@@ -1884,13 +1885,20 @@ export default {
              color: "#ed6741",
             // axisLine: { onZero: false },
             nameTextStyle: {
-              padding: [0, 0, 10, 0],
+              padding: [0, 13, 0, 0],
               fontSize: 14,
             },
+                          min: function (value) {
+            return Math.round(value.min - 50);
+          },
+          max: function (value) {
+            return Math.round(value.max + 50);
+          },
             splitLine: { show: false },
           },
           {
-            name: "产油",
+            name: "产\n油",
+            nameRotate: 0,
             nameLocation: "middle",
             // nameGap: 30,
             type: "value",
@@ -1899,7 +1907,7 @@ export default {
             color: "#2670f7",
             // axisLine: { onZero: false },
             nameTextStyle: {
-              padding: [0, 0, 10, 0],
+              padding: [0, 13, 0, 0],
               fontSize: 14,
             },
             splitLine: { show: false },
@@ -1908,7 +1916,8 @@ export default {
             // },
           },
           {
-            name: "含水率",
+            name: "含\n水\n率",
+            nameRotate: 0,
             nameLocation: "middle",
             // nameGap: 30,
             type: "value",
@@ -1917,9 +1926,16 @@ export default {
             color: "#57c5d9",
             // axisLine: { onZero: false },
             nameTextStyle: {
-              padding: [0, 0, 10, 0],
+              align: "center",
+              padding: [0, 50, 0, 0],
               fontSize: 14,
             },
+                          min: function (value) {
+            return Math.round(value.min - 50);
+          },
+          max: function (value) {
+            return Math.round(value.max + 50);
+          },
             splitLine: { show: false },
             // axisLabel: {
             //   formatter: "{value} ml",
@@ -2109,14 +2125,16 @@ export default {
             type: "time",
           },
           yAxis: {
-            name: "载荷(KN)",
+            name: "载\n荷\n(KN)",
+            nameRotate:0,
             nameLocation: "middle",
             splitLine: { show: false },
             nameGap: 30,
             type: "value",
             axisLine: { onZero: false },
             nameTextStyle: {
-              padding: [0, 0, 15, 0],
+              align:"center",
+              padding: [0, 50, 0, 0],
               fontSize: 16,
             },
           },

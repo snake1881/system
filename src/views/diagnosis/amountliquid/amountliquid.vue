@@ -165,14 +165,14 @@
       <el-table-column
         prop="dayProd"
         align="center"
-        label="日累产液"
-        width="90"
+        label="实际累计液量"
+        min-width="120"
       />
       <el-table-column
         prop="liquidProd"
         align="center"
-        label="24小时产液量"
-        width="120"
+        label="24小时预测液量"
+        min-width="140"
       />
        <el-table-column
         prop="waterContent"
@@ -183,7 +183,7 @@
       <el-table-column
         prop="tempreTure"
         align="center"
-        label="含水温度(℃)"
+        label="井口温度(℃)"
         min-width="110"
       />
       <el-table-column align="center" label="操作" width="130" fixed="right">

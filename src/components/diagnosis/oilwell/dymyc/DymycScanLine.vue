@@ -147,7 +147,7 @@ export default {
               params[0].value[0] +
               "</p>" +
               "<p>动液面：" +
-              params[0].value[1] +
+              params[0].value[1].toFixed(2) +
               "m</p>" +
               "</div>"
             );

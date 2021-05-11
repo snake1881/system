@@ -1,15 +1,15 @@
 <template>
-  <!-- 注水站信息-->
-  <div class="BaseWaterStation">
+  <!-- 井场信息 -->
+  <div class="BaseWellSite">
     <!-- 条件查询 -->
-    <el-form class="BaseWaterStation_form" v-model="termData" :inline="true">
-      <el-form-item label="注水站名称">
+    <el-form class="BaseWellSite_form" v-model="termData" :inline="true">
+      <el-form-item label="井场名称">
         <el-input
-          v-model="termData.waterStationName"
+          v-model="termData.wellSiteName"
           clearable
           style="width: 150px"
           size="medium"
-          placeholder="井号"
+          placeholder="请输入井场"
         />
       </el-form-item>
       <el-form-item label="采油站">
@@ -34,8 +34,8 @@
           type="primary"
           icon="el-icon-search"
           size="small"
-          v-hasPermission="['information:waterStation:list']"
-          @click="searchBaseWaterStation()"
+          v-hasPermission="['information:wellStation:list']"
+          @click="searchBaseWellSite()"
           >查询</el-button
         >
       </el-form-item>
@@ -44,18 +44,18 @@
           type="primary"
           icon="el-icon-plus"
           size="small"
-          v-hasPermission="['information:waterStation:add']"
-          @click="addBaseWaterStation()"
+          v-hasPermission="['information:wellStation:add']"
+          @click="addBaseWellSite()"
           >新增</el-button
         >
       </el-form-item>
     </el-form>
     <el-table
-      class="BaseWaterStation_table"
+      class="BaseWellSite_table"
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
-      :data="BaseWaterStationData"
+      :data="BaseWellSiteData"
       height="85%"
       border
       lazy
@@ -64,64 +64,70 @@
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
-      <el-table-column prop="index" align="center" label="序号" width="80" />
+      <el-table-column prop="index" align="center" label="序号" min-width="5%" />
       <el-table-column
-        prop="waterStationName"
+        prop="wellSiteName"
         align="center"
-        label="注水站名称"
-        width="180"
+        label="井场名称"
+        min-width="10%"
       />
       <el-table-column
         prop="oilStationName"
         align="center"
         label="采油站"
-        width="150"
+       min-width="10%"
       />
       <el-table-column
-        prop="injectionScale"
+        prop="tankNum"
         align="center"
-        label="注水规模(M3)"
-        width="150"
+        label="油罐数量"
+        min-width="10%"
       />
       <el-table-column
-        prop="startDate"
+        prop="totalCapacity"
         align="center"
-        label="投用日期"
-        width="200"
+        label="油罐总容量(M3)"
+        min-width="10%"
       />
-
+      <el-table-column
+        prop="completionDate"
+        align="center"
+        label="建成日期"
+        min-width="10%"
+      />
+      <el-table-column
+        prop="position"
+        align="center"
+        label="井场位置"
+        min-width="10%"
+      />
       <el-table-column
         prop="altitude"
         align="center"
         label="海拔高度"
-        width="120"
+        min-width="10%"
       />
       <el-table-column
         prop="longitude"
         align="center"
         label="经度"
-        width="120"
+        min-width="10%"
       />
-      <el-table-column
-        prop="latitude"
-        align="center"
-        label="纬度"
-        width="120"
-      />
-      <el-table-column align="center" label="操作" width="180">
+      <el-table-column prop="latitude" align="center" label="纬度" min-width="10%" />
+      <el-table-column align="center" label="操作" min-width="10%">
         <template slot-scope="scope"
           ><el-button
             type="text"
             size="small"
-            v-hasPermission="['information:waterStation:update']"
-            @click="editBaseWaterStation(scope.row)"
+            v-hasPermission="['information:wellStation:update']"
+            @click="editBaseWellSite(scope.row)"
             class="iconfont icon-bianji"
           />
           <el-button
             type="text"
             size="small"
-            v-hasPermission="['information:waterStation:delete']"
-            @click="BaseWaterStationDelete(scope.row)"
+            v-hasPermission="['information:wellStation:delete']"
+            @click="BaseWellSiteDelete(scope.row)"
             class="iconfont icon-shanchu"
           />
         </template>
@@ -129,7 +135,7 @@
     </el-table>
 
     <!-- 分页 -->
-    <div class="BaseWaterStation_page">
+    <div class="BaseWellSite_page">
       <el-pagination
         :current-page.sync="currentPage"
         :page-size="pageSize"
@@ -141,30 +147,30 @@
       />
     </div>
     <!-- 新增 -->
-    <common-add-BaseWaterStation
-      :addBaseWaterStationVisible="addBaseWaterStationVisible"
-      @BaseWaterStationRowClose="addBaseWaterStationClose"
+    <common-add-BaseWellSite
+      :addBaseWellSiteVisible="addBaseWellSiteVisible"
+      @BaseWellSiteRowClose="addBaseWellSiteClose"
     />
     <!-- 编辑 -->
-    <common-edit-BaseWaterStation
-      :editBaseWaterStationVisible="editBaseWaterStationVisible"
-      :editData="editBaseWaterStationData"
-      @BaseWaterStationRowClose="editBaseWaterStationClose"
+    <common-edit-BaseWellSite
+      :editBaseWellSiteVisible="editBaseWellSiteVisible"
+      :editData="editBaseWellSiteData"
+      @BaseWellSiteRowClose="editBaseWellSiteClose"
     />
   </div>
 </template>
 <script>
-import CommonAddBaseWaterStation from "../..//components/baseinformation/basewaterstation/CommonAddBaseWaterStation";
-import CommonEditBaseWaterStation from "../..//components/baseinformation/basewaterstation/CommonEditBaseWaterStation";
+import CommonAddBaseWellSite from "../../..//components/baseinformation/basewellsite/CommonAddBaseWellSite";
+import CommonEditBaseWellSite from "../../..//components/baseinformation/basewellsite/CommonEditBaseWellSite";
 export default {
   components: {
-    CommonAddBaseWaterStation,
-    CommonEditBaseWaterStation,
+    CommonAddBaseWellSite,
+    CommonEditBaseWellSite,
   },
   data() {
     return {
       termData: {
-        waterStationName: "",
+        wellSiteName: "",
         oilStationId: "",
       },
       file: [],
@@ -181,38 +187,38 @@ export default {
         },
       ],
 
-      BaseWaterStationData: [],
+      BaseWellSiteData: [],
       orgNameData: [],
       // 分页数据
       currentPage: 1,
       pageSize: 10,
       total: 0,
       // 编辑
-      editBaseWaterStationVisible: false,
-      editBaseWaterStationData: {},
+      editBaseWellSiteVisible: false,
+      editBaseWellSiteData: {},
       //新增
-      addBaseWaterStationVisible: false,
+      addBaseWellSiteVisible: false,
     };
   },
   created() {
     this.orgNameInit();
-    this.BaseWaterStationInit();
+    this.BaseWellSiteInit();
   },
   methods: {
     // 根据输入信息查询
-    searchBaseWaterStation() {
+    searchBaseWellSite() {
       this.getRequest(
-        "/basWaterStationInfor/byTerm?current=" +
+        "/basWellSiteInfor/wellSites?current=" +
           this.currentPage +
           "&oilStationId=" +
           this.termData.oilStationId +
           "&pageSize=" +
           this.pageSize +
-          "&waterStationName=" +
-          this.termData.waterStationName
+          "&wellSiteName=" +
+          this.termData.wellSiteName
       ).then((resp) => {
         if (resp) {
-          this.BaseWaterStationData = resp.data.records;
+          this.BaseWellSiteData = resp.data.records;
           this.total = resp.data.total;
           this.filterData = resp.data.records;
           this.currentPage = resp.data.current;
@@ -222,16 +228,16 @@ export default {
       });
     },
     //表格数据初始化
-    BaseWaterStationInit() {
+    BaseWellSiteInit() {
       this.getRequest(
-        "/basWaterStationInfor/byTerm?current=" +
+        "/basWellSiteInfor/wellSites?current=" +
           this.currentPage +
           "&pageSize=" +
           this.pageSize
       ).then((resp) => {
         this.loading = false;
         if (resp) {
-          this.BaseWaterStationData = resp.data.records;
+          this.BaseWellSiteData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
           this.pageSize = resp.data.size;
@@ -242,34 +248,34 @@ export default {
     // 分页，页码大小改变
     handleSizeChange(val) {
       this.pageSize = val;
-      this.searchBaseWaterStation();
+      this.searchBaseWellSite();
     },
     // 分页，当前页改变
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.searchBaseWaterStation();
+      this.searchBaseWellSite();
     },
     // 编辑
-    editBaseWaterStation(val) {
-      this.editBaseWaterStationData = val;
-      this.editBaseWaterStationVisible = true;
+    editBaseWellSite(val) {
+      this.editBaseWellSiteData = val;
+      this.editBaseWellSiteVisible = true;
     },
     // 关闭编辑框
-    editBaseWaterStationClose() {
-      this.editBaseWaterStationVisible = false;
+    editBaseWellSiteClose() {
+      this.editBaseWellSiteVisible = false;
     },
     //新增
-    addBaseWaterStation() {
-      this.addBaseWaterStationVisible = true;
-      this.BaseWaterStationInit();
+    addBaseWellSite() {
+      this.addBaseWellSiteVisible = true;
+      this.BaseWellSiteInit();
     },
     //关闭新增框
-    addBaseWaterStationClose() {
-      this.addBaseWaterStationVisible = false;
+    addBaseWellSiteClose() {
+      this.addBaseWellSiteVisible = false;
     },
     //获取序号
     getIndex() {
-      this.BaseWaterStationData.forEach((item, index) => {
+      this.BaseWellSiteData.forEach((item, index) => {
         item.index = index + 1 + (this.currentPage - 1) * this.pageSize;
         return item;
       });
@@ -284,7 +290,7 @@ export default {
       });
     },
     //删除某行数据（逻辑删除）
-    BaseWaterStationDelete(val) {
+    BaseWellSiteDelete(val) {
       this.$confirm("确定删除该条数据", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -292,8 +298,7 @@ export default {
       })
         .then(() => {
           this.deleteRequest(
-            "/basWaterStationInfor/waterStation?waterStationId=" +
-              val.waterStationId
+            "/basWellSiteInfor/wellSite?wellSiteId=" + val.wellSiteId
           ).then((resp) => {
             if (resp) {
               this.$message({
@@ -301,7 +306,7 @@ export default {
                 message: "删除成功!",
               });
             }
-            this.searchBaseWaterStation();
+            this.searchBaseWellSite();
           });
         })
         .catch(() => {
@@ -315,5 +320,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/css/information/waterstationinfor.css";
+@import "../../../assets/css/information/wellsiteinfor.css";
 </style>

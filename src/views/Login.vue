@@ -138,6 +138,7 @@ export default {
                 );
                 websocket.Init();
                 this.$router.replace("/Survey");
+                this.postRequest("/alarm-push/sendById?userId="+resp.data.userId).then((resp)=>{})
               } else {
                 this.$message(resp.message);
               }

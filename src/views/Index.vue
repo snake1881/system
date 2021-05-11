@@ -413,7 +413,7 @@ export default {
               width: "90%",
               height: "75%",
               top: 20,
-              left: 50,
+              left: 85,
             },
             legend: {
               data: ["油井开井数"],
@@ -421,6 +421,7 @@ export default {
                 color: "#FF9595",
                 fontSize: 12,
               },
+              show: false,
             },
             xAxis: {
               show: false,
@@ -428,8 +429,9 @@ export default {
             },
             yAxis: [
               {
-                name: "井数(口)",
+                name: "油\n井\n开\n井\n数\n(口)",
                 type: "value",
+                nameRotate: 0, //旋转角度
                 axisLabel: {
                   textStyle: {
                     color: "#FF9595", //更改坐标轴文字颜色
@@ -438,7 +440,8 @@ export default {
                 },
                 nameLocation: "middle",
                 nameTextStyle: {
-                  padding: [0, 0, 15, 0],
+                  align: "center",
+                  padding: [0, 45, 0, 0],
                   fontSize: 12,
                 },
                 splitNumber: 4,
@@ -450,7 +453,7 @@ export default {
             ],
             series: [
               {
-                name: "油井开井数",
+                name: "油井开井数(口)",
                 type: "line",
                 data: this.collectOil,
                 yAxisIndex: 0,
@@ -483,7 +486,7 @@ export default {
               width: "90%",
               height: "75%",
               top: 20,
-              left: 50,
+              left: 85,
             },
             xAxis: {
               show: false,
@@ -491,8 +494,9 @@ export default {
             },
             yAxis: [
               {
-                name: "井数(口)",
+                name: "水\n井\n开\n井\n数\n(口)",
                 type: "value",
+                nameRotate: 0, //旋转角度
                 axisLabel: {
                   textStyle: {
                     color: "#40E0F8", //更改坐标轴文字颜色
@@ -501,7 +505,8 @@ export default {
                 },
                 nameLocation: "middle",
                 nameTextStyle: {
-                  padding: [0, 0, 15, 0],
+                  align: "center",
+                  padding: [0, 45, 0, 0],
                   fontSize: 12,
                 },
                 splitNumber: 4,
@@ -515,7 +520,7 @@ export default {
             ],
             series: [
               {
-                name: "水井开井数",
+                name: "水井开井数(口)",
                 type: "line",
                 data: this.collectWater,
                 yAxisIndex: 0,
@@ -541,6 +546,7 @@ export default {
                 color: "#333333",
                 fontSize: 12,
               },
+              show: false,
             },
             // 折线颜色
             color: ["#FF00FF", "#FF0000"],
@@ -548,7 +554,7 @@ export default {
               width: "90%",
               height: "75%",
               top: 20,
-              left: 50,
+              left: 85,
             },
             xAxis: {
               show: false,
@@ -556,8 +562,9 @@ export default {
             },
             yAxis: [
               {
-                name: "产液(m³)",
+                name: "单\n井\n平\n均\n日\n产\n液\n(m³)",
                 type: "value",
+                nameRotate: 0, //旋转角度
                 min: function (value) {
                   return Math.round(value.min - 5);
                 },
@@ -573,7 +580,8 @@ export default {
                 },
                 nameLocation: "middle",
                 nameTextStyle: {
-                  padding: [0, 0, 15, 0],
+                  align: "center",
+                  padding: [0, 25, 0, 0],
                   fontSize: 12,
                 },
                 splitNumber: 4,
@@ -585,8 +593,11 @@ export default {
                 splitLine: { show: false },
               },
               {
-                name: "产油(t)",
+                name: "单\n井\n平\n均\n日\n产\n油\n(t)",
                 type: "value",
+                offset: 45, // 偏移
+                nameRotate: 0, //旋转角度
+                position: 'left',
                 min: function (value) {
                   return Math.round(value.min - 2);
                 },
@@ -602,7 +613,8 @@ export default {
                 },
                 nameLocation: "middle",
                 nameTextStyle: {
-                  padding: [0, 0, 15, 0],
+                  align: "center",
+                  padding: [0, 25, 0, 0],
                   fontSize: 12,
                 },
                 splitNumber: 4,
@@ -616,13 +628,13 @@ export default {
             ],
             series: [
               {
-                name: "单井平均日产液",
+                name: "单井平均日产液(m³)",
                 type: "line",
                 data: this.collectDailyLiquid,
                 yAxisIndex: 0, // 相对应的坐标轴
               },
               {
-                name: "单井平均日产油",
+                name: "单井平均日产油(t)",
                 type: "line",
                 data: this.collectDailyOil,
                 yAxisIndex: 1, // 相对应的坐标轴
@@ -714,6 +726,7 @@ export default {
                 color: "#333333",
                 fontSize: 12,
               },
+              show: false,
             },
             // 折线颜色
             color: ["#0606FF", "#AEDFFE"],
@@ -721,7 +734,7 @@ export default {
               width: "90%",
               height: "75%",
               top: 30,
-              left: 50,
+              left: 85,
             },
             xAxis: {
               show: false,
@@ -729,8 +742,9 @@ export default {
             },
             yAxis: [
               {
-                name: "注水量(m³)",
+                name: "单\n井\n平\n均\n日\n注\n水\n(m³)",
                 type: "value",
+                nameRotate: 0, //旋转角度
                 axisLabel: {
                   textStyle: {
                     color: "#0606FF", //更改坐标轴文字颜色
@@ -739,7 +753,8 @@ export default {
                 },
                 nameLocation: "middle",
                 nameTextStyle: {
-                  padding: [0, 0, 15, 0],
+                  align: "center",
+                  padding: [0, 25, 0, 0],
                   fontSize: 12,
                 },
                 splitNumber: 4,
@@ -749,8 +764,11 @@ export default {
                 splitLine: { show: false },
               },
               {
-                name: "配注量(m³)",
+                name: "单\n井\n平\n均\n日\n配\n注\n量\n(m³)",
                 type: "value",
+                offset: 45, // 偏移
+                nameRotate: 0, //旋转角度
+                position: 'left', //坐标位置
                 axisLabel: {
                   textStyle: {
                     color: "#AEDFFE", //更改坐标轴文字颜色
@@ -759,7 +777,8 @@ export default {
                 },
                 nameLocation: "middle",
                 nameTextStyle: {
-                  padding: [0, 0, 15, 0],
+                  align: "center",
+                  padding: [0, 25, 0, 0],
                   fontSize: 12,
                 },
                 splitNumber: 3,
@@ -771,13 +790,13 @@ export default {
             ],
             series: [
               {
-                name: "单井平均日注水",
+                name: "单井平均日注水(m³)",
                 type: "line",
                 data: this.collectDailyWater,
                 yAxisIndex: 0, // 相对应的坐标轴
               },
               {
-                name: "单井平均日配注量",
+                name: "单井平均日配注量(m³)",
                 type: "line",
                 data: this.collectDailyWaterAllocation,
                 yAxisIndex: 1, // 相对应的坐标轴
@@ -803,7 +822,8 @@ export default {
               width: "90%",
               height: "75%",
               top: 20,
-              left: 50,
+              left: 85,
+              bottom: 30,
             },
             legend: {
               data: ["综合含水率(%)"],
@@ -811,15 +831,33 @@ export default {
                 color: "#333333",
                 fontSize: 12,
               },
+              show: false,
             },
             xAxis: {
-              show: false,
+              boundaryGap: false,
               data: this.collectDate,
+              axisLabel: {
+                show: this.collectXAxisIsShow,
+                textStyle: {
+                  color: "#333333", //更改坐标轴文字颜色
+                  fontSize: 12, //更改坐标轴文字大小
+                },
+                 rotate: 5,
+                 margin: 15,
+              },
+              // 轴线颜色
+              axisLine: {
+                lineStyle: { color: "#333333" },
+              },
+              // 网格线
+              splitLine: { show: false },
+              offset: -5,
             },
             yAxis: [
               {
-                name: "综合含水率(%)",
+                name: "综\n合\n含\n水\n率\n(%)",
                 type: "value",
+                nameRotate: 0, //旋转角度
                 axisLabel: {
                   textStyle: {
                     color: "#5555FF", //更改坐标轴文字颜色
@@ -828,7 +866,8 @@ export default {
                 },
                 nameLocation: "middle",
                 nameTextStyle: {
-                  padding: [0, 0, 15, 0],
+                  align: "center",
+                  padding: [0, 45, 0, 0],
                   fontSize: 12,
                 },
                 splitNumber: 4,

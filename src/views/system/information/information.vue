@@ -2,20 +2,20 @@
   <div class="information">
     <el-container
       ><!-- 侧边栏 -->
-      <el-aside class="sys_aside">
+      <!-- <el-aside class="sys_aside">
         <common-aside :routerNumber="router7" />
-      </el-aside>
+      </el-aside> -->
       <el-main class="sys_main" :width="this.isCollapse ? '100px' : '900px'">
         <!-- 页头 -->
-        <page-header />
+        <!-- <page-header /> -->
         <router-view />
       </el-main>
     </el-container>
   </div>
 </template>
 <script>
-import CommonAside from "../../components/CommonAside";
-import PageHeader from "../../components/PageHeader";
+import CommonAside from "../../../components/CommonAside";
+import PageHeader from "../../../components/PageHeader";
 export default {
   components: {
     CommonAside,
@@ -30,11 +30,11 @@ export default {
   data() {
     return {
       // 侧边栏显示
-      router7: "基础信息",
+      // router7: "基础信息",
     };
   },
 };
 </script>
 <style lang="less" scoped>
-@import "../../assets/css/information/information.css";
+@import "../../../assets/css/information/information.css";
 </style>
