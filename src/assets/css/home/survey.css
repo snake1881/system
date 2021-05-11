@@ -1,0 +1,72 @@
+.survey {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../images/login.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+}
+
+.survey_header {
+    height: 5%;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.survey_header_button {
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
+.survey_content {
+    height: 95%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.survey_content_left {
+    width: 22%;
+    height: 100%;
+    margin: 0 1%;
+}
+
+.survey_content_middle {
+    width: 52%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.survey_content_middle_map {
+    height: 63%;
+    width: 100%;
+    margin-bottom: 3%;
+    box-shadow: 0 0 15px #437799 inset;
+}
+
+.survey_content_middle_body {
+    height: 31%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.card_header {
+    color: white;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.card_left_image {
+    width: 370px;
+    height: 180px;
+}
+
+.card_image {
+    width: 270px;
+    height: 180px;
+}
