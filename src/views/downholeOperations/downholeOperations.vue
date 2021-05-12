@@ -57,7 +57,7 @@
           <el-tooltip content="编辑" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               v-if="scope.row.nodeName === '上报'"
               @click="editOperation(scope.row)"
               class="iconfont icon-bianji"
@@ -67,7 +67,7 @@
           <el-tooltip content="提交" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               v-if="scope.row.nodeName === '上报'"
               @click="submitOperation(scope.row)"
               class="el-icon-success"
@@ -77,7 +77,7 @@
           <el-tooltip content="查看" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               v-if="
                 scope.row.nodeName === '派工' ||
                 scope.row.nodeName === '现场作业' ||
@@ -91,7 +91,7 @@
           <el-tooltip content="派工" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               v-if="scope.row.nodeName === '派工'"
               @click="sendOperation(scope.row)"
               class="el-icon-folder-remove"
@@ -101,7 +101,7 @@
           <el-tooltip content="完工" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               v-if="scope.row.nodeName === '现场作业'"
               @click="completeOperation(scope.row)"
               class="el-icon-folder-checked"
@@ -111,7 +111,7 @@
           <el-tooltip content="进度" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               v-if="scope.row.nodeName === '现场作业'"
               @click="scheduleOperation(scope.row)"
               class="el-icon-tickets"
@@ -121,7 +121,7 @@
           <el-tooltip content="终止" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               v-if="scope.row.nodeName === '上报'"
               @click="cadenceOperation(scope.row)"
               class="el-icon-turn-off"
@@ -131,7 +131,7 @@
           <el-tooltip content="下载" placement="top">
             <el-button
               type="text"
-              size="small"
+              size="medium"
               @click="downloadOperation(scope.row)"
               class="el-icon-download"
             />
