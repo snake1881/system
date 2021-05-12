@@ -9,7 +9,7 @@
             <p>采油站： {{ this.basicData.oilStationName }}</p>
             <p>所属井场：{{ this.basicData.wellSiteName }}井场</p>
             <p>投产日期：{{ this.basicData.productionDate }}</p>
-            <p>泵径：38mm</p>
+            <p>泵径：{{this.basicData.pumpDriver}} mm</p>
             <p>泵深：{{ this.basicData.wellDepth }} m</p>
           </div>
           <div class="unattended_singleWell_top_information_container_video">
