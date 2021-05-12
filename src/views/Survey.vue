@@ -35,25 +35,23 @@
       </div>
       <div class="survey_content_middle">
         <div class="survey_content_middle_map">
-          <!-- <img
-            src="../assets/images/block.png"
-            style="width: 96%; height: 94%; margin: 2% 2%"
-          /> -->
+          <div class="survey_content_middle_map_title">
+            东仁沟采油队四春圈-东关区域图
+          </div>
           <el-amap
             vid="amapPro"
             :amap-manager="amapManager"
             :mapStyle="mapStyle"
             :zoom="zoom"
             :center="center"
-            :events="events"
             :plugin="plugin"
-            viewMode="3D"
+            class="survey_content_middle_map_chart"
           >
             <el-amap-marker
-              v-for="(marker, index) in markers1"
+              v-for="(marker, index) in markers2"
               :vid="index"
               :key="index"
-              :position="marker"
+              :position="marker.position"
             ></el-amap-marker>
             <el-amap-info-window
               :position="markers2.position"
@@ -67,6 +65,7 @@
               :offset="text.offset"
               :vid="index1"
               :key="index1"
+              :position="text.position"
             ></el-amap-text>
           </el-amap>
         </div>
@@ -138,44 +137,36 @@ export default {
       zoom: 13, // 设置初始化级别
       mapStyle: "amap://styles/57994c871bb604a4c79184f5f65d8782",
       center: [107.789816, 37.513493],
-      events: {},
-      markers1: [
-        [107.8206307, 37.5193102],
-        [107.739519, 37.49868848],
-        [107.7346543, 37.50237174],
-        [107.7190803, 37.49956097],
-        [107.8428759, 37.53803695],
-      ],
       markers2: [
         {
           position: [107.8206307, 37.5193102],
           content: "定1656-3",
           visible: true,
-          offset: [-240, 70],
+          offset: [50, -40],
         },
         {
           position: [107.739519, 37.49868848],
           content: "定1764-1",
           visible: true,
-          offset: [-280, 33],
+          offset: [50, -40],
         },
         {
           position: [107.7346543, 37.50237174],
           content: "定1988-2",
           visible: true,
-          offset: [-390, 120],
+          offset: [50, -40],
         },
         {
           position: [107.7190803, 37.49956097],
           content: "定1988B-10",
           visible: true,
-          offset: [260, -160],
+          offset: [50, -40],
         },
         {
           position: [107.8428759, 37.53803695],
           content: "定1876-2",
           visible: true,
-          offset: [130, -80],
+          offset: [50, -40],
         },
       ],
     };
