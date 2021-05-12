@@ -54,27 +54,27 @@
       <el-table-column label="操作" min-width="145">
         <template slot-scope="scope">
           <!-- 编辑 -->
-          <el-tooltip content="编辑" placement="top">
+          <el-tooltip content="编辑" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
               v-if="scope.row.nodeName === '上报'"
               @click="editOperation(scope.row)"
-              class="iconfont icon-bianji"
-            />
+              class="el-icon-edit"
+            > 编辑</el-button>
           </el-tooltip>
           <!-- 提交 -->
-          <el-tooltip content="提交" placement="top">
+          <el-tooltip content="提交" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
               v-if="scope.row.nodeName === '上报'"
               @click="submitOperation(scope.row)"
               class="el-icon-success"
-            />
+            > 提交</el-button>
           </el-tooltip>
           <!-- 查看 -->
-          <el-tooltip content="查看" placement="top">
+          <el-tooltip content="查看" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -85,56 +85,56 @@
               "
               @click="checkOperation(scope.row)"
               class="el-icon-view"
-            />
+            > 查看</el-button>
           </el-tooltip>
           <!-- 派工 -->
-          <el-tooltip content="派工" placement="top">
+          <el-tooltip content="派工" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
               v-if="scope.row.nodeName === '派工'"
               @click="sendOperation(scope.row)"
               class="el-icon-folder-remove"
-            />
+            > 派工</el-button>
           </el-tooltip>
           <!-- 完工 -->
-          <el-tooltip content="完工" placement="top">
+          <el-tooltip content="完工" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
               v-if="scope.row.nodeName === '现场作业'"
               @click="completeOperation(scope.row)"
               class="el-icon-folder-checked"
-            />
+            > 完工</el-button>
           </el-tooltip>
           <!-- 进度 -->
-          <el-tooltip content="进度" placement="top">
+          <el-tooltip content="进度" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
               v-if="scope.row.nodeName === '现场作业'"
               @click="scheduleOperation(scope.row)"
               class="el-icon-tickets"
-            />
+            > 进度</el-button>
           </el-tooltip>
           <!-- 终止 -->
-          <el-tooltip content="终止" placement="top">
+          <el-tooltip content="终止" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
               v-if="scope.row.nodeName === '上报'"
               @click="cadenceOperation(scope.row)"
               class="el-icon-turn-off"
-            />
+            > 终止</el-button>
           </el-tooltip>
           <!-- 下载 -->
-          <el-tooltip content="下载" placement="top">
+          <el-tooltip content="下载" placement="top" disabled="false">
             <el-button
               type="text"
               size="medium"
               @click="downloadOperation(scope.row)"
               class="el-icon-download"
-            />
+            > 下载</el-button>
           </el-tooltip>
         </template>
       </el-table-column>
