@@ -296,8 +296,8 @@
           <td>{{ this.detailsCollect.frequency }}</td>
           <td>{{ this.detailsCollect.maxLoad }}</td>
           <td>{{ this.detailsCollect.minLoad }}</td>
-          <td>0</td>
-          <td>0</td>
+          <td>{{ this.detailsCollect.pumpDriver }}</td>
+          <td>{{ this.detailsCollect.wellDepth }}</td>
           <td>{{ this.detailsCollect.liquidProd }}</td>
         </tr>
       </table>
