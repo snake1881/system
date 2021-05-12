@@ -46,6 +46,26 @@
         />
       </el-form-item>
       <el-form-item>
+        <el-switch
+          v-model="termForm.isIntervalPump"
+          active-text="正常"
+          inactive-text="异常"
+          active-value="0"
+          inactive-value="1"
+        >
+        </el-switch>
+      </el-form-item>
+      <el-form-item>
+        <el-switch
+          v-model="termForm.upOrDown"
+          active-text="上升"
+          inactive-text="下降"
+          active-value="up"
+          inactive-value="down"
+        >
+        </el-switch>
+      </el-form-item>
+      <el-form-item>
         <el-button
           type="primary"
           icon="el-icon-search"
@@ -61,6 +81,7 @@
       v-loading="loading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
+      :stripe="true"
       :data="dymData"
       height="93%"
       border
@@ -188,6 +209,8 @@ export default {
         analysisDate: "",
         oilStationId: "",
         wellId: "",
+        isIntervalPump: "",
+        upOrDown: "",
       },
       // 表格数据
       dymData: [],
@@ -249,7 +272,11 @@ export default {
           "&pageSize=" +
           this.pageSize +
           "&wellId=" +
-          this.termForm.wellId
+          this.termForm.wellId +
+          "&isIntervalPump=" +
+          this.termForm.isIntervalPump +
+          "&upOrDown=" + 
+          this.termForm.upOrDown
       ).then((resp) => {
         this.loading = false;
         if (resp) {
