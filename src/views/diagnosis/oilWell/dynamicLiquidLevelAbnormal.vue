@@ -1,7 +1,12 @@
 <template>
   <div class="dymAbnormal">
     <!-- 条件查询 -->
-    <el-form class="dymAbnormal_form" :model="termForm" :inline="true">
+    <el-form
+      class="dymAbnormal_form"
+      :model="termForm"
+      :inline="true"
+      :rules="rules"
+    >
       <!-- 下拉框查询 -->
       <el-form-item label="采油站">
         <el-select
@@ -58,12 +63,24 @@
       <el-form-item>
         <el-switch
           v-model="termForm.upOrDown"
-          active-text="上升"
-          inactive-text="下降"
-          active-value="up"
-          inactive-value="down"
+          active-text="下降"
+          inactive-text="上升"
+          active-value="down"
+          inactive-value="up"
         >
         </el-switch>
+      </el-form-item>
+      <el-form-item>
+        <div class="block" style="width: 200px; margin: 0px 5px">
+          <el-slider
+            v-model="termForm.minAndMax"
+            range
+            :step="10"
+            :max="500"
+            show-stops
+          >
+          </el-slider>
+        </div>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -206,11 +223,14 @@ export default {
   data() {
     return {
       termForm: {
+        current: 1,
+        pageSize: 10,
         analysisDate: "",
         oilStationId: "",
         wellId: "",
         isIntervalPump: "",
         upOrDown: "",
+        minAndMax: [0, 2000],
       },
       // 表格数据
       dymData: [],
@@ -262,21 +282,10 @@ export default {
         //默认传递当前日期
         this.termForm.analysisDate = this.getdate();
       }
-      this.getRequest(
-        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId?analysisDate=" +
-          this.termForm.analysisDate +
-          "&current=" +
-          this.currentPage +
-          "&oilStationId=" +
-          this.termForm.oilStationId +
-          "&pageSize=" +
-          this.pageSize +
-          "&wellId=" +
-          this.termForm.wellId +
-          "&isIntervalPump=" +
-          this.termForm.isIntervalPump +
-          "&upOrDown=" + 
-          this.termForm.upOrDown
+      this.termForm.current = this.currentPage;
+      this.termForm.pageSize = this.pageSize;
+      this.postRequest(
+        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId",this.termForm
       ).then((resp) => {
         this.loading = false;
         if (resp) {
