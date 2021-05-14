@@ -3,7 +3,7 @@
     <!-- 条件查询 -->
     <el-form class="dow_form" :model="dowForm" :inline="true">
       <el-form-item label="井号">
-        <el-input v-model="dowForm.wellId" size="medium" />
+        <el-input v-model="dowForm.wellName" clearable size="medium" />
       </el-form-item>
       <el-form-item label="任务名称">
         <el-select v-model="dowForm.nodeName" size="medium">
@@ -54,7 +54,7 @@
       <el-table-column label="操作" min-width="145">
         <template slot-scope="scope">
           <!-- 编辑 -->
-          <el-tooltip content="编辑" placement="top" disabled="false">
+          <el-tooltip content="编辑" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -64,7 +64,7 @@
             > 编辑</el-button>
           </el-tooltip>
           <!-- 提交 -->
-          <el-tooltip content="提交" placement="top" disabled="false">
+          <el-tooltip content="提交" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -74,7 +74,7 @@
             > 提交</el-button>
           </el-tooltip>
           <!-- 查看 -->
-          <el-tooltip content="查看" placement="top" disabled="false">
+          <el-tooltip content="查看" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -88,7 +88,7 @@
             > 查看</el-button>
           </el-tooltip>
           <!-- 派工 -->
-          <el-tooltip content="派工" placement="top" disabled="false">
+          <el-tooltip content="派工" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -98,7 +98,7 @@
             > 派工</el-button>
           </el-tooltip>
           <!-- 完工 -->
-          <el-tooltip content="完工" placement="top" disabled="false">
+          <el-tooltip content="完工" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -108,7 +108,7 @@
             > 完工</el-button>
           </el-tooltip>
           <!-- 进度 -->
-          <el-tooltip content="进度" placement="top" disabled="false">
+          <el-tooltip content="进度" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -118,7 +118,7 @@
             > 进度</el-button>
           </el-tooltip>
           <!-- 终止 -->
-          <el-tooltip content="终止" placement="top" disabled="false">
+          <el-tooltip content="终止" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -128,7 +128,7 @@
             > 终止</el-button>
           </el-tooltip>
           <!-- 下载 -->
-          <el-tooltip content="下载" placement="top" disabled="false">
+          <el-tooltip content="下载" placement="top" :disabled="false">
             <el-button
               type="text"
               size="medium"
@@ -256,10 +256,11 @@ export default {
           this.pageSize +
           "&nodeName=" +
           this.dowForm.nodeName +
-          "&wellId=" +
-          this.dowForm.wellId
+          "&wellName=" +
+          this.dowForm.wellName
       ).then((resp) => {
-        if (resp) {
+        console.log(resp);
+        if (resp.code == 200) {
           this.operationData = resp.data.records;
           this.total = resp.data.total;
           this.currentPage = resp.data.current;
