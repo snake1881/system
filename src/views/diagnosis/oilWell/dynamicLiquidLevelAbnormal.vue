@@ -91,6 +91,15 @@
           >查询</el-button
         >
       </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          icon="el-icon-download"
+          size="small"
+          @click="exportData()"
+          >导出</el-button
+        >
+      </el-form-item>
     </el-form>
     <!-- 表格数据 -->
     <el-table
@@ -102,11 +111,13 @@
       :data="dymData"
       height="93%"
       border
+      @selection-change="handleSelectionChange"
       style="width: 100%"
       :row-style="{ height: '2px' }"
       :cell-style="{ padding: '0px' }"
       :header-cell-style="{ background: '#eef1f6', color: '#606266' }"
     >
+      <el-table-column type="selection" width="55" />
       <el-table-column
         label="序号"
         width="60"
@@ -200,7 +211,7 @@
         :current-page.sync="currentPage"
         :page-size="pageSize"
         :total="total"
-        :page-sizes="[10, 20, 30, 40, 50]"
+        :page-sizes="[10, 20, 50, 100, 500]"
         layout="total, prev, pager, next, jumper, sizes"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -257,6 +268,8 @@ export default {
       loading: true,
       //默认日期为前一天
       currentdate: "",
+      // 表格多选
+      selectData: [],
     };
   },
   created() {
@@ -285,7 +298,8 @@ export default {
       this.termForm.current = this.currentPage;
       this.termForm.pageSize = this.pageSize;
       this.postRequest(
-        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId",this.termForm
+        "/diagnosis/abnormal/queryFluidLevelAbnormalByStationId",
+        this.termForm
       ).then((resp) => {
         this.loading = false;
         if (resp) {
@@ -351,6 +365,51 @@ export default {
       strDate = strDate < 10 ? "0" + strDate : strDate;
       this.termForm.analysisDate = year + "-" + month + "-" + strDate;
       return this.termForm.analysisDate;
+    },
+    // 表格多选
+    handleSelectionChange(val) {
+      this.selectData = JSON.parse(JSON.stringify(val));
+      for (var i = 0; i < this.selectData.length; i++) {
+        if (this.selectData[i].isIntervalPump == 0) {
+          this.selectData[i].isIntervalPump = "正常";
+        } else if (this.selectData[i].isIntervalPump == 1) {
+          this.selectData[i].isIntervalPump = "动液面异常";
+        }
+      }
+    },
+    // 文件导出
+    exportData() {
+      const {
+        export_json_to_excel,
+      } = require("../../../vendor/Export2Excel.js");
+      const tHeader = [
+        "井号",
+        "采油站",
+        "分析日期",
+        "动液面(M)",
+        "标准动液面(M)",
+        "异常结论",
+        "异常原因",
+        "井状况",
+        "备注",
+      ];
+      const filterVal = [
+        "wellName",
+        "oilStationName",
+        "analysisDate",
+        "fluidLevel",
+        "fluidLevelStandard",
+        "abnormalResult",
+        "abnormalReason",
+        "isIntervalPump",
+        "remark",
+      ];
+      var list = this.selectData;
+      const data = this.formatJson(filterVal, list);
+      export_json_to_excel(tHeader, data, "动液面异常");
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
     },
   },
 };
