@@ -48,25 +48,17 @@
             class="survey_content_middle_map_chart"
           >
             <el-amap-marker
-              v-for="(marker, index) in markers2"
-              :vid="index"
+              v-for="(marker, index) in markers1"
               :key="index"
-              :position="marker.position"
-            ></el-amap-marker>
-            <el-amap-info-window
-              :position="markers2.position"
-              :content="markers2.content"
-              :visible="markers2.visible"
-            >
-            </el-amap-info-window>
+              :position="marker.tudList"
+            />
             <el-amap-text
-              v-for="(text, index1) in markers2"
-              :text="text.content"
+              v-for="text in markers1"
+              :text="text.wellName"
               :offset="text.offset"
-              :vid="index1"
-              :key="index1"
-              :position="text.position"
-            ></el-amap-text>
+              :key="text.wellName"
+              :position="text.tudList"
+            />
           </el-amap>
         </div>
         <div class="survey_content_middle_body">
@@ -121,7 +113,6 @@
 </template>
 <script>
 import { AMapManager } from "vue-amap";
-
 let amapManager = new AMapManager(); // 新建生成地图画布
 export default {
   data() {
@@ -137,41 +128,28 @@ export default {
       zoom: 13, // 设置初始化级别
       mapStyle: "amap://styles/57994c871bb604a4c79184f5f65d8782",
       center: [107.789816, 37.513493],
-      markers2: [
-        {
-          position: [107.8206307, 37.5193102],
-          content: "定1656-3",
-          visible: true,
-          offset: [50, -40],
-        },
-        {
-          position: [107.739519, 37.49868848],
-          content: "定1764-1",
-          visible: true,
-          offset: [50, -40],
-        },
-        {
-          position: [107.7346543, 37.50237174],
-          content: "定1988-2",
-          visible: true,
-          offset: [50, -40],
-        },
-        {
-          position: [107.7190803, 37.49956097],
-          content: "定1988B-10",
-          visible: true,
-          offset: [50, -40],
-        },
-        {
-          position: [107.8428759, 37.53803695],
-          content: "定1876-2",
-          visible: true,
-          offset: [50, -40],
-        },
-      ],
+      markers1: [],
     };
   },
+  created() {
+    this.mapInit();
+  },
   methods: {
+    mapInit() {
+      let array = [];
+      this.getRequest("/basWellInfor/selectWellInfo").then((resp) => {
+        if (resp.code === 200) {
+          // 去掉经纬度为空的数据
+          resp.data = resp.data.filter((item) => item.tudList[0] != null);
+          resp.data.map((item) => {
+            array.push(
+              Object.assign(item, { visible: true, offset: [50, -40] })
+            );
+          });
+          this.markers1 = array;
+        }
+      });
+    },
     gotoIndex() {
       this.$router.replace("/Home");
     },
